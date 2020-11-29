@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MovieApp</string>
     <string name="title">Title</string>
+    <string name="movie_order_popular">Popular</string>
+    <string name="movie_order_top_rated">Top Rated</string>
+    <string name="movie_order_upcoming">Upcoming</string>
+    <string name="movie_order_now_playing">Now playing</string>
 </resources>

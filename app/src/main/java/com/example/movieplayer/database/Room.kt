@@ -12,6 +12,9 @@ interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(movies: List<DatabaseMovie>)
+
+    @Query("delete from databasemovie")
+    fun deleteAll()
 }
 
 @Database(entities = [DatabaseMovie::class], version = 1)

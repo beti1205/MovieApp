@@ -5,4 +5,14 @@
     <string name="movie_order_top_rated">Top Rated</string>
     <string name="movie_order_upcoming">Upcoming</string>
     <string name="movie_order_now_playing">Now playing</string>
+    <string name="saved_order_key">saved_order_key</string>
+    <string name="title_activity_main2222222">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="people">People</string>
+    <string name="tv_series">TV Series</string>
+    <string name="home">Home</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="search">Search</string>
 </resources>

@@ -4,5 +4,16 @@ enum class Order {
     POPULAR,
     UPCOMING,
     TOP_RATED,
-    NOW_PLAYING,
+    NOW_PLAYING,;
+
+
+    companion object {
+        fun from(value: Int?): Order {
+            if(value == null) {
+                return POPULAR
+            }
+
+            return values().find { it.ordinal == value } ?: POPULAR
+        }
+    }
 }

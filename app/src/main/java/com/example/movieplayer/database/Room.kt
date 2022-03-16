@@ -7,17 +7,17 @@ import androidx.room.*
 @Dao
 interface MoviesDao {
 
-    @Query("select * from databasemovie")
-    fun getMovies(): LiveData<List<DatabaseMovie>>
+    @Query("select * from movie")
+    fun getMovies(): LiveData<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(movies: List<DatabaseMovie>)
+    fun insertAll(movies: List<Movie>)
 
-    @Query("delete from databasemovie")
+    @Query("delete from movie")
     fun deleteAll()
 }
 
-@Database(entities = [DatabaseMovie::class], version = 1)
+@Database(entities = [Movie::class], version = 2)
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao: MoviesDao
 }

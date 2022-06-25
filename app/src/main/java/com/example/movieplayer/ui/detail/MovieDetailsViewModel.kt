@@ -1,18 +1,23 @@
 package com.example.movieplayer.ui.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import com.example.movieplayer.domain.Movie
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MovieDetailsViewModel(movie: Movie, app: Application):AndroidViewModel(app) {
+@HiltViewModel
+class MovieDetailsViewModel @Inject constructor(
+    private val state: SavedStateHandle
+) : ViewModel() {
 
-    private val _selectedMovie = MutableLiveData<Movie>()
+    private val _selectedMovie = state.getLiveData<Movie>("selectedMovie")
     val selectedMovie: LiveData<Movie>
         get() = _selectedMovie
 
-    init {
-        _selectedMovie.value = movie
-    }
+//    init {
+//        _selectedMovie.value = state.get<Movie>("selectedMovie")
+//    }
+
 }

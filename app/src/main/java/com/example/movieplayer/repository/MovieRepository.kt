@@ -1,39 +1,51 @@
 package com.example.movieplayer.repository
 
-import androidx.lifecycle.*
-import com.example.movieplayer.database.MovieDatabase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import com.example.movieplayer.database.MoviesDao
 import com.example.movieplayer.database.asDomainModel
 import com.example.movieplayer.domain.Movie
 import com.example.movieplayer.domain.Order
-import com.example.movieplayer.network.*
-import com.example.movieplayer.ui.search.movies.SearchMoviesFragment
+import com.example.movieplayer.network.MovieApiService
+import com.example.movieplayer.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 private const val key = "c33ec9fdf85b0eb9fb900af22206b062"
 
-class MovieRepository(private val database: MovieDatabase) {
+interface MovieRepository {
+    val movies: LiveData<List<Movie>>
+    suspend fun refreshMovies(order: Order)
+    suspend fun searchMovies(keyword: String): List<com.example.movieplayer.network.Movie>
 
-    val movies: LiveData<List<Movie>> = database.movieDao
+}
+
+class MovieRepositoryImpl @Inject constructor(
+    private val moviesDao: MoviesDao,
+    private val movieApiService: MovieApiService
+) : MovieRepository {
+
+    override val movies: LiveData<List<Movie>> = moviesDao
         .getMovies().map { it.asDomainModel() }
 
-    suspend fun refreshMovies(order: Order) {
+    override suspend fun refreshMovies(order: Order) {
         withContext(Dispatchers.IO) {
             val movies = when (order) {
-                Order.POPULAR -> MovieApi.retrofitService.getPopularMovies(key).movies
-                Order.UPCOMING -> MovieApi.retrofitService.getUpcomingMovies(key).movies
-                Order.TOP_RATED -> MovieApi.retrofitService.getTopRatedMovies(key).movies
-                Order.NOW_PLAYING -> MovieApi.retrofitService.getNowPlayingMovies(key).movies
+                Order.POPULAR -> movieApiService.getPopularMovies(key).movies
+                Order.UPCOMING -> movieApiService.getUpcomingMovies(key).movies
+                Order.TOP_RATED -> movieApiService.getTopRatedMovies(key).movies
+                Order.NOW_PLAYING -> movieApiService.getNowPlayingMovies(key).movies
             }
 
-            database.movieDao.deleteAll()
-            database.movieDao.insertAll(movies.asDatabaseModel())
+            moviesDao.deleteAll()
+            moviesDao.insertAll(movies.asDatabaseModel())
         }
     }
 
-    suspend fun searchMovies(keyword: String): List<com.example.movieplayer.network.Movie> {
+    override suspend fun searchMovies(keyword: String): List<com.example.movieplayer.network.Movie> {
         return withContext(Dispatchers.IO) {
-            MovieApi.retrofitService.getSearchedMovies(key, keyword).movies
+            movieApiService.getSearchedMovies(key, keyword).movies
         }
     }
 }

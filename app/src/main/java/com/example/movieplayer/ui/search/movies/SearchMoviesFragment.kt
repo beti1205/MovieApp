@@ -11,15 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.SearchListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class SearchMoviesFragment : Fragment() {
 
-    private val viewModel: SearchMoviesViewModel by viewModels {
-        SearchMoviesViewModel.Factory(requireActivity().application)
-    }
-
+    private val viewModel: SearchMoviesViewModel by viewModels()
     private var searchJob: Job? = null
 
     override fun onCreateView(

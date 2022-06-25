@@ -11,8 +11,13 @@ import androidx.navigation.fragment.navArgs
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieDetailBinding
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
+
+    private val viewModel: MovieDetailsViewModel by viewModels()
+    private val args: MovieDetailsFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +42,13 @@ class MovieDetailsFragment : Fragment() {
             false
         )
 
+        binding.viewModel = viewModel
+
         @Suppress("UNUSED_VARIABLE")
         val application = requireNotNull(activity).application
         binding.lifecycleOwner = this
 
-        val args: MovieDetailsFragmentArgs by navArgs()
         val movie = args.selectedMovie
-        val viewModelFactory = MovieDetailsViewModelFactory(movie, application)
-
-        val viewModel: MovieDetailsViewModel by viewModels { viewModelFactory }
-        binding.viewModel = viewModel
-
         val transitionName = "movie${movie.id}"
         binding.cardView.transitionName = transitionName
 

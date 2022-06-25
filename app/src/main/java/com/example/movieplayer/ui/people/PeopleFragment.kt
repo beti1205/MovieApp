@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.PeopleListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PeopleFragment : Fragment() {
 
     override fun onCreateView(

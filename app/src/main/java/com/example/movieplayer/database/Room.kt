@@ -22,18 +22,3 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao: MoviesDao
 }
 
-
-private lateinit var INSTANCE: MovieDatabase
-
-fun getDatabase(context: Context): MovieDatabase {
-    synchronized(MovieDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(
-                context.applicationContext,
-                MovieDatabase::class.java,
-                "movies"
-            ).build()
-        }
-    }
-    return INSTANCE
-}

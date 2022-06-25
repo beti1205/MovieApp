@@ -1,21 +1,25 @@
 package com.example.movieplayer.ui.movies
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.example.movieplayer.database.getDatabase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.movieplayer.domain.Movie
 import com.example.movieplayer.domain.Order
 import com.example.movieplayer.repository.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    private val repository: MovieRepository
+) : ViewModel() {
 
-class MovieViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: MovieRepository = MovieRepository(getDatabase(application))
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
-    private val _navigateToSelectedMovie= MutableLiveData<SelectedMovie>()
+    private val _navigateToSelectedMovie = MutableLiveData<SelectedMovie>()
     private var order: Order = Order.POPULAR
 
     data class SelectedMovie(val movie: Movie, val position: Int)
@@ -63,15 +67,5 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
 
     fun displayPropertyDetailsComplete() {
         _navigateToSelectedMovie.value = null
-    }
-
-    class Factory(private val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MovieViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return MovieViewModel(app) as T
-            }
-            throw IllegalArgumentException("Unable to construct viewmodel")
-        }
     }
 }

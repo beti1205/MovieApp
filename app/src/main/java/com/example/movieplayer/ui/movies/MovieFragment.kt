@@ -16,21 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieListBinding
 import com.example.movieplayer.domain.Order
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class MovieFragment : Fragment() {
 
-//    private val viewModel2: MovieViewModel by lazy {
-//        val activity = requireNotNull(this.activity) {
-//
-//        }
-//        ViewModelProvider(this, MovieViewModel.Factory(activity.application))
-//            .get(MovieViewModel::class.java)
-//    }
-
-    private val viewModel: MovieViewModel by viewModels {
-        MovieViewModel.Factory(requireActivity().application)
-    }
+    private val viewModel: MovieViewModel by viewModels()
 
     private val sharedPreferences: SharedPreferences? by lazy {
         activity?.getPreferences(Context.MODE_PRIVATE)

@@ -21,12 +21,10 @@ object MovieModule {
         client: OkHttpClient,
         moshi: Moshi,
         appConfig: AppConfig
-    ): MovieApiService {
-        return Retrofit.Builder()
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(appConfig.baseUrl)
-            .build()
-            .create()
-    }
+    ): MovieApiService = Retrofit.Builder()
+        .client(client)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(appConfig.baseUrl)
+        .build()
+        .create()
 }

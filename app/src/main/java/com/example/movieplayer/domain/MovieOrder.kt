@@ -1,6 +1,6 @@
 package com.example.movieplayer.domain
 
-enum class Order {
+enum class MovieOrder {
     POPULAR,
     UPCOMING,
     TOP_RATED,
@@ -8,7 +8,7 @@ enum class Order {
 
 
     companion object {
-        fun from(value: Int?): Order {
+        fun from(value: Int?): MovieOrder {
             if(value == null) {
                 return POPULAR
             }

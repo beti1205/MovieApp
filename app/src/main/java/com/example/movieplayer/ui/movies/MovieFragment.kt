@@ -15,9 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieListBinding
-import com.example.movieplayer.domain.Order
+import com.example.movieplayer.domain.MovieOrder
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
@@ -103,9 +102,9 @@ class MovieFragment : Fragment() {
 
         val savedOrder = restoreOrder()
         val selectedChipId = when (savedOrder) {
-            Order.TOP_RATED -> R.id.top_rated
-            Order.UPCOMING -> R.id.upcoming
-            Order.NOW_PLAYING -> R.id.now_playing
+            MovieOrder.TOP_RATED -> R.id.top_rated
+            MovieOrder.UPCOMING -> R.id.upcoming
+            MovieOrder.NOW_PLAYING -> R.id.now_playing
             else -> R.id.popular
         }
         binding.chipGroup.check(selectedChipId)
@@ -113,10 +112,10 @@ class MovieFragment : Fragment() {
 
         binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
             val order = when (checkedId) {
-                R.id.top_rated -> Order.TOP_RATED
-                R.id.upcoming -> Order.UPCOMING
-                R.id.now_playing -> Order.NOW_PLAYING
-                else -> Order.POPULAR
+                R.id.top_rated -> MovieOrder.TOP_RATED
+                R.id.upcoming -> MovieOrder.UPCOMING
+                R.id.now_playing -> MovieOrder.NOW_PLAYING
+                else -> MovieOrder.POPULAR
             }
 
             viewModel.onOrderChanged(order)
@@ -137,16 +136,16 @@ class MovieFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    private fun saveOrder(order: Order) {
+    private fun saveOrder(order: MovieOrder) {
         sharedPreferences?.edit {
             putInt(getString(R.string.saved_order_key), order.ordinal)
         }
     }
 
-    private fun restoreOrder(): Order {
+    private fun restoreOrder(): MovieOrder {
         val value =
-            sharedPreferences?.getInt(getString(R.string.saved_order_key), Order.POPULAR.ordinal)
-        return Order.from(value)
+            sharedPreferences?.getInt(getString(R.string.saved_order_key), MovieOrder.POPULAR.ordinal)
+        return MovieOrder.from(value)
     }
 
     private fun onNetworkError() {

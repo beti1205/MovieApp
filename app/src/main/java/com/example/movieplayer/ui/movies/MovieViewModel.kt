@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieplayer.domain.Movie
-import com.example.movieplayer.domain.Order
+import com.example.movieplayer.domain.MovieOrder
 import com.example.movieplayer.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class MovieViewModel @Inject constructor(
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
     private val _navigateToSelectedMovie = MutableLiveData<SelectedMovie>()
-    private var order: Order = Order.POPULAR
+    private var order: MovieOrder = MovieOrder.POPULAR
 
     data class SelectedMovie(val movie: Movie, val position: Int)
 
@@ -56,7 +56,7 @@ class MovieViewModel @Inject constructor(
         _isNetworkErrorShown.value = true
     }
 
-    fun onOrderChanged(order: Order) {
+    fun onOrderChanged(order: MovieOrder) {
         this.order = order
         refreshDataFromRepository()
     }

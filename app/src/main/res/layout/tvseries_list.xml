@@ -6,13 +6,77 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.movieplayer.ui.tvseries.TVSeriesViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/popular"
+                style="@style/ChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:color="?attr/colorPrimaryVariant"
+                android:text="Popular" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/top_rated"
+                style="@style/ChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?attr/colorPrimaryVariant"
+                android:text="Top Rated" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/airing_today"
+                style="@style/ChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?attr/colorPrimaryVariant"
+                android:text="Airing Today" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/on_the_air"
+                style="@style/ChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?attr/colorPrimaryVariant"
+                android:text="On The Air" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chip_group"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/movie_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

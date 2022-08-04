@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.movieplayer.MainActivity
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieListBinding
 import com.example.movieplayer.domain.MovieOrder
@@ -26,21 +28,13 @@ class MovieFragment : Fragment() {
     private val sharedPreferences: SharedPreferences? by lazy {
         activity?.getPreferences(Context.MODE_PRIVATE)
     }
+    private lateinit var binding: MovieListBinding
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.appbar_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search_item -> findNavController().navigate(
-                MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
-            )
+    private val mainActivity: MainActivity?
+        get() {
+            val activity = activity as? MainActivity
+            return activity
         }
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +42,7 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding: MovieListBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.movie_list,
             container,
@@ -91,7 +85,6 @@ class MovieFragment : Fragment() {
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
-
         binding.recyclerView.adapter = MovieAdapter { movie, position ->
             viewModel.displayMovieDetails(movie, position)
         }
@@ -132,8 +125,20 @@ class MovieFragment : Fragment() {
         view.doOnPreDraw {
             startPostponedEnterTransition()
         }
+        mainActivity?.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.appbar_menu, menu)
+            }
 
-        setHasOptionsMenu(true)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.search_item -> findNavController().navigate(
+                        MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
+                    )
+                }
+                return true
+            }
+        }, viewLifecycleOwner)
     }
 
     private fun saveOrder(order: MovieOrder) {
@@ -144,7 +149,10 @@ class MovieFragment : Fragment() {
 
     private fun restoreOrder(): MovieOrder {
         val value =
-            sharedPreferences?.getInt(getString(R.string.saved_order_key), MovieOrder.POPULAR.ordinal)
+            sharedPreferences?.getInt(
+                getString(R.string.saved_order_key),
+                MovieOrder.POPULAR.ordinal
+            )
         return MovieOrder.from(value)
     }
 

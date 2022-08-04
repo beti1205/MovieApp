@@ -25,9 +25,6 @@ class TVSeriesViewModel @Inject constructor(
     private val fetchTVSeriesUseCase: FetchTVSeriesUseCase
 ) : ViewModel() {
 
-    private val _tvSeries = MutableLiveData<List<TVSeries>>()
-    val tvSeries: LiveData<List<TVSeries>> = _tvSeries
-
     private val _order: MutableStateFlow<TVOrder> = MutableStateFlow(TVOrder.POPULAR)
     private val order = _order.asStateFlow()
 

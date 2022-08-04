@@ -6,12 +6,13 @@ buildscript {
         version_navigation = "1.1.0"
         version_retrofit = "2.9.0"
         version_recyclerview = "1.1.0"
-        version_navigation = "2.4.2"
-        version_fragment = "1.4.1"
-        version_lifecycle = "2.4.1"
+        version_navigation = "2.5.0"
+        version_fragment = "1.5.0"
+        version_lifecycle = "2.5.0"
         version_room = "2.4.2"
         version_hilt = "2.42"
-        version_paging= "3.1.1"
+        version_paging = "3.1.1"
+        version_coil = "2.1.0"
 
     }
     repositories {
@@ -19,9 +20,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath ("com.android.tools.build:gradle:7.2.1")
+        classpath("com.android.tools.build:gradle:7.2.1")
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$version_kotlin"
-        classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation")
         classpath("com.google.dagger:hilt-android-gradle-plugin:$version_hilt")
 
         // NOTE: Do not place your application dependencies here; they belong

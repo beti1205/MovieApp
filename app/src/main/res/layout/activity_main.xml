@@ -17,7 +17,17 @@
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Movies" />
+                app:title="Movies">
+
+                <EditText
+                    android:id="@+id/search_edit_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search"
+                    android:translationX="-16dp"
+                    android:visibility="gone" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 

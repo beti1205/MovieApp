@@ -8,6 +8,7 @@ import com.example.movieplayer.domain.Movie
 import com.example.movieplayer.domain.MovieOrder
 import com.example.movieplayer.network.MovieApiService
 import com.example.movieplayer.network.asDatabaseModel
+import com.example.movieplayer.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,7 +18,7 @@ private const val key = "c33ec9fdf85b0eb9fb900af22206b062"
 interface MovieRepository {
     val movies: LiveData<List<Movie>>
     suspend fun refreshMovies(order: MovieOrder)
-    suspend fun searchMovies(keyword: String): List<com.example.movieplayer.network.Movie>
+    suspend fun searchMovies(keyword: String): List<com.example.movieplayer.domain.Movie>
 
 }
 
@@ -43,9 +44,9 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun searchMovies(keyword: String): List<com.example.movieplayer.network.Movie> {
+    override suspend fun searchMovies(keyword: String): List<com.example.movieplayer.domain.Movie> {
         return withContext(Dispatchers.IO) {
-            movieApiService.getSearchedMovies(key, keyword).movies
+            movieApiService.getSearchedMovies(key, keyword).movies.asDomainModel()
         }
     }
 }

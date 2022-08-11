@@ -3,6 +3,7 @@ package com.example.movieplayer.ui.movies
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.edit
@@ -11,14 +12,17 @@ import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.MainActivity
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieListBinding
-import com.example.movieplayer.domain.MovieOrder
+import com.example.movieplayer.feature.fetchmovies.domain.MovieOrder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
@@ -29,12 +33,6 @@ class MovieFragment : Fragment() {
         activity?.getPreferences(Context.MODE_PRIVATE)
     }
     private lateinit var binding: MovieListBinding
-
-    private val mainActivity: MainActivity?
-        get() {
-            val activity = activity as? MainActivity
-            return activity
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +68,7 @@ class MovieFragment : Fragment() {
 
                 val transitionName = "movie${selectedMovie.movie.id}"
                 val extras = FragmentNavigatorExtras(
-                    viewHolder.binding.item to transitionName
+                    viewHolder.binding.poster to transitionName
                 )
 
                 findNavController().navigate(
@@ -85,8 +83,16 @@ class MovieFragment : Fragment() {
         }
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding.recyclerView.adapter = MovieAdapter { movie, position ->
+
+        val movieAdapter = MovieAdapter { movie, position ->
             viewModel.displayMovieDetails(movie, position)
+        }
+        binding.recyclerView.adapter = movieAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.flow.collectLatest { pagingData ->
+                movieAdapter.submitData(pagingData)
+            }
         }
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
@@ -121,11 +127,7 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postponeEnterTransition()
-        view.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-        mainActivity?.addMenuProvider(object: MenuProvider {
+        activity?.addMenuProvider(object: MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.appbar_menu, menu)
             }
@@ -139,6 +141,7 @@ class MovieFragment : Fragment() {
                 return true
             }
         }, viewLifecycleOwner)
+
     }
 
     private fun saveOrder(order: MovieOrder) {

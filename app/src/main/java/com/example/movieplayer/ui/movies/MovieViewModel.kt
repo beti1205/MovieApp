@@ -4,27 +4,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieplayer.domain.Movie
-import com.example.movieplayer.domain.MovieOrder
-import com.example.movieplayer.repository.MovieRepository
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.movieplayer.feature.fetchmovies.data.MoviesPagingSource
+import com.example.movieplayer.feature.fetchmovies.domain.FetchMoviesUseCase
+import com.example.movieplayer.feature.fetchmovies.data.Movie
+import com.example.movieplayer.feature.fetchmovies.domain.MovieOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import java.io.IOException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val repository: MovieRepository
+    private val fetchMoviesUseCase: FetchMoviesUseCase
 ) : ViewModel() {
 
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
     private val _navigateToSelectedMovie = MutableLiveData<SelectedMovie>()
-    private var order: MovieOrder = MovieOrder.POPULAR
+    private val _order: MutableStateFlow<MovieOrder> = MutableStateFlow(MovieOrder.POPULAR)
+    private val order = _order.asStateFlow()
 
     data class SelectedMovie(val movie: Movie, val position: Int)
-
-    val movies = repository.movies
 
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
@@ -35,21 +42,15 @@ class MovieViewModel @Inject constructor(
     val navigateToSelectedMovie: LiveData<SelectedMovie>
         get() = _navigateToSelectedMovie
 
-
-//    init {
-//        refreshDataFromRepository()
-//    }
-
-    private fun refreshDataFromRepository() = viewModelScope.launch {
-        try {
-            repository.refreshMovies(order)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        } catch (networkError: IOException) {
-            if (movies.value.isNullOrEmpty()) {
-                _eventNetworkError.value = true
-            }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val flow: Flow<PagingData<Movie>> = order.flatMapLatest { order ->
+        Pager(
+            PagingConfig(pageSize = 20)
+        ) {
+           MoviesPagingSource(fetchMoviesUseCase, order)
         }
+            .flow
+            .cachedIn(viewModelScope)
     }
 
     fun onNetworkErrorShown() {
@@ -57,8 +58,7 @@ class MovieViewModel @Inject constructor(
     }
 
     fun onOrderChanged(order: MovieOrder) {
-        this.order = order
-        refreshDataFromRepository()
+        _order.value = order
     }
 
     fun displayMovieDetails(movie: Movie, position: Int) {

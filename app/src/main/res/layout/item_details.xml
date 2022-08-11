@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.movieplayer.ui.detail.MovieDetailsViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                app:imageUrl="@{viewModel.selectedMovie.posterPath}"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toTopOf="@id/textContent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                tools:srcCompat="@drawable/poster" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/textContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView"
+                android:padding="8dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start"
+                android:text="@{viewModel.selectedMovie.title}"
+                android:textColor="@color/orange"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@id/releaseData"
+                tools:text="Title" />
+
+            <TextView
+                android:id="@+id/releaseData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="@{viewModel.selectedMovie.releaseDate}"
+                android:textColor="@color/grey"
+                app:layout_constraintEnd_toStartOf="@+id/voteAverage"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="2000" />
+
+            <ImageView
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                app:layout_constraintEnd_toStartOf="@id/voteAverage"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:srcCompat="@drawable/ic_baseline_stars_24"
+                app:tint="@color/orange" />
+
+            <TextView
+                android:id="@+id/voteAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="@{viewModel.selectedMovie.votes}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/releaseData"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="3.0" />
+
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="@{viewModel.selectedMovie.overview}"
+                app:layout_constraintTop_toBottomOf="@id/releaseData"
+                tools:text="About Movie" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

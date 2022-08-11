@@ -1,6 +1,6 @@
 package com.example.movieplayer.feature.fetchtvseries.domain
 
-import com.example.movieplayer.AppConfig
+import com.example.movieplayer.common.AppConfig
 import com.example.movieplayer.common.ApiResponse
 import com.example.movieplayer.common.Result
 import com.example.movieplayer.common.performRequest
@@ -17,8 +17,8 @@ interface FetchTVSeriesUseCase {
 }
 
 class FetchTVSeriesUseCaseImpl @Inject constructor(
-        private val tvSeriesService: TVSeriesService,
-        private val appConfig: AppConfig,
+    private val tvSeriesService: TVSeriesService,
+    private val appConfig: AppConfig,
 ) : FetchTVSeriesUseCase {
 
     override suspend fun invoke(tvOrder: TVOrder, page: Int): Result<ApiResponse<TVSeries>> {

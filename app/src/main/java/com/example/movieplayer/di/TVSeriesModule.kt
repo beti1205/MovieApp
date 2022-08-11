@@ -1,6 +1,6 @@
 package com.example.movieplayer.di
 
-import com.example.movieplayer.AppConfig
+import com.example.movieplayer.common.AppConfig
 import com.example.movieplayer.feature.fetchtvseries.data.TVSeriesService
 import com.example.movieplayer.feature.fetchtvseries.domain.*
 import com.squareup.moshi.Moshi

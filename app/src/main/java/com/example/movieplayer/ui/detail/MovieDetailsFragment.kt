@@ -2,14 +2,16 @@ package com.example.movieplayer.ui.detail
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.movieplayer.R
-import com.example.movieplayer.databinding.MovieDetailBinding
+import com.example.movieplayer.databinding.ItemDetailsBinding
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +28,7 @@ class MovieDetailsFragment : Fragment() {
             drawingViewId = R.id.myNavHostFragment
             scrimColor = Color.TRANSPARENT
             interpolator = DecelerateInterpolator()
-            duration = 500
+            duration = 300
         }
     }
 
@@ -35,9 +37,9 @@ class MovieDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: MovieDetailBinding = DataBindingUtil.inflate(
+        val binding: ItemDetailsBinding = DataBindingUtil.inflate(
             inflater,
-            R.layout.movie_detail,
+            R.layout.item_details,
             container,
             false
         )
@@ -50,7 +52,7 @@ class MovieDetailsFragment : Fragment() {
 
         val movie = args.selectedMovie
         val transitionName = "movie${movie.id}"
-        binding.cardView.transitionName = transitionName
+        binding.imageView.transitionName = transitionName
 
         return binding.root
 

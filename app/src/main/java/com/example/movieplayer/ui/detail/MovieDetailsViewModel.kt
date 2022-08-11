@@ -3,7 +3,7 @@ package com.example.movieplayer.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.example.movieplayer.domain.Movie
+import com.example.movieplayer.feature.fetchmovies.data.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

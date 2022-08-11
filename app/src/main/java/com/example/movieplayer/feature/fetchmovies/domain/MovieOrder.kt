@@ -1,11 +1,10 @@
-package com.example.movieplayer.domain
+package com.example.movieplayer.feature.fetchmovies.domain
 
 enum class MovieOrder {
     POPULAR,
     UPCOMING,
     TOP_RATED,
-    NOW_PLAYING,;
-
+    NOW_PLAYING;
 
     companion object {
         fun from(value: Int?): MovieOrder {

@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieplayer.databinding.MovieItemBinding
+import com.example.movieplayer.feature.fetchmovies.data.Movie
 
 class MovieViewHolder private constructor(
     val binding: MovieItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: com.example.movieplayer.domain.Movie) {
+    fun bind(movie: Movie) {
         val transitionName = "movie${movie.id}"
-        binding.item.transitionName = transitionName
+        binding.poster.transitionName = transitionName
         binding.movie = movie
         binding.executePendingBindings()
     }

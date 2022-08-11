@@ -1,6 +1,6 @@
 package com.example.movieplayer.di
 
-import com.example.movieplayer.AppConfig
+import com.example.movieplayer.common.AppConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

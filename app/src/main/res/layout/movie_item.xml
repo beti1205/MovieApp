@@ -6,7 +6,7 @@
 
         <variable
             name="movie"
-            type="com.example.movieplayer.domain.Movie" />
+            type="com.example.movieplayer.feature.fetchmovies.data.Movie" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"

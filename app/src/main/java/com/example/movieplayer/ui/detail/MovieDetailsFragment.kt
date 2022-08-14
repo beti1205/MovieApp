@@ -45,17 +45,15 @@ class MovieDetailsFragment : Fragment() {
         )
 
         binding.viewModel = viewModel
-
-        @Suppress("UNUSED_VARIABLE")
-        val application = requireNotNull(activity).application
         binding.lifecycleOwner = this
-
+        binding.recyclerView.adapter = CastAdapter()
+        binding.crewRecyclerView.adapter = CrewAdapter()
         val movie = args.selectedMovie
         val transitionName = "movie${movie.id}"
         binding.imageView.transitionName = transitionName
+        viewModel.fetchCredits(movie.id)
 
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,5 +62,4 @@ class MovieDetailsFragment : Fragment() {
 //        postponeEnterTransition()
 //        view.doOnPreDraw { startPostponedEnterTransition() }
     }
-
 }

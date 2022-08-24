@@ -1,6 +1,7 @@
 package com.example.movieplayer.ui.movies
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieplayer.databinding.MovieItemBinding
@@ -10,10 +11,9 @@ class MovieViewHolder private constructor(
     val binding: MovieItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
-        val transitionName = "movie${movie.id}"
-        binding.poster.transitionName = transitionName
-        binding.movie = movie
+    fun bind(onClick: (View, Movie) -> Unit, item: Movie) {
+        binding.onClick = onClick
+        binding.movie = item
         binding.executePendingBindings()
     }
 

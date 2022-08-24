@@ -1,6 +1,7 @@
 package com.example.movieplayer.ui.tvseries
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -8,14 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieplayer.databinding.TvseriesItemBinding
 import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
 
-class TVSeriesAdapter : PagingDataAdapter<TVSeries, TVSeriesAdapter.ViewHolder>(
-        DiffCallback
-) {
+class TVSeriesAdapter(
+    private val onClick: (view: View, tvSeries: TVSeries) -> Unit
+) : PagingDataAdapter<TVSeries, TVSeriesAdapter.ViewHolder>(DiffCallback) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = TvseriesItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return ViewHolder(binding)
     }
@@ -23,14 +25,15 @@ class TVSeriesAdapter : PagingDataAdapter<TVSeries, TVSeriesAdapter.ViewHolder>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.bind(item)
+            holder.bind(onClick, item)
         }
     }
 
     inner class ViewHolder(
-            private val binding: TvseriesItemBinding
+        val binding: TvseriesItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TVSeries) {
+        fun bind(onClick: (View, TVSeries) -> Unit, item: TVSeries) {
+            binding.onClick = onClick
             binding.tvseries = item
             binding.executePendingBindings()
         }
@@ -44,7 +47,5 @@ class TVSeriesAdapter : PagingDataAdapter<TVSeries, TVSeriesAdapter.ViewHolder>(
         override fun areContentsTheSame(oldItem: TVSeries, newItem: TVSeries): Boolean {
             return oldItem == newItem
         }
-
-
     }
 }

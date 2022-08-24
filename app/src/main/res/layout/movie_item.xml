@@ -4,9 +4,16 @@
 
     <data>
 
+        <import type="kotlin.jvm.functions.Function2" />
+
+        <import type="kotlin.Unit" />
+
         <variable
             name="movie"
             type="com.example.movieplayer.feature.fetchmovies.data.Movie" />
+        <variable
+            name="onClick"
+            type="Function2&lt;android.view.View, com.example.movieplayer.feature.fetchmovies.data.Movie, Unit>" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,6 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:onClick="@{(view) -> onClick.invoke(view, movie)}"
+        android:transitionName="@{@string/movie_card_transition_name(movie.id)}"
         card_view:cardCornerRadius="16dp"
         card_view:cardElevation="16dp">
 
@@ -24,13 +33,14 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="16dp"
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:text="@{movie.title}"
+                android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,15 +51,12 @@
             <ImageView
                 android:id="@+id/poster"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{movie.posterPath}"
-                app:layout_constraintBottom_toTopOf="@+id/title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintVertical_chainStyle="packed"
                 tools:srcCompat="@drawable/poster" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

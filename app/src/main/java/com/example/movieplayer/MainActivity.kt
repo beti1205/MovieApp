@@ -1,18 +1,14 @@
 package com.example.movieplayer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.widget.EditText
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieplayer.databinding.ActivityMainBinding
-import com.example.movieplayer.databinding.MovieDetailBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,20 +32,20 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNavigation.isVisible = destination.id != R.id.movieDetailsFragment
-            binding.searchEditFrame.isVisible = destination.id == R.id.searchMoviesFragment
+            binding.bottomNavigation.isVisible =
+                destination.id != R.id.movieDetailsFragment && destination.id != R.id.TVSeriesDetailsFragment
+            binding.searchEditFrame.isVisible =
+                destination.id == R.id.searchMoviesFragment || destination.id == R.id.searchTvSeriesFragment
+            binding.searchEditFrame.setText("")
         }
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.movieFragment,
-                R.id.TVSeriesFragment,
-                R.id.peopleFragment
+                R.id.TVSeriesFragment
             )
         )
 
         setSupportActionBar(binding.topAppBar)
         binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
     }
-
 }

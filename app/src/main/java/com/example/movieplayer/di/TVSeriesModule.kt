@@ -2,7 +2,10 @@ package com.example.movieplayer.di
 
 import com.example.movieplayer.common.AppConfig
 import com.example.movieplayer.feature.fetchtvseries.data.TVSeriesService
-import com.example.movieplayer.feature.fetchtvseries.domain.*
+import com.example.movieplayer.feature.fetchtvseries.domain.FetchTVSeriesUseCase
+import com.example.movieplayer.feature.fetchtvseries.domain.FetchTVSeriesUseCaseImpl
+import com.example.movieplayer.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.example.movieplayer.feature.fetchtvseries.domain.SearchTVSeriesUseCaseImpl
 import com.squareup.moshi.Moshi
 import dagger.Binds
 import dagger.Module
@@ -21,20 +24,24 @@ abstract class TVSeriesModule {
     companion object {
         @Provides
         fun provideTVSeriesService(
-                client: OkHttpClient,
-                moshi: Moshi,
-                appConfig: AppConfig
+            client: OkHttpClient,
+            moshi: Moshi,
+            appConfig: AppConfig
         ): TVSeriesService = Retrofit.Builder()
-                .client(client)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl(appConfig.baseUrl)
-                .build()
-                .create()
+            .client(client)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .baseUrl(appConfig.baseUrl)
+            .build()
+            .create()
     }
-
 
     @Binds
     abstract fun bindFetchTVSeriesUseCase(
-            fetchTVSeriesUseCaseImpl: FetchTVSeriesUseCaseImpl
+        fetchTVSeriesUseCaseImpl: FetchTVSeriesUseCaseImpl
     ): FetchTVSeriesUseCase
+
+    @Binds
+    abstract fun bindSearchTVSeriesUseCase(
+        searchTVSeriesUseCaseImpl: SearchTVSeriesUseCaseImpl
+    ): SearchTVSeriesUseCase
 }

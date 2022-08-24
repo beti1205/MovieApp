@@ -1,12 +1,9 @@
 package com.example.movieplayer.ui.search.movies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,71 +14,69 @@ import com.example.movieplayer.MainActivity
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.SearchListBinding
 import com.example.movieplayer.ui.movies.MovieAdapter
-import com.example.movieplayer.ui.movies.MovieFragmentDirections
-import com.example.movieplayer.ui.movies.MovieViewHolder
+import com.example.movieplayer.utils.hideKeyboard
+import com.example.movieplayer.utils.showKeyboard
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchMoviesFragment : Fragment() {
+class SearchMoviesFragment : Fragment(R.layout.search_list) {
 
     private val viewModel: SearchMoviesViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding: SearchListBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.search_list,
-            container,
-            false
-        )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 300
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = 300
+        }
+    }
 
-        binding.viewModel = viewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding: SearchListBinding = SearchListBinding.bind(requireView())
+
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
-        val movieAdapter = MovieAdapter { movie, position ->
-            viewModel.displayMovieDetails(movie, position)
+        val movieAdapter = MovieAdapter { itemView, movie ->
+            val extras = FragmentNavigatorExtras(
+                itemView to getString(R.string.movie_card_detail_transition_name)
+            )
+            findNavController().navigate(
+                SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
+                    movie
+                ),
+                extras
+            )
         }
-        binding.recyclerView.adapter = movieAdapter
+        binding.searchRecyclerView.adapter = movieAdapter
 
-        viewModel.navigateToSelectedMovie.observe(viewLifecycleOwner) { selectedMovie ->
-            if (selectedMovie == null) {
-                return@observe
-            }
+        view.doOnPreDraw { startPostponedEnterTransition() }
+        postponeEnterTransition()
 
-            val position = selectedMovie.position
-            val viewHolder =
-                binding.recyclerView.findViewHolderForLayoutPosition(position) as? MovieViewHolder
-            viewHolder?.let {
-                val transitionName = "movie${selectedMovie.movie.id}"
-                val extras = FragmentNavigatorExtras(
-                    viewHolder.binding.poster to transitionName
-                )
-
-                findNavController().navigate(
-                    SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
-                        selectedMovie.movie
-                    ),
-                    extras
-                )
-                viewModel.displayPropertyDetailsComplete()
-
-            }
-        }
         val activity = activity as? MainActivity
         val actionBar = activity?.supportActionBar
         actionBar?.title = null
 
-        activity?.searchEditText?.doAfterTextChanged { keyword ->
-            viewModel.onQueryChanged(keyword.toString())
+        activity?.searchEditText?.apply {
+            requestFocus()
+            showKeyboard(this)
+            doAfterTextChanged { keyword ->
+                viewModel.onQueryChanged(keyword.toString())
+            }
+
+            setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    hideKeyboard()
+                }
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -89,6 +84,5 @@ class SearchMoviesFragment : Fragment() {
                 movieAdapter.submitData(pagingData)
             }
         }
-        return binding.root
     }
 }

@@ -8,9 +8,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.movieplayer.feature.fetchmovies.data.Movie
 import com.example.movieplayer.feature.fetchmovies.data.MoviesPagingSource
 import com.example.movieplayer.feature.fetchmovies.domain.FetchMoviesUseCase
-import com.example.movieplayer.feature.fetchmovies.data.Movie
 import com.example.movieplayer.feature.fetchmovies.domain.MovieOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,11 +27,8 @@ class MovieViewModel @Inject constructor(
 
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
-    private val _navigateToSelectedMovie = MutableLiveData<SelectedMovie>()
     private val _order: MutableStateFlow<MovieOrder> = MutableStateFlow(MovieOrder.POPULAR)
     private val order = _order.asStateFlow()
-
-    data class SelectedMovie(val movie: Movie, val position: Int)
 
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
@@ -39,15 +36,12 @@ class MovieViewModel @Inject constructor(
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
-    val navigateToSelectedMovie: LiveData<SelectedMovie>
-        get() = _navigateToSelectedMovie
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    val flow: Flow<PagingData<Movie>> = order.flatMapLatest { order ->
+    val movies: Flow<PagingData<Movie>> = order.flatMapLatest { order ->
         Pager(
             PagingConfig(pageSize = 20)
         ) {
-           MoviesPagingSource(fetchMoviesUseCase, order)
+            MoviesPagingSource(fetchMoviesUseCase, order)
         }
             .flow
             .cachedIn(viewModelScope)
@@ -59,13 +53,5 @@ class MovieViewModel @Inject constructor(
 
     fun onOrderChanged(order: MovieOrder) {
         _order.value = order
-    }
-
-    fun displayMovieDetails(movie: Movie, position: Int) {
-        _navigateToSelectedMovie.value = SelectedMovie(movie, position)
-    }
-
-    fun displayPropertyDetailsComplete() {
-        _navigateToSelectedMovie.value = null
     }
 }

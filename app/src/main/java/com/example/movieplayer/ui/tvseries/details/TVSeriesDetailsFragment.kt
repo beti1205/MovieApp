@@ -1,4 +1,4 @@
-package com.example.movieplayer.ui.details.tvseries
+package com.example.movieplayer.ui.tvseries.details
 
 import android.graphics.Color
 import android.os.Bundle
@@ -18,6 +18,10 @@ class TVSeriesDetailsFragment : Fragment(R.layout.tvseries_details) {
     private val viewModel: TVSeriesDetailsViewModel by viewModels()
     private val args: TVSeriesDetailsFragmentArgs by navArgs()
 
+    companion object {
+        const val DURATION = 300L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,7 +29,7 @@ class TVSeriesDetailsFragment : Fragment(R.layout.tvseries_details) {
             drawingViewId = R.id.myNavHostFragment
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
-            duration = 300
+            duration = DURATION
         }
     }
 
@@ -34,10 +38,12 @@ class TVSeriesDetailsFragment : Fragment(R.layout.tvseries_details) {
 
         val binding: TvseriesDetailsBinding = TvseriesDetailsBinding.bind(requireView())
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
         val tvSeries = args.selectedTVSeries
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.episodesRecyclerView.adapter = EpisodeAdapter()
+
         viewModel.fetchSeasons(tvSeries.id)
     }
 }

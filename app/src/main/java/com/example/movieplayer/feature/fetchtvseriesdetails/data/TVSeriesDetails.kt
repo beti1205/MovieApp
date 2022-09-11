@@ -39,5 +39,5 @@ data class Season(
     @Json(name = "season_number")
     val seasonNumber: Int
 ) {
-    fun episodes() = episodeCount.toString()
+    val episodes = episodeCount.toString()
 }

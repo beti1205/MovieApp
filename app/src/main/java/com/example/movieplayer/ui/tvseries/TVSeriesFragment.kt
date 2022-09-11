@@ -17,20 +17,22 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.TvseriesListBinding
+import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
 import com.example.movieplayer.feature.fetchtvseries.domain.TVOrder
 import com.example.movieplayer.ui.common.Preferences
 import com.example.movieplayer.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
 
-    private val viewModel: TVSeriesViewModel by viewModels()
-    private val sharedPreferences: SharedPreferences? by lazy {
-        activity?.getPreferences(Context.MODE_PRIVATE)
-    }
+    @Inject
+    lateinit var preferences: Preferences
+
+    private val viewModel: TVSeriesViewModel by hiltNavGraphViewModels(R.id.tvGraph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,14 +138,8 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
     }
 
     private fun saveOrder(order: TVOrder) {
-        sharedPreferences?.edit {
-            putInt(getString(R.string.saved_order_key), order.ordinal)
-        }
+        preferences.tvOrder = order.ordinal
     }
 
-    private fun restoreOrder(): TVOrder {
-        val value =
-            sharedPreferences?.getInt(getString(R.string.saved_order_key), TVOrder.POPULAR.ordinal)
-        return TVOrder.from(value)
-    }
+    private fun restoreOrder(): TVOrder = TVOrder.from(preferences.tvOrder)
 }

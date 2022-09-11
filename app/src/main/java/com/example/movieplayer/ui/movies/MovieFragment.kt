@@ -25,11 +25,13 @@ import com.example.movieplayer.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieFragment : Fragment(R.layout.movie_list) {
 
-    private val viewModel: MovieViewModel by viewModels()
+    @Inject
+    lateinit var preferences: Preferences
 
     private val sharedPreferences: SharedPreferences? by lazy {
         activity?.getPreferences(Context.MODE_PRIVATE)
@@ -138,24 +140,8 @@ class MovieFragment : Fragment(R.layout.movie_list) {
     }
 
     private fun saveOrder(order: MovieOrder) {
-        sharedPreferences?.edit {
-            putInt(getString(R.string.saved_order_key), order.ordinal)
-        }
+        preferences.movieOrder = order.ordinal
     }
 
-    private fun restoreOrder(): MovieOrder {
-        val value =
-            sharedPreferences?.getInt(
-                getString(R.string.saved_order_key),
-                MovieOrder.POPULAR.ordinal
-            )
-        return MovieOrder.from(value)
-    }
-
-    private fun onNetworkError() {
-        if (!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
-            viewModel.onNetworkErrorShown()
-        }
-    }
+    private fun restoreOrder(): MovieOrder = MovieOrder.from(preferences.movieOrder)
 }

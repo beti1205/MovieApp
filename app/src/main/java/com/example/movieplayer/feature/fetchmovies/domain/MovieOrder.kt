@@ -7,8 +7,8 @@ enum class MovieOrder {
     NOW_PLAYING;
 
     companion object {
-        fun from(value: Int?): MovieOrder {
-            if(value == null) {
+        fun from(value: Int): MovieOrder {
+            if (value == -1) {
                 return POPULAR
             }
 

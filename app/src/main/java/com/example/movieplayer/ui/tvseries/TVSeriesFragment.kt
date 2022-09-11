@@ -3,13 +3,11 @@ package com.example.movieplayer.ui.tvseries
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.core.content.edit
 import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.TvseriesListBinding
 import com.example.movieplayer.feature.fetchtvseries.domain.TVOrder
+import com.example.movieplayer.ui.common.Preferences
+import com.example.movieplayer.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -49,8 +49,16 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
         }
         binding.tvSeriesRecyclerView.adapter = tvSeriesAdapter
         binding.tvSeriesRecyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+
+        tvSeriesAdapter.addLoadStateListener { states ->
+            if (states.getErrorState() != null) {
+                finishTransition(view)
+            }
+        }
+
+        tvSeriesAdapter.addOnPagesUpdatedListener {
+            finishTransition(view)
+        }
 
         val savedOrder = restoreOrder()
         val selectedChipId = when (savedOrder) {
@@ -62,23 +70,45 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
 
-        binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
-            val order = when (checkedId) {
-                R.id.topRated -> TVOrder.TOP_RATED
-                R.id.airing_today -> TVOrder.AIRING_TODAY
-                R.id.on_the_air -> TVOrder.ON_THE_AIR
-                else -> TVOrder.POPULAR
-            }
-
-            viewModel.onOrderChanged(order)
-            saveOrder(order)
+        binding.chipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            onOrderChanged(checkedIds)
         }
+
+        binding.retryButton.setOnClickListener {
+            tvSeriesAdapter.retry()
+        }
+
+        addMenuProvider()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.tvSeries.collectLatest { pagingData ->
                 tvSeriesAdapter.submitData(pagingData)
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            tvSeriesAdapter.loadStateFlow.collectLatest { loadStates ->
+                binding.errorView.isVisible = loadStates.getErrorState() != null
+            }
+        }
+    }
+
+    private fun onOrderChanged(checkedIds: List<Int>) {
+        val order = when (checkedIds.first()) {
+            R.id.topRated -> TVOrder.TOP_RATED
+            R.id.airingToday -> TVOrder.AIRING_TODAY
+            R.id.onTheAir -> TVOrder.ON_THE_AIR
+            else -> TVOrder.POPULAR
+        }
+
+            viewModel.onOrderChanged(order)
+            saveOrder(order)
+        }
+
+    private fun finishTransition(view: View) {
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
+    private fun addMenuProvider() {
         activity?.addMenuProvider(
             object : MenuProvider {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

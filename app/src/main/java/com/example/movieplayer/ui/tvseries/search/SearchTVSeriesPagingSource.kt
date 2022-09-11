@@ -6,13 +6,20 @@ import androidx.paging.PagingState
 import com.example.movieplayer.common.Result
 import com.example.movieplayer.common.getNextPageKey
 import com.example.movieplayer.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.example.movieplayer.ui.common.TooShortQueryException
+import com.example.movieplayer.ui.common.getNextPageKey
+import com.example.movieplayer.ui.tvseries.getTVSeriesRefreshKey
 
 class SearchTVSeriesPagingSource(
     val searchTVSeriesUseCase: SearchTVSeriesUseCase,
     private val query: String
 ) : PagingSource<Int, TVSeries>() {
 
-    override suspend fun load(params: PagingSource.LoadParams<Int>): PagingSource.LoadResult<Int, TVSeries> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVSeries> {
+        if (query.length <= 3) {
+            return LoadResult.Error(TooShortQueryException)
+        }
+
         val nextPageNumber = params.key ?: 1
         val response = searchTVSeriesUseCase(query, nextPageNumber)
         return when (response) {

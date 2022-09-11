@@ -1,7 +1,5 @@
 package com.example.movieplayer.ui.movies
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,7 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movieplayer.feature.fetchmovies.data.Movie
-import com.example.movieplayer.feature.fetchmovies.data.MoviesPagingSource
 import com.example.movieplayer.feature.fetchmovies.domain.FetchMoviesUseCase
 import com.example.movieplayer.feature.fetchmovies.domain.MovieOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,16 +22,8 @@ class MovieViewModel @Inject constructor(
     private val fetchMoviesUseCase: FetchMoviesUseCase
 ) : ViewModel() {
 
-    private val _eventNetworkError = MutableLiveData<Boolean>(false)
-    private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
     private val _order: MutableStateFlow<MovieOrder> = MutableStateFlow(MovieOrder.POPULAR)
     private val order = _order.asStateFlow()
-
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
-
-    val isNetworkErrorShown: LiveData<Boolean>
-        get() = _isNetworkErrorShown
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val movies: Flow<PagingData<Movie>> = order.flatMapLatest { order ->
@@ -42,14 +31,8 @@ class MovieViewModel @Inject constructor(
             PagingConfig(pageSize = 20)
         ) {
             MoviesPagingSource(fetchMoviesUseCase, order)
-        }
-            .flow
-            .cachedIn(viewModelScope)
-    }
-
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
-    }
+        }.flow
+    }.cachedIn(viewModelScope)
 
     fun onOrderChanged(order: MovieOrder) {
         _order.value = order

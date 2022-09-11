@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
@@ -27,7 +26,6 @@ class SearchTVSeriesViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val querySearchResults = queryFlow
-        .filter { query -> query.length > 3 }
         .debounce(300)
         .flatMapLatest { query ->
             getSearchResultStream(query)

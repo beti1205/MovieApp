@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.MainActivity
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.SearchListBinding
+import com.example.movieplayer.feature.fetchmovies.data.Movie
+import com.example.movieplayer.ui.common.getErrorState
+import com.example.movieplayer.ui.common.updateState
 import com.example.movieplayer.ui.movies.MovieAdapter
 import com.example.movieplayer.utils.hideKeyboard
 import com.example.movieplayer.utils.showKeyboard
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -46,19 +50,18 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
         binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         val movieAdapter = MovieAdapter { itemView, movie ->
-            val extras = FragmentNavigatorExtras(
-                itemView to getString(R.string.movie_card_detail_transition_name)
-            )
-            findNavController().navigate(
-                SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
-                    movie
-                ),
-                extras
-            )
+            navigateToMovieDetails(itemView, movie)
         }
         binding.searchRecyclerView.adapter = movieAdapter
 
-        view.doOnPreDraw { startPostponedEnterTransition() }
+        movieAdapter.addLoadStateListener { states ->
+            if (states.getErrorState() != null) {
+                finishTransition(view)
+            }
+        }
+        movieAdapter.addOnPagesUpdatedListener {
+            finishTransition(view)
+        }
         postponeEnterTransition()
 
         val activity = activity as? MainActivity
@@ -79,10 +82,41 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
             }
         }
 
+        binding.searchRetryButton.setOnClickListener {
+            movieAdapter.retry()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collect { loadStates ->
+                    binding.updateState(loadStates, movieAdapter)
+                }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.querySearchResults.collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }
         }
+    }
+
+    private fun finishTransition(view: View) {
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
+    private fun navigateToMovieDetails(
+        itemView: View,
+        movie: Movie
+    ) {
+        val extras = FragmentNavigatorExtras(
+            itemView to getString(R.string.movie_card_detail_transition_name)
+        )
+        findNavController().navigate(
+            SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
+                movie
+            ),
+            extras
+        )
     }
 }

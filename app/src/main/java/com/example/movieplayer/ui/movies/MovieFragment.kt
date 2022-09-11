@@ -3,14 +3,12 @@ package com.example.movieplayer.ui.movies
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,7 +18,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.MovieListBinding
+import com.example.movieplayer.feature.fetchmovies.data.Movie
 import com.example.movieplayer.feature.fetchmovies.domain.MovieOrder
+import com.example.movieplayer.ui.common.Preferences
+import com.example.movieplayer.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -57,14 +58,13 @@ class MovieFragment : Fragment(R.layout.movie_list) {
         }
         binding.movieRecyclerView.adapter = movieAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.movies.collectLatest { pagingData ->
-                movieAdapter.submitData(pagingData)
+        movieAdapter.addLoadStateListener { states ->
+            if (states.getErrorState() != null) {
+                finishTransition(view)
             }
         }
-
-        viewModel.eventNetworkError.observe(viewLifecycleOwner) { isNetworkError ->
-            if (isNetworkError) onNetworkError()
+        movieAdapter.addOnPagesUpdatedListener {
+            finishTransition(view)
         }
 
         val savedOrder = restoreOrder()
@@ -77,13 +77,48 @@ class MovieFragment : Fragment(R.layout.movie_list) {
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
 
-        binding.chipGroup.setOnCheckedChangeListener { _, checkedId ->
-            val order = when (checkedId) {
-                R.id.topRated -> MovieOrder.TOP_RATED
-                R.id.upcoming -> MovieOrder.UPCOMING
-                R.id.nowPlaying -> MovieOrder.NOW_PLAYING
-                else -> MovieOrder.POPULAR
+        binding.chipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            onOrderChanged(checkedIds)
+        }
+
+        binding.retryButton.setOnClickListener {
+            movieAdapter.retry()
+        }
+
+        addMenuProvider()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.movies.collectLatest { pagingData ->
+                movieAdapter.submitData(pagingData)
             }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieAdapter.loadStateFlow.collectLatest { loadStates ->
+                binding.errorView.isVisible = loadStates.getErrorState() != null
+            }
+        }
+    }
+
+    private fun addMenuProvider() {
+        activity?.addMenuProvider(
+            MovieMenuProvider {
+                findNavController().navigate(
+                    MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
+                )
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
+    }
+
+    private fun onOrderChanged(checkedIds: List<Int>) {
+        val order = when (checkedIds.first()) {
+            R.id.topRated -> MovieOrder.TOP_RATED
+            R.id.upcoming -> MovieOrder.UPCOMING
+            R.id.nowPlaying -> MovieOrder.NOW_PLAYING
+            else -> MovieOrder.POPULAR
+        }
 
             viewModel.onOrderChanged(order)
             saveOrder(order)
@@ -95,21 +130,9 @@ class MovieFragment : Fragment(R.layout.movie_list) {
                     menuInflater.inflate(R.menu.appbar_menu, menu)
                 }
 
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    when (menuItem.itemId) {
-                        R.id.search_item -> findNavController().navigate(
-                            MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
-                        )
-                    }
-                    return true
-                }
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED
-        )
-        movieAdapter.addOnPagesUpdatedListener {
-            view.doOnPreDraw { startPostponedEnterTransition() }
-        }
+    private fun finishTransition(view: View) {
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
 
         postponeEnterTransition()
     }

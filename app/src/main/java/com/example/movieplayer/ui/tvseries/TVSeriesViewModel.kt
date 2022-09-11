@@ -1,7 +1,5 @@
 package com.example.movieplayer.ui.tvseries
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,7 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
-import com.example.movieplayer.feature.fetchtvseries.data.TVSeriesPagingSource
 import com.example.movieplayer.feature.fetchtvseries.domain.FetchTVSeriesUseCase
 import com.example.movieplayer.feature.fetchtvseries.domain.TVOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,15 +26,13 @@ class TVSeriesViewModel @Inject constructor(
     private val order = _order.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val flow: Flow<PagingData<TVSeries>> = order.flatMapLatest { order ->
+    val tvSeries: Flow<PagingData<TVSeries>> = order.flatMapLatest { order ->
         Pager(
             PagingConfig(pageSize = 20)
         ) {
             TVSeriesPagingSource(fetchTVSeriesUseCase, order)
-        }
-        .flow
-        .cachedIn(viewModelScope)
-    }
+        }.flow
+    }.cachedIn(viewModelScope)
 
     fun onOrderChanged(order: TVOrder) {
         _order.value = order

@@ -13,12 +13,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieplayer.MainActivity
 import com.example.movieplayer.R
 import com.example.movieplayer.databinding.SearchListBinding
+import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
+import com.example.movieplayer.ui.common.updateState
 import com.example.movieplayer.ui.tvseries.TVSeriesAdapter
 import com.example.movieplayer.utils.hideKeyboard
 import com.example.movieplayer.utils.showKeyboard
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -75,12 +78,37 @@ class SearchTVSeriesFragment : Fragment(R.layout.search_list) {
             }
         }
 
+        binding.searchRetryButton.setOnClickListener {
+            tvSeriesAdapter.retry()
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.querySearchResults.collectLatest { pagingData ->
                 tvSeriesAdapter.submitData(pagingData)
             }
         }
-        view.doOnPreDraw { startPostponedEnterTransition() }
-        postponeEnterTransition()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            tvSeriesAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collect { loadStates ->
+                    binding.updateState(loadStates, tvSeriesAdapter)
+                }
+        }
+    }
+
+    private fun navigateToTvSeriesDetails(
+        itemView: View,
+        tvSeries: TVSeries
+    ) {
+        val extras = FragmentNavigatorExtras(
+            itemView to getString(R.string.tv_card_detail_transition_name)
+        )
+        findNavController().navigate(
+            SearchTVSeriesFragmentDirections.actionSearchTvSeriesFragmentToTVSeriesDetailsFragment(
+                tvSeries
+            ),
+            extras
+        )
     }
 }

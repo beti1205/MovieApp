@@ -1,5 +1,6 @@
 package com.example.movieplayer.di
 
+import com.example.movieplayer.BuildConfig
 import com.example.movieplayer.common.AppConfig
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -17,7 +18,7 @@ object CoreModule {
     fun provideAppConfig(): AppConfig {
         return AppConfig(
             baseUrl = "https://api.themoviedb.org/3/",
-            apiKey = "c33ec9fdf85b0eb9fb900af22206b062"
+            apiKey = BuildConfig.API_KEY
         )
     }
 

@@ -2,6 +2,7 @@ package com.example.movieplayer.ui.search.movies
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -42,6 +43,11 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            (requireActivity() as MainActivity).searchEditText.setText("")
+            findNavController().popBackStack()
+        }
 
         val binding: SearchListBinding = SearchListBinding.bind(requireView())
 

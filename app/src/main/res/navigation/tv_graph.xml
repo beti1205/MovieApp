@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/TVSeriesFragment"
-        android:name="com.example.movieplayer.ui.tvseries.TVSeriesFragment"
+        android:name="com.beti1205.movieapp.ui.tvseries.TVSeriesFragment"
         android:label="@string/tv_series_label">
 
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/searchTvSeriesFragment"
-        android:name="com.example.movieplayer.ui.tvseries.search.SearchTVSeriesFragment"
+        android:name="com.beti1205.movieapp.ui.tvseries.search.SearchTVSeriesFragment"
         android:label="@string/search_tv_label">
 
         <action
@@ -32,12 +32,12 @@
 
     <fragment
         android:id="@+id/TVSeriesDetailsFragment"
-        android:name="com.example.movieplayer.ui.tvseries.details.TVSeriesDetailsFragment"
+        android:name="com.beti1205.movieapp.ui.tvseries.details.TVSeriesDetailsFragment"
         android:label="@string/tv_details_label">
 
         <argument
             android:name="selectedTVSeries"
-            app:argType="com.example.movieplayer.feature.fetchtvseries.data.TVSeries" />
+            app:argType="com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries" />
 
     </fragment>
 

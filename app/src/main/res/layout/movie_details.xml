@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.movieplayer.ui.movies.details.MovieDetailsViewModel" />
+            type="com.beti1205.movieapp.ui.movies.details.MovieDetailsViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

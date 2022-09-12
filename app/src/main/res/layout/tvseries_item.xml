@@ -10,11 +10,11 @@
 
         <variable
             name="tvseries"
-            type="com.example.movieplayer.feature.fetchtvseries.data.TVSeries" />
+            type="com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries" />
 
         <variable
             name="onClick"
-            type="Function2&lt;android.view.View, com.example.movieplayer.feature.fetchtvseries.data.TVSeries, Unit>" />
+            type="Function2&lt;android.view.View, com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries, Unit>" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"

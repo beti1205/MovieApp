@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.movieplayer.ui.tvseries.details.TVSeriesDetailsViewModel" />
+            type="com.beti1205.movieapp.ui.tvseries.details.TVSeriesDetailsViewModel" />
 
     </data>
 
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="Season"
+                    android:hint="@string/season_hint_label"
                     android:paddingTop="8dp"
                     android:visibility="@{!viewModel.hasError}"
                     app:layout_constraintStart_toStartOf="parent"

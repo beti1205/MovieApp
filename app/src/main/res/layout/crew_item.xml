@@ -7,7 +7,7 @@
 
         <variable
             name="crew"
-            type="com.example.movieplayer.feature.fetchcredits.data.Crew" />
+            type="com.beti1205.movieapp.feature.fetchcredits.data.Crew" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

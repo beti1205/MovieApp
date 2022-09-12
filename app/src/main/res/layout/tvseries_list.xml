@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.movieplayer.ui.tvseries.TVSeriesViewModel" />
+            type="com.beti1205.movieapp.ui.tvseries.TVSeriesViewModel" />
 
     </data>
 

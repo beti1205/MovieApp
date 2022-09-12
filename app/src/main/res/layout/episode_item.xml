@@ -7,7 +7,7 @@
 
         <variable
             name="episode"
-            type="com.example.movieplayer.feature.fetchtvepisodes.data.Episode" />
+            type="com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode" />
 
     </data>
 

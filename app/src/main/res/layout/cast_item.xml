@@ -5,7 +5,7 @@
     <data>
         <variable
             name="cast"
-            type="com.example.movieplayer.feature.fetchcredits.data.Cast" />
+            type="com.beti1205.movieapp.feature.fetchcredits.data.Cast" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

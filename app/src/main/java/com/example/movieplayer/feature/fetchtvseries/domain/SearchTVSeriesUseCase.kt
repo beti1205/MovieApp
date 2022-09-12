@@ -20,6 +20,7 @@ class SearchTVSeriesUseCaseImpl @Inject constructor(
     private val tvSeriesService: TVSeriesService,
     private val appConfig: AppConfig
 ) : SearchTVSeriesUseCase {
+
     override suspend fun invoke(query: String, page: Int): Result<ApiResponse<TVSeries>> {
         return performRequest { tvSeriesService.getSearchedTVSeries(appConfig.apiKey, query, page) }
     }

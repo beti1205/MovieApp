@@ -1,28 +1,28 @@
-package com.example.movieplayer.ui.search.tvseries
+package com.example.movieplayer.ui.tvseries.search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.movieplayer.feature.fetchtvseries.data.SearchTVSeriesPagingSource
 import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
 import com.example.movieplayer.feature.fetchtvseries.domain.SearchTVSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchTVSeriesViewModel @Inject constructor(
-    private val searchTVSeriesUseCase: SearchTVSeriesUseCase
+    private val searchTVSeriesUseCase: SearchTVSeriesUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val queryFlow = MutableStateFlow("")
+    private val queryFlow = savedStateHandle.getStateFlow("tv_query", "")
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val querySearchResults = queryFlow
@@ -42,6 +42,6 @@ class SearchTVSeriesViewModel @Inject constructor(
     }
 
     fun onQueryChanged(query: String) {
-        queryFlow.value = query
+        savedStateHandle["tv_query"] = query
     }
 }

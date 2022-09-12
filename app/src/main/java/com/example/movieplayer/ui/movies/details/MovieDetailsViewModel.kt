@@ -1,4 +1,4 @@
-package com.example.movieplayer.ui.detail
+package com.example.movieplayer.ui.movies.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,13 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val state: SavedStateHandle,
+    state: SavedStateHandle,
     private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase
 ) : ViewModel() {
 
     private val _selectedMovie = state.getLiveData<Movie>("selectedMovie")
-    val selectedMovie: LiveData<Movie>
-        get() = _selectedMovie
+    val selectedMovie: LiveData<Movie> = _selectedMovie
 
     private val _cast = MutableLiveData<List<Cast>>()
     val cast: LiveData<List<Cast>> = _cast

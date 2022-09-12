@@ -4,8 +4,8 @@ import com.example.movieplayer.common.ApiResponse
 import com.example.movieplayer.common.AppConfig
 import com.example.movieplayer.common.Result
 import com.example.movieplayer.common.performRequest
-import com.example.movieplayer.feature.fetchmovies.data.MovieApiService
 import com.example.movieplayer.feature.fetchmovies.data.Movie
+import com.example.movieplayer.feature.fetchmovies.data.MovieApiService
 import javax.inject.Inject
 
 interface SearchMoviesUseCase {

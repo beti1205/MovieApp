@@ -18,6 +18,7 @@ class FetchTVSeriesDetailsUseCaseImpl @Inject constructor(
     private val tvSeriesDetailsService: TVSeriesDetailsService,
     private val appConfig: AppConfig
 ) : FetchTVSeriesDetailsUseCase {
+
     override suspend fun invoke(tvId: Int): Result<TVSeriesDetails> {
         return performRequest { tvSeriesDetailsService.getTVSeriesDetails(tvId, appConfig.apiKey) }
     }

@@ -22,27 +22,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/name"
             tools:srcCompat="@drawable/poster" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{cast.name}"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintEnd_toEndOf="@id/poster"
             app:layout_constraintStart_toStartOf="@id/poster"
-            app:layout_constraintBottom_toTopOf="@id/character"
+            app:layout_constraintTop_toBottomOf="@id/poster"
             tools:text="Name" />
 
         <TextView
             android:id="@+id/character"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{cast.character}"
+            android:paddingTop="8dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintTop_toBottomOf="@+id/name"
             app:layout_constraintEnd_toEndOf="@id/poster"
             app:layout_constraintStart_toStartOf="@id/poster"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Character"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

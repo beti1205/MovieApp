@@ -1,9 +1,10 @@
-package com.example.movieplayer.feature.fetchtvseries.data
+package com.example.movieplayer.ui.tvseries
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movieplayer.common.Result
+import com.example.movieplayer.feature.fetchtvseries.data.TVSeries
 import com.example.movieplayer.feature.fetchtvseries.domain.FetchTVSeriesUseCase
 import com.example.movieplayer.feature.fetchtvseries.domain.TVOrder
 
@@ -11,6 +12,7 @@ class TVSeriesPagingSource(
     val fetchTVSeriesUseCase: FetchTVSeriesUseCase,
     private val tvOrder: TVOrder
 ) : PagingSource<Int, TVSeries>() {
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TVSeries> {
         val nextPageNumber = params.key ?: 1
         val response = fetchTVSeriesUseCase(tvOrder, nextPageNumber)
@@ -28,10 +30,6 @@ class TVSeriesPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, TVSeries>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-
-        }
+        return getTVSeriesRefreshKey(state)
     }
 }

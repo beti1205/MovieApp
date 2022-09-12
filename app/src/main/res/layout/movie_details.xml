@@ -7,17 +7,18 @@
 
         <variable
             name="viewModel"
-            type="com.example.movieplayer.ui.detail.MovieDetailsViewModel" />
+            type="com.example.movieplayer.ui.movies.details.MovieDetailsViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:transitionName="@string/movie_card_detail_transition_name">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -45,8 +46,8 @@
                     android:layout_gravity="center"
                     android:gravity="start"
                     android:text="@{viewModel.selectedMovie.title}"
-                    android:textColor="@color/orange"
-                    android:textSize="22sp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?attr/colorSecondary"
                     app:layout_constraintBottom_toTopOf="@id/releaseData"
                     tools:text="Title" />
 
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:text="@{viewModel.selectedMovie.releaseDate}"
-                    android:textColor="@color/grey"
+                    android:textAppearance="?attr/textAppearanceCaption"
                     app:layout_constraintEnd_toStartOf="@+id/voteAverage"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -72,7 +73,7 @@
                     app:layout_constraintEnd_toStartOf="@id/voteAverage"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:srcCompat="@drawable/ic_baseline_stars_24"
-                    app:tint="@color/orange" />
+                    app:tint="?attr/colorSecondary" />
 
                 <TextView
                     android:id="@+id/voteAverage"
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:text="@{viewModel.selectedMovie.votes}"
-                    android:textSize="18sp"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/releaseData"
@@ -91,8 +92,10 @@
                     android:id="@+id/overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
                     android:paddingBottom="8dp"
                     android:text="@{viewModel.selectedMovie.overview}"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     app:layout_constraintTop_toBottomOf="@id/releaseData"
                     tools:text="About Movie" />
 
@@ -108,19 +111,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="start"
-                    android:text="Cast"
-                    android:textColor="@color/orange"
-                    android:textSize="22sp"
+                    android:text="@string/cast"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?attr/colorSecondary"
                     android:visibility="@{!viewModel.hasError}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider"
                     tools:text="Title" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
+                    android:id="@+id/castRecyclerView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     android:visibility="@{!viewModel.hasError}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -128,14 +130,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cast"
                     app:listCastData="@{viewModel.cast}"
-                    tools:listitem="@layout/movie_item" />
+                    tools:listitem="@layout/cast_item" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/secondDivider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="@{!viewModel.hasError}"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+                    app:layout_constraintTop_toBottomOf="@id/castRecyclerView" />
 
                 <TextView
                     android:id="@+id/crew"
@@ -143,9 +145,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="start"
-                    android:text="Crew"
-                    android:textColor="@color/orange"
-                    android:textSize="22sp"
+                    android:text="@string/crew"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?attr/colorSecondary"
                     android:visibility="@{!viewModel.hasError}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/secondDivider"
@@ -155,7 +157,6 @@
                     android:id="@+id/crewRecyclerView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     android:visibility="@{!viewModel.hasError}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -164,32 +165,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/crew"
                     app:listCrewData="@{viewModel.crew}"
-                    tools:listitem="@layout/movie_item" />
+                    tools:listitem="@layout/crew_item" />
 
                 <ImageView
-                    android:id="@+id/empty_state"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:id="@+id/emptyState"
+                    style="@style/EmptyStateIcon"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:visibility="@{viewModel.hasError}"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/error_image"
-                    app:tint="@color/grey" />
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    app:srcCompat="@drawable/ic_baseline_broken_image_24" />
 
                 <TextView
-                    android:id="@+id/empty_state_message"
+                    android:id="@+id/emptyStateMessage"
+                    style="@style/EmptyStateText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="Error"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="@color/grey"
+                    android:text="@string/connection_error_message"
                     android:visibility="@{viewModel.hasError}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/empty_state" />
+                    app:layout_constraintTop_toBottomOf="@id/emptyState" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

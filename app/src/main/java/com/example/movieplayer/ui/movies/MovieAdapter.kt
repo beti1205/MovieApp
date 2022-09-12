@@ -6,8 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.movieplayer.feature.fetchmovies.data.Movie
 
-class MovieAdapter(private val onClick: (view: View, movie: Movie) -> Unit) :
-    PagingDataAdapter<Movie, MovieViewHolder>(MovieDiffCallback()) {
+class MovieAdapter(
+    private val onClick: (view: View, movie: Movie) -> Unit
+) : PagingDataAdapter<Movie, MovieViewHolder>(MovieDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder.from(parent)

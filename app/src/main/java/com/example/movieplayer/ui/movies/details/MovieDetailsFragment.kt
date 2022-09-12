@@ -1,4 +1,4 @@
-package com.example.movieplayer.ui.details.movie
+package com.example.movieplayer.ui.movies.details
 
 import android.graphics.Color
 import android.os.Bundle
@@ -18,6 +18,10 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details) {
     private val viewModel: MovieDetailsViewModel by viewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
 
+    companion object {
+        const val DURATION = 300L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,7 +29,7 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details) {
             drawingViewId = R.id.myNavHostFragment
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
-            duration = 300
+            duration = DURATION
         }
     }
 
@@ -33,12 +37,13 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding: MovieDetailsBinding = MovieDetailsBinding.bind(requireView())
+        val movie = args.selectedMovie
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.castRecyclerView.adapter = CastAdapter()
         binding.crewRecyclerView.adapter = CrewAdapter()
 
-        val movie = args.selectedMovie
         viewModel.fetchCredits(movie.id)
     }
 }

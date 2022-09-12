@@ -15,19 +15,22 @@ data class Cast(
     val id: Int,
     val name: String,
     val popularity: Double,
+    val character: String,
+
     @Json(name = "profile_path")
-    val path: String?,
-    val character: String
+    val path: String?
 )
 
 @JsonClass(generateAdapter = true)
 data class Crew(
     val id: Int,
-    @Json(name = "known_for_department")
-    val department: String,
     val name: String,
     val popularity: Double,
+    val job: String,
+
+    @Json(name = "known_for_department")
+    val department: String,
+
     @Json(name = "profile_path")
-    val path: String?,
-    val job: String
+    val path: String?
 )

@@ -20,40 +20,51 @@ class FetchMovieCreditsUseCaseImpl @Inject constructor(
     private val creditsService: CreditsService,
     private val appConfig: AppConfig
 ) : FetchMovieCreditsUseCase {
+
     override suspend fun invoke(id: Int): Result<Credits> {
-        val result = performRequest { creditsService.getMovieCredits(id, appConfig.apiKey) }
+        val result = performRequest {
+            creditsService.getMovieCredits(id, appConfig.apiKey)
+        }
 
         return when (result) {
             is Result.Success -> Result.Success(
                 result.data.copy(
-                    crew = result.data.crew
-                        .groupBy { person -> person.id }
-                        .map { entry ->
-                            val firstRole = entry.value.first()
-                            Crew(
-                                id = entry.key,
-                                department = entry.value.joinToString { it.department },
-                                name = firstRole.name,
-                                popularity = firstRole.popularity,
-                                path = firstRole.path,
-                                job = entry.value.joinToString { it.job }
-                            )
-                        },
-                    cast = result.data.cast
-                        .groupBy { person -> person.id }
-                        .map { entry ->
-                            val firstRole = entry.value.first()
-                            Cast(
-                                id = entry.key,
-                                name = firstRole.name,
-                                popularity = firstRole.popularity,
-                                path = firstRole.path,
-                                character = entry.value.joinToString { it.character }
-                            )
-                        }
+                    crew = getTransformedCrewList(result),
+                    cast = getTransformedCastList(result)
                 )
             )
             is Result.Error -> result
         }
     }
+
+    private fun getTransformedCastList(
+        result: Result.Success<Credits>
+    ) = result.data.cast
+        .groupBy { person -> person.id }
+        .map { entry ->
+            val firstRole = entry.value.first()
+            Cast(
+                id = entry.key,
+                name = firstRole.name,
+                popularity = firstRole.popularity,
+                path = firstRole.path,
+                character = entry.value.joinToString { it.character }
+            )
+        }
+
+    private fun getTransformedCrewList(
+        result: Result.Success<Credits>
+    ) = result.data.crew
+        .groupBy { person -> person.id }
+        .map { entry ->
+            val firstRole = entry.value.first()
+            Crew(
+                id = entry.key,
+                department = entry.value.joinToString { it.department },
+                name = firstRole.name,
+                popularity = firstRole.popularity,
+                path = firstRole.path,
+                job = entry.value.joinToString { it.job }
+            )
+        }
 }

@@ -1,4 +1,4 @@
-package com.example.movieplayer.ui.search.tvseries
+package com.example.movieplayer.ui.tvseries.search
 
 import android.os.Bundle
 import android.view.View
@@ -30,13 +30,17 @@ class SearchTVSeriesFragment : Fragment(R.layout.search_list) {
 
     private val viewModel: SearchTVSeriesViewModel by viewModels()
 
+    companion object {
+        const val DURATION = 300L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exitTransition = MaterialElevationScale(false).apply {
-            duration = 300
+            duration = DURATION
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = 300
+            duration = DURATION
         }
     }
 
@@ -49,27 +53,20 @@ class SearchTVSeriesFragment : Fragment(R.layout.search_list) {
         }
 
         val binding: SearchListBinding = SearchListBinding.bind(requireView())
-
         binding.lifecycleOwner = viewLifecycleOwner
-
-        binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
-
-        val tvSeriesAdapter = TVSeriesAdapter { itemView, tvSeries ->
-            val extras = FragmentNavigatorExtras(
-                itemView to getString(R.string.tv_card_detail_transition_name)
-            )
-            findNavController().navigate(
-                SearchTVSeriesFragmentDirections.actionSearchTvSeriesFragmentToTVSeriesDetailsFragment(
-                    tvSeries
-                ),
-                extras
-            )
-        }
-        binding.searchRecyclerView.adapter = tvSeriesAdapter
 
         val activity = activity as? MainActivity
         val actionBar = activity?.supportActionBar
         actionBar?.title = null
+
+        val tvSeriesAdapter = TVSeriesAdapter { itemView, tvSeries ->
+            navigateToTvSeriesDetails(itemView, tvSeries)
+        }
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        binding.searchRecyclerView.adapter = tvSeriesAdapter
+
+        view.doOnPreDraw { startPostponedEnterTransition() }
+        postponeEnterTransition()
 
         activity?.searchEditText?.apply {
             requestFocus()

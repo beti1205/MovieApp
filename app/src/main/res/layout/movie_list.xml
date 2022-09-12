@@ -14,16 +14,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp">
+        android:layout_height="match_parent">
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
+            android:id="@+id/chipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/recycler_view"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:checkedChip="@+id/popular"
+            app:layout_constraintBottom_toTopOf="@id/movieRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,16 +34,13 @@
                 style="@style/ChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:color="?attr/colorPrimaryVariant"
                 android:text="@string/movie_order_popular" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/top_rated"
+                android:id="@+id/topRated"
                 style="@style/ChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:color="?attr/colorPrimaryVariant"
                 android:text="@string/movie_order_top_rated" />
 
             <com.google.android.material.chip.Chip
@@ -51,30 +48,31 @@
                 style="@style/ChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:color="?attr/colorPrimaryVariant"
                 android:text="@string/movie_order_upcoming" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/now_playing"
+                android:id="@+id/nowPlaying"
                 style="@style/ChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:color="?attr/colorPrimaryVariant"
                 android:text="@string/movie_order_now_playing" />
 
         </com.google.android.material.chip.ChipGroup>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/movieRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:visibility="visible"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:transitionGroup="true"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/errorView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/chip_group"
+            app:layout_constraintTop_toBottomOf="@id/chipGroup"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/movie_item" />
 

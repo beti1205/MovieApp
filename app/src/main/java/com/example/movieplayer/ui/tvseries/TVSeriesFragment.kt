@@ -1,15 +1,11 @@
 package com.example.movieplayer.ui.tvseries
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.edit
-import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -38,16 +34,13 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding: TvseriesListBinding = TvseriesListBinding.bind(requireView())
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        postponeEnterTransition()
 
         val tvSeriesAdapter = TVSeriesAdapter { itemView, tvSeries ->
-            val extras = FragmentNavigatorExtras(
-                itemView to getString(R.string.tv_card_detail_transition_name)
-            )
-
-            findNavController().navigate(
-                TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeries),
-                extras
-            )
+            navigateToTvSeriesDetails(itemView, tvSeries)
         }
         binding.tvSeriesRecyclerView.adapter = tvSeriesAdapter
         binding.tvSeriesRecyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -63,12 +56,7 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
         }
 
         val savedOrder = restoreOrder()
-        val selectedChipId = when (savedOrder) {
-            TVOrder.TOP_RATED -> R.id.topRated
-            TVOrder.ON_THE_AIR -> R.id.on_the_air
-            TVOrder.AIRING_TODAY -> R.id.airing_today
-            else -> R.id.popular
-        }
+        val selectedChipId = getSelectedChipId(savedOrder)
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
 
@@ -102,9 +90,9 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
             else -> TVOrder.POPULAR
         }
 
-            viewModel.onOrderChanged(order)
-            saveOrder(order)
-        }
+        viewModel.onOrderChanged(order)
+        saveOrder(order)
+    }
 
     private fun finishTransition(view: View) {
         view.doOnPreDraw { startPostponedEnterTransition() }
@@ -112,29 +100,36 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
 
     private fun addMenuProvider() {
         activity?.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.appbar_menu, menu)
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    when (menuItem.itemId) {
-                        R.id.search_item -> findNavController().navigate(
-                            TVSeriesFragmentDirections.actionTVSeriesFragmentToSearchTvSeriesFragment()
-                        )
-                    }
-                    return true
-                }
+            TVSeriesMenuProvider {
+                findNavController().navigate(
+                    TVSeriesFragmentDirections.actionTVSeriesFragmentToSearchTvSeriesFragment()
+                )
             },
             viewLifecycleOwner,
-            Lifecycle.State.RESUMED
+            Lifecycle.State.STARTED
         )
+    }
 
-        tvSeriesAdapter.addOnPagesUpdatedListener {
-            view.doOnPreDraw { startPostponedEnterTransition() }
+    private fun getSelectedChipId(savedOrder: TVOrder) =
+        when (savedOrder) {
+            TVOrder.TOP_RATED -> R.id.topRated
+            TVOrder.ON_THE_AIR -> R.id.onTheAir
+            TVOrder.AIRING_TODAY -> R.id.airingToday
+            else -> R.id.popular
         }
 
-        postponeEnterTransition()
+    private fun navigateToTvSeriesDetails(
+        itemView: View,
+        tvSeries: TVSeries
+    ) {
+        val extras = FragmentNavigatorExtras(
+            itemView to getString(R.string.tv_card_detail_transition_name)
+        )
+
+        findNavController().navigate(
+            TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeries),
+            extras
+        )
     }
 
     private fun saveOrder(order: TVOrder) {

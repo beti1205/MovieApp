@@ -1,4 +1,4 @@
-package com.example.movieplayer.feature.fetchmovies.data
+package com.example.movieplayer.ui.movies.search
 
 import android.util.Log
 import androidx.paging.PagingSource

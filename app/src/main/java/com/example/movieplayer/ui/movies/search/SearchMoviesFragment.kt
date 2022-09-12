@@ -1,4 +1,4 @@
-package com.example.movieplayer.ui.search.movies
+package com.example.movieplayer.ui.movies.search
 
 import android.os.Bundle
 import android.view.View
@@ -31,13 +31,17 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
 
     private val viewModel: SearchMoviesViewModel by viewModels()
 
+    companion object {
+        const val DURATION = 300L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exitTransition = MaterialElevationScale(false).apply {
-            duration = 300
+            duration = DURATION
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = 300
+            duration = DURATION
         }
     }
 
@@ -50,14 +54,16 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
         }
 
         val binding: SearchListBinding = SearchListBinding.bind(requireView())
-
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        val activity = activity as? MainActivity
+        val actionBar = activity?.supportActionBar
+        actionBar?.title = null
 
         val movieAdapter = MovieAdapter { itemView, movie ->
             navigateToMovieDetails(itemView, movie)
         }
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding.searchRecyclerView.adapter = movieAdapter
 
         movieAdapter.addLoadStateListener { states ->
@@ -69,10 +75,6 @@ class SearchMoviesFragment : Fragment(R.layout.search_list) {
             finishTransition(view)
         }
         postponeEnterTransition()
-
-        val activity = activity as? MainActivity
-        val actionBar = activity?.supportActionBar
-        actionBar?.title = null
 
         activity?.searchEditText?.apply {
             requestFocus()

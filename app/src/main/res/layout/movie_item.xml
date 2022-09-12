@@ -11,14 +11,15 @@
         <variable
             name="movie"
             type="com.example.movieplayer.feature.fetchmovies.data.Movie" />
+
         <variable
             name="onClick"
             type="Function2&lt;android.view.View, com.example.movieplayer.feature.fetchmovies.data.Movie, Unit>" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/item"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -37,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingStart="16dp"
-                android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
                 android:text="@{movie.title}"
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceSubtitle2"

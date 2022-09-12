@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tvGraph"
+    app:startDestination="@id/TVSeriesFragment">
+
+    <fragment
+        android:id="@+id/TVSeriesFragment"
+        android:name="com.example.movieplayer.ui.tvseries.TVSeriesFragment"
+        android:label="@string/tv_series_label">
+
+        <action
+            android:id="@+id/action_TVSeriesFragment_to_searchTvSeriesFragment"
+            app:destination="@id/searchTvSeriesFragment" />
+
+        <action
+            android:id="@+id/action_TVSeriesFragment_to_TVSeriesDetailsFragment"
+            app:destination="@id/TVSeriesDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchTvSeriesFragment"
+        android:name="com.example.movieplayer.ui.tvseries.search.SearchTVSeriesFragment"
+        android:label="@string/search_tv_label">
+
+        <action
+            android:id="@+id/action_searchTvSeriesFragment_to_TVSeriesDetailsFragment"
+            app:destination="@id/TVSeriesDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/TVSeriesDetailsFragment"
+        android:name="com.example.movieplayer.ui.tvseries.details.TVSeriesDetailsFragment"
+        android:label="@string/tv_details_label">
+
+        <argument
+            android:name="selectedTVSeries"
+            app:argType="com.example.movieplayer.feature.fetchtvseries.data.TVSeries" />
+
+    </fragment>
+
+</navigation>

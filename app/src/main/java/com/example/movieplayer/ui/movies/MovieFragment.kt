@@ -1,16 +1,11 @@
 package com.example.movieplayer.ui.movies
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.core.content.edit
-import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -33,31 +28,22 @@ class MovieFragment : Fragment(R.layout.movie_list) {
     @Inject
     lateinit var preferences: Preferences
 
-    private val sharedPreferences: SharedPreferences? by lazy {
-        activity?.getPreferences(Context.MODE_PRIVATE)
-    }
+    private val viewModel: MovieViewModel by hiltNavGraphViewModels(R.id.moviesGraph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding: MovieListBinding = MovieListBinding.bind(requireView())
-
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.movieRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        postponeEnterTransition()
 
         val movieAdapter = MovieAdapter { itemView, movie ->
-            val extras = FragmentNavigatorExtras(
-                itemView to getString(R.string.movie_card_detail_transition_name)
-            )
-            findNavController().navigate(
-                MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(
-                    movie
-                ),
-                extras
-            )
+            navigateToMovieDetails(itemView, movie)
         }
+
+        binding.movieRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding.movieRecyclerView.adapter = movieAdapter
 
         movieAdapter.addLoadStateListener { states ->
@@ -70,12 +56,7 @@ class MovieFragment : Fragment(R.layout.movie_list) {
         }
 
         val savedOrder = restoreOrder()
-        val selectedChipId = when (savedOrder) {
-            MovieOrder.TOP_RATED -> R.id.topRated
-            MovieOrder.UPCOMING -> R.id.upcoming
-            MovieOrder.NOW_PLAYING -> R.id.nowPlaying
-            else -> R.id.popular
-        }
+        val selectedChipId = getSelectedChipId(savedOrder)
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
 
@@ -122,21 +103,35 @@ class MovieFragment : Fragment(R.layout.movie_list) {
             else -> MovieOrder.POPULAR
         }
 
-            viewModel.onOrderChanged(order)
-            saveOrder(order)
-        }
+        viewModel.onOrderChanged(order)
+        saveOrder(order)
+    }
 
-        activity?.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.appbar_menu, menu)
-                }
+    private fun getSelectedChipId(savedOrder: MovieOrder) =
+        when (savedOrder) {
+            MovieOrder.TOP_RATED -> R.id.topRated
+            MovieOrder.UPCOMING -> R.id.upcoming
+            MovieOrder.NOW_PLAYING -> R.id.nowPlaying
+            else -> R.id.popular
+        }
 
     private fun finishTransition(view: View) {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
-        postponeEnterTransition()
+    private fun navigateToMovieDetails(
+        itemView: View,
+        movie: Movie
+    ) {
+        val extras = FragmentNavigatorExtras(
+            itemView to getString(R.string.movie_card_detail_transition_name)
+        )
+        findNavController().navigate(
+            MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(
+                movie
+            ),
+            extras
+        )
     }
 
     private fun saveOrder(order: MovieOrder) {

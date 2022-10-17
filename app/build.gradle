@@ -9,18 +9,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.beti1205.movieapp"
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        println System.getenv()
         def apiKey = System.getenv("API_KEY")
         buildConfigField "String", "API_KEY", "\"$apiKey\""
     }
@@ -43,11 +42,17 @@ android {
         dataBinding true
         viewBinding true
     }
+
+    testOptions.unitTests {
+        includeAndroidResources = true
+        returnDefaultValues = true
+    }
+    namespace 'com.beti1205.movieapp'
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:1.8.0"
-    implementation "androidx.appcompat:appcompat:1.5.0"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.appcompat:appcompat:1.5.1"
     implementation "com.google.android.material:material:1.6.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
@@ -55,13 +60,17 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
     implementation "com.squareup.moshi:moshi:$version_moshi"
     kapt"com.squareup.moshi:moshi-kotlin-codegen:$version_moshi"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
@@ -80,11 +89,9 @@ dependencies {
     kapt"com.google.dagger:hilt-android-compiler:$version_hilt"
     implementation"androidx.hilt:hilt-navigation-fragment:1.0.0"
 
-
     implementation "androidx.paging:paging-runtime-ktx:$version_paging"
 
     implementation"io.coil-kt:coil:2.1.0"
-
 }
 
 kapt {

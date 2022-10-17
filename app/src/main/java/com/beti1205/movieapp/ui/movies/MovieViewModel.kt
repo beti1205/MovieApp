@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
+import com.beti1205.movieapp.ui.common.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -19,11 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val fetchMoviesUseCase: FetchMoviesUseCase
+    private val fetchMoviesUseCase: FetchMoviesUseCase,
+    private val preferences: Preferences
 ) : ViewModel() {
 
     private val _order: MutableStateFlow<MovieOrder> = MutableStateFlow(MovieOrder.POPULAR)
-    private val order = _order.asStateFlow()
+    val order = _order.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val movies: Flow<PagingData<Movie>> = order.flatMapLatest { order ->
@@ -34,7 +36,12 @@ class MovieViewModel @Inject constructor(
         }.flow
     }.cachedIn(viewModelScope)
 
+    init {
+        _order.value = MovieOrder.from(preferences.movieOrder)
+    }
+
     fun onOrderChanged(order: MovieOrder) {
         _order.value = order
+        preferences.movieOrder = order.ordinal
     }
 }

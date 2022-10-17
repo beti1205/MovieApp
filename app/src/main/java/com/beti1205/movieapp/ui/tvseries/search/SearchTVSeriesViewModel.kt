@@ -23,7 +23,7 @@ class SearchTVSeriesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val queryFlow = savedStateHandle.getStateFlow("tv_query", "")
+    val queryFlow = savedStateHandle.getStateFlow("tv_query", "")
 
     companion object {
         private const val TIMEOUT = 300L

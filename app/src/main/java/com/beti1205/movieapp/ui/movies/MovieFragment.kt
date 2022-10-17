@@ -15,18 +15,13 @@ import com.beti1205.movieapp.R
 import com.beti1205.movieapp.databinding.MovieListBinding
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
-import com.beti1205.movieapp.ui.common.Preferences
 import com.beti1205.movieapp.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieFragment : Fragment(R.layout.movie_list) {
-
-    @Inject
-    lateinit var preferences: Preferences
 
     private val viewModel: MovieViewModel by hiltNavGraphViewModels(R.id.moviesGraph)
 
@@ -55,7 +50,7 @@ class MovieFragment : Fragment(R.layout.movie_list) {
             finishTransition(view)
         }
 
-        val savedOrder = restoreOrder()
+        val savedOrder = viewModel.order.value
         val selectedChipId = getSelectedChipId(savedOrder)
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
@@ -104,7 +99,6 @@ class MovieFragment : Fragment(R.layout.movie_list) {
         }
 
         viewModel.onOrderChanged(order)
-        saveOrder(order)
     }
 
     private fun getSelectedChipId(savedOrder: MovieOrder) =
@@ -133,10 +127,4 @@ class MovieFragment : Fragment(R.layout.movie_list) {
             extras
         )
     }
-
-    private fun saveOrder(order: MovieOrder) {
-        preferences.movieOrder = order.ordinal
-    }
-
-    private fun restoreOrder(): MovieOrder = MovieOrder.from(preferences.movieOrder)
 }

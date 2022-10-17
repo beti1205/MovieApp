@@ -13,6 +13,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -41,6 +43,17 @@ object CoreModule {
         OkHttpClient.Builder().addInterceptor(
             interceptor
         ).build()
+
+    @Provides
+    fun provideRetrofit(
+        client: OkHttpClient,
+        moshi: Moshi,
+        appConfig: AppConfig
+    ): Retrofit = Retrofit.Builder()
+        .client(client)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(appConfig.baseUrl)
+        .build()
 
     @Singleton
     @Provides

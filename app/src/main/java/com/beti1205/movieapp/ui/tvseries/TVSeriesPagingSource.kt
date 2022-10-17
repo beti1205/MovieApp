@@ -7,6 +7,7 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.FetchTVSeriesUseCase
 import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.ui.common.getNextPageKey
 
 class TVSeriesPagingSource(
     val fetchTVSeriesUseCase: FetchTVSeriesUseCase,
@@ -20,7 +21,7 @@ class TVSeriesPagingSource(
             is Result.Success -> LoadResult.Page(
                 data = response.data.items,
                 prevKey = null,
-                nextKey = response.data.page?.plus(1)
+                nextKey = response.data.getNextPageKey()
             )
             is Result.Error -> {
                 Log.d("TVSeriesPagingSource", response.message.toString())

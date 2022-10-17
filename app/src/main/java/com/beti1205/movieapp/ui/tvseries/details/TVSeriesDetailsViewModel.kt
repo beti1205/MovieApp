@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
@@ -15,9 +14,11 @@ import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Genre
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.domain.FetchTVSeriesDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,13 +44,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _hasError = MutableLiveData<Boolean>(false)
     val hasError: LiveData<Boolean> = _hasError
 
-    private val selectedSeasonPosition = MutableLiveData<Int>()
+    private val selectedSeasonPosition = MutableStateFlow<Int>(0)
 
-    val selectedSeason: LiveData<Season?> = selectedSeasonPosition
-        .map { position -> seasons.value?.get(position) }
+    val selectedSeason: StateFlow<Season?> = selectedSeasonPosition
+        .mapNotNull { position -> seasons.value?.get(position) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
 
     val episodes: StateFlow<List<Episode>> = selectedTVSeries.asFlow()
-        .combine(selectedSeason.asFlow()) { tvSeries, season ->
+        .combine(selectedSeason) { tvSeries, season ->
             if (season == null) {
                 return@combine emptyList()
             }

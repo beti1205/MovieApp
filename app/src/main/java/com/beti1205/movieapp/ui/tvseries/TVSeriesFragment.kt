@@ -15,18 +15,13 @@ import com.beti1205.movieapp.R
 import com.beti1205.movieapp.databinding.TvseriesListBinding
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
-import com.beti1205.movieapp.ui.common.Preferences
 import com.beti1205.movieapp.ui.common.getErrorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
-
-    @Inject
-    lateinit var preferences: Preferences
 
     private val viewModel: TVSeriesViewModel by hiltNavGraphViewModels(R.id.tvGraph)
 
@@ -55,7 +50,7 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
             finishTransition(view)
         }
 
-        val savedOrder = restoreOrder()
+        val savedOrder = viewModel.order.value
         val selectedChipId = getSelectedChipId(savedOrder)
         binding.chipGroup.check(selectedChipId)
         viewModel.onOrderChanged(savedOrder)
@@ -91,7 +86,6 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
         }
 
         viewModel.onOrderChanged(order)
-        saveOrder(order)
     }
 
     private fun finishTransition(view: View) {
@@ -131,10 +125,4 @@ class TVSeriesFragment : Fragment(R.layout.tvseries_list) {
             extras
         )
     }
-
-    private fun saveOrder(order: TVOrder) {
-        preferences.tvOrder = order.ordinal
-    }
-
-    private fun restoreOrder(): TVOrder = TVOrder.from(preferences.tvOrder)
 }

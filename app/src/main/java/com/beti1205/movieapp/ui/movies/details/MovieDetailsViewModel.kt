@@ -32,6 +32,10 @@ class MovieDetailsViewModel @Inject constructor(
     private val _hasError = MutableLiveData<Boolean>(false)
     val hasError: LiveData<Boolean> = _hasError
 
+    init {
+        _selectedMovie.value?.let { fetchCredits(it.id) }
+    }
+
     fun fetchCredits(id: Int) {
         viewModelScope.launch {
             val result = fetchMovieCreditsUseCase(id)

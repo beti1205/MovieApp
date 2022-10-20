@@ -17,7 +17,6 @@ object MovieDataProvider {
             posterPath = "/spCAxD99U1A6jsiePFoqdEcY0dG.jpg",
             originalTitle = "Fall",
             releaseDate = "2022-08-11"
-
         )
     )
     val apiResponse = ApiResponse(page = 1, totalResults = 1, totalPages = 1, movies)

@@ -2,8 +2,8 @@ package com.beti1205.movieapp.feature.fetchmovies.domain
 
 enum class MovieOrder {
     POPULAR,
-    UPCOMING,
     TOP_RATED,
+    UPCOMING,
     NOW_PLAYING;
 
     companion object {
@@ -14,5 +14,7 @@ enum class MovieOrder {
 
             return values().find { it.ordinal == value } ?: POPULAR
         }
+
+        fun availableValues(): List<MovieOrder> = values().toList()
     }
 }

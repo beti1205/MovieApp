@@ -1,14 +1,20 @@
 package com.beti1205.movieapp.ui.movies.details.widget
 
+import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
+import com.beti1205.movieapp.ui.movies.details.CreditsPreviewDataProvider
+import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun CrewList(
@@ -16,7 +22,11 @@ fun CrewList(
     modifier: Modifier = Modifier
 ) {
     if (crew != null) {
-        LazyRow(modifier = modifier.padding(16.dp)) {
+        LazyRow(
+            modifier = modifier
+                .padding(16.dp)
+                .animateContentSize()
+        ) {
             itemsIndexed(
                 items = crew,
                 key = { _, item -> item.id }
@@ -33,6 +43,20 @@ fun CrewList(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun CrewListPreview() {
+    MovieAppTheme {
+        Surface {
+            CrewList(crew = CreditsPreviewDataProvider.crew)
         }
     }
 }

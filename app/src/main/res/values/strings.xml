@@ -33,4 +33,5 @@
     <string name="search_tv_label">Search Tv Series</string>
     <string name="connection_error_message">Whoops! We\'re having difficulty connecting to the server. Check your connection or try again later.</string>
     <string name="season_hint_label">Season</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

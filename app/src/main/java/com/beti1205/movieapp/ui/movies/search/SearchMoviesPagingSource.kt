@@ -8,7 +8,7 @@ import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.SearchMoviesUseCase
 import com.beti1205.movieapp.ui.common.TooShortQueryException
 import com.beti1205.movieapp.ui.common.getNextPageKey
-import com.beti1205.movieapp.ui.movies.getMovieRefreshKey
+import com.beti1205.movieapp.ui.movies.common.getMovieRefreshKey
 
 class SearchMoviesPagingSource(
     val searchMoviesUseCase: SearchMoviesUseCase,

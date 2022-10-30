@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies
+package com.beti1205.movieapp.ui.movies.common
 
 import androidx.paging.PagingState
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie

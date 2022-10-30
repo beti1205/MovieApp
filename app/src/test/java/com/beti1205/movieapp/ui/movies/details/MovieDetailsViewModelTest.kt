@@ -16,7 +16,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,17 +31,13 @@ class MovieDetailsViewModelTest {
     private lateinit var viewModel: MovieDetailsViewModel
     private val fetchMovieCreditsUseCase = mockk<FetchMovieCreditsUseCase>()
 
-    @Before
-    fun setup() {
+    @Test
+    fun fetchCredits_successful() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns Result.Success(credits)
         viewModel = MovieDetailsViewModel(
             SavedStateHandle(mapOf("selectedMovie" to movie)),
             fetchMovieCreditsUseCase
         )
-    }
-
-    @Test
-    fun fetchCredits_successful() = runTest {
-        coEvery { fetchMovieCreditsUseCase(any()) } returns Result.Success(credits)
 
         viewModel.fetchCredits(1)
 
@@ -54,6 +49,10 @@ class MovieDetailsViewModelTest {
     @Test
     fun fetchCredits_failure() = runTest {
         coEvery { fetchMovieCreditsUseCase(any()) } returns Result.Error(Exception())
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovie" to movie)),
+            fetchMovieCreditsUseCase
+        )
 
         viewModel.fetchCredits(1)
         advanceUntilIdle()
@@ -63,6 +62,12 @@ class MovieDetailsViewModelTest {
 
     @Test
     fun verifyThatSelectedMovieWasSet() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns Result.Success(credits)
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovie" to movie)),
+            fetchMovieCreditsUseCase
+        )
+
         assertEquals(movie, viewModel.selectedMovie.value)
     }
 

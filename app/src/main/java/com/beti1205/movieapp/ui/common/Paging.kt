@@ -4,6 +4,7 @@ import androidx.core.view.isVisible
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
+import androidx.paging.compose.LazyPagingItems
 import androidx.recyclerview.widget.RecyclerView
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.databinding.SearchListBinding
@@ -42,6 +43,22 @@ private fun <T : Any, VH : RecyclerView.ViewHolder> CombinedLoadStates.isListEmp
     adapter: PagingDataAdapter<T, VH>
 ) = refresh is LoadState.NotLoading && adapter.itemCount == 0
 
-private fun CombinedLoadStates.isQueryTooShort(): Boolean {
+fun CombinedLoadStates.isQueryTooShort(): Boolean {
     return (source.refresh as? LoadState.Error)?.error == TooShortQueryException
+}
+
+fun <T : Any> LazyPagingItems<T>.isQueryTooShort(): Boolean {
+    return (loadState.source.refresh as? LoadState.Error)?.error == TooShortQueryException
+}
+
+fun <T : Any> LazyPagingItems<T>.isListEmpty(): Boolean {
+    return loadState.refresh is LoadState.NotLoading && itemCount == 0
+}
+
+fun <T : Any> LazyPagingItems<T>.hasError(): Boolean {
+    return loadState.source.refresh is LoadState.Error
+}
+
+fun <T : Any> LazyPagingItems<T>.isLoading(): Boolean {
+    return loadState.source.refresh is LoadState.Loading
 }

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/moviesGraph"
     app:startDestination="@id/movieFragment">
 
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.beti1205.movieapp.ui.movies.MovieFragment"
-        android:label="@string/movies_label"
-        tools:layout="@layout/movie_list">
+        android:name="com.beti1205.movieapp.ui.movies.list.MovieFragment"
+        android:label="@string/movies_label">
 
         <action
             android:id="@+id/action_movieFragment_to_movieDetailsFragment"
@@ -24,8 +22,7 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.beti1205.movieapp.ui.movies.details.MovieDetailsFragment"
-        android:label="@string/movie_details_label"
-        tools:layout="@layout/movie_details">
+        android:label="@string/movie_details_label">
 
         <argument
             android:name="selectedMovie"

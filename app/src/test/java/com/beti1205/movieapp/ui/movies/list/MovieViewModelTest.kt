@@ -1,15 +1,20 @@
-package com.beti1205.movieapp.ui.movies
+package com.beti1205.movieapp.ui.movies.list
 
-import android.os.Build
+import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
 import com.beti1205.movieapp.ui.common.Preferences
+import com.beti1205.movieapp.ui.movies.MovieDataProvider
+import com.beti1205.movieapp.ui.movies.MovieDiffCallback
+import com.beti1205.movieapp.ui.movies.NoopListCallback
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,14 +22,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.R])
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieViewModelTest {
 
@@ -34,23 +35,37 @@ class MovieViewModelTest {
     private lateinit var viewModel: MovieViewModel
     private val fetchMoviesUseCase = mockk<FetchMoviesUseCase>()
     private val preferences = mockk<Preferences>()
+    private lateinit var differ: AsyncPagingDataDiffer<Movie>
+
+    @Before
+    fun setup() {
+        differ = AsyncPagingDataDiffer(
+            diffCallback = MovieDiffCallback(),
+            updateCallback = NoopListCallback(),
+            workerDispatcher = Dispatchers.Main
+        )
+    }
 
     @Test
     fun fetchMovies_successful() = runTest {
-        coEvery { fetchMoviesUseCase(any(), any()) } returns Result.Success(MovieDataProvider.apiResponse)
+        coEvery {
+            fetchMoviesUseCase(
+                any(),
+                any()
+            )
+        } returns Result.Success(MovieDataProvider.apiResponse)
         every { preferences.movieOrder } returns -1
 
         viewModel = MovieViewModel(fetchMoviesUseCase, preferences)
-        val adapter = MovieAdapter(onClick = { _, _ -> })
         val expectedMovieList = MovieDataProvider.movies
         val job = launch {
             viewModel.movies.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
         advanceUntilIdle()
 
-        assertEquals(expectedMovieList, adapter.snapshot())
+        assertEquals(expectedMovieList, differ.snapshot().items)
 
         job.cancel()
     }
@@ -61,15 +76,14 @@ class MovieViewModelTest {
         every { preferences.movieOrder } returns -1
 
         viewModel = MovieViewModel(fetchMoviesUseCase, preferences)
-        val adapter = MovieAdapter(onClick = { _, _ -> })
         val job = launch {
             viewModel.movies.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
         advanceUntilIdle()
 
-        assertTrue(adapter.snapshot().isEmpty())
+        assertTrue(differ.snapshot().items.isEmpty())
 
         job.cancel()
     }

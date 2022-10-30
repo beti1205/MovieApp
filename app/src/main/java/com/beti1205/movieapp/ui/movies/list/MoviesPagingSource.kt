@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies
+package com.beti1205.movieapp.ui.movies.list
 
 import android.util.Log
 import androidx.paging.PagingSource
@@ -8,6 +8,7 @@ import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
 import com.beti1205.movieapp.ui.common.getNextPageKey
+import com.beti1205.movieapp.ui.movies.common.getMovieRefreshKey
 
 class MoviesPagingSource(
     val fetchMoviesUseCase: FetchMoviesUseCase,

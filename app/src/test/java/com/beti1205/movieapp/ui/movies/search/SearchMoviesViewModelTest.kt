@@ -1,14 +1,17 @@
 package com.beti1205.movieapp.ui.movies.search
 
-import android.os.Build
 import androidx.lifecycle.SavedStateHandle
+import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.SearchMoviesUseCase
-import com.beti1205.movieapp.ui.movies.MovieAdapter
 import com.beti1205.movieapp.ui.movies.MovieDataProvider
+import com.beti1205.movieapp.ui.movies.MovieDiffCallback
+import com.beti1205.movieapp.ui.movies.NoopListCallback
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -16,14 +19,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.R])
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchMoviesViewModelTest {
 
@@ -32,6 +31,16 @@ class SearchMoviesViewModelTest {
 
     private lateinit var viewModel: SearchMoviesViewModel
     private val searchMoviesUseCase = mockk<SearchMoviesUseCase>()
+    private lateinit var differ: AsyncPagingDataDiffer<Movie>
+
+    @Before
+    fun setup() {
+        differ = AsyncPagingDataDiffer(
+            diffCallback = MovieDiffCallback(),
+            updateCallback = NoopListCallback(),
+            workerDispatcher = Dispatchers.Main
+        )
+    }
 
     @Test
     fun fetchSearchedMovies_successful() = runTest {
@@ -42,17 +51,16 @@ class SearchMoviesViewModelTest {
             searchMoviesUseCase,
             SavedStateHandle(mapOf("query" to query))
         )
-        val adapter = MovieAdapter(onClick = { _, _ -> })
         val expectedMovieList = MovieDataProvider.apiResponse.items
         val job = launch {
             viewModel.querySearchResults.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertEquals(expectedMovieList, adapter.snapshot())
+        assertEquals(expectedMovieList, differ.snapshot().items)
 
         job.cancel()
     }
@@ -64,16 +72,15 @@ class SearchMoviesViewModelTest {
             searchMoviesUseCase,
             SavedStateHandle(mapOf("query" to query))
         )
-        val adapter = MovieAdapter(onClick = { _, _ -> })
         val job = launch {
             viewModel.querySearchResults.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertTrue(adapter.snapshot().isEmpty())
+        assertTrue(differ.snapshot().items.isEmpty())
 
         job.cancel()
     }

@@ -73,12 +73,14 @@ dependencies {
     implementation "io.coil-kt:coil:$version_coil"
 
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.6.0'
+    implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "androidx.compose.ui:ui:$version_compose_ui"
     implementation "androidx.compose.ui:ui-tooling-preview:$version_compose_ui"
     implementation "androidx.compose.material:material:$version_compose_ui"
     implementation "androidx.compose.runtime:runtime-livedata:$version_compose_ui"
     implementation "io.coil-kt:coil-compose:$version_coil"
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha16'
+    implementation "com.google.accompanist:accompanist-flowlayout:0.27.0"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$version_compose_ui"
     debugImplementation "androidx.compose.ui:ui-tooling:$version_compose_ui"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$version_compose_ui"

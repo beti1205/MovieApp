@@ -30,7 +30,7 @@ data class Movie(
     val originalTitle: String,
 
     @Json(name = "release_date")
-    val releaseDate: String
+    val releaseDate: String?
 ) : Parcelable {
 
     val votes: String

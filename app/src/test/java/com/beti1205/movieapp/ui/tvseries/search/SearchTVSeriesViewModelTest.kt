@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
-import com.beti1205.movieapp.ui.tvseries.TVSeriesAdapter
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
+import com.beti1205.movieapp.ui.tvseries.list.TVSeriesAdapter
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

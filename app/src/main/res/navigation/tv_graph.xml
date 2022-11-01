@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/TVSeriesFragment"
-        android:name="com.beti1205.movieapp.ui.tvseries.TVSeriesFragment"
+        android:name="com.beti1205.movieapp.ui.tvseries.list.TVSeriesFragment"
         android:label="@string/tv_series_label">
 
         <action

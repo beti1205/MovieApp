@@ -16,7 +16,7 @@ import com.beti1205.movieapp.R
 import com.beti1205.movieapp.databinding.SearchListBinding
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.common.updateState
-import com.beti1205.movieapp.ui.tvseries.TVSeriesAdapter
+import com.beti1205.movieapp.ui.tvseries.list.TVSeriesAdapter
 import com.beti1205.movieapp.utils.hideKeyboard
 import com.beti1205.movieapp.utils.showKeyboard
 import com.google.android.material.transition.MaterialElevationScale

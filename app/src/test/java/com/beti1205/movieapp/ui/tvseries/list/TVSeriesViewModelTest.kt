@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries
+package com.beti1205.movieapp.ui.tvseries.list
 
 import android.os.Build
 import com.beti1205.movieapp.MainDispatcherRule
@@ -6,6 +6,7 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchtvseries.domain.FetchTVSeriesUseCase
 import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.common.Preferences
+import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries
+package com.beti1205.movieapp.ui.tvseries.list
 
 import android.view.LayoutInflater
 import android.view.View

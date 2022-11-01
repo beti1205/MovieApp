@@ -8,7 +8,7 @@ import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
 import com.beti1205.movieapp.ui.common.TooShortQueryException
 import com.beti1205.movieapp.ui.common.getNextPageKey
-import com.beti1205.movieapp.ui.tvseries.getTVSeriesRefreshKey
+import com.beti1205.movieapp.ui.tvseries.list.getTVSeriesRefreshKey
 
 class SearchTVSeriesPagingSource(
     val searchTVSeriesUseCase: SearchTVSeriesUseCase,

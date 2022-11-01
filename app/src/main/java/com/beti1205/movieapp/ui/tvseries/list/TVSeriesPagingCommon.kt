@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries
+package com.beti1205.movieapp.ui.tvseries.list
 
 import androidx.paging.PagingState
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries

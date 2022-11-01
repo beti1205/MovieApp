@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.beti1205.movieapp.ui.tvseries.TVSeriesViewModel" />
+            type="com.beti1205.movieapp.ui.tvseries.list.TVSeriesViewModel" />
 
     </data>
 

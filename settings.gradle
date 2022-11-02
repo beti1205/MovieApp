@@ -1,2 +1,12 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+enableFeaturePreview("VERSION_CATALOGS")
+
 include ':app'
 rootProject.name = "MovieApp"

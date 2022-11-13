@@ -1,5 +1,6 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -35,6 +36,10 @@ fun Rating(
 }
 
 @Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
 @Composable
 fun RatingPreview() {
     MovieAppTheme {

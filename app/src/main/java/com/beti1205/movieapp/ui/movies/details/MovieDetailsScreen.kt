@@ -16,13 +16,13 @@ import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.ui.common.widget.Details
+import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.details.widget.CastList
 import com.beti1205.movieapp.ui.movies.details.widget.CrewList
 import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
-import com.beti1205.movieapp.ui.movies.details.widget.MovieDetails
 import com.beti1205.movieapp.ui.movies.details.widget.SectionTitle
-import com.beti1205.movieapp.ui.movies.details.widget.StandardDivider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -45,7 +45,15 @@ fun MovieDetailsScreen(movie: Movie?, cast: List<Cast>?, crew: List<Crew>?, hasE
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                MovieDetails(movie)
+                if (movie != null) {
+                    Details(
+                        posterPath = movie.posterPath,
+                        title = movie.title,
+                        votes = movie.votes,
+                        releaseDate = movie.releaseDate,
+                        overview = movie.overview
+                    )
+                }
                 StandardDivider()
                 if (hasError == true) {
                     EmptyStateMessage()

@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies
+package com.beti1205.movieapp.ui
 
 import androidx.recyclerview.widget.ListUpdateCallback
 

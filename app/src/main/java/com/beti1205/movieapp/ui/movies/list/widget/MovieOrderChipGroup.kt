@@ -2,6 +2,7 @@ package com.beti1205.movieapp.ui.movies.list.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -48,9 +49,11 @@ fun getMovieOrderText(order: MovieOrder): String = stringResource(
 @Composable
 fun MovieOrderChipGroupPreview() {
     MovieAppTheme {
-        MovieOrderChipGroup(
-            selectedMovieOrder = MovieOrder.POPULAR,
-            onSelectedMovieOrderChanged = {}
-        )
+        Surface {
+            MovieOrderChipGroup(
+                selectedMovieOrder = MovieOrder.POPULAR,
+                onSelectedMovieOrderChanged = {}
+            )
+        }
     }
 }

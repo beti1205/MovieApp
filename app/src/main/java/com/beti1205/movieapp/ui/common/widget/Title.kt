@@ -1,25 +1,24 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun SectionTitle(
-    text: String,
+fun Title(
+    title: String,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = text,
+        text = title,
         style = MaterialTheme.typography.h6,
-        modifier = modifier.padding(start = 16.dp, end = 16.dp)
+        color = MaterialTheme.colors.secondary,
+        modifier = modifier
     )
 }
 
@@ -29,10 +28,10 @@ fun SectionTitle(
     showBackground = true
 )
 @Composable
-fun SectionTitlePreview() {
+fun TitlePreview() {
     MovieAppTheme {
         Surface {
-            SectionTitle(text = "Cast")
+            Title(title = "Better Call Saul")
         }
     }
 }

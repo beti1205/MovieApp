@@ -6,9 +6,9 @@ import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.SearchMoviesUseCase
+import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.movies.MovieDataProvider
 import com.beti1205.movieapp.ui.movies.MovieDiffCallback
-import com.beti1205.movieapp.ui.movies.NoopListCallback
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

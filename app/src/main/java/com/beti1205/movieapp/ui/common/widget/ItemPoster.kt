@@ -1,19 +1,21 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 
 @Composable
-fun Poster(
+fun ItemPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
@@ -29,7 +31,16 @@ fun Poster(
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .fillMaxWidth()
-            .height(600.dp)
+            .height(300.dp)
     )
+}
+
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun MovieItemPosterPreview() {
+    ItemPoster(posterPath = MoviePreviewDataProvider.movie.posterPath)
 }

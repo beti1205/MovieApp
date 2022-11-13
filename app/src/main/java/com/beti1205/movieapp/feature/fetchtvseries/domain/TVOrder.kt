@@ -14,5 +14,7 @@ enum class TVOrder {
 
             return values().find { it.ordinal == value } ?: POPULAR
         }
+
+        fun availableValues(): List<TVOrder> = values().toList()
     }
 }

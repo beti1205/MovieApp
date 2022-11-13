@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.common.widget
+package com.beti1205.movieapp.ui.tvseries.common.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -7,25 +7,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.common.widget.ItemPoster
 import com.beti1205.movieapp.ui.common.widget.ItemTitle
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
+import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MovieItem(
-    movie: Movie,
-    onMovieClicked: (Movie) -> Unit,
+fun TVSeriesItem(
+    tvSeries: TVSeries,
+    onTVSeriesClicked: (TVSeries) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { onMovieClicked(movie) },
+        onClick = { onTVSeriesClicked(tvSeries) },
         shape = RoundedCornerShape(16.dp),
         contentColor = MaterialTheme.colors.onPrimary,
         backgroundColor = MaterialTheme.colors.primaryVariant,
@@ -33,8 +34,8 @@ fun MovieItem(
         elevation = 16.dp
     ) {
         Column {
-            ItemPoster(posterPath = movie.posterPath)
-            ItemTitle(movie.title)
+            ItemPoster(posterPath = tvSeries.posterPath)
+            ItemTitle(tvSeries.name)
         }
     }
 }
@@ -45,8 +46,13 @@ fun MovieItem(
     showBackground = true
 )
 @Composable
-fun MovieItemPreview() {
+fun TVSeriesItemPreview() {
     MovieAppTheme {
-        MovieItem(movie = MoviePreviewDataProvider.movie, onMovieClicked = {})
+        Surface {
+            TVSeriesItem(
+                tvSeries = TVSeriesPreviewDataProvider.tvSeries,
+                onTVSeriesClicked = {}
+            )
+        }
     }
 }

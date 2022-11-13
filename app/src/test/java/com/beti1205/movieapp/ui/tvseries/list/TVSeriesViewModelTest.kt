@@ -1,16 +1,20 @@
 package com.beti1205.movieapp.ui.tvseries.list
 
-import android.os.Build
+import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.FetchTVSeriesUseCase
 import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.common.Preferences
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
+import com.beti1205.movieapp.ui.tvseries.TVSeriesDiffCallback
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,14 +22,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.R])
 @OptIn(ExperimentalCoroutinesApi::class)
 class TVSeriesViewModelTest {
 
@@ -35,6 +35,16 @@ class TVSeriesViewModelTest {
     private lateinit var viewModel: TVSeriesViewModel
     private val fetchTVSeriesUseCase = mockk<FetchTVSeriesUseCase>()
     private val preferences = mockk<Preferences>()
+    private lateinit var differ: AsyncPagingDataDiffer<TVSeries>
+
+    @Before
+    fun setup() {
+        differ = AsyncPagingDataDiffer(
+            diffCallback = TVSeriesDiffCallback(),
+            updateCallback = NoopListCallback(),
+            workerDispatcher = Dispatchers.Main
+        )
+    }
 
     @Test
     fun fetchTvSeries_successful() = runTest {
@@ -44,17 +54,16 @@ class TVSeriesViewModelTest {
         every { preferences.tvOrder } returns -1
 
         viewModel = TVSeriesViewModel(fetchTVSeriesUseCase, preferences)
-        val adapter = TVSeriesAdapter(onClick = { _, _ -> })
         val expectedTvSeriesList = TVSeriesDataProvider.apiResponse.items
         val job = launch {
             viewModel.tvSeries.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertEquals(expectedTvSeriesList, adapter.snapshot())
+        assertEquals(expectedTvSeriesList, differ.snapshot().items)
 
         job.cancel()
     }
@@ -65,16 +74,15 @@ class TVSeriesViewModelTest {
         every { preferences.tvOrder } returns -1
 
         viewModel = TVSeriesViewModel(fetchTVSeriesUseCase, preferences)
-        val adapter = TVSeriesAdapter(onClick = { _, _ -> })
         val job = launch {
             viewModel.tvSeries.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertTrue(adapter.snapshot().isEmpty())
+        assertTrue(differ.snapshot().items.isEmpty())
 
         job.cancel()
     }

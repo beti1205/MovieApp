@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

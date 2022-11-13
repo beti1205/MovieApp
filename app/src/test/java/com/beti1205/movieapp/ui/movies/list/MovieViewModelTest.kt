@@ -6,10 +6,10 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
+import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.common.Preferences
 import com.beti1205.movieapp.ui.movies.MovieDataProvider
 import com.beti1205.movieapp.ui.movies.MovieDiffCallback
-import com.beti1205.movieapp.ui.movies.NoopListCallback
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

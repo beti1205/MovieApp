@@ -1,14 +1,17 @@
 package com.beti1205.movieapp.ui.tvseries.search
 
-import android.os.Build
 import androidx.lifecycle.SavedStateHandle
+import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
-import com.beti1205.movieapp.ui.tvseries.list.TVSeriesAdapter
+import com.beti1205.movieapp.ui.tvseries.TVSeriesDiffCallback
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -16,14 +19,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.R])
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchTVSeriesViewModelTest {
 
@@ -32,6 +31,16 @@ class SearchTVSeriesViewModelTest {
 
     private lateinit var viewModel: SearchTVSeriesViewModel
     private val searchTVSeriesUseCase = mockk<SearchTVSeriesUseCase>()
+    private lateinit var differ: AsyncPagingDataDiffer<TVSeries>
+
+    @Before
+    fun setup() {
+        differ = AsyncPagingDataDiffer(
+            diffCallback = TVSeriesDiffCallback(),
+            updateCallback = NoopListCallback(),
+            workerDispatcher = Dispatchers.Main
+        )
+    }
 
     @Test
     fun fetchSearchedTVSeries_successful() = runTest {
@@ -48,17 +57,16 @@ class SearchTVSeriesViewModelTest {
             )
         )
 
-        val adapter = TVSeriesAdapter(onClick = { _, _ -> })
         val expectedTVSeriesList = TVSeriesDataProvider.apiResponse.items
         val job = launch {
             viewModel.querySearchResults.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertEquals(expectedTVSeriesList, adapter.snapshot())
+        assertEquals(expectedTVSeriesList, differ.snapshot().items)
 
         job.cancel()
     }
@@ -73,16 +81,15 @@ class SearchTVSeriesViewModelTest {
             )
         )
 
-        val adapter = TVSeriesAdapter(onClick = { _, _ -> })
         val job = launch {
             viewModel.querySearchResults.collectLatest {
-                adapter.submitData(it)
+                differ.submitData(it)
             }
         }
 
         advanceUntilIdle()
 
-        assertTrue(adapter.snapshot().isEmpty())
+        assertTrue(differ.snapshot().items.isEmpty())
 
         job.cancel()
     }

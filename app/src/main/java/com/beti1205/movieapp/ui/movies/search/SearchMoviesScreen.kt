@@ -2,7 +2,6 @@ package com.beti1205.movieapp.ui.movies.search
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,15 +9,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.ui.common.hasError
-import com.beti1205.movieapp.ui.common.isListEmpty
-import com.beti1205.movieapp.ui.common.isLoading
-import com.beti1205.movieapp.ui.common.isQueryTooShort
 import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
-import com.beti1205.movieapp.ui.movies.common.widget.MovieList
-import com.beti1205.movieapp.ui.movies.search.widget.SearchEmptyList
-import com.beti1205.movieapp.ui.movies.search.widget.SearchEmptyState
-import com.beti1205.movieapp.ui.movies.search.widget.SearchPagingError
+import com.beti1205.movieapp.ui.movies.search.widget.SearchMoviesList
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import kotlinx.coroutines.flow.flowOf
 
@@ -44,25 +36,6 @@ fun SearchMoviesScreen(
         Surface(modifier = Modifier.fillMaxSize()) {
             SearchMoviesList(
                 searchMoviesItems = searchMoviesItems,
-                onMovieClicked = onMovieClicked
-            )
-        }
-    }
-}
-
-@Composable
-fun SearchMoviesList(
-    searchMoviesItems: LazyPagingItems<Movie>,
-    onMovieClicked: (Movie) -> Unit
-) {
-    searchMoviesItems.apply {
-        when {
-            isQueryTooShort() -> SearchEmptyState()
-            isListEmpty() -> SearchEmptyList()
-            hasError() -> SearchPagingError(items = searchMoviesItems)
-            isLoading() -> CircularProgressIndicator()
-            else -> MovieList(
-                movieListItems = searchMoviesItems,
                 onMovieClicked = onMovieClicked
             )
         }

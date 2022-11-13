@@ -1,23 +1,25 @@
-package com.beti1205.movieapp.ui.movies.search.widget
+package com.beti1205.movieapp.ui.tvseries.search.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
+import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.movies.common.widget.PagingError
+import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
+import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun SearchPagingError(
-    items: LazyPagingItems<Movie>,
+fun SearchTVSeriesPagingError(
+    items: LazyPagingItems<TVSeries>,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -37,7 +39,12 @@ fun SearchPagingError(
     showBackground = true
 )
 @Composable
-fun SearchPagingErrorPreview() {
-    val items = flowOf(MoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
-    SearchPagingError(items)
+fun SearchTVSeriesPagingErrorPreview() {
+    val items = flowOf(TVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
+
+    MovieAppTheme {
+        Surface {
+            SearchTVSeriesPagingError(items)
+        }
+    }
 }

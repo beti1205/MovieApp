@@ -65,8 +65,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 is Result.Error -> emptyList()
                 is Result.Success -> result.data.episodes
             }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    init {
+        val selectedTvSeriesId = _selectedTVSeries.value?.id
+        if (selectedTvSeriesId != null) {
+            fetchSeasons(selectedTvSeriesId)
         }
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
 
     fun fetchSeasons(id: Int) {
         viewModelScope.launch {

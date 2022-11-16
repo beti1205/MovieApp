@@ -33,7 +33,10 @@ class MovieDetailsViewModel @Inject constructor(
     val hasError: LiveData<Boolean> = _hasError
 
     init {
-        _selectedMovie.value?.let { fetchCredits(it.id) }
+        val selectedMovieId = _selectedMovie.value?.id
+        if (selectedMovieId != null) {
+            fetchCredits(selectedMovieId)
+        }
     }
 
     fun fetchCredits(id: Int) {

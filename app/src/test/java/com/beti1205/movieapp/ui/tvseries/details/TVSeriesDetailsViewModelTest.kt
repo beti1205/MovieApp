@@ -3,6 +3,7 @@ package com.beti1205.movieapp.ui.tvseries.details
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchtvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Genre

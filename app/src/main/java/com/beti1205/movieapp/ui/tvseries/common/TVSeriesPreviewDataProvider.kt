@@ -1,9 +1,9 @@
 package com.beti1205.movieapp.ui.tvseries.common
 
 import androidx.paging.PagingData
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Genre
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 
 object TVSeriesPreviewDataProvider {

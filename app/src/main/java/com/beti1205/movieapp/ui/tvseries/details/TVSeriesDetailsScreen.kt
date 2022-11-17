@@ -12,16 +12,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Genre
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.ui.common.widget.Details
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 import com.beti1205.movieapp.ui.tvseries.details.widget.EpisodeList
-import com.beti1205.movieapp.ui.tvseries.details.widget.Genres
 import com.beti1205.movieapp.ui.tvseries.details.widget.Season
 import com.beti1205.movieapp.ui.tvseries.details.widget.SeasonDropdown
 
@@ -62,7 +61,7 @@ fun TVSeriesDetailsScreen(
                         votes = tvSeries.votes,
                         releaseDate = tvSeries.firstAirDate,
                         overview = tvSeries.overview,
-                        genres = { Genres(genres) }
+                        genres = genres
                     )
                 }
                 StandardDivider()

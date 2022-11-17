@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -22,12 +23,19 @@ fun Details(
     releaseDate: String?,
     overview: String,
     modifier: Modifier = Modifier,
-    genres: @Composable () -> Unit = {}
+    genres: List<Genre>?
 ) {
     Column(modifier = modifier) {
         Poster(posterPath = posterPath)
-        genres()
-        Column(modifier = Modifier.padding(16.dp)) {
+        Genres(genres = genres)
+        Column(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = 16.dp
+            )
+        ) {
             Row {
                 Title(title = title)
                 Spacer(modifier = Modifier.weight(1f))
@@ -50,11 +58,12 @@ fun DetailsPreview() {
         Surface(modifier = Modifier.fillMaxSize()) {
             with(MoviePreviewDataProvider) {
                 Details(
-                    movie.posterPath,
-                    movie.title,
-                    movie.votes,
-                    movie.releaseDate,
-                    movie.overview
+                    posterPath = movie.posterPath,
+                    title = movie.title,
+                    votes = movie.votes,
+                    releaseDate = movie.releaseDate,
+                    overview = movie.overview,
+                    genres = genres
                 )
             }
         }

@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
+import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsUseCase
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase
+    private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase,
+    private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase
 ) : ViewModel() {
 
     private val _selectedMovie = state.getLiveData<Movie>("selectedMovie")
@@ -32,10 +35,14 @@ class MovieDetailsViewModel @Inject constructor(
     private val _hasError = MutableLiveData<Boolean>(false)
     val hasError: LiveData<Boolean> = _hasError
 
+    private val _genres = MutableLiveData<List<Genre>?>()
+    val genres: LiveData<List<Genre>?> = _genres
+
     init {
         val selectedMovieId = _selectedMovie.value?.id
         if (selectedMovieId != null) {
             fetchCredits(selectedMovieId)
+            fetchGenres(selectedMovieId)
         }
     }
 
@@ -50,6 +57,17 @@ class MovieDetailsViewModel @Inject constructor(
                     _hasError.value = false
                 }
                 is Result.Error -> _hasError.value = true
+            }
+        }
+    }
+
+    fun fetchGenres(id: Int) {
+        viewModelScope.launch {
+            val result = fetchMovieDetailsUseCase(id)
+
+            when (result) {
+                is Result.Success -> _genres.value = result.data.genres
+                is Result.Error -> _genres.value = null
             }
         }
     }

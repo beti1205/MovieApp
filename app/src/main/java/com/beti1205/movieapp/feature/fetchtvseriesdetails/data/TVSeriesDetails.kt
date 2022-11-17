@@ -1,5 +1,6 @@
 package com.beti1205.movieapp.feature.fetchtvseriesdetails.data
 
+import com.beti1205.movieapp.common.Genre
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -17,12 +18,6 @@ data class TVSeriesDetails(
     @Json(name = "number_of_seasons")
     val numberOfSeasons: Int,
     val seasons: List<Season>
-)
-
-@JsonClass(generateAdapter = true)
-data class Genre(
-    val id: Int,
-    val name: String
 )
 
 @JsonClass(generateAdapter = true)

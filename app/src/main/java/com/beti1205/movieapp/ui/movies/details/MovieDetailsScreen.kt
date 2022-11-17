@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
@@ -31,17 +32,25 @@ fun MovieDetailsScreen(viewModel: MovieDetailsViewModel) {
     val cast by viewModel.cast.observeAsState()
     val crew by viewModel.crew.observeAsState()
     val hasError by viewModel.hasError.observeAsState()
+    val genres by viewModel.genres.observeAsState()
 
     MovieDetailsScreen(
         movie = movie,
         cast = cast,
         crew = crew,
-        hasError = hasError
+        hasError = hasError,
+        genres = genres
     )
 }
 
 @Composable
-fun MovieDetailsScreen(movie: Movie?, cast: List<Cast>?, crew: List<Crew>?, hasError: Boolean?) {
+fun MovieDetailsScreen(
+    movie: Movie?,
+    cast: List<Cast>?,
+    crew: List<Crew>?,
+    hasError: Boolean?,
+    genres: List<Genre>?
+) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -51,7 +60,8 @@ fun MovieDetailsScreen(movie: Movie?, cast: List<Cast>?, crew: List<Crew>?, hasE
                         title = movie.title,
                         votes = movie.votes,
                         releaseDate = movie.releaseDate,
-                        overview = movie.overview
+                        overview = movie.overview,
+                        genres = genres
                     )
                 }
                 StandardDivider()
@@ -81,6 +91,7 @@ fun MovieDetailsScreenPreview() {
         movie = MoviePreviewDataProvider.movie,
         cast = CreditsPreviewDataProvider.cast,
         crew = CreditsPreviewDataProvider.crew,
-        hasError = false
+        hasError = false,
+        genres = MoviePreviewDataProvider.genres
     )
 }

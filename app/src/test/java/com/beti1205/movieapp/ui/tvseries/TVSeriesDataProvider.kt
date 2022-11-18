@@ -15,6 +15,7 @@ object TVSeriesDataProvider {
         voteAverage = 8.3,
         posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg"
     )
+
     val apiResponse = ApiResponse(
         page = 1,
         totalResults = 1,

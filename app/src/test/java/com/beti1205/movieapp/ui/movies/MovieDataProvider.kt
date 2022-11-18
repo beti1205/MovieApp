@@ -4,6 +4,7 @@ import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 
 object MovieDataProvider {
+
     val movies = listOf(
         Movie(
             id = 985939,
@@ -19,5 +20,6 @@ object MovieDataProvider {
             releaseDate = "2022-08-11"
         )
     )
+
     val apiResponse = ApiResponse(page = 1, totalResults = 1, totalPages = 1, movies)
 }

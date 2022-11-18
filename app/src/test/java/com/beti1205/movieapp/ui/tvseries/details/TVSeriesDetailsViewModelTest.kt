@@ -91,7 +91,7 @@ class TVSeriesDetailsViewModelTest {
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.episodes.collect() }
 
-        assertEquals(viewModel.episodes.value, emptyList<List<Episode>>())
+        assertEquals(emptyList<List<Episode>>(), viewModel.episodes.value)
 
         collectJob.cancel()
     }

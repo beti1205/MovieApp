@@ -8,6 +8,7 @@ import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 
 object MovieDetailsDataProvider {
+
     val genresList = listOf(
         Genre(
             id = 18,

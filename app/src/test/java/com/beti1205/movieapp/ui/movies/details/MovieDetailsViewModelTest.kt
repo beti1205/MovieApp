@@ -9,7 +9,6 @@ import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsU
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -41,8 +40,6 @@ class MovieDetailsViewModelTest {
                 fetchMovieDetailsUseCase
             )
 
-            advanceUntilIdle()
-
             assertEquals(MovieDetailsDataProvider.cast, viewModel.cast.value)
             assertEquals(MovieDetailsDataProvider.crew, viewModel.crew.value)
             assertTrue(viewModel.hasError.value != true)
@@ -59,8 +56,6 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        advanceUntilIdle()
-
         assertTrue(viewModel.hasError.value == true)
     }
 
@@ -74,8 +69,6 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        advanceUntilIdle()
-
         assertEquals(MovieDetailsDataProvider.genresList, viewModel.genres.value)
     }
 
@@ -88,8 +81,6 @@ class MovieDetailsViewModelTest {
             fetchMovieCreditsUseCase,
             fetchMovieDetailsUseCase
         )
-
-        advanceUntilIdle()
 
         assertNull(viewModel.genres.value)
     }

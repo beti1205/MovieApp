@@ -1,7 +1,5 @@
 package com.beti1205.movieapp.ui.movies.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +11,9 @@ import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCas
 import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsUseCase
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,23 +24,22 @@ class MovieDetailsViewModel @Inject constructor(
     private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase
 ) : ViewModel() {
 
-    private val _selectedMovie = state.getLiveData<Movie>("selectedMovie")
-    val selectedMovie: LiveData<Movie> = _selectedMovie
+    val selectedMovie = state.getStateFlow<Movie?>("selectedMovie", null)
 
-    private val _cast = MutableLiveData<List<Cast>>()
-    val cast: LiveData<List<Cast>> = _cast
+    private val _cast = MutableStateFlow<List<Cast>>(emptyList())
+    val cast: StateFlow<List<Cast>> = _cast.asStateFlow()
 
-    private val _crew = MutableLiveData<List<Crew>>()
-    val crew: LiveData<List<Crew>> = _crew
+    private val _crew = MutableStateFlow<List<Crew>>(emptyList())
+    val crew: StateFlow<List<Crew>> = _crew.asStateFlow()
 
-    private val _hasError = MutableLiveData<Boolean>(false)
-    val hasError: LiveData<Boolean> = _hasError
+    private val _genres = MutableStateFlow<List<Genre>?>(emptyList())
+    val genres: StateFlow<List<Genre>?> = _genres.asStateFlow()
 
-    private val _genres = MutableLiveData<List<Genre>?>()
-    val genres: LiveData<List<Genre>?> = _genres
+    private val _hasError = MutableStateFlow<Boolean>(false)
+    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
 
     init {
-        val selectedMovieId = _selectedMovie.value?.id
+        val selectedMovieId = selectedMovie.value?.id
         if (selectedMovieId != null) {
             fetchCredits(selectedMovieId)
             fetchGenres(selectedMovieId)
@@ -61,7 +61,7 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
-    fun fetchGenres(id: Int) {
+    private fun fetchGenres(id: Int) {
         viewModelScope.launch {
             val result = fetchMovieDetailsUseCase(id)
 

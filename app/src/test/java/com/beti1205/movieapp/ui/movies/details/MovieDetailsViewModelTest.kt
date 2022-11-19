@@ -9,6 +9,9 @@ import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsU
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -30,20 +33,26 @@ class MovieDetailsViewModelTest {
     private val fetchMovieDetailsUseCase = mockk<FetchMovieDetailsUseCase>()
 
     @Test
-    fun fetchCredits_successful() {
-        runTest {
-            coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
-            coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
-            viewModel = MovieDetailsViewModel(
-                SavedStateHandle(mapOf("selectedMovie" to MovieDetailsDataProvider.movie)),
-                fetchMovieCreditsUseCase,
-                fetchMovieDetailsUseCase
-            )
+    fun fetchCredits_successful() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovie" to MovieDetailsDataProvider.movie)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase
+        )
 
-            assertEquals(MovieDetailsDataProvider.cast, viewModel.cast.value)
-            assertEquals(MovieDetailsDataProvider.crew, viewModel.crew.value)
-            assertTrue(viewModel.hasError.value != true)
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.cast.collect() }
+            launch { viewModel.crew.collect() }
+            launch { viewModel.hasError.collect() }
         }
+
+        assertEquals(MovieDetailsDataProvider.cast, viewModel.cast.value)
+        assertEquals(MovieDetailsDataProvider.crew, viewModel.crew.value)
+        assertTrue(!viewModel.hasError.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -56,7 +65,11 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        assertTrue(viewModel.hasError.value == true)
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.hasError.collect() }
+
+        assertTrue(viewModel.hasError.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -69,7 +82,11 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.genres.collect() }
+
         assertEquals(MovieDetailsDataProvider.genresList, viewModel.genres.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -82,7 +99,11 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.genres.collect() }
+
         assertNull(viewModel.genres.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -95,7 +116,11 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.selectedMovie.collect() }
+
         assertEquals(MovieDetailsDataProvider.movie, viewModel.selectedMovie.value)
+
+        collectJob.cancel()
     }
 
     private companion object {

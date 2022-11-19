@@ -9,7 +9,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.common.Genre
@@ -26,10 +25,10 @@ import com.beti1205.movieapp.ui.tvseries.details.widget.SeasonDropdown
 
 @Composable
 fun TVSeriesDetailsScreen(viewModel: TVSeriesDetailsViewModel) {
-    val tvSeries by viewModel.selectedTVSeries.observeAsState()
-    val genres by viewModel.genres.observeAsState()
+    val tvSeries by viewModel.selectedTVSeries.collectAsState()
+    val genres by viewModel.genres.collectAsState()
     val selectedSeason by viewModel.selectedSeason.collectAsState()
-    val seasons by viewModel.seasons.observeAsState()
+    val seasons by viewModel.seasons.collectAsState()
     val episodes by viewModel.episodes.collectAsState()
 
     TVSeriesDetailsScreen(

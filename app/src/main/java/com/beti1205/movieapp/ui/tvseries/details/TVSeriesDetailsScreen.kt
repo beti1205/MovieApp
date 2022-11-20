@@ -36,7 +36,7 @@ fun TVSeriesDetailsScreen(viewModel: TVSeriesDetailsViewModel) {
         genres = genres,
         selectedSeason = selectedSeason,
         seasons = seasons,
-        onOptionSelected = viewModel::setSelectedSeasonPosition,
+        onSeasonSelected = viewModel::setSelectedSeason,
         episodes = episodes
     )
 }
@@ -47,7 +47,7 @@ fun TVSeriesDetailsScreen(
     genres: List<Genre>?,
     selectedSeason: Season?,
     seasons: List<Season>?,
-    onOptionSelected: (Int) -> Unit,
+    onSeasonSelected: (Season) -> Unit,
     episodes: List<Episode>?
 ) {
     MovieAppTheme {
@@ -66,10 +66,9 @@ fun TVSeriesDetailsScreen(
                 StandardDivider()
                 if (seasons != null) {
                     SeasonDropdown(
-                        value = selectedSeason?.name,
-                        suggestions = seasons,
-                        onOptionSelected = onOptionSelected
-
+                        selectedSeason = selectedSeason,
+                        seasons = seasons,
+                        onSeasonSelected = onSeasonSelected
                     )
                 }
                 Season(selectedSeason)
@@ -94,7 +93,7 @@ fun TVSeriesDetailsScreenPreview() {
                 genres = TVSeriesPreviewDataProvider.genres,
                 selectedSeason = TVSeriesPreviewDataProvider.seasonsList.first(),
                 seasons = TVSeriesPreviewDataProvider.seasonsList,
-                onOptionSelected = {},
+                onSeasonSelected = {},
                 episodes = TVSeriesPreviewDataProvider.episodesList
             )
         }

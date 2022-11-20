@@ -2,6 +2,8 @@ package com.beti1205.movieapp.ui.movies.common.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -14,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.ui.common.widget.ItemPoster
 import com.beti1205.movieapp.ui.common.widget.ItemTitle
+import com.beti1205.movieapp.ui.common.widget.Rating
 import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -34,7 +37,15 @@ fun MovieItem(
     ) {
         Column {
             ItemPoster(posterPath = movie.posterPath)
-            ItemTitle(movie.title)
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ItemTitle(
+                    title = movie.title,
+                    modifier = Modifier.weight(1f)
+                )
+                Rating(votes = movie.votes, modifier = Modifier.padding(top = 8.dp, end = 8.dp))
+            }
         }
     }
 }

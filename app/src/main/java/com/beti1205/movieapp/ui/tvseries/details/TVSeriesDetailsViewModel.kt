@@ -1,10 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.common.Result
@@ -17,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -30,29 +28,29 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val fetchEpisodesUseCase: FetchEpisodesUseCase
 ) : ViewModel() {
 
-    private val _selectedTVSeries = state.getLiveData<TVSeries>(
-        "selectedTVSeries"
+    val selectedTVSeries = state.getStateFlow<TVSeries?>(
+        "selectedTVSeries",
+        null
     )
-    val selectedTVSeries: LiveData<TVSeries> = _selectedTVSeries
 
-    private val _seasons = MutableLiveData<List<Season>>()
-    val seasons: LiveData<List<Season>> = _seasons
+    private val _seasons = MutableStateFlow<List<Season>>(emptyList())
+    val seasons: StateFlow<List<Season>> = _seasons.asStateFlow()
 
-    private val _genres = MutableLiveData<List<Genre>>()
-    val genres: LiveData<List<Genre>> = _genres
+    private val _genres = MutableStateFlow<List<Genre>>(emptyList())
+    val genres: StateFlow<List<Genre>> = _genres.asStateFlow()
 
-    private val _hasError = MutableLiveData<Boolean>(false)
-    val hasError: LiveData<Boolean> = _hasError
+    private val _hasError = MutableStateFlow<Boolean>(false)
+    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
 
     private val selectedSeasonPosition = MutableStateFlow<Int>(0)
 
     val selectedSeason: StateFlow<Season?> = selectedSeasonPosition
-        .mapNotNull { position -> seasons.value?.get(position) }
+        .mapNotNull { position -> seasons.value[position] }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
 
-    val episodes: StateFlow<List<Episode>> = selectedTVSeries.asFlow()
+    val episodes: StateFlow<List<Episode>> = selectedTVSeries
         .combine(selectedSeason) { tvSeries, season ->
-            if (season == null) {
+            if (season == null || tvSeries == null) {
                 return@combine emptyList()
             }
 
@@ -65,16 +63,16 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 is Result.Error -> emptyList()
                 is Result.Success -> result.data.episodes
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     init {
-        val selectedTvSeriesId = _selectedTVSeries.value?.id
+        val selectedTvSeriesId = selectedTVSeries.value?.id
         if (selectedTvSeriesId != null) {
             fetchSeasons(selectedTvSeriesId)
         }
     }
 
-    fun fetchSeasons(id: Int) {
+    private fun fetchSeasons(id: Int) {
         viewModelScope.launch {
             val result = fetchTVSeriesDetailsUseCase(id)
 

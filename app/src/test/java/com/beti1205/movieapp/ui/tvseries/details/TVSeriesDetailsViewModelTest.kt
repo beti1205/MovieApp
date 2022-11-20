@@ -1,6 +1,5 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
@@ -27,9 +26,6 @@ class TVSeriesDetailsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
     private lateinit var viewModel: TVSeriesDetailsViewModel
     private val fetchTVSeriesDetailsUseCase = mockk<FetchTVSeriesDetailsUseCase>()
     private val fetchEpisodesUseCase = mockk<FetchEpisodesUseCase>()
@@ -44,9 +40,17 @@ class TVSeriesDetailsViewModelTest {
             fetchEpisodesUseCase
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.hasError.collect() }
+            launch { viewModel.seasons.collect() }
+            launch { viewModel.genres.collect() }
+        }
+
         assertEquals(TVSeriesDetailsDataProvider.seasonsList, viewModel.seasons.value)
         assertEquals(TVSeriesDetailsDataProvider.genresList, viewModel.genres.value)
-        assertTrue(viewModel.hasError.value != true)
+        assertTrue(!viewModel.hasError.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -59,7 +63,11 @@ class TVSeriesDetailsViewModelTest {
             fetchEpisodesUseCase
         )
 
-        assertTrue(viewModel.hasError.value == true)
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.hasError.collect() }
+
+        assertTrue(viewModel.hasError.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -106,7 +114,11 @@ class TVSeriesDetailsViewModelTest {
             fetchEpisodesUseCase
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.selectedTVSeries.collect() }
+
         assertEquals(TVSeriesDataProvider.tvSeries, viewModel.selectedTVSeries.value)
+
+        collectJob.cancel()
     }
 
     @Test
@@ -124,7 +136,7 @@ class TVSeriesDetailsViewModelTest {
 
         val selectedSeason = viewModel.selectedSeason.value
         assertNotNull(selectedSeason)
-        assertEquals(0, viewModel.seasons.value?.indexOf(selectedSeason))
+        assertEquals(0, viewModel.seasons.value.indexOf(selectedSeason))
 
         collectJob.cancel()
     }

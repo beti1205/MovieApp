@@ -7,8 +7,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,11 +28,11 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieDetailsScreen(viewModel: MovieDetailsViewModel) {
-    val movie by viewModel.selectedMovie.observeAsState()
-    val cast by viewModel.cast.observeAsState()
-    val crew by viewModel.crew.observeAsState()
-    val hasError by viewModel.hasError.observeAsState()
-    val genres by viewModel.genres.observeAsState()
+    val movie by viewModel.selectedMovie.collectAsState()
+    val cast by viewModel.cast.collectAsState()
+    val crew by viewModel.crew.collectAsState()
+    val hasError by viewModel.hasError.collectAsState()
+    val genres by viewModel.genres.collectAsState()
 
     MovieDetailsScreen(
         movie = movie,

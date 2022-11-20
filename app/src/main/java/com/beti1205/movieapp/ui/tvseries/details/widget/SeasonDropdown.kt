@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuBoxScope
 import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,9 +31,9 @@ import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SeasonDropdown(
-    value: String?,
-    onOptionSelected: (Int) -> Unit,
-    suggestions: List<Season>,
+    selectedSeason: Season?,
+    onSeasonSelected: (Season) -> Unit,
+    seasons: List<Season>,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -42,40 +44,67 @@ fun SeasonDropdown(
         onExpandedChange = { expanded = !expanded },
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        TextField(
-            value = value ?: "",
-            onValueChange = { },
-            label = { Text(text = stringResource(id = R.string.season_hint_label)) },
-            readOnly = true,
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                unfocusedLabelColor = MaterialTheme.colors.secondary,
-                focusedLabelColor = MaterialTheme.colors.secondaryVariant,
-                unfocusedIndicatorColor = MaterialTheme.colors.secondary,
-                focusedIndicatorColor = MaterialTheme.colors.secondaryVariant,
-                trailingIconColor = MaterialTheme.colors.secondary
-            )
-        )
-        ExposedDropdownMenu(
+        SeasonDropdownTextField(selectedSeason, expanded)
+        SeasonExposedDropdownMenu(
+            seasons = seasons,
+            onSeasonSelected = onSeasonSelected,
             expanded = expanded,
-            onDismissRequest = {
-                expanded = false
+            onSetExpanded = { expanded = it },
+            focusManager = focusManager
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ExposedDropdownMenuBoxScope.SeasonExposedDropdownMenu(
+    seasons: List<Season>,
+    onSeasonSelected: (Season) -> Unit,
+    expanded: Boolean,
+    onSetExpanded: (Boolean) -> Unit,
+    focusManager: FocusManager
+) {
+    ExposedDropdownMenu(
+        expanded = expanded,
+        onDismissRequest = {
+            onSetExpanded(false)
+            focusManager.clearFocus()
+        }
+    ) {
+        seasons.forEach { season ->
+            DropdownMenuItem(onClick = {
+                onSeasonSelected(season)
+                onSetExpanded(false)
                 focusManager.clearFocus()
-            }
-        ) {
-            suggestions.forEachIndexed { index, season ->
-                DropdownMenuItem(onClick = {
-                    onOptionSelected(index)
-                    expanded = false
-                    focusManager.clearFocus()
-                }) {
-                    Text(text = season.name)
-                }
+            }) {
+                Text(text = season.name)
             }
         }
     }
+}
+
+@Composable
+@OptIn(ExperimentalMaterialApi::class)
+fun SeasonDropdownTextField(
+    selectedSeason: Season?,
+    expanded: Boolean
+) {
+    TextField(
+        value = selectedSeason?.name ?: "",
+        onValueChange = { },
+        label = { Text(text = stringResource(id = R.string.season_hint_label)) },
+        readOnly = true,
+        trailingIcon = {
+            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            unfocusedLabelColor = MaterialTheme.colors.secondary,
+            focusedLabelColor = MaterialTheme.colors.secondaryVariant,
+            unfocusedIndicatorColor = MaterialTheme.colors.secondary,
+            focusedIndicatorColor = MaterialTheme.colors.secondaryVariant,
+            trailingIconColor = MaterialTheme.colors.secondary
+        )
+    )
 }
 
 @Preview
@@ -88,9 +117,9 @@ fun SeasonDropdownPreview() {
     MovieAppTheme {
         Surface {
             SeasonDropdown(
-                value = TVSeriesPreviewDataProvider.seasonsList.first().name,
-                onOptionSelected = {},
-                suggestions = TVSeriesPreviewDataProvider.seasonsList
+                selectedSeason = TVSeriesPreviewDataProvider.seasonsList.first(),
+                onSeasonSelected = {},
+                seasons = TVSeriesPreviewDataProvider.seasonsList
             )
         }
     }

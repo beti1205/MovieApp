@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,14 +38,11 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _genres = MutableStateFlow<List<Genre>>(emptyList())
     val genres: StateFlow<List<Genre>> = _genres.asStateFlow()
 
+    private val _selectedSeason = MutableStateFlow<Season?>(null)
+    val selectedSeason: StateFlow<Season?> = _selectedSeason.asStateFlow()
+
     private val _hasError = MutableStateFlow<Boolean>(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
-
-    private val selectedSeasonPosition = MutableStateFlow<Int>(0)
-
-    val selectedSeason: StateFlow<Season?> = selectedSeasonPosition
-        .mapNotNull { position -> seasons.value[position] }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
 
     val episodes: StateFlow<List<Episode>> = selectedTVSeries
         .combine(selectedSeason) { tvSeries, season ->
@@ -80,18 +76,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 is Result.Success -> {
                     _seasons.value = result.data.seasons
                     _genres.value = result.data.genres
-                    selectedSeasonPosition.value = if (result.data.seasons.size > 1) {
-                        1
-                    } else {
-                        0
-                    }
+                    _selectedSeason.value = result.data.seasons.first()
                 }
                 is Result.Error -> _hasError.value = true
             }
         }
     }
 
-    fun setSelectedSeasonPosition(position: Int) {
-        selectedSeasonPosition.value = position
+    fun setSelectedSeason(season: Season) {
+        _selectedSeason.value = season
     }
 }

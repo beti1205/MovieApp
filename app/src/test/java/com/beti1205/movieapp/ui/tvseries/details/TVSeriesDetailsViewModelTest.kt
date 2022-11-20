@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -132,11 +131,10 @@ class TVSeriesDetailsViewModelTest {
         )
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.selectedSeason.collect() }
 
-        viewModel.setSelectedSeasonPosition(0)
+        viewModel.setSelectedSeason(TVSeriesDetailsDataProvider.seasonsList.last())
 
         val selectedSeason = viewModel.selectedSeason.value
-        assertNotNull(selectedSeason)
-        assertEquals(0, viewModel.seasons.value.indexOf(selectedSeason))
+        assertEquals(TVSeriesDetailsDataProvider.seasonsList.last(), selectedSeason)
 
         collectJob.cancel()
     }

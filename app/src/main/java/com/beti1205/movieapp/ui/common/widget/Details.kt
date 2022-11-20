@@ -3,7 +3,6 @@ package com.beti1205.movieapp.ui.common.widget
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
@@ -37,9 +36,14 @@ fun Details(
             )
         ) {
             Row {
-                Title(title = title)
-                Spacer(modifier = Modifier.weight(1f))
-                Rating(votes = votes)
+                Title(
+                    title = title,
+                    modifier = Modifier.weight(1f)
+                )
+                Rating(
+                    votes = votes,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
             ReleaseDate(releaseDate = releaseDate)
             Overview(overview)

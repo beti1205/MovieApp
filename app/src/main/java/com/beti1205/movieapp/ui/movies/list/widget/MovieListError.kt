@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.movies.list.widget
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun MovieListError(movieListItems: LazyPagingItems<Movie>) {
-    if (movieListItems.loadState.getErrorState() != null) {
+    AnimatedVisibility(visible = movieListItems.loadState.getErrorState() != null) {
         PagingError(
             onRetryClick = { movieListItems.retry() }
         )

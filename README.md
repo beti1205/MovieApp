@@ -19,7 +19,7 @@ It is also possible to search films by title and view their details.
 - Fragment
 
 ## APIs
-- [The Movie Database API](https://api.themoviedb.org/3)
+- [The Movie Database API](https://api.themoviedb.org)
 
 ## Screenshots
 <table>

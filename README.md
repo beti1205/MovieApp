@@ -7,19 +7,16 @@ It is also possible to search films by title and view their details.
 
 ## Technologies
 
-- Data Binding
+- Compose
 - Paging
-- LiveData 
+- Flows
 - Moshi
 - Retrofit
-- RecyclerView
 - Navigation
 - Hilt
 - Coil
 - Coroutines
-- Flow
 - Fragment
-- Coil
 
 ## APIs
 - [The Movie Database API](https://api.themoviedb.org/3)

@@ -21,7 +21,7 @@ fun SearchMoviesList(
         when {
             isQueryTooShort() -> SearchEmptyState()
             isListEmpty() -> SearchEmptyList()
-            hasError() -> SearchMoviesPagingError(items = searchMoviesItems)
+            hasError() -> SearchMoviesPagingError(onRetryClick = { retry() })
             isLoading() -> CircularProgressIndicator()
             else -> MovieList(
                 movieListItems = searchMoviesItems,

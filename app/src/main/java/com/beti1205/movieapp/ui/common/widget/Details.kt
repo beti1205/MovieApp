@@ -24,7 +24,9 @@ fun Details(
     modifier: Modifier = Modifier,
     genres: List<Genre>?
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Poster(posterPath = posterPath)
         Genres(genres = genres)
         Column(

@@ -8,18 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.common.widget.PagingError
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun SearchMoviesPagingError(
-    items: LazyPagingItems<Movie>,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -27,7 +22,7 @@ fun SearchMoviesPagingError(
         contentAlignment = Alignment.Center
     ) {
         PagingError(
-            onRetryClick = { items.retry() },
+            onRetryClick = onRetryClick,
             textColor = SonicSilver
         )
     }
@@ -40,11 +35,9 @@ fun SearchMoviesPagingError(
 )
 @Composable
 fun SearchMoviesPagingErrorPreview() {
-    val items = flowOf(MoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
-
     MovieAppTheme {
         Surface {
-            SearchMoviesPagingError(items)
+            SearchMoviesPagingError(onRetryClick = {})
         }
     }
 }

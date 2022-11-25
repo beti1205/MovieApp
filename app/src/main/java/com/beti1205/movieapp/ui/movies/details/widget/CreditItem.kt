@@ -21,7 +21,7 @@ fun CreditItem(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        PosterCredits(posterPath = path)
+        CreditsPoster(posterPath = path)
         Text(
             text = name,
             modifier = Modifier.padding(top = 8.dp),

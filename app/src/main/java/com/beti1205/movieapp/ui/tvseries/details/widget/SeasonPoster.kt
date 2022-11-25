@@ -1,16 +1,17 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.tvseries.details.widget
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.beti1205.movieapp.R
 
 @Composable
-fun PosterCredits(
+fun SeasonPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
@@ -25,6 +26,6 @@ fun PosterCredits(
         error = painterResource(id = R.drawable.error_image),
         contentDescription = null,
         modifier = modifier
-            .fillMaxWidth()
+            .width(140.dp)
     )
 }

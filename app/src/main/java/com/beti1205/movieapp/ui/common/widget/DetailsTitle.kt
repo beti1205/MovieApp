@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun Title(
+fun DetailsTitle(
     title: String,
     modifier: Modifier = Modifier
 ) {
@@ -31,7 +31,7 @@ fun Title(
 fun TitlePreview() {
     MovieAppTheme {
         Surface {
-            Title(title = "Better Call Saul")
+            DetailsTitle(title = "Better Call Saul")
         }
     }
 }

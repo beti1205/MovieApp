@@ -1,8 +1,10 @@
-package com.beti1205.movieapp.ui.tvseries.details.widget
+package com.beti1205.movieapp.ui.common.widget
 
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -11,7 +13,7 @@ import coil.request.ImageRequest
 import com.beti1205.movieapp.R
 
 @Composable
-fun PosterSeason(
+fun DetailsPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
@@ -25,7 +27,9 @@ fun PosterSeason(
         placeholder = painterResource(R.drawable.placeholder_image),
         error = painterResource(id = R.drawable.error_image),
         contentDescription = null,
+        contentScale = ContentScale.Crop,
         modifier = modifier
-            .width(140.dp)
+            .fillMaxWidth()
+            .height(600.dp)
     )
 }

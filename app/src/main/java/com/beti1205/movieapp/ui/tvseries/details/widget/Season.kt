@@ -27,7 +27,7 @@ fun Season(
 ) {
     Row(modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         if (selectedSeason != null) {
-            PosterSeason(posterPath = selectedSeason.posterPath)
+            SeasonPoster(posterPath = selectedSeason.posterPath)
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)

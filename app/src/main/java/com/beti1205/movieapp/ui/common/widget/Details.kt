@@ -27,7 +27,7 @@ fun Details(
     Column(
         modifier = modifier
     ) {
-        Poster(posterPath = posterPath)
+        DetailsPoster(posterPath = posterPath)
         Genres(genres = genres)
         Column(
             modifier = Modifier.padding(
@@ -38,7 +38,7 @@ fun Details(
             )
         ) {
             Row {
-                Title(
+                DetailsTitle(
                     title = title,
                     modifier = Modifier.weight(1f)
                 )

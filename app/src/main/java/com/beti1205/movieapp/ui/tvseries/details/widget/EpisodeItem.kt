@@ -3,16 +3,12 @@ package com.beti1205.movieapp.ui.tvseries.details.widget
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.common.widget.ReleaseDate
@@ -25,24 +21,15 @@ fun EpisodeItem(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(
-            text = stringResource(
-                id = R.string.episode_number,
-                item.numberOfEpisode
-            ),
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 8.dp)
+        EpisodeItemNumber(
+            numberOfEpisode = item.numberOfEpisode,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        PosterEpisode(posterPath = item.posterPath)
-        Text(
-            text = item.name,
-            style = MaterialTheme.typography.subtitle1,
-            color = MaterialTheme.colors.secondary,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 8.dp)
-        )
+        EpisodePoster(posterPath = item.posterPath)
+        EpisodeTitle(name = item.name, modifier = Modifier.align(Alignment.CenterHorizontally))
         ReleaseDate(
             releaseDate = item.episodeAirDate,
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.End).padding(top = 8.dp)
         )
         Overview(overview = item.overview)
     }

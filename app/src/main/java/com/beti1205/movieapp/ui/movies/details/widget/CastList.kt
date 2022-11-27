@@ -20,6 +20,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun CastList(
     cast: List<Cast>?,
+    onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (cast != null) {
@@ -40,7 +41,9 @@ fun CastList(
                     CreditItem(
                         path = item.path,
                         name = item.name,
-                        description = item.character
+                        id = item.id,
+                        description = item.character,
+                        onPersonClicked = onPersonClicked
                     )
                 }
             }
@@ -57,7 +60,10 @@ fun CastList(
 fun CastListPreview() {
     MovieAppTheme {
         Surface {
-            CastList(cast = CreditsPreviewDataProvider.cast)
+            CastList(
+                cast = CreditsPreviewDataProvider.cast,
+                onPersonClicked = {}
+            )
         }
     }
 }

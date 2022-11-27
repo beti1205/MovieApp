@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,16 @@ class MovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            MovieDetailsScreen(viewModel)
+            MovieDetailsScreen(
+                viewModel = viewModel,
+                onPersonClicked = ::navigateToPersonDetails
+            )
         }
+    }
+
+    private fun navigateToPersonDetails(id: Int) {
+        findNavController().navigate(
+            MovieDetailsFragmentDirections.actionMovieDetailsFragmentToPersonDetailsFragment(id)
+        )
     }
 }

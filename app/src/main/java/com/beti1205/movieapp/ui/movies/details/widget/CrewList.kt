@@ -20,6 +20,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun CrewList(
     crew: List<Crew>?,
+    onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (crew != null) {
@@ -40,7 +41,9 @@ fun CrewList(
                     CreditItem(
                         path = item.path,
                         name = item.name,
-                        description = item.job
+                        id = item.id,
+                        description = item.job,
+                        onPersonClicked = onPersonClicked
                     )
                 }
             }
@@ -57,7 +60,10 @@ fun CrewList(
 fun CrewListPreview() {
     MovieAppTheme {
         Surface {
-            CrewList(crew = CreditsPreviewDataProvider.crew)
+            CrewList(
+                crew = CreditsPreviewDataProvider.crew,
+                onPersonClicked = { }
+            )
         }
     }
 }

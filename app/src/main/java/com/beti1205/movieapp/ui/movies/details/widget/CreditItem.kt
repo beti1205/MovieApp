@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.movies.details.widget
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -17,10 +18,12 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun CreditItem(
     path: String?,
     name: String,
+    id: Int,
     description: String,
+    onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.clickable { onPersonClicked(id) }) {
         CreditsPoster(posterPath = path)
         Text(
             text = name,
@@ -47,7 +50,9 @@ fun CreditItemPreview() {
             CreditItem(
                 path = CreditsPreviewDataProvider.cast.first().path,
                 name = CreditsPreviewDataProvider.cast.first().name,
-                description = CreditsPreviewDataProvider.cast.first().character
+                id = CreditsPreviewDataProvider.cast.first().id,
+                description = CreditsPreviewDataProvider.cast.first().character,
+                onPersonClicked = {}
             )
         }
     }

@@ -27,7 +27,10 @@ import com.beti1205.movieapp.ui.movies.details.widget.SectionTitle
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun MovieDetailsScreen(viewModel: MovieDetailsViewModel) {
+fun MovieDetailsScreen(
+    viewModel: MovieDetailsViewModel,
+    onPersonClicked: (Int) -> Unit
+) {
     val movie by viewModel.selectedMovie.collectAsState()
     val cast by viewModel.cast.collectAsState()
     val crew by viewModel.crew.collectAsState()
@@ -39,7 +42,8 @@ fun MovieDetailsScreen(viewModel: MovieDetailsViewModel) {
         cast = cast,
         crew = crew,
         hasError = hasError,
-        genres = genres
+        genres = genres,
+        onPersonClicked = onPersonClicked
     )
 }
 
@@ -49,7 +53,8 @@ fun MovieDetailsScreen(
     cast: List<Cast>?,
     crew: List<Crew>?,
     hasError: Boolean?,
-    genres: List<Genre>?
+    genres: List<Genre>?,
+    onPersonClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -69,10 +74,16 @@ fun MovieDetailsScreen(
                     EmptyStateMessage()
                 } else {
                     SectionTitle(text = stringResource(id = R.string.cast))
-                    CastList(cast)
+                    CastList(
+                        cast = cast,
+                        onPersonClicked = onPersonClicked
+                    )
                     StandardDivider()
                     SectionTitle(text = stringResource(id = R.string.crew))
-                    CrewList(crew)
+                    CrewList(
+                        crew = crew,
+                        onPersonClicked = onPersonClicked
+                    )
                 }
             }
         }
@@ -92,6 +103,7 @@ fun MovieDetailsScreenPreview() {
         cast = CreditsPreviewDataProvider.cast,
         crew = CreditsPreviewDataProvider.crew,
         hasError = false,
-        genres = MoviePreviewDataProvider.genres
+        genres = MoviePreviewDataProvider.genres,
+        onPersonClicked = {}
     )
 }

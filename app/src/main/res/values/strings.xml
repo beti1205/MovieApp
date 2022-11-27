@@ -29,10 +29,12 @@
     <string name="search_empty_list_message">No result. Try adjusting your search to find what you are looking for.</string>
     <string name="tv_details_label">Details</string>
     <string name="search_movies_label">Search Movies</string>
-    <string name="person_details_label">"Person details"</string>
+    <string name="person_details_label">Person details</string>
     <string name="movies_label">Movies</string>
     <string name="search_tv_label">Search Tv Series</string>
     <string name="connection_error_message">Whoops! We\'re having difficulty connecting to the server. Check your connection or try again later.</string>
     <string name="season_hint_label">Season</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="person_details_birthday_label">Birth: %s</string>
+    <string name="person_details_deathday_label">Death: %s</string>
 </resources>

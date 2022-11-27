@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.persondetails.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -7,26 +7,25 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.R
+import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun Overview(
-    overview: String,
-    modifier: Modifier = Modifier,
-    maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip
+fun PersonBirthday(
+    birthday: String?,
+    modifier: Modifier = Modifier
 ) {
     Text(
-        text = overview,
-        style = MaterialTheme.typography.body2,
+        text = stringResource(
+            id = R.string.person_details_birthday_label,
+            birthday ?: ""
+        ),
         modifier = modifier.padding(top = 8.dp),
-        textAlign = TextAlign.Justify,
-        maxLines = maxLines,
-        overflow = overflow
+        style = MaterialTheme.typography.subtitle2
     )
 }
 
@@ -36,10 +35,12 @@ fun Overview(
     showBackground = true
 )
 @Composable
-fun OverviewPreview() {
-    MovieAppTheme() {
+fun PersonBirthdayPreview() {
+    MovieAppTheme {
         Surface {
-            Overview(overview = "For best friends Becky and Hunter...")
+            PersonBirthday(
+                birthday = PersonDetailsPreviewDataProvider.personDetails.birthday
+            )
         }
     }
 }

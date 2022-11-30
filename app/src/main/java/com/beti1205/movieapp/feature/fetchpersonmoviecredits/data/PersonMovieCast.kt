@@ -6,12 +6,16 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PersonMovieCast(
     val character: String,
-    val vote_count: Int,
-    val vote_average: Double,
     val title: String,
     val popularity: Double,
     val id: Int,
     val overview: String,
+
+    @Json(name = "vote_count")
+    val voteCount: Int,
+
+    @Json(name = "vote_average")
+    val voteAverage: Double,
 
     @Json(name = "credit_id")
     val creditId: String,

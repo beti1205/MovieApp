@@ -17,24 +17,24 @@ object PersonDetailsPreviewDataProvider {
         personPoster = null
     )
 
+    val personMovieCast = PersonMovieCast(
+        character = "Himself",
+        title = "Murch: Walter Murch on Editing",
+        popularity = 1.0,
+        id = 1,
+        overview = "",
+        voteCount = 100,
+        voteAverage = 1.0,
+        creditId = "1",
+        releaseDate = "2007-01-26",
+        genreIds = listOf(1),
+        originalLanguage = "",
+        originalTitle = "",
+        posterPath = null
+    )
+
     private val sectionMovieCast = Section.MovieCast(
-        listOf(
-            PersonMovieCast(
-                character = "Himself",
-                title = "Murch: Walter Murch on Editing",
-                popularity = 1.0,
-                id = 1,
-                overview = "",
-                voteCount = 100,
-                voteAverage = 1.0,
-                creditId = "1",
-                releaseDate = "2007-01-26",
-                genreIds = listOf(1),
-                originalLanguage = "",
-                originalTitle = "",
-                posterPath = null
-            )
-        ),
+        listOf(personMovieCast),
         false
     )
 

@@ -1,8 +1,10 @@
 package com.beti1205.movieapp.ui.persondetails.widget
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -14,9 +16,13 @@ fun SectionButton(
     onExpandedChanged: (Boolean) -> Unit,
     expanded: Boolean
 ) {
-    Button(
+    TextButton(
         onClick = { onExpandedChanged(!expanded) },
-        modifier = Modifier.padding(start = 16.dp)
+        modifier = Modifier.padding(start = 16.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.primaryVariant,
+            contentColor = MaterialTheme.colors.onPrimary
+        )
     ) {
         if (!expanded) {
             Text(text = stringResource(R.string.section_button_show_more))

@@ -6,10 +6,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.R
 
 @Composable
 fun FilmographyItem(
@@ -22,7 +24,7 @@ fun FilmographyItem(
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Text(
-            text = if (date == "") "unknown" else date,
+            text = date.ifEmpty { stringResource(R.string.filmography_date_unknown) },
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Start,
             fontStyle = FontStyle.Italic,

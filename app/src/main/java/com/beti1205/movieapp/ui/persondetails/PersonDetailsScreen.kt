@@ -72,12 +72,7 @@ fun PersonDetailsScreenPreview() {
         Surface {
             PersonDetailsScreen(
                 details = PersonDetailsPreviewDataProvider.personDetails,
-                sections = listOf(
-                    Section.MovieCast(
-                        PersonDetailsPreviewDataProvider.personMovieCastList,
-                        expanded = false
-                    )
-                ),
+                sections = PersonDetailsPreviewDataProvider.sectionsList,
                 onExpandedChanged = { _, _ -> }
             )
         }

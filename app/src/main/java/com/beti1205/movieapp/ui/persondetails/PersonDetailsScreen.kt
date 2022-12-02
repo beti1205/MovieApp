@@ -19,14 +19,18 @@ import com.beti1205.movieapp.ui.persondetails.widget.section
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun PersonDetailsScreen(viewModel: PersonDetailsViewModel) {
+fun PersonDetailsScreen(
+    viewModel: PersonDetailsViewModel,
+    onMovieClicked: (Int) -> Unit
+) {
     val personDetails by viewModel.personDetails.collectAsState()
     val sections by viewModel.sections.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
         sections = sections,
-        onExpandedChanged = viewModel::onSectionExpandedChanged
+        onExpandedChanged = viewModel::onSectionExpandedChanged,
+        onMovieClicked = onMovieClicked
     )
 }
 
@@ -34,7 +38,8 @@ fun PersonDetailsScreen(viewModel: PersonDetailsViewModel) {
 fun PersonDetailsScreen(
     details: PersonDetails?,
     onExpandedChanged: (Section, Boolean) -> Unit,
-    sections: List<Section>
+    sections: List<Section>,
+    onMovieClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -53,7 +58,8 @@ fun PersonDetailsScreen(
                                 section,
                                 expanded
                             )
-                        }
+                        },
+                        onMovieClicked = onMovieClicked
                     )
                 }
             }
@@ -73,7 +79,8 @@ fun PersonDetailsScreenPreview() {
             PersonDetailsScreen(
                 details = PersonDetailsPreviewDataProvider.personDetails,
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
-                onExpandedChanged = { _, _ -> }
+                onExpandedChanged = { _, _ -> },
+                onMovieClicked = {}
             )
         }
     }

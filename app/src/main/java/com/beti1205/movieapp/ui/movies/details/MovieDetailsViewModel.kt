@@ -25,6 +25,7 @@ class MovieDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val selectedMovie = state.getStateFlow<Movie?>("selectedMovie", null)
+    val creditsSelectedMovieId = state.getStateFlow<Int?>("selectedMovieId", null)
 
     private val _cast = MutableStateFlow<List<Cast>>(emptyList())
     val cast: StateFlow<List<Cast>> = _cast.asStateFlow()

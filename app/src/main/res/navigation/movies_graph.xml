@@ -14,8 +14,8 @@
             app:destination="@id/movieDetailsFragment">
 
             <argument
-                android:name="selectedMovie"
-                app:argType="com.beti1205.movieapp.feature.fetchmovies.data.Movie" />
+                android:name="selectedMovieId"
+                app:argType="integer" />
 
         </action>
 
@@ -31,14 +31,7 @@
         android:label="@string/movie_details_label">
 
         <argument
-            android:name="selectedMovie"
-            android:defaultValue="@null"
-            app:nullable="true"
-            app:argType="com.beti1205.movieapp.feature.fetchmovies.data.Movie" />
-
-        <argument
             android:name="selectedMovieId"
-            android:defaultValue="-1"
             app:argType="integer" />
 
         <action
@@ -57,8 +50,8 @@
             app:destination="@id/movieDetailsFragment">
 
             <argument
-                android:name="selectedMovie"
-                app:argType="com.beti1205.movieapp.feature.fetchmovies.data.Movie" />
+                android:name="selectedMovieId"
+                app:argType="integer" />
 
         </action>
 

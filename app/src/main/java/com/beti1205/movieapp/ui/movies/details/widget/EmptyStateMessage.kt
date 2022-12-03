@@ -1,7 +1,9 @@
 package com.beti1205.movieapp.ui.movies.details.widget
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,8 +29,9 @@ fun EmptyStateMessage(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.padding(16.dp).fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
 
     ) {
         Icon(
@@ -57,7 +60,7 @@ fun EmptyStateMessage(
 @Composable
 fun EmptyStateMessagePreview() {
     MovieAppTheme {
-        Surface {
+        Surface(modifier = Modifier.fillMaxSize()) {
             EmptyStateMessage()
         }
     }

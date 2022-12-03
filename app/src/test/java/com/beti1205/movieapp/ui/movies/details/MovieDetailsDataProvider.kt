@@ -5,7 +5,6 @@ import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 
 object MovieDetailsDataProvider {
 
@@ -16,20 +15,14 @@ object MovieDetailsDataProvider {
         )
     )
 
-    val movieDetails = MovieDetails(genresList)
-
-    val movie = Movie(
+    val movieDetails = MovieDetails(
         id = 238,
         title = "The Godfather",
         overview = "A chronicle of the fictional Italian-American Corleone crime family",
-        popularity = 94.558,
-        adult = false,
-        voteCount = 16593,
         voteAverage = 8.7,
-        language = "en",
         posterPath = "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
-        originalTitle = "The Godfather",
-        releaseDate = "1972-03-14"
+        releaseDate = "1972-03-14",
+        genres = genresList
     )
 
     val cast = listOf(

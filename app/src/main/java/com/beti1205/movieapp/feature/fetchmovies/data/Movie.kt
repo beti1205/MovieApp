@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.feature.fetchmovies.data
 
 import android.os.Parcelable
+import com.beti1205.movieapp.utils.formattedRating
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -34,5 +35,5 @@ data class Movie(
 ) : Parcelable {
 
     val votes: String
-        get() = voteAverage.toString()
+        get() = voteAverage.formattedRating
 }

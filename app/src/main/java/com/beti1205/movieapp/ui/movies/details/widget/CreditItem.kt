@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.ui.movies.details.CreditsPreviewDataProvider
+import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -48,10 +48,10 @@ fun CreditItemPreview() {
     MovieAppTheme {
         Surface {
             CreditItem(
-                path = CreditsPreviewDataProvider.cast.first().path,
-                name = CreditsPreviewDataProvider.cast.first().name,
-                id = CreditsPreviewDataProvider.cast.first().id,
-                description = CreditsPreviewDataProvider.cast.first().character,
+                path = MovieDetailsPreviewDataProvider.cast.first().path,
+                name = MovieDetailsPreviewDataProvider.cast.first().name,
+                id = MovieDetailsPreviewDataProvider.cast.first().id,
+                description = MovieDetailsPreviewDataProvider.cast.first().character,
                 onPersonClicked = {}
             )
         }

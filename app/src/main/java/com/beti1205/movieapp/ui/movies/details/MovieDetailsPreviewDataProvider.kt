@@ -2,10 +2,20 @@ package com.beti1205.movieapp.ui.movies.details
 
 import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 
 object MovieDetailsPreviewDataProvider {
+    val cast = listOf(
+        Cast(
+            id = 1,
+            name = "Grace Caroline Currey",
+            popularity = 8.9,
+            character = "Becky",
+            path = "/6chZcnjWEiFfpmB6D5BR9YUeIs9.jpg"
+        )
+    )
     val crew = listOf(
         Crew(
             id = 90812,
@@ -16,14 +26,10 @@ object MovieDetailsPreviewDataProvider {
             path = "/8WygpUzfdfztZQqxGE5zn3rCedJ.jpg"
         )
     )
-    val cast = listOf(
-        Cast(
-            id = 1,
-            name = "Grace Caroline Currey",
-            popularity = 8.9,
-            character = "Becky",
-            path = "/6chZcnjWEiFfpmB6D5BR9YUeIs9.jpg"
-        )
+    val credits = Credits(
+        id = 1,
+        cast = cast,
+        crew = crew
     )
 
     val genres = listOf(

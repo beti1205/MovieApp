@@ -1,7 +1,6 @@
 package com.beti1205.movieapp.ui.movies.common
 
 import androidx.paging.PagingData
-import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 
 object MoviePreviewDataProvider {
@@ -30,16 +29,6 @@ object MoviePreviewDataProvider {
                 id = 98874,
                 title = "Matrix"
             )
-        )
-    )
-    val genres = listOf(
-        Genre(
-            id = 18,
-            name = "Drama"
-        ),
-        Genre(
-            id = 20,
-            name = "Crime"
         )
     )
 }

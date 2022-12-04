@@ -37,7 +37,7 @@ class SearchMoviesFragment : Fragment() {
     private fun navigateToMovieDetails(movie: Movie) {
         findNavController().navigate(
             SearchMoviesFragmentDirections.actionSearchMoviesFragmentToMovieDetailsFragment(
-                movie
+                movie.id
             )
         )
     }

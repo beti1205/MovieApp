@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.persondetails.widget
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -22,10 +23,13 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun FilmographyItem(
     date: String,
     name: String,
-    description: String
+    description: String,
+    movieId: Int,
+    onMovieClicked: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
+            .clickable { onMovieClicked(movieId) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Text(
@@ -68,7 +72,9 @@ fun FilmographyItemPreview() {
             FilmographyItem(
                 date = PersonDetailsPreviewDataProvider.personMovieCast.releaseDate,
                 name = PersonDetailsPreviewDataProvider.personMovieCast.title,
-                description = PersonDetailsPreviewDataProvider.personMovieCast.character
+                description = PersonDetailsPreviewDataProvider.personMovieCast.character,
+                movieId = 1,
+                onMovieClicked = {}
             )
         }
     }

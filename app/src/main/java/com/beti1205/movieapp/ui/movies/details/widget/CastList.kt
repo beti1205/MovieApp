@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.ui.common.widget.listItemHorizontalPadding
-import com.beti1205.movieapp.ui.movies.details.CreditsPreviewDataProvider
+import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -61,7 +61,7 @@ fun CastListPreview() {
     MovieAppTheme {
         Surface {
             CastList(
-                cast = CreditsPreviewDataProvider.cast,
+                cast = MovieDetailsPreviewDataProvider.cast,
                 onPersonClicked = {}
             )
         }

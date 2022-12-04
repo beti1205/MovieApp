@@ -9,7 +9,8 @@ import com.beti1205.movieapp.ui.persondetails.Section
 
 fun LazyListScope.section(
     section: Section,
-    onExpandedChanged: (Boolean) -> Unit
+    onExpandedChanged: (Boolean) -> Unit,
+    onMovieClicked: (Int) -> Unit
 ) {
     when (section) {
         is Section.MovieCast -> {
@@ -20,7 +21,9 @@ fun LazyListScope.section(
                 FilmographyItem(
                     date = item.releaseDate,
                     name = item.title,
-                    description = item.character
+                    description = item.character,
+                    movieId = item.id,
+                    onMovieClicked = onMovieClicked
                 )
             }
         }
@@ -32,7 +35,9 @@ fun LazyListScope.section(
                 FilmographyItem(
                     date = item.releaseDate,
                     name = item.title,
-                    description = item.job
+                    description = item.job,
+                    movieId = item.id,
+                    onMovieClicked = onMovieClicked
                 )
             }
         }

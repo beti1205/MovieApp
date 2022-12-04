@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.Genre
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
+import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -62,7 +62,7 @@ fun Details(
 fun DetailsPreview() {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            with(MoviePreviewDataProvider) {
+            with(MovieDetailsPreviewDataProvider) {
                 Details(
                     posterPath = movie.posterPath,
                     title = movie.title,

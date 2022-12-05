@@ -4,8 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsUseCase
 import io.mockk.coEvery
@@ -16,7 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -35,50 +32,6 @@ class MovieDetailsViewModelTest {
     private val fetchMovieDetailsUseCase = mockk<FetchMovieDetailsUseCase>()
 
     @Test
-    fun fetchCredits_successful() = runTest {
-        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
-        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
-        viewModel = MovieDetailsViewModel(
-            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
-            fetchMovieCreditsUseCase,
-            fetchMovieDetailsUseCase
-        )
-
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.cast.collect() }
-            launch { viewModel.crew.collect() }
-            launch { viewModel.hasError.collect() }
-        }
-
-        assertEquals(MovieDetailsDataProvider.cast, viewModel.cast.value)
-        assertEquals(MovieDetailsDataProvider.crew, viewModel.crew.value)
-        assertTrue(!viewModel.hasError.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
-    fun fetchCredits_failure() = runTest {
-        coEvery { fetchMovieCreditsUseCase(any()) } returns movieError
-        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
-        viewModel = MovieDetailsViewModel(
-            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
-            fetchMovieCreditsUseCase,
-            fetchMovieDetailsUseCase
-        )
-
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.cast.collect() }
-            launch { viewModel.crew.collect() }
-        }
-
-        assertEquals(emptyList<Crew>(), viewModel.crew.value)
-        assertEquals(emptyList<Cast>(), viewModel.cast.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
     fun fetchMovieDetails_successful() = runTest {
         coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
         coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
@@ -88,15 +41,36 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.movieDetails.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.state.collect() }
+        }
 
-        assertEquals(MovieDetailsDataProvider.movieDetails, viewModel.movieDetails.value)
+        assertEquals(MovieDetailsDataProvider.movieDetailsScreenState, viewModel.state.value)
 
         collectJob.cancel()
     }
 
     @Test
-    fun fetchMovieDetails_failure() = runTest {
+    fun fetchMovieDetails_failure_movieCreditsError() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieError
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.state.collect() }
+        }
+
+        assertTrue(viewModel.state.value.hasError)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchMovieDetails_failure_movieDetailsError() = runTest {
         coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
         coEvery { fetchMovieDetailsUseCase(any()) } returns movieError
         viewModel = MovieDetailsViewModel(
@@ -105,9 +79,30 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.movieDetails.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.state.collect() }
+        }
 
-        assertNull(viewModel.movieDetails.value)
+        assertTrue(viewModel.state.value.hasError)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchMovieDetails_failure() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieError
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieError
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.state.collect() }
+        }
+
+        assertTrue(viewModel.state.value.hasError)
 
         collectJob.cancel()
     }

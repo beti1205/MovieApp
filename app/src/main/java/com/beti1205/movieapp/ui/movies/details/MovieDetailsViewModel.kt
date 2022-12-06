@@ -4,12 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
+import com.beti1205.movieapp.common.flatZip
+import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,52 +26,43 @@ class MovieDetailsViewModel @Inject constructor(
 
     val selectedMovieId = state.getStateFlow<Int?>("selectedMovieId", null)
 
-    private val _cast = MutableStateFlow<List<Cast>>(emptyList())
-    val cast: StateFlow<List<Cast>> = _cast.asStateFlow()
-
-    private val _crew = MutableStateFlow<List<Crew>>(emptyList())
-    val crew: StateFlow<List<Crew>> = _crew.asStateFlow()
-
-    private val _movieDetails = MutableStateFlow<MovieDetails?>(null)
-    val movieDetails: StateFlow<MovieDetails?> = _movieDetails.asStateFlow()
-
-    private val _hasError = MutableStateFlow<Boolean>(false)
-    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
+    private val _state = MutableStateFlow(MovieDetailsScreenState())
+    val state: StateFlow<MovieDetailsScreenState> = _state.asStateFlow()
 
     init {
         val selectedMovieId = selectedMovieId.value
 
         if (selectedMovieId != null) {
-            fetchCredits(selectedMovieId)
             fetchMovieDetails(selectedMovieId)
-        }
-    }
-
-    fun fetchCredits(id: Int) {
-        viewModelScope.launch {
-            val result = fetchMovieCreditsUseCase(id)
-
-            when (result) {
-                is Result.Success -> {
-                    _cast.value = result.data.cast
-                    _crew.value = result.data.crew
-                    _hasError.value = false
-                }
-                is Result.Error -> _hasError.value = true
-            }
         }
     }
 
     private fun fetchMovieDetails(id: Int) {
         viewModelScope.launch {
-            val result = fetchMovieDetailsUseCase(id)
+            val movieDetailsDeferredResult = async {
+                fetchMovieDetailsUseCase(id)
+            }
+            val creditDeferredResult = async {
+                fetchMovieCreditsUseCase(id)
+            }
+
+            val movieDetailsResult: Result<MovieDetails> = movieDetailsDeferredResult.await()
+            val creditsResult: Result<Credits> = creditDeferredResult.await()
+            val result: Result<MovieDetailsScreenState> = flatZip(
+                movieDetailsResult,
+                creditsResult
+            ) { movieDetails, credits ->
+                Result.Success(
+                    MovieDetailsScreenState(
+                        movieDetails,
+                        credits
+                    )
+                )
+            }
 
             when (result) {
-                is Result.Success -> {
-                    _movieDetails.value = result.data
-                    _hasError.value = false
-                }
-                is Result.Error -> _hasError.value = true
+                is Result.Error -> _state.value = MovieDetailsScreenState(hasError = true)
+                is Result.Success -> _state.value = result.data
             }
         }
     }

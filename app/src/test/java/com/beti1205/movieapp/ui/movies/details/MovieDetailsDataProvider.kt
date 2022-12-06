@@ -8,7 +8,7 @@ import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 
 object MovieDetailsDataProvider {
 
-    val genresList = listOf(
+    private val genresList = listOf(
         Genre(
             id = 18,
             name = "Drama"
@@ -25,7 +25,7 @@ object MovieDetailsDataProvider {
         genres = genresList
     )
 
-    val cast = listOf(
+    private val cast = listOf(
         Cast(
             id = 1,
             name = "Grace Caroline Currey",
@@ -35,7 +35,7 @@ object MovieDetailsDataProvider {
         )
     )
 
-    val crew = listOf(
+    private val crew = listOf(
         Crew(
             id = 90812,
             name = "Scott Mann",
@@ -50,5 +50,11 @@ object MovieDetailsDataProvider {
         id = 1,
         cast = cast,
         crew = crew
+    )
+
+    val movieDetailsScreenState = MovieDetailsScreenState(
+        movieDetails = movieDetails,
+        credits = credits,
+        hasError = false
     )
 }

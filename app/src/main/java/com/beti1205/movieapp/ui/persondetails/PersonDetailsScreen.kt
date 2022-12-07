@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
+import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.persondetails.widget.Person
 import com.beti1205.movieapp.ui.persondetails.widget.section
@@ -25,10 +26,12 @@ fun PersonDetailsScreen(
 ) {
     val personDetails by viewModel.personDetails.collectAsState()
     val sections by viewModel.sections.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
         sections = sections,
+        isLoading = isLoading,
         onExpandedChanged = viewModel::onSectionExpandedChanged,
         onMovieClicked = onMovieClicked
     )
@@ -37,30 +40,34 @@ fun PersonDetailsScreen(
 @Composable
 fun PersonDetailsScreen(
     details: PersonDetails?,
-    onExpandedChanged: (Section, Boolean) -> Unit,
     sections: List<Section>,
+    isLoading: Boolean,
+    onExpandedChanged: (Section, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            LazyColumn {
-                item {
-                    Person(details)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    StandardDivider()
-                }
+            when {
+                isLoading -> Loader()
+                else -> LazyColumn {
+                    item {
+                        Person(details)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        StandardDivider()
+                    }
 
-                sections.forEach { section ->
-                    section(
-                        section = section,
-                        onExpandedChanged = { expanded ->
-                            onExpandedChanged(
-                                section,
-                                expanded
-                            )
-                        },
-                        onMovieClicked = onMovieClicked
-                    )
+                    sections.forEach { section ->
+                        section(
+                            section = section,
+                            onExpandedChanged = { expanded ->
+                                onExpandedChanged(
+                                    section,
+                                    expanded
+                                )
+                            },
+                            onMovieClicked = onMovieClicked
+                        )
+                    }
                 }
             }
         }
@@ -79,6 +86,7 @@ fun PersonDetailsScreenPreview() {
             PersonDetailsScreen(
                 details = PersonDetailsPreviewDataProvider.personDetails,
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
+                isLoading = false,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {}
             )

@@ -31,6 +31,9 @@ class PersonDetailsViewModel @Inject constructor(
     private val _personDetails = MutableStateFlow<PersonDetails?>(null)
     val personDetails: StateFlow<PersonDetails?> = _personDetails.asStateFlow()
 
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     private val _sectionsStatuses: MutableStateFlow<Map<SectionType, Boolean>> = MutableStateFlow(
         mapOf(
             SectionType.MOVIE_CAST to false,
@@ -59,11 +62,19 @@ class PersonDetailsViewModel @Inject constructor(
 
     private fun fetchPersonDetails(id: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
+
             val result = fetchPersonDetailsUseCase(id)
 
             when (result) {
-                is Result.Success -> _personDetails.value = result.data
-                is Result.Error -> result
+                is Result.Success -> {
+                    _personDetails.value = result.data
+                    _isLoading.value = false
+                }
+                is Result.Error -> {
+                    _isLoading.value = false
+                    result
+                }
             }
         }
     }

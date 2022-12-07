@@ -39,6 +39,8 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun fetchMovieDetails(id: Int) {
         viewModelScope.launch {
+            _state.value = MovieDetailsScreenState(isLoading = true)
+
             val movieDetailsDeferredResult = async {
                 fetchMovieDetailsUseCase(id)
             }

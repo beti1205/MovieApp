@@ -25,10 +25,11 @@ fun FilmographyItem(
     name: String,
     description: String,
     movieId: Int,
-    onMovieClicked: (Int) -> Unit
+    onMovieClicked: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .clickable { onMovieClicked(movieId) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {

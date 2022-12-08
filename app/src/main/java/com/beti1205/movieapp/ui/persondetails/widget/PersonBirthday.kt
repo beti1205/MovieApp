@@ -22,7 +22,7 @@ fun PersonBirthday(
     Text(
         text = stringResource(
             id = R.string.person_details_birthday_label,
-            birthday ?: ""
+            birthday ?: "-"
         ),
         modifier = modifier.padding(top = 8.dp),
         style = MaterialTheme.typography.subtitle2

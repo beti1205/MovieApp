@@ -43,7 +43,7 @@ fun LazyListScope.section(
         }
     }
     item {
-        SectionButton(onExpandedChanged, section.expanded)
+        SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged)
         StandardDivider()
     }
 }

@@ -1,9 +1,7 @@
 package com.beti1205.movieapp.ui.persondetails
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -11,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
@@ -52,7 +49,6 @@ fun PersonDetailsScreen(
                 else -> LazyColumn {
                     item {
                         Person(details)
-                        Spacer(modifier = Modifier.height(8.dp))
                         StandardDivider()
                     }
 

@@ -42,6 +42,7 @@ class PersonDetailsViewModel @Inject constructor(
             SectionType.TV_CREW to false
         )
     )
+    val sectionStatuses: StateFlow<Map<SectionType, Boolean>> = _sectionsStatuses.asStateFlow()
 
     private val _personMovieCast = MutableStateFlow<List<PersonMovieCast>>(emptyList())
     private val _personMovieCrew = MutableStateFlow<List<PersonMovieCrew>>(emptyList())

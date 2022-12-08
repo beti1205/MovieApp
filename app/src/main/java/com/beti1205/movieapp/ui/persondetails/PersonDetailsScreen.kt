@@ -2,7 +2,6 @@ package com.beti1205.movieapp.ui.persondetails
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,9 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.ui.common.widget.Loader
-import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.persondetails.widget.Person
-import com.beti1205.movieapp.ui.persondetails.widget.section
+import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
+import com.beti1205.movieapp.ui.persondetails.widget.PersonDetails
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -24,11 +22,15 @@ fun PersonDetailsScreen(
     val personDetails by viewModel.personDetails.collectAsState()
     val sections by viewModel.sections.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val hasError by viewModel.hasError.collectAsState()
+    val hasMovieCreditsError by viewModel.hasMovieCreditsError.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
         sections = sections,
         isLoading = isLoading,
+        hasError = hasError,
+        hasMovieCreditsError = hasMovieCreditsError,
         onExpandedChanged = viewModel::onSectionExpandedChanged,
         onMovieClicked = onMovieClicked
     )
@@ -39,6 +41,8 @@ fun PersonDetailsScreen(
     details: PersonDetails?,
     sections: List<Section>,
     isLoading: Boolean,
+    hasError: Boolean,
+    hasMovieCreditsError: Boolean,
     onExpandedChanged: (Section, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit
 ) {
@@ -46,25 +50,14 @@ fun PersonDetailsScreen(
         Surface(modifier = Modifier.fillMaxSize()) {
             when {
                 isLoading -> Loader()
-                else -> LazyColumn {
-                    item {
-                        Person(details)
-                        StandardDivider()
-                    }
-
-                    sections.forEach { section ->
-                        section(
-                            section = section,
-                            onExpandedChanged = { expanded ->
-                                onExpandedChanged(
-                                    section,
-                                    expanded
-                                )
-                            },
-                            onMovieClicked = onMovieClicked
-                        )
-                    }
-                }
+                hasError -> EmptyStateMessage()
+                else -> PersonDetails(
+                    details = details,
+                    hasMovieCreditsError = hasMovieCreditsError,
+                    sections = sections,
+                    onExpandedChanged = onExpandedChanged,
+                    onMovieClicked = onMovieClicked
+                )
             }
         }
     }
@@ -83,6 +76,8 @@ fun PersonDetailsScreenPreview() {
                 details = PersonDetailsPreviewDataProvider.personDetails,
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
                 isLoading = false,
+                hasError = false,
+                hasMovieCreditsError = false,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {}
             )

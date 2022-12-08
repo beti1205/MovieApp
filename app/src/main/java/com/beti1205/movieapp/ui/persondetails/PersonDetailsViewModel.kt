@@ -34,6 +34,12 @@ class PersonDetailsViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    private val _hasError = MutableStateFlow<Boolean>(false)
+    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
+
+    private val _hasMovieCreditsError = MutableStateFlow<Boolean>(false)
+    val hasMovieCreditsError: StateFlow<Boolean> = _hasMovieCreditsError.asStateFlow()
+
     private val _sectionsStatuses: MutableStateFlow<Map<SectionType, Boolean>> = MutableStateFlow(
         mapOf(
             SectionType.MOVIE_CAST to false,
@@ -42,6 +48,7 @@ class PersonDetailsViewModel @Inject constructor(
             SectionType.TV_CREW to false
         )
     )
+    val sectionStatuses: StateFlow<Map<SectionType, Boolean>> = _sectionsStatuses.asStateFlow()
 
     private val _personMovieCast = MutableStateFlow<List<PersonMovieCast>>(emptyList())
     private val _personMovieCrew = MutableStateFlow<List<PersonMovieCrew>>(emptyList())
@@ -73,7 +80,7 @@ class PersonDetailsViewModel @Inject constructor(
                 }
                 is Result.Error -> {
                     _isLoading.value = false
-                    result
+                    _hasError.value = true
                 }
             }
         }
@@ -88,7 +95,7 @@ class PersonDetailsViewModel @Inject constructor(
                     _personMovieCast.value = result.data.cast
                     _personMovieCrew.value = result.data.crew
                 }
-                is Result.Error -> result
+                is Result.Error -> _hasMovieCreditsError.value = true
             }
         }
     }

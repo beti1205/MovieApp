@@ -25,8 +25,8 @@ fun FilmographyItem(
     name: String,
     description: String,
     movieId: Int,
-    onMovieClicked: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMovieClicked: (Int) -> Unit = {}
 ) {
     Row(
         modifier = modifier

@@ -41,5 +41,5 @@
     <string name="section_button_show_less">Show less</string>
     <string name="section_header_movie_cast">Acting</string>
     <string name="section_header_movie_crew">Participation in creation</string>
-    <string name="filmography_date_unknown">unknown</string>
+    <string name="filmography_unknown">unknown</string>
 </resources>

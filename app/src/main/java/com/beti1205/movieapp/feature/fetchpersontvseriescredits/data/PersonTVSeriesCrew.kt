@@ -16,7 +16,7 @@ class PersonTVSeriesCrew(
     val originalLanguage: String,
 
     @Json(name = "episode_count")
-    val episodeCount: Int,
+    val episodeCount: Int?,
 
     @Json(name = "origin_country")
     val originCountry: List<String>,

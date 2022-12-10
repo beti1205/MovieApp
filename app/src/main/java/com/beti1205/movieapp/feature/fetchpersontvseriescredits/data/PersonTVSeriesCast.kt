@@ -30,7 +30,7 @@ data class PersonTVSeriesCast(
     val voteAverage: Double,
 
     @Json(name = "episode_count")
-    val episodeCount: Int,
+    val episodeCount: Int?,
 
     @Json(name = "original_language")
     val originalLanguage: String,

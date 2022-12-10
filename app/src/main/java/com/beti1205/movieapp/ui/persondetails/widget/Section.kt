@@ -33,7 +33,7 @@ private fun LazyListScope.movieCastSection(
         FilmographyItem(
             date = item.releaseDate,
             name = item.title,
-            description = item.character,
+            description = item.character ?: stringResource(id = R.string.filmography_unknown),
             movieId = item.id,
             onMovieClicked = onMovieClicked
         )

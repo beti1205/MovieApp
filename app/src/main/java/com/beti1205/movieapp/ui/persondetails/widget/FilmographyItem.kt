@@ -34,7 +34,7 @@ fun FilmographyItem(
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Text(
-            text = date.ifEmpty { stringResource(R.string.filmography_date_unknown) },
+            text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Start,
             fontStyle = FontStyle.Italic,
@@ -73,7 +73,8 @@ fun FilmographyItemPreview() {
             FilmographyItem(
                 date = PersonDetailsPreviewDataProvider.personMovieCast.releaseDate,
                 name = PersonDetailsPreviewDataProvider.personMovieCast.title,
-                description = PersonDetailsPreviewDataProvider.personMovieCast.character,
+                description = PersonDetailsPreviewDataProvider.personMovieCast.character
+                    ?: "unknown",
                 movieId = 1,
                 onMovieClicked = {}
             )

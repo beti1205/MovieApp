@@ -26,7 +26,7 @@ It is also possible to search films by title and view their details.
     <tr>
         <td><img src="https://user-images.githubusercontent.com/63951233/206456363-45b866d2-c99b-4316-b734-1ec542e739f7.jpg" width="300"></td>
         <td><img src="https://user-images.githubusercontent.com/63951233/206457081-222b24dd-a476-4f88-a50d-79e27d05037c.jpg" width="300"></td>
-        <td><img src="https://user-images.githubusercontent.com/63951233/189876636-7512231f-e47b-40d5-bda8-e284be55ae52.jpg" width="300"></td>
+        <td><img src="https://user-images.githubusercontent.com/63951233/206873565-9df03740-4318-4d49-a8b1-27659fc30bc1.jpg" width="300"></td>
     </tr>
 </table>
 

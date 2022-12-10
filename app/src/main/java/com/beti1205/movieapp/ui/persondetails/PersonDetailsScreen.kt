@@ -23,14 +23,14 @@ fun PersonDetailsScreen(
     val sections by viewModel.sections.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
-    val hasMovieCreditsError by viewModel.hasMovieCreditsError.collectAsState()
+    val hasCreditsError by viewModel.hasCreditsError.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
         sections = sections,
         isLoading = isLoading,
         hasError = hasError,
-        hasMovieCreditsError = hasMovieCreditsError,
+        hasCreditsError = hasCreditsError,
         onExpandedChanged = viewModel::onSectionExpandedChanged,
         onMovieClicked = onMovieClicked
     )
@@ -42,7 +42,7 @@ fun PersonDetailsScreen(
     sections: List<Section>,
     isLoading: Boolean,
     hasError: Boolean,
-    hasMovieCreditsError: Boolean,
+    hasCreditsError: Boolean,
     onExpandedChanged: (Section, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit
 ) {
@@ -53,7 +53,7 @@ fun PersonDetailsScreen(
                 hasError -> EmptyStateMessage()
                 else -> PersonDetails(
                     details = details,
-                    hasMovieCreditsError = hasMovieCreditsError,
+                    hasCreditsError = hasCreditsError,
                     sections = sections,
                     onExpandedChanged = onExpandedChanged,
                     onMovieClicked = onMovieClicked
@@ -77,7 +77,7 @@ fun PersonDetailsScreenPreview() {
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
                 isLoading = false,
                 hasError = false,
-                hasMovieCreditsError = false,
+                hasCreditsError = false,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {}
             )

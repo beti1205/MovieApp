@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PersonMovieCast(
-    val character: String,
+    val character: String?,
     val title: String,
     val popularity: Double,
     val id: Int,

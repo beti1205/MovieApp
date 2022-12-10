@@ -16,7 +16,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun PersonDetails(
     details: PersonDetails?,
-    hasMovieCreditsError: Boolean,
+    hasCreditsError: Boolean,
     sections: List<Section>,
     onExpandedChanged: (Section, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit,
@@ -29,7 +29,7 @@ fun PersonDetails(
         }
 
         when {
-            hasMovieCreditsError -> item {
+            hasCreditsError -> item {
                 EmptyStateMessage()
             }
             else -> sections.forEach { section ->
@@ -60,7 +60,7 @@ fun PersonDetailsPreview() {
             PersonDetails(
                 details = PersonDetailsPreviewDataProvider.personDetails,
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
-                hasMovieCreditsError = false,
+                hasCreditsError = false,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {}
             )

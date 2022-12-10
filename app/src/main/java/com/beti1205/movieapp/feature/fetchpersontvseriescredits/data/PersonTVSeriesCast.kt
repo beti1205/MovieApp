@@ -10,7 +10,9 @@ data class PersonTVSeriesCast(
     val name: String,
     val popularity: Double,
     val overview: String,
-    val credit_id: String,
+
+    @Json(name = "credit_id")
+    val creditId: String,
 
     @Json(name = "original_name")
     val originalName: String,

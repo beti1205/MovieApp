@@ -4,6 +4,9 @@ import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCreditsResponse
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
+import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
+import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCreditsResponse
+import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
 
 object PersonDetailsDataProvider {
 
@@ -36,6 +39,49 @@ object PersonDetailsDataProvider {
         )
     )
 
+    private val personTVSeriesCastList = listOf(
+        PersonTVSeriesCast(
+            backdropPath = "/xXw353pKdfJ8ikYzH4FHAErCHNK.jpg",
+            genreIds = emptyList(),
+            id = 27023,
+            originCountry = emptyList(),
+            originalLanguage = "en",
+            originalName = "The Oscars",
+            overview = "An annual American awards ceremony honoring cinematic achievements in the film industry. The various category winners are awarded a copy of a statuette, officially the Academy Award of Merit, that is better known by its nickname Oscar.",
+            popularity = 14.916,
+            poster = "/wyMHJMQp8WpmBg9CxefvbQnFhrm.jpg",
+            firstAirDate = "1953-03-18",
+            name = "The Oscars",
+            voteAverage = 6.9,
+            voteCount = 55,
+            character = "Self",
+            creditId = "52588359760ee3466140cf9e",
+            episodeCount = 1
+        )
+    )
+
+    private val personTVSeriesCrewList = listOf(
+        PersonTVSeriesCrew(
+            backdropPath = "/xXw353pKdfJ8ikYzH4FHAErCHNK.jpg",
+            genreIds = emptyList(),
+            id = 27023,
+            originCountry = emptyList(),
+            originalLanguage = "en",
+            originalName = "The Oscars",
+            overview = "An annual American awards ceremony honoring cinematic achievements in the film industry. The various category winners are awarded a copy of a statuette, officially the Academy Award of Merit, that is better known by its nickname Oscar.",
+            popularity = 14.916,
+            posterPath = "/wyMHJMQp8WpmBg9CxefvbQnFhrm.jpg",
+            firstAirDate = "1953-03-18",
+            name = "The Oscars",
+            voteAverage = 6.9,
+            voteCount = 55,
+            creditId = "52588359760ee3466140cf9e",
+            episodeCount = 1,
+            department = "Production",
+            job = "Producer"
+        )
+    )
+
     private val personMovieCrewList = listOf(
         PersonMovieCrew(
             id = 1,
@@ -62,6 +108,12 @@ object PersonDetailsDataProvider {
         id = 1
     )
 
+    val personTVSeriesCreditsResponse = PersonTVSeriesCreditsResponse(
+        cast = personTVSeriesCastList,
+        crew = personTVSeriesCrewList,
+        id = 1
+    )
+
     private val sectionMovieCast = Section.MovieCast(
         personMovieCastList,
         false
@@ -72,13 +124,34 @@ object PersonDetailsDataProvider {
         false
     )
 
-    val sectionsEmptyCredits = listOf(
+    private val sectionTVCast = Section.TVCast(
+        personTVSeriesCastList,
+        false
+    )
+
+    private val sectionTVCrew = Section.TVCrew(
+        personTVSeriesCrewList,
+        false
+    )
+
+    val sectionsMovieCreditsError = listOf(
         Section.MovieCast(emptyList(), false),
-        Section.MovieCrew(emptyList(), false)
+        sectionTVCast,
+        Section.MovieCrew(emptyList(), false),
+        sectionTVCrew
+    )
+
+    val sectionsTVSeriesCreditsError = listOf(
+        sectionMovieCast,
+        Section.TVCast(emptyList(), false),
+        sectionMovieCrew,
+        Section.TVCrew(emptyList(), false)
     )
 
     val sectionsList = listOf(
         sectionMovieCast,
-        sectionMovieCrew
+        sectionTVCast,
+        sectionMovieCrew,
+        sectionTVCrew
     )
 }

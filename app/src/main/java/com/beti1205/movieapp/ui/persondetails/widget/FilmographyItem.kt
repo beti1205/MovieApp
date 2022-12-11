@@ -8,9 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -31,17 +28,13 @@ fun FilmographyItem(
     modifier: Modifier = Modifier,
     onMovieClicked: (Int) -> Unit = {}
 ) {
-    val dateText by remember(date) {
-        mutableStateOf((date.split('-').firstOrNull()))
-    }
-
     Row(
         modifier = modifier
             .clickable { onMovieClicked(movieId) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Text(
-            text = dateText ?: stringResource(R.string.filmography_unknown),
+            text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Start,
             fontStyle = FontStyle.Italic,

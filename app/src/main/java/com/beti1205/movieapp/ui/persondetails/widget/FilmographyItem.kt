@@ -37,43 +37,68 @@ fun FilmographyItem(
             .clickable { onMovieClicked(movieId) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
-        Text(
-            text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
-            style = MaterialTheme.typography.body2,
-            textAlign = TextAlign.Start,
-            fontStyle = FontStyle.Italic
-        )
-        Text(
-            text = name,
-            style = MaterialTheme.typography.body2,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1F),
-            fontWeight = FontWeight.Bold
+        Date(date = date)
+        Title(name = name, modifier = Modifier.weight(1F))
+        Description(description = description, modifier = Modifier.weight(1F))
+        Rating(rating = rating)
+    }
+}
+
+@Composable
+private fun Description(
+    description: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = description,
+        style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Start,
+        modifier = modifier
+            .padding(start = 16.dp)
+    )
+}
+
+@Composable
+private fun Title(
+    name: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = name,
+        style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Start,
+        modifier = modifier
+            .padding(start = 16.dp),
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+private fun Date(date: String) {
+    Text(
+        text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
+        style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Start,
+        fontStyle = FontStyle.Italic
+    )
+}
+
+@Composable
+private fun Rating(
+    rating: String,
+    modifier: Modifier = Modifier
+) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_star_24),
+            contentDescription = null,
+            tint = MaterialTheme.colors.secondary
         )
 
         Text(
-            text = description,
-            style = MaterialTheme.typography.body2,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1F)
+            text = rating,
+            style = MaterialTheme.typography.body2
         )
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_star_24),
-                contentDescription = null,
-                tint = MaterialTheme.colors.secondary
-            )
-
-            Text(
-                text = rating,
-                style = MaterialTheme.typography.body2
-            )
-        }
     }
 }
 

@@ -1,10 +1,11 @@
 package com.beti1205.movieapp.feature.fetchpersontvseriescredits.data
 
+import com.beti1205.movieapp.utils.formattedRating
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class PersonTVSeriesCrew(
+data class PersonTVSeriesCrew(
     val id: Int,
     val department: String,
     val job: String,
@@ -44,4 +45,7 @@ class PersonTVSeriesCrew(
 
     @Json(name = "credit_id")
     val creditId: String
-)
+) {
+    val votes: String
+        get() = voteAverage.formattedRating
+}

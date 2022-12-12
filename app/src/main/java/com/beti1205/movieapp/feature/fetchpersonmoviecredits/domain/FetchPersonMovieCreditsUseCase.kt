@@ -19,8 +19,27 @@ class FetchPersonMovieCreditsUseCaseImpl @Inject constructor(
     private val appConfig: AppConfig
 ) : FetchPersonMovieCreditsUseCase {
     override suspend fun invoke(personId: Int): Result<PersonMovieCreditsResponse> {
-        return performRequest {
+        val result = performRequest {
             personMovieCreditsService.getPersonMovieCredits(personId, appConfig.apiKey)
+        }
+
+        return when (result) {
+            is Result.Error -> result
+            is Result.Success -> Result.Success(
+                result.data.copy(
+                    cast = result.data.cast.map { cast ->
+                        cast.copy(
+                            releaseDate = cast.releaseDate.split("-").first()
+                        )
+                    }.sortedByDescending { it.releaseDate },
+                    crew = result.data.crew.map { crew ->
+                        crew.copy(
+                            releaseDate = crew.releaseDate.split("-").first()
+                        )
+                    }.sortedByDescending { it.releaseDate },
+                    id = result.data.id
+                )
+            )
         }
     }
 }

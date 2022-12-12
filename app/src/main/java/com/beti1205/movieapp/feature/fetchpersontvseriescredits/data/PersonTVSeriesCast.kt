@@ -1,5 +1,6 @@
 package com.beti1205.movieapp.feature.fetchpersontvseriescredits.data
 
+import com.beti1205.movieapp.utils.formattedRating
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -43,4 +44,7 @@ data class PersonTVSeriesCast(
 
     @Json(name = "origin_country")
     val originCountry: List<String>
-)
+) {
+    val votes: String
+        get() = voteAverage.formattedRating
+}

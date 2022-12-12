@@ -50,7 +50,7 @@ object PersonDetailsPreviewDataProvider {
                 originalTitle = "Murch: Walter Murch on Editing",
                 originalLanguage = "",
                 voteCount = 100,
-                vote_average = 1.0,
+                voteAverage = 1.0,
                 posterPath = "",
                 genreIds = listOf(1),
                 releaseDate = "2007-01-26",

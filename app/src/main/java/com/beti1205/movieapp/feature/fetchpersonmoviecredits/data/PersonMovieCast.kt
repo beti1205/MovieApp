@@ -1,5 +1,6 @@
 package com.beti1205.movieapp.feature.fetchpersonmoviecredits.data
 
+import com.beti1205.movieapp.utils.formattedRating
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -34,4 +35,7 @@ data class PersonMovieCast(
 
     @Json(name = "poster_path")
     val posterPath: String?
-)
+) {
+    val votes: String
+        get() = voteAverage.formattedRating
+}

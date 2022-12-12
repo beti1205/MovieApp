@@ -35,6 +35,7 @@ private fun LazyListScope.movieCastSection(
             name = item.title,
             description = item.character ?: stringResource(id = R.string.filmography_unknown),
             movieId = item.id,
+            rating = item.votes,
             onMovieClicked = onMovieClicked
         )
     }
@@ -53,7 +54,8 @@ private fun LazyListScope.tvCastSection(
             date = item.firstAirDate,
             name = item.name,
             description = item.character,
-            movieId = item.id
+            movieId = item.id,
+            rating = item.votes
         )
     }
     item {
@@ -72,7 +74,8 @@ private fun LazyListScope.tvCrewSection(
             date = item.firstAirDate,
             name = item.name,
             description = item.job,
-            movieId = item.id
+            movieId = item.id,
+            rating = item.votes
         )
     }
     item {
@@ -96,6 +99,7 @@ private fun LazyListScope.movieCrewSection(
             name = item.title,
             description = item.job,
             movieId = item.id,
+            rating = item.votes,
             onMovieClicked = onMovieClicked
         )
     }

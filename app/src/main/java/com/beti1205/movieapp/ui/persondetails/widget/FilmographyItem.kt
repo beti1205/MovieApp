@@ -4,11 +4,14 @@ import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +28,7 @@ fun FilmographyItem(
     name: String,
     description: String,
     movieId: Int,
+    rating: String,
     modifier: Modifier = Modifier,
     onMovieClicked: (Int) -> Unit = {}
 ) {
@@ -37,9 +41,7 @@ fun FilmographyItem(
             text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Start,
-            fontStyle = FontStyle.Italic,
-            modifier = Modifier
-                .weight(1F)
+            fontStyle = FontStyle.Italic
         )
         Text(
             text = name,
@@ -47,17 +49,31 @@ fun FilmographyItem(
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .padding(start = 16.dp)
-                .weight(2F),
+                .weight(1F),
             fontWeight = FontWeight.Bold
         )
+
         Text(
             text = description,
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .padding(start = 16.dp)
-                .weight(2F)
+                .weight(1F)
         )
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_star_24),
+                contentDescription = null,
+                tint = MaterialTheme.colors.secondary
+            )
+
+            Text(
+                text = rating,
+                style = MaterialTheme.typography.body2
+            )
+        }
     }
 }
 
@@ -76,6 +92,7 @@ fun FilmographyItemPreview() {
                 description = PersonDetailsPreviewDataProvider.personMovieCast.character
                     ?: "unknown",
                 movieId = 1,
+                rating = "9.0",
                 onMovieClicked = {}
             )
         }

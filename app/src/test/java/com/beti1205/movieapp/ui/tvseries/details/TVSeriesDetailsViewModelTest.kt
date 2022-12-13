@@ -30,34 +30,32 @@ class TVSeriesDetailsViewModelTest {
     private val fetchEpisodesUseCase = mockk<FetchEpisodesUseCase>()
 
     @Test
-    fun fetchSeasons_successful() = runTest {
+    fun fetchTVSeriesDetails_successful() = runTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             launch { viewModel.hasError.collect() }
-            launch { viewModel.seasons.collect() }
-            launch { viewModel.genres.collect() }
+            launch { viewModel.tvSeriesDetails.collect() }
         }
 
-        assertEquals(TVSeriesDetailsDataProvider.seasonsList, viewModel.seasons.value)
-        assertEquals(TVSeriesDetailsDataProvider.genresList, viewModel.genres.value)
+        assertEquals(TVSeriesDetailsDataProvider.tvSeriesDetails, viewModel.tvSeriesDetails.value)
         assertTrue(!viewModel.hasError.value)
 
         collectJob.cancel()
     }
 
     @Test
-    fun fetchSeasons_failure() = runTest {
+    fun fetchTVSeriesDetails_failure() = runTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesError
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )
@@ -74,7 +72,7 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )
@@ -91,7 +89,7 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesError
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )
@@ -108,14 +106,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.selectedTVSeries.collect() }
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.selectedTVSeriesId.collect() }
 
-        assertEquals(TVSeriesDataProvider.tvSeries, viewModel.selectedTVSeries.value)
+        assertEquals(TVSeriesDataProvider.tvSeries.id, viewModel.selectedTVSeriesId.value)
 
         collectJob.cancel()
     }
@@ -125,7 +124,7 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeries" to TVSeriesDataProvider.tvSeries)),
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase
         )

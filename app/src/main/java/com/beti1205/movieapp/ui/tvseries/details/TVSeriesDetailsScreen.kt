@@ -11,12 +11,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
+import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.ui.common.widget.Details
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
+import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 import com.beti1205.movieapp.ui.tvseries.details.widget.EpisodeList
@@ -25,55 +25,53 @@ import com.beti1205.movieapp.ui.tvseries.details.widget.SeasonDropdown
 
 @Composable
 fun TVSeriesDetailsScreen(viewModel: TVSeriesDetailsViewModel) {
-    val tvSeries by viewModel.selectedTVSeries.collectAsState()
-    val genres by viewModel.genres.collectAsState()
+    val tvSeriesDetails by viewModel.tvSeriesDetails.collectAsState()
     val selectedSeason by viewModel.selectedSeason.collectAsState()
-    val seasons by viewModel.seasons.collectAsState()
     val episodes by viewModel.episodes.collectAsState()
+    val hasError by viewModel.hasError.collectAsState()
 
     TVSeriesDetailsScreen(
-        tvSeries = tvSeries,
-        genres = genres,
+        tvSeriesDetails = tvSeriesDetails,
         selectedSeason = selectedSeason,
-        seasons = seasons,
         onSeasonSelected = viewModel::setSelectedSeason,
-        episodes = episodes
+        episodes = episodes,
+        hasError = hasError
     )
 }
 
 @Composable
 fun TVSeriesDetailsScreen(
-    tvSeries: TVSeries?,
-    genres: List<Genre>?,
+    tvSeriesDetails: TVSeriesDetails?,
     selectedSeason: Season?,
-    seasons: List<Season>?,
     onSeasonSelected: (Season) -> Unit,
-    episodes: List<Episode>?
+    episodes: List<Episode>?,
+    hasError: Boolean
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                if (tvSeries != null) {
-                    Details(
-                        posterPath = tvSeries.posterPath,
-                        title = tvSeries.name,
-                        votes = tvSeries.votes,
-                        releaseDate = tvSeries.firstAirDate,
-                        overview = tvSeries.overview,
-                        genres = genres
-                    )
+            when {
+                hasError -> EmptyStateMessage()
+                else -> Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    if (tvSeriesDetails != null) {
+                        Details(
+                            posterPath = tvSeriesDetails.posterPath,
+                            title = tvSeriesDetails.name,
+                            votes = tvSeriesDetails.votes,
+                            releaseDate = tvSeriesDetails.firstAirDate,
+                            overview = tvSeriesDetails.overview,
+                            genres = tvSeriesDetails.genres
+                        )
+                        StandardDivider()
+                        SeasonDropdown(
+                            selectedSeason = selectedSeason,
+                            seasons = tvSeriesDetails.seasons,
+                            onSeasonSelected = onSeasonSelected
+                        )
+                    }
+                    Season(selectedSeason)
+                    StandardDivider()
+                    EpisodeList(episodes)
                 }
-                StandardDivider()
-                if (seasons != null) {
-                    SeasonDropdown(
-                        selectedSeason = selectedSeason,
-                        seasons = seasons,
-                        onSeasonSelected = onSeasonSelected
-                    )
-                }
-                Season(selectedSeason)
-                StandardDivider()
-                EpisodeList(episodes)
             }
         }
     }
@@ -89,12 +87,11 @@ fun TVSeriesDetailsScreenPreview() {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             TVSeriesDetailsScreen(
-                tvSeries = TVSeriesPreviewDataProvider.tvSeries,
-                genres = TVSeriesPreviewDataProvider.genres,
+                tvSeriesDetails = TVSeriesPreviewDataProvider.tvSeriesDetails,
                 selectedSeason = TVSeriesPreviewDataProvider.seasonsList.first(),
-                seasons = TVSeriesPreviewDataProvider.seasonsList,
                 onSeasonSelected = {},
-                episodes = TVSeriesPreviewDataProvider.episodesList
+                episodes = TVSeriesPreviewDataProvider.episodesList,
+                hasError = false
             )
         }
     }

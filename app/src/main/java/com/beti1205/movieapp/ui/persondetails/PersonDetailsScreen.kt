@@ -17,7 +17,8 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun PersonDetailsScreen(
     viewModel: PersonDetailsViewModel,
-    onMovieClicked: (Int) -> Unit
+    onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
 ) {
     val personDetails by viewModel.personDetails.collectAsState()
     val sections by viewModel.sections.collectAsState()
@@ -32,7 +33,8 @@ fun PersonDetailsScreen(
         hasError = hasError,
         hasCreditsError = hasCreditsError,
         onExpandedChanged = viewModel::onSectionExpandedChanged,
-        onMovieClicked = onMovieClicked
+        onMovieClicked = onMovieClicked,
+        onTVSeriesClicked = onTVSeriesClicked
     )
 }
 
@@ -44,7 +46,8 @@ fun PersonDetailsScreen(
     hasError: Boolean,
     hasCreditsError: Boolean,
     onExpandedChanged: (Section, Boolean) -> Unit,
-    onMovieClicked: (Int) -> Unit
+    onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -56,7 +59,8 @@ fun PersonDetailsScreen(
                     hasCreditsError = hasCreditsError,
                     sections = sections,
                     onExpandedChanged = onExpandedChanged,
-                    onMovieClicked = onMovieClicked
+                    onMovieClicked = onMovieClicked,
+                    onTVSeriesClicked = onTVSeriesClicked
                 )
             }
         }
@@ -79,7 +83,8 @@ fun PersonDetailsScreenPreview() {
                 hasError = false,
                 hasCreditsError = false,
                 onExpandedChanged = { _, _ -> },
-                onMovieClicked = {}
+                onMovieClicked = {},
+                onTVSeriesClicked = {}
             )
         }
     }

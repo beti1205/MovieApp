@@ -10,13 +10,14 @@ import com.beti1205.movieapp.ui.persondetails.Section
 fun LazyListScope.section(
     section: Section,
     onExpandedChanged: (Boolean) -> Unit,
-    onMovieClicked: (Int) -> Unit
+    onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
 ) {
     when (section) {
         is Section.MovieCast -> movieCastSection(section, onMovieClicked, onExpandedChanged)
-        is Section.TVCast -> tvCastSection(section, onExpandedChanged)
+        is Section.TVCast -> tvCastSection(section, onTVSeriesClicked, onExpandedChanged)
         is Section.MovieCrew -> movieCrewSection(section, onMovieClicked, onExpandedChanged)
-        is Section.TVCrew -> tvCrewSection(section, onExpandedChanged)
+        is Section.TVCrew -> tvCrewSection(section, onTVSeriesClicked, onExpandedChanged)
     }
 }
 
@@ -34,9 +35,9 @@ private fun LazyListScope.movieCastSection(
             date = item.releaseDate,
             name = item.title,
             description = item.character ?: stringResource(id = R.string.filmography_unknown),
-            movieId = item.id,
+            id = item.id,
             rating = item.votes,
-            onMovieClicked = onMovieClicked
+            onItemRowClicked = onMovieClicked
         )
     }
     item {
@@ -46,6 +47,7 @@ private fun LazyListScope.movieCastSection(
 
 private fun LazyListScope.tvCastSection(
     section: Section.TVCast,
+    onTVSeriesClicked: (Int) -> Unit,
     onExpandedChanged: (Boolean) -> Unit
 ) {
     item { SectionSubtitle(text = stringResource(id = R.string.tv_series_label)) }
@@ -54,8 +56,9 @@ private fun LazyListScope.tvCastSection(
             date = item.firstAirDate,
             name = item.name,
             description = item.character,
-            movieId = item.id,
-            rating = item.votes
+            id = item.id,
+            rating = item.votes,
+            onItemRowClicked = onTVSeriesClicked
         )
     }
     item {
@@ -66,6 +69,7 @@ private fun LazyListScope.tvCastSection(
 
 private fun LazyListScope.tvCrewSection(
     section: Section.TVCrew,
+    onTVSeriesClicked: (Int) -> Unit,
     onExpandedChanged: (Boolean) -> Unit
 ) {
     item { SectionSubtitle(text = stringResource(id = R.string.tv_series_label)) }
@@ -74,8 +78,9 @@ private fun LazyListScope.tvCrewSection(
             date = item.firstAirDate,
             name = item.name,
             description = item.job,
-            movieId = item.id,
-            rating = item.votes
+            id = item.id,
+            rating = item.votes,
+            onItemRowClicked = onTVSeriesClicked
         )
     }
     item {
@@ -98,9 +103,9 @@ private fun LazyListScope.movieCrewSection(
             date = item.releaseDate,
             name = item.title,
             description = item.job,
-            movieId = item.id,
+            id = item.id,
             rating = item.votes,
-            onMovieClicked = onMovieClicked
+            onItemRowClicked = onMovieClicked
         )
     }
     item { SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged) }

@@ -52,25 +52,25 @@ fun TVSeriesDetailsScreen(
             when {
                 hasError -> EmptyStateMessage()
                 else -> Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    if (tvSeriesDetails != null) {
+                    tvSeriesDetails?.apply {
                         Details(
-                            posterPath = tvSeriesDetails.posterPath,
-                            title = tvSeriesDetails.name,
-                            votes = tvSeriesDetails.votes,
-                            releaseDate = tvSeriesDetails.firstAirDate,
-                            overview = tvSeriesDetails.overview,
-                            genres = tvSeriesDetails.genres
+                            posterPath = posterPath,
+                            title = name,
+                            votes = votes,
+                            releaseDate = firstAirDate,
+                            overview = overview,
+                            genres = genres
                         )
                         StandardDivider()
                         SeasonDropdown(
                             selectedSeason = selectedSeason,
-                            seasons = tvSeriesDetails.seasons,
+                            seasons = seasons,
                             onSeasonSelected = onSeasonSelected
                         )
+                        Season(selectedSeason)
+                        StandardDivider()
+                        EpisodeList(episodes)
                     }
-                    Season(selectedSeason)
-                    StandardDivider()
-                    EpisodeList(episodes)
                 }
             }
         }
@@ -80,7 +80,8 @@ fun TVSeriesDetailsScreen(
 @Preview
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
+    showBackground = true,
+    heightDp = 2000
 )
 @Composable
 fun TVSeriesDetailsScreenPreview() {

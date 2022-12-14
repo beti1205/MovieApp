@@ -28,15 +28,13 @@ fun Details(
         modifier = modifier
     ) {
         DetailsPoster(posterPath = posterPath)
-        Genres(genres = genres)
         Column(
             modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 8.dp,
-                bottom = 16.dp
+                horizontal = 16.dp,
+                vertical = 8.dp
             )
         ) {
+            Genres(genres = genres)
             Row {
                 DetailsTitle(
                     title = title,
@@ -48,7 +46,9 @@ fun Details(
                 )
             }
             ReleaseDate(releaseDate = releaseDate)
-            Overview(overview)
+            if (overview.isNotEmpty()) {
+                Overview(overview)
+            }
         }
     }
 }

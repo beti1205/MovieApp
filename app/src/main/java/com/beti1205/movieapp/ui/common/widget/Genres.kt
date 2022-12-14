@@ -1,8 +1,6 @@
 package com.beti1205.movieapp.ui.common.widget
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -24,22 +22,22 @@ fun Genres(
     genres: List<Genre>?,
     modifier: Modifier = Modifier
 ) {
-    AnimatedVisibility(visible = !genres.isNullOrEmpty()) {
-        FlowRow(modifier = modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
-            genres?.forEach { genre ->
-                Chip(
-                    onClick = { },
-                    enabled = false,
-                    colors = ChipDefaults.chipColors(
-                        disabledBackgroundColor = MaterialTheme.colors.primaryVariant,
-                        disabledContentColor = MaterialTheme.colors.onPrimary
-                    ),
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Text(
-                        text = genre.name
-                    )
-                }
+    FlowRow(
+        mainAxisSpacing = 8.dp,
+        modifier = modifier
+    ) {
+        genres?.forEach { genre ->
+            Chip(
+                onClick = { },
+                enabled = false,
+                colors = ChipDefaults.chipColors(
+                    disabledBackgroundColor = MaterialTheme.colors.primaryVariant,
+                    disabledContentColor = MaterialTheme.colors.onPrimary
+                )
+            ) {
+                Text(
+                    text = genre.name
+                )
             }
         }
     }

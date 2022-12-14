@@ -5,6 +5,7 @@ import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
+import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 
 object TVSeriesPreviewDataProvider {
 
@@ -18,6 +19,7 @@ object TVSeriesPreviewDataProvider {
         voteAverage = 8.3,
         posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg"
     )
+
     val genres = listOf(
         Genre(
             id = 18,
@@ -28,6 +30,7 @@ object TVSeriesPreviewDataProvider {
             name = "Crime"
         )
     )
+
     val pagingData: PagingData<TVSeries> = PagingData.from(
         listOf(
             tvSeries
@@ -53,6 +56,21 @@ object TVSeriesPreviewDataProvider {
             posterPath = "/h7YlJ1Mhg6jCZiHToUiKqHdzMO9.jpg",
             seasonNumber = 2
         )
+    )
+
+    val tvSeriesDetails = TVSeriesDetails(
+        id = 80752,
+        overview = "A virus has decimated humankind. Those who survived emerged blind",
+        name = "See",
+        firstAirDate = "2019-11-01",
+        voteAverage = 8.3,
+        posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg",
+        genres = genres,
+        inProduction = true,
+        lastAirDate = "2019-11-01",
+        numberOfEpisodes = 2,
+        numberOfSeasons = 2,
+        seasons = seasonsList
     )
 
     val genresList = listOf(

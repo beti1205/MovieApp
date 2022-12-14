@@ -34,7 +34,7 @@ class TVSeriesFragment : Fragment() {
 
     private fun navigateToTvSeriesDetails(tvSeries: TVSeries) {
         findNavController().navigate(
-            TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeries)
+            TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeries.id)
         )
     }
 

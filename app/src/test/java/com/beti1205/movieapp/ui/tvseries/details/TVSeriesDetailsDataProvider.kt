@@ -1,10 +1,10 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
-import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.SeasonResponse
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
+import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 object TVSeriesDetailsDataProvider {
 
@@ -21,13 +21,6 @@ object TVSeriesDetailsDataProvider {
 
     val seasonResponse = SeasonResponse(
         episodesList
-    )
-
-    val genresList = listOf(
-        Genre(
-            id = 18,
-            name = "Drama"
-        )
     )
 
     val seasonsList = listOf(
@@ -52,12 +45,17 @@ object TVSeriesDetailsDataProvider {
     )
 
     val tvSeriesDetails = TVSeriesDetails(
-        firstAirDate = "2022-09-21",
-        genres = genresList,
-        inProduction = false,
-        lastAirDate = "2022-09-21",
-        numberOfEpisodes = 10,
-        numberOfSeasons = 1,
-        seasons = seasonsList
+        id = 80752,
+        overview = "A virus has decimated humankind. Those who survived emerged blind",
+        name = "See",
+        firstAirDate = "2019-11-01",
+        voteAverage = 8.3,
+        posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg",
+        genres = TVSeriesPreviewDataProvider.genres,
+        inProduction = true,
+        lastAirDate = "2019-11-01",
+        numberOfEpisodes = 2,
+        numberOfSeasons = 2,
+        seasons = TVSeriesPreviewDataProvider.seasonsList
     )
 }

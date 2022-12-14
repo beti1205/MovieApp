@@ -36,8 +36,8 @@
         android:label="@string/tv_details_label">
 
         <argument
-            android:name="selectedTVSeries"
-            app:argType="com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries" />
+            android:name="selectedTVSeriesId"
+            app:argType="integer" />
 
     </fragment>
 

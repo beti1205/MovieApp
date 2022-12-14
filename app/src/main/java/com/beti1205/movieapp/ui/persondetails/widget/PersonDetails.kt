@@ -20,6 +20,7 @@ fun PersonDetails(
     sections: List<Section>,
     onExpandedChanged: (Section, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -41,7 +42,8 @@ fun PersonDetails(
                             expanded
                         )
                     },
-                    onMovieClicked = onMovieClicked
+                    onMovieClicked = onMovieClicked,
+                    onTVSeriesClicked = onTVSeriesClicked
                 )
             }
         }
@@ -62,7 +64,8 @@ fun PersonDetailsPreview() {
                 sections = PersonDetailsPreviewDataProvider.sectionsList,
                 hasCreditsError = false,
                 onExpandedChanged = { _, _ -> },
-                onMovieClicked = {}
+                onMovieClicked = {},
+                onTVSeriesClicked = {}
             )
         }
     }

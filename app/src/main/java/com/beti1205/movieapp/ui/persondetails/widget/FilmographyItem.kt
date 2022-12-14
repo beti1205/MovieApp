@@ -27,14 +27,14 @@ fun FilmographyItem(
     date: String,
     name: String,
     description: String,
-    movieId: Int,
+    id: Int,
     rating: String,
-    modifier: Modifier = Modifier,
-    onMovieClicked: (Int) -> Unit = {}
+    onItemRowClicked: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
-            .clickable { onMovieClicked(movieId) }
+            .clickable { onItemRowClicked(id) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Date(date = date)
@@ -116,9 +116,9 @@ fun FilmographyItemPreview() {
                 name = PersonDetailsPreviewDataProvider.personMovieCast.title,
                 description = PersonDetailsPreviewDataProvider.personMovieCast.character
                     ?: "unknown",
-                movieId = 1,
+                id = 1,
                 rating = "9.0",
-                onMovieClicked = {}
+                onItemRowClicked = {}
             )
         }
     }

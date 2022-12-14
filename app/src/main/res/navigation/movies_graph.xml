@@ -26,48 +26,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/movieDetailsFragment"
-        android:name="com.beti1205.movieapp.ui.movies.details.MovieDetailsFragment"
-        android:label="@string/movie_details_label">
-
-        <argument
-            android:name="selectedMovieId"
-            app:argType="integer" />
-
-        <action
-            android:id="@+id/action_movieDetailsFragment_to_personDetailsFragment"
-            app:destination="@id/personDetailsFragment" />
-
-    </fragment>
-
-    <fragment
         android:id="@+id/searchMoviesFragment"
         android:name="com.beti1205.movieapp.ui.movies.search.SearchMoviesFragment"
         android:label="@string/search_movies_label">
 
         <action
             android:id="@+id/action_searchMoviesFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment">
-
-            <argument
-                android:name="selectedMovieId"
-                app:argType="integer" />
-
-        </action>
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/personDetailsFragment"
-        android:name="com.beti1205.movieapp.ui.persondetails.PersonDetailsFragment"
-        android:label="@string/person_details_label">
-
-        <argument
-            android:name="selectedPersonId"
-            app:argType="integer" />
-
-        <action
-            android:id="@+id/action_personDetailsFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment">
 
             <argument

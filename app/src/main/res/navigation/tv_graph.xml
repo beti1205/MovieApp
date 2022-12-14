@@ -15,7 +15,13 @@
 
         <action
             android:id="@+id/action_TVSeriesFragment_to_TVSeriesDetailsFragment"
-            app:destination="@id/TVSeriesDetailsFragment" />
+            app:destination="@id/TVSeriesDetailsFragment">
+
+            <argument
+                android:name="selectedTVSeriesId"
+                app:argType="integer" />
+
+        </action>
 
     </fragment>
 
@@ -26,18 +32,13 @@
 
         <action
             android:id="@+id/action_searchTvSeriesFragment_to_TVSeriesDetailsFragment"
-            app:destination="@id/TVSeriesDetailsFragment" />
+            app:destination="@id/TVSeriesDetailsFragment">
 
-    </fragment>
+            <argument
+                android:name="selectedTVSeriesId"
+                app:argType="integer" />
 
-    <fragment
-        android:id="@+id/TVSeriesDetailsFragment"
-        android:name="com.beti1205.movieapp.ui.tvseries.details.TVSeriesDetailsFragment"
-        android:label="@string/tv_details_label">
-
-        <argument
-            android:name="selectedTVSeriesId"
-            app:argType="integer" />
+        </action>
 
     </fragment>
 

@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget.credits
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable

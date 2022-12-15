@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchcredits.data.Credits
+import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class TVSeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val fetchTVSeriesDetailsUseCase: FetchTVSeriesDetailsUseCase,
-    private val fetchEpisodesUseCase: FetchEpisodesUseCase
+    private val fetchEpisodesUseCase: FetchEpisodesUseCase,
+    private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase
 ) : ViewModel() {
 
     val selectedTVSeriesId = state.getStateFlow<Int?>(
@@ -39,6 +42,9 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     private val _hasError = MutableStateFlow<Boolean>(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
+
+    private val _credits = MutableStateFlow<Credits?>(null)
+    val credits: StateFlow<Credits?> = _credits.asStateFlow()
 
     val episodes: StateFlow<List<Episode>> = selectedTVSeriesId
         .combine(selectedSeason) { tvSeriesId, season ->
@@ -61,6 +67,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
         val selectedTvSeriesId = selectedTVSeriesId.value
         if (selectedTvSeriesId != null) {
             fetchTVSeriesDetails(selectedTvSeriesId)
+            fetchTVSeriesCredits(selectedTvSeriesId)
         }
     }
 
@@ -74,6 +81,17 @@ class TVSeriesDetailsViewModel @Inject constructor(
                     _selectedSeason.value = result.data.seasons.first()
                 }
                 is Result.Error -> _hasError.value = true
+            }
+        }
+    }
+
+    private fun fetchTVSeriesCredits(id: Int) {
+        viewModelScope.launch {
+            val result = fetchTVSeriesCreditsUseCase(id)
+
+            when (result) {
+                is Result.Success -> _credits.value = result.data
+                is Result.Error -> {}
             }
         }
     }

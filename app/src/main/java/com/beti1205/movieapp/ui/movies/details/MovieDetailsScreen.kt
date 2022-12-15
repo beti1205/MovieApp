@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetails
@@ -63,7 +64,7 @@ fun MovieDetailsScreenPreview() {
             MovieDetailsScreen(
                 state = MovieDetailsScreenState(
                     movieDetails = MovieDetailsPreviewDataProvider.movie,
-                    credits = MovieDetailsPreviewDataProvider.credits,
+                    credits = CreditsPreviewDataProvider.credits,
                     hasError = false
                 ),
                 onPersonClicked = {}

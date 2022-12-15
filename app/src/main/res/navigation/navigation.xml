@@ -36,6 +36,15 @@
         <argument
             android:name="selectedTVSeriesId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_TVSeriesDetailsFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment">
+
+            <argument
+                android:name="selectedPersonId"
+                app:argType="integer" />
+
+        </action>
 
     </fragment>
 

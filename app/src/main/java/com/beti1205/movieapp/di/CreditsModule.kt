@@ -3,6 +3,8 @@ package com.beti1205.movieapp.di
 import com.beti1205.movieapp.feature.fetchcredits.data.CreditsService
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCaseImpl
+import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
+import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,7 +23,12 @@ interface CreditsModule {
     }
 
     @Binds
-    fun bindCreditsUseCase(
+    fun bindMovieCreditsUseCase(
         fetchMovieCreditsUseCaseImpl: FetchMovieCreditsUseCaseImpl
     ): FetchMovieCreditsUseCase
+
+    @Binds
+    fun bindTVSeriesCreditsUseCase(
+        fetchTVSeriesCreditsUseCaseImpl: FetchTVSeriesCreditsUseCaseImpl
+    ): FetchTVSeriesCreditsUseCase
 }

@@ -7,21 +7,21 @@ import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.CreditsService
 import javax.inject.Inject
 
-interface FetchMovieCreditsUseCase {
+interface FetchTVSeriesCreditsUseCase {
 
     suspend operator fun invoke(
         id: Int
     ): Result<Credits>
 }
 
-class FetchMovieCreditsUseCaseImpl @Inject constructor(
+class FetchTVSeriesCreditsUseCaseImpl @Inject constructor(
     private val creditsService: CreditsService,
     private val appConfig: AppConfig
-) : FetchMovieCreditsUseCase {
+) : FetchTVSeriesCreditsUseCase {
 
     override suspend fun invoke(id: Int): Result<Credits> {
         val result = performRequest {
-            creditsService.getMovieCredits(id, appConfig.apiKey)
+            creditsService.getTVSeriesCredits(id, appConfig.apiKey)
         }
 
         return when (result) {

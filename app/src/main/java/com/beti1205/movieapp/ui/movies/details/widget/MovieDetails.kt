@@ -11,6 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
+import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
+import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew
 import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -47,8 +50,8 @@ fun MovieDetailsScreenPreview() {
         Surface {
             MovieDetails(
                 movieDetails = MovieDetailsPreviewDataProvider.movie,
-                cast = MovieDetailsPreviewDataProvider.credits.cast,
-                crew = MovieDetailsPreviewDataProvider.credits.crew,
+                cast = CreditsPreviewDataProvider.credits.cast,
+                crew = CreditsPreviewDataProvider.credits.crew,
                 onPersonClicked = {}
             )
         }

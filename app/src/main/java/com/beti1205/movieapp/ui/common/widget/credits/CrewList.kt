@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget.credits
 
 import android.content.res.Configuration
 import androidx.compose.animation.animateContentSize
@@ -12,37 +12,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.feature.fetchcredits.data.Crew
+import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
 import com.beti1205.movieapp.ui.common.widget.listItemHorizontalPadding
-import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun CastList(
-    cast: List<Cast>?,
+fun CrewList(
+    crew: List<Crew>?,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (cast != null) {
+    if (crew != null) {
         LazyRow(
             modifier = modifier
                 .padding(16.dp)
                 .animateContentSize()
         ) {
             itemsIndexed(
-                items = cast,
+                items = crew,
                 key = { _, item -> item.id }
             ) { index, item ->
                 Column(
                     modifier = Modifier
-                        .listItemHorizontalPadding(cast, index)
+                        .listItemHorizontalPadding(crew, index)
                         .width(100.dp)
                 ) {
                     CreditItem(
                         path = item.path,
                         name = item.name,
                         id = item.id,
-                        description = item.character,
+                        description = item.job,
                         onPersonClicked = onPersonClicked
                     )
                 }
@@ -57,12 +57,12 @@ fun CastList(
     showBackground = true
 )
 @Composable
-fun CastListPreview() {
+fun CrewListPreview() {
     MovieAppTheme {
         Surface {
-            CastList(
-                cast = MovieDetailsPreviewDataProvider.cast,
-                onPersonClicked = {}
+            CrewList(
+                crew = CreditsPreviewDataProvider.crew,
+                onPersonClicked = { }
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.details.widget
+package com.beti1205.movieapp.ui.common.widget.credits
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -8,22 +8,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
-import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
+import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
+import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun SectionCrew(
-    crew: List<Crew>?,
+fun SectionCast(
+    cast: List<Cast>?,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        SectionTitle(text = stringResource(id = R.string.crew))
-        CrewList(
-            crew = crew,
+        SectionTitle(text = stringResource(id = R.string.cast))
+        CastList(
+            cast = cast,
             onPersonClicked = onPersonClicked
         )
+        StandardDivider()
     }
 }
 
@@ -33,11 +35,11 @@ fun SectionCrew(
     showBackground = true
 )
 @Composable
-fun SectionCrewPreview() {
+fun SectionCastPreview() {
     MovieAppTheme {
         Surface {
-            SectionCrew(
-                crew = MovieDetailsPreviewDataProvider.credits.crew,
+            SectionCast(
+                cast = CreditsPreviewDataProvider.credits.cast,
                 onPersonClicked = {}
             )
         }

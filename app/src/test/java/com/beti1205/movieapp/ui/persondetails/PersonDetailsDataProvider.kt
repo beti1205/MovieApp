@@ -115,37 +115,37 @@ object PersonDetailsDataProvider {
     )
 
     private val sectionMovieCast = Section.MovieCast(
-        personMovieCastList,
-        false
+        cast = personMovieCastList,
+        expanded = false,
+        expandable = false
     )
 
     private val sectionMovieCrew = Section.MovieCrew(
-        personMovieCrewList,
-        false
+        crew = personMovieCrewList,
+        expanded = false,
+        expandable = false
     )
 
     private val sectionTVCast = Section.TVCast(
-        personTVSeriesCastList,
-        false
+        cast = personTVSeriesCastList,
+        expanded = false,
+        expandable = false
     )
 
     private val sectionTVCrew = Section.TVCrew(
-        personTVSeriesCrewList,
-        false
+        crew = personTVSeriesCrewList,
+        expanded = false,
+        expandable = false
     )
 
     val sectionsMovieCreditsError = listOf(
-        Section.MovieCast(emptyList(), false),
         sectionTVCast,
-        Section.MovieCrew(emptyList(), false),
         sectionTVCrew
     )
 
     val sectionsTVSeriesCreditsError = listOf(
         sectionMovieCast,
-        Section.TVCast(emptyList(), false),
-        sectionMovieCrew,
-        Section.TVCrew(emptyList(), false)
+        sectionMovieCrew
     )
 
     val sectionsList = listOf(

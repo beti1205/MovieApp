@@ -2,6 +2,7 @@ package com.beti1205.movieapp.ui.persondetails.widget
 
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
@@ -41,7 +42,7 @@ private fun LazyListScope.movieCastSection(
         )
     }
     item {
-        SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged)
+        SectionButton(section, onExpandedChanged)
     }
 }
 
@@ -62,7 +63,7 @@ private fun LazyListScope.tvCastSection(
         )
     }
     item {
-        SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged)
+        SectionButton(section, onExpandedChanged)
         StandardDivider()
     }
 }
@@ -84,7 +85,7 @@ private fun LazyListScope.tvCrewSection(
         )
     }
     item {
-        SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged)
+        SectionButton(section, onExpandedChanged)
         StandardDivider()
     }
 }
@@ -108,5 +109,20 @@ private fun LazyListScope.movieCrewSection(
             onItemRowClicked = onMovieClicked
         )
     }
-    item { SectionButton(expanded = section.expanded, onExpandedChanged = onExpandedChanged) }
+    item {
+        SectionButton(section, onExpandedChanged)
+    }
+}
+
+@Composable
+private fun SectionButton(
+    section: Section,
+    onExpandedChanged: (Boolean) -> Unit
+) {
+    if (section.expandable) {
+        SectionButton(
+            expanded = section.expanded,
+            onExpandedChanged = onExpandedChanged
+        )
+    }
 }

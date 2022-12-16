@@ -34,8 +34,9 @@ object PersonDetailsPreviewDataProvider {
     )
 
     private val sectionMovieCast = Section.MovieCast(
-        listOf(personMovieCast),
-        false
+        cast = listOf(personMovieCast),
+        expanded = false,
+        expandable = false
     )
 
     private val sectionMovieCrew = Section.MovieCrew(
@@ -58,7 +59,8 @@ object PersonDetailsPreviewDataProvider {
             )
 
         ),
-        false
+        expanded = false,
+        expandable = false
     )
     val sectionsList = listOf(
         sectionMovieCast,

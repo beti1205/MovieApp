@@ -66,7 +66,7 @@ class PersonDetailsViewModel @Inject constructor(
         _personTVSeriesCrew,
         _sectionsStatuses
     ) { movieCast, movieCrew, tvCast, tvCrew, status ->
-        createSections(status, movieCast, movieCrew, tvCast, tvCrew)
+        buildSections(status, movieCast, movieCrew, tvCast, tvCrew)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
 
     init {
@@ -133,7 +133,7 @@ class PersonDetailsViewModel @Inject constructor(
         _sectionsStatuses.value = _sectionsStatuses.value + (sectionType to expanded)
     }
 
-    private fun createSections(
+    private fun buildSections(
         statuses: Map<SectionType, Boolean>,
         movieCast: List<PersonMovieCast>,
         movieCrew: List<PersonMovieCrew>,
@@ -149,11 +149,71 @@ class PersonDetailsViewModel @Inject constructor(
         val tvCrewExpanded = statuses[SectionType.TV_CREW] == true
         val tvCrewItems = if (tvCrewExpanded) tvCrew else tvCrew.take(5)
 
-        return listOf(
-            Section.MovieCast(movieCastItems, movieCastExpanded),
-            Section.TVCast(tvCastItems, tvCastExpanded),
-            Section.MovieCrew(movieCrewItems, movieCrewExpanded),
-            Section.TVCrew(tvCrewItems, tvCrewExpanded)
+        return buildSectionsList(
+            movieCastItems = movieCastItems,
+            movieCastExpanded = movieCastExpanded,
+            movieCast = movieCast,
+            tvCastItems = tvCastItems,
+            tvCastExpanded = tvCastExpanded,
+            tvCast = tvCast,
+            movieCrewItems = movieCrewItems,
+            movieCrewExpanded = movieCrewExpanded,
+            movieCrew = movieCrew,
+            tvCrewItems = tvCrewItems,
+            tvCrewExpanded = tvCrewExpanded,
+            tvCrew = tvCrew
         )
+    }
+
+    private fun buildSectionsList(
+        movieCastItems: List<PersonMovieCast>,
+        movieCastExpanded: Boolean,
+        movieCast: List<PersonMovieCast>,
+        tvCastItems: List<PersonTVSeriesCast>,
+        tvCastExpanded: Boolean,
+        tvCast: List<PersonTVSeriesCast>,
+        movieCrewItems: List<PersonMovieCrew>,
+        movieCrewExpanded: Boolean,
+        movieCrew: List<PersonMovieCrew>,
+        tvCrewItems: List<PersonTVSeriesCrew>,
+        tvCrewExpanded: Boolean,
+        tvCrew: List<PersonTVSeriesCrew>
+    ): List<Section> = buildList {
+        if (movieCastItems.isNotEmpty()) {
+            add(
+                Section.MovieCast(
+                    cast = movieCastItems,
+                    expanded = movieCastExpanded,
+                    expandable = movieCast.size > 5
+                )
+            )
+        }
+        if (tvCastItems.isNotEmpty()) {
+            add(
+                Section.TVCast(
+                    cast = tvCastItems,
+                    expanded = tvCastExpanded,
+                    expandable = tvCast.size > 5
+                )
+            )
+        }
+        if (movieCrewItems.isNotEmpty()) {
+            add(
+                Section.MovieCrew(
+                    crew = movieCrewItems,
+                    expanded = movieCrewExpanded,
+                    expandable = movieCrew.size > 5
+                )
+            )
+        }
+        if (tvCrewItems.isNotEmpty()) {
+            add(
+                Section.TVCrew(
+                    crew = tvCrewItems,
+                    expanded = tvCrewExpanded,
+                    expandable = tvCrew.size > 5
+                )
+            )
+        }
     }
 }

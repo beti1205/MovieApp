@@ -9,6 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
+import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
+import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
+import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
+import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.persondetails.widget.PersonDetails
@@ -21,14 +25,20 @@ fun PersonDetailsScreen(
     onTVSeriesClicked: (Int) -> Unit
 ) {
     val personDetails by viewModel.personDetails.collectAsState()
-    val sections by viewModel.sections.collectAsState()
+    val movieCastSection by viewModel.movieCastSection.collectAsState()
+    val tvCastSection by viewModel.tvCastSection.collectAsState()
+    val movieCrewSection by viewModel.movieCrewSection.collectAsState()
+    val tvCrewSection by viewModel.tvCrewSection.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val hasCreditsError by viewModel.hasCreditsError.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
-        sections = sections,
+        movieCastSection = movieCastSection,
+        tvCastSection = tvCastSection,
+        movieCrewSection = movieCrewSection,
+        tvCrewSection = tvCrewSection,
         isLoading = isLoading,
         hasError = hasError,
         hasCreditsError = hasCreditsError,
@@ -41,11 +51,14 @@ fun PersonDetailsScreen(
 @Composable
 fun PersonDetailsScreen(
     details: PersonDetails?,
-    sections: List<Section>,
+    movieCastSection: Section<PersonMovieCast>,
+    tvCastSection: Section<PersonTVSeriesCast>,
+    movieCrewSection: Section<PersonMovieCrew>,
+    tvCrewSection: Section<PersonTVSeriesCrew>,
     isLoading: Boolean,
     hasError: Boolean,
     hasCreditsError: Boolean,
-    onExpandedChanged: (Section, Boolean) -> Unit,
+    onExpandedChanged: (SectionType, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {
@@ -57,7 +70,10 @@ fun PersonDetailsScreen(
                 else -> PersonDetails(
                     details = details,
                     hasCreditsError = hasCreditsError,
-                    sections = sections,
+                    movieCastSection = movieCastSection,
+                    tvCastSection = tvCastSection,
+                    movieCrewSection = movieCrewSection,
+                    tvCrewSection = tvCrewSection,
                     onExpandedChanged = onExpandedChanged,
                     onMovieClicked = onMovieClicked,
                     onTVSeriesClicked = onTVSeriesClicked
@@ -78,13 +94,16 @@ fun PersonDetailsScreenPreview() {
         Surface {
             PersonDetailsScreen(
                 details = PersonDetailsPreviewDataProvider.personDetails,
-                sections = PersonDetailsPreviewDataProvider.sectionsList,
                 isLoading = false,
                 hasError = false,
                 hasCreditsError = false,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {},
-                onTVSeriesClicked = {}
+                onTVSeriesClicked = {},
+                movieCastSection = PersonDetailsPreviewDataProvider.sectionMovieCast,
+                tvCastSection = PersonDetailsPreviewDataProvider.sectionTVSeriesCast,
+                movieCrewSection = PersonDetailsPreviewDataProvider.sectionMovieCrew,
+                tvCrewSection = PersonDetailsPreviewDataProvider.sectionTVCrew
             )
         }
     }

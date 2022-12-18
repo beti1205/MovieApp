@@ -55,19 +55,48 @@ class PersonDetailsViewModel @Inject constructor(
     val sectionStatuses: StateFlow<Map<SectionType, Boolean>> = _sectionsStatuses.asStateFlow()
 
     private val _personMovieCast = MutableStateFlow<List<PersonMovieCast>>(emptyList())
-    private val _personMovieCrew = MutableStateFlow<List<PersonMovieCrew>>(emptyList())
-    private val _personTVSeriesCast = MutableStateFlow<List<PersonTVSeriesCast>>(emptyList())
-    private val _personTVSeriesCrew = MutableStateFlow<List<PersonTVSeriesCrew>>(emptyList())
+    val movieCastSection = combine(_personMovieCast, _sectionsStatuses) { movieCast, statuses ->
+        val expanded = statuses[SectionType.MOVIE_CAST] == true
 
-    val sections: StateFlow<List<Section>> = combine(
-        _personMovieCast,
-        _personMovieCrew,
-        _personTVSeriesCast,
-        _personTVSeriesCrew,
-        _sectionsStatuses
-    ) { movieCast, movieCrew, tvCast, tvCrew, status ->
-        buildSections(status, movieCast, movieCrew, tvCast, tvCrew)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+        Section(
+            items = if (expanded) movieCast else movieCast.take(5),
+            expanded = expanded,
+            expandable = movieCast.size > 5
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
+
+    private val _personMovieCrew = MutableStateFlow<List<PersonMovieCrew>>(emptyList())
+    val movieCrewSection = combine(_personMovieCrew, _sectionsStatuses) { movieCrew, statuses ->
+        val expanded = statuses[SectionType.MOVIE_CREW] == true
+
+        Section(
+            items = if (expanded) movieCrew else movieCrew.take(5),
+            expanded = expanded,
+            expandable = movieCrew.size > 5
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
+
+    private val _personTVSeriesCast = MutableStateFlow<List<PersonTVSeriesCast>>(emptyList())
+    val tvCastSection = combine(_personTVSeriesCast, _sectionsStatuses) { tvCast, statuses ->
+        val expanded = statuses[SectionType.TV_CAST] == true
+
+        Section(
+            items = if (expanded) tvCast else tvCast.take(5),
+            expanded = expanded,
+            expandable = tvCast.size > 5
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
+
+    private val _personTVSeriesCrew = MutableStateFlow<List<PersonTVSeriesCrew>>(emptyList())
+    val tvCrewSection = combine(_personTVSeriesCrew, _sectionsStatuses) { tvCrew, statuses ->
+        val expanded = statuses[SectionType.TV_CREW] == true
+
+        Section(
+            items = if (expanded) tvCrew else tvCrew.take(5),
+            expanded = expanded,
+            expandable = tvCrew.size > 5
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
     init {
         val selectedPersonId = selectedPersonId.value
@@ -123,97 +152,7 @@ class PersonDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onSectionExpandedChanged(section: Section, expanded: Boolean) {
-        val sectionType = when (section) {
-            is Section.MovieCast -> SectionType.MOVIE_CAST
-            is Section.TVCast -> SectionType.TV_CAST
-            is Section.MovieCrew -> SectionType.MOVIE_CREW
-            is Section.TVCrew -> SectionType.TV_CREW
-        }
+    fun onSectionExpandedChanged(sectionType: SectionType, expanded: Boolean) {
         _sectionsStatuses.value = _sectionsStatuses.value + (sectionType to expanded)
-    }
-
-    private fun buildSections(
-        statuses: Map<SectionType, Boolean>,
-        movieCast: List<PersonMovieCast>,
-        movieCrew: List<PersonMovieCrew>,
-        tvCast: List<PersonTVSeriesCast>,
-        tvCrew: List<PersonTVSeriesCrew>
-    ): List<Section> {
-        val movieCastExpanded = statuses[SectionType.MOVIE_CAST] == true
-        val movieCastItems = if (movieCastExpanded) movieCast else movieCast.take(5)
-        val movieCrewExpanded = statuses[SectionType.MOVIE_CREW] == true
-        val movieCrewItems = if (movieCrewExpanded) movieCrew else movieCrew.take(5)
-        val tvCastExpanded = statuses[SectionType.TV_CAST] == true
-        val tvCastItems = if (tvCastExpanded) tvCast else tvCast.take(5)
-        val tvCrewExpanded = statuses[SectionType.TV_CREW] == true
-        val tvCrewItems = if (tvCrewExpanded) tvCrew else tvCrew.take(5)
-
-        return buildSectionsList(
-            movieCastItems = movieCastItems,
-            movieCastExpanded = movieCastExpanded,
-            movieCast = movieCast,
-            tvCastItems = tvCastItems,
-            tvCastExpanded = tvCastExpanded,
-            tvCast = tvCast,
-            movieCrewItems = movieCrewItems,
-            movieCrewExpanded = movieCrewExpanded,
-            movieCrew = movieCrew,
-            tvCrewItems = tvCrewItems,
-            tvCrewExpanded = tvCrewExpanded,
-            tvCrew = tvCrew
-        )
-    }
-
-    private fun buildSectionsList(
-        movieCastItems: List<PersonMovieCast>,
-        movieCastExpanded: Boolean,
-        movieCast: List<PersonMovieCast>,
-        tvCastItems: List<PersonTVSeriesCast>,
-        tvCastExpanded: Boolean,
-        tvCast: List<PersonTVSeriesCast>,
-        movieCrewItems: List<PersonMovieCrew>,
-        movieCrewExpanded: Boolean,
-        movieCrew: List<PersonMovieCrew>,
-        tvCrewItems: List<PersonTVSeriesCrew>,
-        tvCrewExpanded: Boolean,
-        tvCrew: List<PersonTVSeriesCrew>
-    ): List<Section> = buildList {
-        if (movieCastItems.isNotEmpty()) {
-            add(
-                Section.MovieCast(
-                    cast = movieCastItems,
-                    expanded = movieCastExpanded,
-                    expandable = movieCast.size > 5
-                )
-            )
-        }
-        if (tvCastItems.isNotEmpty()) {
-            add(
-                Section.TVCast(
-                    cast = tvCastItems,
-                    expanded = tvCastExpanded,
-                    expandable = tvCast.size > 5
-                )
-            )
-        }
-        if (movieCrewItems.isNotEmpty()) {
-            add(
-                Section.MovieCrew(
-                    crew = movieCrewItems,
-                    expanded = movieCrewExpanded,
-                    expandable = movieCrew.size > 5
-                )
-            )
-        }
-        if (tvCrewItems.isNotEmpty()) {
-            add(
-                Section.TVCrew(
-                    crew = tvCrewItems,
-                    expanded = tvCrewExpanded,
-                    expandable = tvCrew.size > 5
-                )
-            )
-        }
     }
 }

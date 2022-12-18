@@ -90,10 +90,12 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.sections.collect() }
+            launch { viewModel.movieCastSection.collect() }
+            launch { viewModel.movieCrewSection.collect() }
         }
 
-        assertEquals(PersonDetailsDataProvider.sectionsList, viewModel.sections.value)
+        assertEquals(PersonDetailsDataProvider.sectionMovieCast, viewModel.movieCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionMovieCrew, viewModel.movieCrewSection.value)
 
         collectJob.cancel()
     }
@@ -111,11 +113,10 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.sections.collect() }
+            launch { viewModel.movieCastSection.collect() }
             launch { viewModel.hasCreditsError.collect() }
         }
 
-        assertEquals(PersonDetailsDataProvider.sectionsMovieCreditsError, viewModel.sections.value)
         assertTrue(viewModel.hasCreditsError.value)
 
         collectJob.cancel()
@@ -134,10 +135,12 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.sections.collect() }
+            launch { viewModel.tvCastSection.collect() }
+            launch { viewModel.tvCrewSection.collect() }
         }
 
-        assertEquals(PersonDetailsDataProvider.sectionsList, viewModel.sections.value)
+        assertEquals(PersonDetailsDataProvider.sectionTVCast, viewModel.tvCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionTVCrew, viewModel.tvCrewSection.value)
 
         collectJob.cancel()
     }
@@ -155,14 +158,9 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.sections.collect() }
             launch { viewModel.hasCreditsError.collect() }
         }
 
-        assertEquals(
-            PersonDetailsDataProvider.sectionsTVSeriesCreditsError,
-            viewModel.sections.value
-        )
         assertTrue(viewModel.hasCreditsError.value)
 
         collectJob.cancel()
@@ -181,7 +179,7 @@ class PersonDetailsViewModelTest {
         )
 
         viewModel.onSectionExpandedChanged(
-            PersonDetailsDataProvider.sectionsList.first(),
+            SectionType.MOVIE_CAST,
             true
         )
 

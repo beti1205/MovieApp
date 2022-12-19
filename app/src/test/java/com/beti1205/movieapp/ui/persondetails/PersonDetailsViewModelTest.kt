@@ -78,7 +78,7 @@ class PersonDetailsViewModelTest {
     }
 
     @Test
-    fun fetchPersonMovieCredits_successful() = runTest {
+    fun fetchPersonSectionsItems_successful() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
         coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
         coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
@@ -92,16 +92,54 @@ class PersonDetailsViewModelTest {
         val collectJob = launch(UnconfinedTestDispatcher()) {
             launch { viewModel.movieCastSection.collect() }
             launch { viewModel.movieCrewSection.collect() }
+            launch { viewModel.tvCastSection.collect() }
+            launch { viewModel.tvCrewSection.collect() }
         }
 
         assertEquals(PersonDetailsDataProvider.sectionMovieCast, viewModel.movieCastSection.value)
         assertEquals(PersonDetailsDataProvider.sectionMovieCrew, viewModel.movieCrewSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionTVCast, viewModel.tvCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionTVCrew, viewModel.tvCrewSection.value)
 
         collectJob.cancel()
     }
 
     @Test
-    fun fetchPersonMovieCredits_failure() = runTest {
+    fun fetchPersonSectionsItems_failure() = runTest {
+        coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
+        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns Result.Error(Exception())
+        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns Result.Error(Exception())
+        viewModel = PersonDetailsViewModel(
+            SavedStateHandle(selectedPersonId),
+            fetchPersonDetailsUseCase,
+            fetchPersonMovieCreditsUseCase,
+            fetchPersonTVSeriesCreditsUseCase
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.hasCreditsError.collect() }
+            launch { viewModel.movieCastSection.collect() }
+            launch { viewModel.movieCrewSection.collect() }
+            launch { viewModel.tvCastSection.collect() }
+            launch { viewModel.tvCrewSection.collect() }
+        }
+
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCast,
+            viewModel.movieCastSection.value
+        )
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCrew,
+            viewModel.movieCrewSection.value
+        )
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchPersonSectionsItems_movieCreditsError_failure() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
         coEvery { fetchPersonMovieCreditsUseCase(any()) } returns Result.Error(Exception())
         coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
@@ -113,40 +151,30 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.movieCastSection.collect() }
             launch { viewModel.hasCreditsError.collect() }
-        }
-
-        assertTrue(viewModel.hasCreditsError.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
-    fun fetchPersonTVSeriesCredits_successful() = runTest {
-        coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
-        viewModel = PersonDetailsViewModel(
-            SavedStateHandle(selectedPersonId),
-            fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
-        )
-
-        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.movieCastSection.collect() }
+            launch { viewModel.movieCrewSection.collect() }
             launch { viewModel.tvCastSection.collect() }
             launch { viewModel.tvCrewSection.collect() }
         }
 
-        assertEquals(PersonDetailsDataProvider.sectionTVCast, viewModel.tvCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionTVCrew, viewModel.tvCrewSection.value)
+        assertTrue(viewModel.hasCreditsError.value)
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCast,
+            viewModel.movieCastSection.value
+        )
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCrew,
+            viewModel.movieCrewSection.value
+        )
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
 
         collectJob.cancel()
     }
 
     @Test
-    fun fetchPersonTVSeriesCredits_failure() = runTest {
+    fun fetchPersonSectionsItems_tvCreditsError_failure() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
         coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
         coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns Result.Error(Exception())
@@ -159,9 +187,23 @@ class PersonDetailsViewModelTest {
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             launch { viewModel.hasCreditsError.collect() }
+            launch { viewModel.movieCastSection.collect() }
+            launch { viewModel.movieCrewSection.collect() }
+            launch { viewModel.tvCastSection.collect() }
+            launch { viewModel.tvCrewSection.collect() }
         }
 
         assertTrue(viewModel.hasCreditsError.value)
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCast,
+            viewModel.movieCastSection.value
+        )
+        assertEquals(
+            PersonDetailsDataProvider.sectionEmptyMovieCrew,
+            viewModel.movieCrewSection.value
+        )
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
+        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
 
         collectJob.cancel()
     }

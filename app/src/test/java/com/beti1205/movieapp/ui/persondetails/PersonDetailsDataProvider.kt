@@ -137,4 +137,23 @@ object PersonDetailsDataProvider {
         expanded = false,
         expandable = false
     )
+
+    val sectionEmptyMovieCast =
+        Section<PersonMovieCast>(items = emptyList(), expanded = false, expandable = false)
+
+    val sectionEmptyMovieCrew = Section<PersonMovieCrew>(
+        items = emptyList(),
+        expanded = false,
+        expandable = false
+    )
+    val sectionEmptyTVCast = Section<PersonTVSeriesCast>(
+        items = emptyList(),
+        expanded = false,
+        expandable = false
+    )
+    val sectionEmptyTVCrew = Section<PersonTVSeriesCrew>(
+        items = emptyList(),
+        expanded = false,
+        expandable = false
+    )
 }

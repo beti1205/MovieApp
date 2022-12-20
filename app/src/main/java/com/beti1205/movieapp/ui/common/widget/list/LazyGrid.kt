@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.common.widget.list
 
 import android.annotation.SuppressLint
 import android.os.Parcel

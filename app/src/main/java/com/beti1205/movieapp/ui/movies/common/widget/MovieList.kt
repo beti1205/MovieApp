@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.ui.common.widget.items
+import com.beti1205.movieapp.ui.common.widget.list.items
 import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import kotlinx.coroutines.flow.flowOf

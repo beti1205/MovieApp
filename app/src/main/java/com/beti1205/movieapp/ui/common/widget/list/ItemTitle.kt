@@ -1,24 +1,25 @@
-package com.beti1205.movieapp.ui.persondetails.widget
+package com.beti1205.movieapp.ui.common.widget.list
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
+import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun PersonBirthPlace(
-    place: String?,
+fun ItemTitle(
+    title: String,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = place ?: "",
+        text = title,
         style = MaterialTheme.typography.subtitle2,
-        modifier = modifier
+        modifier = modifier.padding(8.dp)
     )
 }
 
@@ -28,12 +29,10 @@ fun PersonBirthPlace(
     showBackground = true
 )
 @Composable
-fun PersonBirthPlacePreview() {
+fun ItemTitlePreview() {
     MovieAppTheme {
         Surface {
-            PersonBirthPlace(
-                place = PersonDetailsPreviewDataProvider.personDetails.birthPlace
-            )
+            ItemTitle(title = "Better Call Saul")
         }
     }
 }

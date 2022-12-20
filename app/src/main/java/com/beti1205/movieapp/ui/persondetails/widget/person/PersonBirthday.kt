@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.persondetails.widget
+package com.beti1205.movieapp.ui.persondetails.widget.person
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -15,14 +15,14 @@ import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun PersonDeathDay(
-    deathDay: String?,
+fun PersonBirthday(
+    birthday: String?,
     modifier: Modifier = Modifier
 ) {
     Text(
         text = stringResource(
-            id = R.string.person_details_deathday_label,
-            deathDay ?: "-"
+            id = R.string.person_details_birthday_label,
+            birthday ?: "-"
         ),
         modifier = modifier.padding(top = 8.dp),
         style = MaterialTheme.typography.subtitle2
@@ -35,11 +35,11 @@ fun PersonDeathDay(
     showBackground = true
 )
 @Composable
-fun PersonDeathDayPreview() {
+fun PersonBirthdayPreview() {
     MovieAppTheme {
         Surface {
-            PersonDeathDay(
-                deathDay = PersonDetailsPreviewDataProvider.personDetails.deathday
+            PersonBirthday(
+                birthday = PersonDetailsPreviewDataProvider.personDetails.birthday
             )
         }
     }

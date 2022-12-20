@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.common.widget.details
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.Genre
+import com.beti1205.movieapp.ui.common.widget.Overview
+import com.beti1205.movieapp.ui.common.widget.Rating
 import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 

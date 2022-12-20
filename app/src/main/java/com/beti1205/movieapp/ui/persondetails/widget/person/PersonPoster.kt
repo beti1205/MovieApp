@@ -1,10 +1,8 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.persondetails.widget.person
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -13,7 +11,7 @@ import coil.request.ImageRequest
 import com.beti1205.movieapp.R
 
 @Composable
-fun DetailsPoster(
+fun PersonPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
@@ -27,9 +25,7 @@ fun DetailsPoster(
         placeholder = painterResource(R.drawable.placeholder_image),
         error = painterResource(id = R.drawable.error_image),
         contentDescription = null,
-        contentScale = ContentScale.Crop,
         modifier = modifier
-            .fillMaxWidth()
-            .height(600.dp)
+            .width(150.dp)
     )
 }

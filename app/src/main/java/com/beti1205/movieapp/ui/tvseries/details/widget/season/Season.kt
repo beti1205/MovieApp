@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries.details.widget
+package com.beti1205.movieapp.ui.tvseries.details.widget.season
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.ui.common.widget.Overview
-import com.beti1205.movieapp.ui.common.widget.ReleaseDate
+import com.beti1205.movieapp.ui.common.widget.details.ReleaseDate
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 

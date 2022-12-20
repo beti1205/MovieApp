@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries.details.widget
+package com.beti1205.movieapp.ui.tvseries.details.widget.season
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding

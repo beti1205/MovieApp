@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.common.widget.details
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

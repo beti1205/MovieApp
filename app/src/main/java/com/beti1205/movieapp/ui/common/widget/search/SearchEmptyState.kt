@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.common.widget.search
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement

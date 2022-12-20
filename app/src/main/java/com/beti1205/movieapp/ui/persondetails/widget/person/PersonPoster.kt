@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.persondetails.widget
+package com.beti1205.movieapp.ui.persondetails.widget.person
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import coil.request.ImageRequest
 import com.beti1205.movieapp.R
 
 @Composable
-fun PersonDetailsPoster(
+fun PersonPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {

@@ -18,6 +18,7 @@ import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.persondetails.Section
 import com.beti1205.movieapp.ui.persondetails.SectionType
+import com.beti1205.movieapp.ui.persondetails.widget.person.Person
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable

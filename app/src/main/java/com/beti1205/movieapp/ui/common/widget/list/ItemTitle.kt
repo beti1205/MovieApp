@@ -1,25 +1,25 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.common.widget.list
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun ReleaseDate(
-    releaseDate: String?,
+fun ItemTitle(
+    title: String,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = releaseDate ?: "",
-        style = MaterialTheme.typography.caption,
-        color = Color.Gray,
-        modifier = modifier
+        text = title,
+        style = MaterialTheme.typography.subtitle2,
+        modifier = modifier.padding(8.dp)
     )
 }
 
@@ -29,10 +29,10 @@ fun ReleaseDate(
     showBackground = true
 )
 @Composable
-fun ReleaseDatePreview() {
+fun ItemTitlePreview() {
     MovieAppTheme {
         Surface {
-            ReleaseDate(releaseDate = "12.05.1995")
+            ItemTitle(title = "Better Call Saul")
         }
     }
 }

@@ -1,21 +1,17 @@
-package com.beti1205.movieapp.ui.common.widget
+package com.beti1205.movieapp.ui.tvseries.details.widget.season
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
 
 @Composable
-fun ItemPoster(
+fun SeasonPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
@@ -29,18 +25,7 @@ fun ItemPoster(
         placeholder = painterResource(R.drawable.placeholder_image),
         error = painterResource(id = R.drawable.error_image),
         contentDescription = null,
-        contentScale = ContentScale.Crop,
         modifier = modifier
-            .height(300.dp)
+            .width(140.dp)
     )
-}
-
-@Preview
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
-)
-@Composable
-fun MovieItemPosterPreview() {
-    ItemPoster(posterPath = MoviePreviewDataProvider.movie.posterPath)
 }

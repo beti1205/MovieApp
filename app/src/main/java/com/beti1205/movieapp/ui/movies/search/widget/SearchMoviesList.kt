@@ -8,8 +8,8 @@ import com.beti1205.movieapp.ui.common.isListEmpty
 import com.beti1205.movieapp.ui.common.isLoading
 import com.beti1205.movieapp.ui.common.isQueryTooShort
 import com.beti1205.movieapp.ui.common.widget.Loader
-import com.beti1205.movieapp.ui.common.widget.SearchEmptyList
-import com.beti1205.movieapp.ui.common.widget.SearchEmptyState
+import com.beti1205.movieapp.ui.common.widget.search.SearchEmptyList
+import com.beti1205.movieapp.ui.common.widget.search.SearchEmptyState
 import com.beti1205.movieapp.ui.movies.common.widget.MovieList
 
 @Composable

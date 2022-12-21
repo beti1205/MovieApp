@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetails
-import com.beti1205.movieapp.ui.movies.details.widget.MovieDetailsScreen
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetailsScreenPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -60,14 +59,17 @@ fun MovieDetailsScreen(
     heightDp = 2000
 )
 @Composable
-fun MovieDetailsScreenPreview(@PreviewParameter(MovieDetailsScreenPreviewProvider::class) movieDetailsScreen: MovieDetailsScreen) {
+fun MovieDetailsScreenPreview(
+    @PreviewParameter(MovieDetailsScreenPreviewProvider::class)
+    state: MovieDetailsScreenState
+) {
     MovieAppTheme {
         Surface {
             MovieDetailsScreen(
                 state = MovieDetailsScreenState(
-                    movieDetails = movieDetailsScreen.movieDetails,
-                    credits = movieDetailsScreen.credits,
-                    hasError = false
+                    movieDetails = state.movieDetails,
+                    credits = state.credits,
+                    hasError = state.hasError
                 ),
                 onPersonClicked = {}
             )

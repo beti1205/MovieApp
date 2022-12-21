@@ -6,11 +6,12 @@ import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.ui.movies.details.MovieDetailsScreenState
 
-class MovieDetailsScreenPreviewProvider : PreviewParameterProvider<MovieDetailsScreen> {
+class MovieDetailsScreenPreviewProvider : PreviewParameterProvider<MovieDetailsScreenState> {
     override val values = sequenceOf(
-        MovieDetailsScreen(
-            MovieDetails(
+        MovieDetailsScreenState(
+            movieDetails = MovieDetails(
                 id = 985939,
                 title = "The Godfather II",
                 overview = "In the continuing saga of the Corleone crime family, a young " +
@@ -29,7 +30,7 @@ class MovieDetailsScreenPreviewProvider : PreviewParameterProvider<MovieDetailsS
                     )
                 )
             ),
-            Credits(
+            credits = Credits(
                 id = 1,
                 cast = listOf(
                     Cast(
@@ -50,12 +51,13 @@ class MovieDetailsScreenPreviewProvider : PreviewParameterProvider<MovieDetailsS
                         path = "/mGKkVp3l9cipPt10AqoQnwaPrfI.jpg"
                     )
                 )
-            )
+            ),
+            hasError = false
+        ),
+        MovieDetailsScreenState(
+            movieDetails = null,
+            credits = null,
+            hasError = true
         )
     )
 }
-
-data class MovieDetailsScreen(
-    val movieDetails: MovieDetails,
-    val credits: Credits
-)

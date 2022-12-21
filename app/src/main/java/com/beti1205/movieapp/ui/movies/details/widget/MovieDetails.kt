@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
@@ -44,13 +45,16 @@ fun MovieDetails(
     heightDp = 2000
 )
 @Composable
-fun MovieDetailsPreview(@PreviewParameter(MovieDetailsScreenPreviewProvider::class) movieDetailsScreen: MovieDetailsScreen) {
+fun MovieDetailsPreview(
+    @PreviewParameter(MovieDetailsPreviewProvider::class)
+    state: Pair<MovieDetails, Credits>
+) {
     MovieAppTheme {
         Surface {
             MovieDetails(
-                movieDetails = movieDetailsScreen.movieDetails,
-                cast = movieDetailsScreen.credits.cast,
-                crew = movieDetailsScreen.credits.crew,
+                movieDetails = state.first,
+                cast = state.second.cast,
+                crew = state.second.crew,
                 onPersonClicked = {}
             )
         }

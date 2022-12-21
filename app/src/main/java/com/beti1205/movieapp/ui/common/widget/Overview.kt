@@ -10,7 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.ui.common.widget.list.ListItemPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -36,10 +39,10 @@ fun Overview(
     showBackground = true
 )
 @Composable
-fun OverviewPreview() {
+fun OverviewPreview(@PreviewParameter(ListItemPreviewProvider::class) movie: Movie) {
     MovieAppTheme() {
         Surface {
-            Overview(overview = "For best friends Becky and Hunter...")
+            Overview(overview = movie.overview)
         }
     }
 }

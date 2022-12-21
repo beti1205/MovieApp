@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.persondetails.widget.person
+package com.beti1205.movieapp.ui.persondetails.widget
 
 import android.content.res.Configuration
 import androidx.compose.animation.animateContentSize
@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
-import com.beti1205.movieapp.ui.persondetails.widget.ShowMoreButton
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable

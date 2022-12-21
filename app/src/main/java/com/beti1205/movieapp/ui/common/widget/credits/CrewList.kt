@@ -11,9 +11,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
-import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
 import com.beti1205.movieapp.ui.common.widget.listItemHorizontalPadding
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -57,11 +57,11 @@ fun CrewList(
     showBackground = true
 )
 @Composable
-fun CrewListPreview() {
+fun CrewListPreview(@PreviewParameter(CrewListPreviewProvider::class) crewList: List<Crew>) {
     MovieAppTheme {
         Surface {
             CrewList(
-                crew = CreditsPreviewDataProvider.crew,
+                crew = crewList,
                 onPersonClicked = { }
             )
         }

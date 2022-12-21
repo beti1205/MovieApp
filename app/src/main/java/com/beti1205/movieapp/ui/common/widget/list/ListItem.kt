@@ -9,7 +9,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.ui.common.widget.Rating
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -40,13 +42,13 @@ fun ListItem(
     showBackground = true
 )
 @Composable
-fun ListItemPreview() {
+fun ListItemPreview(@PreviewParameter(ListItemPreviewProvider::class) movie: Movie) {
     MovieAppTheme {
         Surface {
             ListItem(
-                posterPath = null,
-                title = "Better Call Saul",
-                votes = "1.0"
+                posterPath = movie.posterPath,
+                title = movie.title,
+                votes = movie.votes
             )
         }
     }

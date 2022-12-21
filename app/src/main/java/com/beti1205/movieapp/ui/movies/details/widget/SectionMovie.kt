@@ -6,10 +6,11 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.common.widget.details.Details
-import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
+import com.beti1205.movieapp.ui.common.widget.details.DetailsPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -38,11 +39,11 @@ fun SectionMovie(
     showBackground = true
 )
 @Composable
-fun SectionMoviePreview() {
+fun SectionMoviePreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails: MovieDetails) {
     MovieAppTheme {
         Surface {
             SectionMovie(
-                movieDetails = MovieDetailsPreviewDataProvider.movie
+                movieDetails = movieDetails
             )
         }
     }

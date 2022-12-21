@@ -8,7 +8,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.ui.common.getErrorState
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
+import com.beti1205.movieapp.ui.movies.common.PagingMoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.common.widget.PagingError
 import kotlinx.coroutines.flow.flowOf
 
@@ -28,6 +28,6 @@ fun MovieListError(movieListItems: LazyPagingItems<Movie>) {
 )
 @Composable
 fun MovieListError() {
-    val items = flowOf(MoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingMoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
     MovieListError(movieListItems = items)
 }

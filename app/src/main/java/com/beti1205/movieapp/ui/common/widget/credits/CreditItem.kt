@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
+import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -44,16 +46,35 @@ fun CreditItem(
     showBackground = true
 )
 @Composable
-fun CreditItemPreview() {
+fun CreditItemPreview(@PreviewParameter(CastItemPreviewProvider::class) cast: Cast) {
     MovieAppTheme {
         Surface {
             CreditItem(
-                path = CreditsPreviewDataProvider.cast.first().path,
-                name = CreditsPreviewDataProvider.cast.first().name,
-                id = CreditsPreviewDataProvider.cast.first().id,
-                description = CreditsPreviewDataProvider.cast.first().character,
+                path = cast.path,
+                name = cast.name,
+                id = cast.id,
+                description = cast.character,
                 onPersonClicked = {}
             )
         }
     }
+}
+
+class CastItemPreviewProvider : PreviewParameterProvider<Cast> {
+    override val values = sequenceOf(
+        Cast(
+            id = 1,
+            name = "Grace Caroline Currey",
+            popularity = 8.9,
+            character = "Becky",
+            path = "/6chZcnjWEiFfpmB6D5BR9YUeIs9.jpg"
+        ),
+        Cast(
+            id = 2,
+            name = "Grace Caroline Currey",
+            popularity = 8.9,
+            character = "Becky",
+            path = null
+        )
+    )
 }

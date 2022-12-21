@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.ui.common.widget.details.DetailsTitle
 import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
+import com.beti1205.movieapp.ui.persondetails.widget.ExpandableOverview
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable

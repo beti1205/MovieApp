@@ -8,6 +8,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
@@ -89,22 +91,104 @@ fun PersonDetailsScreen(
     showBackground = true
 )
 @Composable
-fun PersonDetailsScreenPreview() {
+fun PersonDetailsScreenPreview(
+    @PreviewParameter(PersonDetailsScreenPreviewProvider::class)
+    personDetailsScreenData: PersonDetailsScreenData
+) {
     MovieAppTheme {
         Surface {
             PersonDetailsScreen(
-                details = PersonDetailsPreviewDataProvider.personDetails,
-                isLoading = false,
-                hasError = false,
-                hasCreditsError = false,
+                details = personDetailsScreenData.personDetails,
+                isLoading = personDetailsScreenData.isLoading,
+                hasError = personDetailsScreenData.hasError,
+                hasCreditsError = personDetailsScreenData.hasCreditsError,
                 onExpandedChanged = { _, _ -> },
                 onMovieClicked = {},
                 onTVSeriesClicked = {},
-                movieCastSection = PersonDetailsPreviewDataProvider.sectionMovieCast,
-                tvCastSection = PersonDetailsPreviewDataProvider.sectionTVSeriesCast,
-                movieCrewSection = PersonDetailsPreviewDataProvider.sectionMovieCrew,
-                tvCrewSection = PersonDetailsPreviewDataProvider.sectionTVCrew
+                movieCastSection = personDetailsScreenData.movieCastSection,
+                tvCastSection = personDetailsScreenData.tvCastSection,
+                movieCrewSection = personDetailsScreenData.movieCrewSection,
+                tvCrewSection = personDetailsScreenData.tvCrewSection
             )
         }
     }
+}
+
+data class PersonDetailsScreenData(
+    val personDetails: PersonDetails?,
+    val isLoading: Boolean,
+    val hasError: Boolean,
+    val hasCreditsError: Boolean,
+    val movieCastSection: Section<PersonMovieCast>,
+    val tvCastSection: Section<PersonTVSeriesCast>,
+    val movieCrewSection: Section<PersonMovieCrew>,
+    val tvCrewSection: Section<PersonTVSeriesCrew>
+)
+
+class PersonDetailsScreenPreviewProvider : PreviewParameterProvider<PersonDetailsScreenData> {
+    override val values = sequenceOf(
+        PersonDetailsScreenData(
+            PersonDetails(
+                id = 31,
+                birthday = "1956-07-09",
+                deathday = null,
+                name = "Tom Hanks",
+                biography = "Thomas Jeffrey Hanks (born July 9, 1956) ...",
+                popularity = 69.464,
+                birthPlace = "Concord, California, USA",
+                personPoster = null
+            ),
+            isLoading = false,
+            hasError = false,
+            hasCreditsError = false,
+            Section(
+                items = listOf(SectionDataProvider.personMovieCast),
+                expanded = false,
+                expandable = false
+            ),
+            Section(
+                items = listOf(SectionDataProvider.personTVCast),
+                expanded = false,
+                expandable = false
+            ),
+            Section(
+                items = listOf(SectionDataProvider.personMovieCrew),
+                expanded = false,
+                expandable = false
+            ),
+            Section(
+                items = listOf(SectionDataProvider.personTVCrew),
+                expanded = false,
+                expandable = false
+            )
+
+        ),
+        PersonDetailsScreenData(
+            personDetails = null,
+            isLoading = false,
+            hasError = true,
+            hasCreditsError = false,
+            movieCastSection = Section(
+                items = emptyList(),
+                expanded = false,
+                expandable = false
+            ),
+            tvCastSection = Section(
+                items = emptyList(),
+                expanded = false,
+                expandable = false
+            ),
+            movieCrewSection = Section(
+                items = emptyList(),
+                expanded = false,
+                expandable = false
+            ),
+            tvCrewSection = Section(
+                items = emptyList(),
+                expanded = false,
+                expandable = false
+            )
+
+        )
+    )
 }

@@ -17,9 +17,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
+import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -108,18 +110,63 @@ private fun Rating(
     showBackground = true
 )
 @Composable
-fun FilmographyItemPreview() {
+fun FilmographyItemPreview(
+    @PreviewParameter(FilmographyItemPreviewProvider::class)
+    personMovieCast: PersonMovieCast
+) {
     MovieAppTheme {
         Surface {
             FilmographyItem(
-                date = PersonDetailsPreviewDataProvider.personMovieCast.releaseDate,
-                name = PersonDetailsPreviewDataProvider.personMovieCast.title,
-                description = PersonDetailsPreviewDataProvider.personMovieCast.character
+                date = personMovieCast.releaseDate,
+                name = personMovieCast.title,
+                description = personMovieCast.character
                     ?: "unknown",
-                id = 1,
-                rating = "9.0",
+                id = personMovieCast.id,
+                rating = personMovieCast.votes,
                 onItemRowClicked = {}
             )
         }
     }
+}
+
+class FilmographyItemPreviewProvider : PreviewParameterProvider<PersonMovieCast> {
+    override val values = sequenceOf(
+        PersonMovieCast(
+            character = "Himself",
+            title = "Murch: Walter Murch on Editing",
+            popularity = 1.0,
+            id = 1,
+            overview = "",
+            voteCount = 100,
+            voteAverage = 1.0,
+            creditId = "1",
+            releaseDate = "2007-01-26",
+            genreIds = listOf(1),
+            originalLanguage = "",
+            originalTitle = "",
+            posterPath = null
+        ),
+        PersonMovieCast(
+            character = "Jake Sully",
+            title = "Avatar: The Way of Water",
+            popularity = 4334.092,
+            id = 76600,
+            overview = "Set more than a decade after the events of the first film, learn the" +
+                " story of the Sully family (Jake, Neytiri, and their kids), the trouble " +
+                "that follows them, the lengths they go to keep each other safe, the battles " +
+                "they fight to stay alive, and the tragedies they endure.",
+            voteCount = 954,
+            voteAverage = 8.07,
+            creditId = "52fe4943c3a368484e122b49",
+            releaseDate = "2022-12-14",
+            genreIds = listOf(
+                878,
+                28,
+                12
+            ),
+            originalLanguage = "en",
+            originalTitle = "Avatar: The Way of Water",
+            posterPath = "/94xxm5701CzOdJdUEdIuwqZaowx.jpg"
+        )
+    )
 }

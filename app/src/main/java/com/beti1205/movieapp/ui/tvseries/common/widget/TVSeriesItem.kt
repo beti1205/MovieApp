@@ -10,11 +10,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.common.widget.list.ListItem
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,13 +42,46 @@ fun TVSeriesItem(
     showBackground = true
 )
 @Composable
-fun TVSeriesItemPreview() {
+fun TVSeriesItemPreview(
+    @PreviewParameter(TVSeriesItemScreenPreviewProvider::class)
+    tvSeries: TVSeries
+) {
     MovieAppTheme {
         Surface {
             TVSeriesItem(
-                tvSeries = TVSeriesPreviewDataProvider.tvSeries,
+                tvSeries = tvSeries,
                 onTVSeriesClicked = {}
             )
         }
     }
+}
+
+class TVSeriesItemScreenPreviewProvider : PreviewParameterProvider<TVSeries> {
+    override val values = sequenceOf(
+        TVSeries(
+            popularity = 632.02,
+            id = 80752,
+            overview = "A virus has decimated humankind. Those who survived emerged blind",
+            name = "See",
+            firstAirDate = "2019-11-01",
+            originalName = "See",
+            voteAverage = 8.3,
+            posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg"
+        ),
+        TVSeries(
+            popularity = 424.992,
+            id = 1396,
+            overview = "Edward and Alphonse Elric's reckless disregard for alchemy's " +
+                "fun­damental laws ripped half of Ed's limbs from his body and left " +
+                "Al's soul clinging to a cold suit of armor. To restore what I  was " +
+                "lost, the brothers scour a war-torn land for the Philosopher's" +
+                " Sto­ne, a fabled relic which grants the ability to perform alchemy " +
+                "in impossible ways.",
+            name = "Fullmetal Alchemist: Brotherhood",
+            firstAirDate = null,
+            originalName = "Fullmetal Alchemist: Brotherhood",
+            voteAverage = 8.9,
+            posterPath = null
+        )
+    )
 }

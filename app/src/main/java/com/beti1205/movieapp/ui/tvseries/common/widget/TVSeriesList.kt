@@ -14,7 +14,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.common.widget.list.items
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
+import com.beti1205.movieapp.ui.tvseries.common.PagingTVSeriesPreviewDataProvider
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -45,7 +45,7 @@ fun TVSeriesList(
 )
 @Composable
 fun TVSeriesListPreview() {
-    val items = flowOf(TVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingTVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
 
     MovieAppTheme {
         Surface {

@@ -14,7 +14,7 @@ import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.movies.common.widget.PagingError
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
+import com.beti1205.movieapp.ui.tvseries.common.PagingTVSeriesPreviewDataProvider
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -40,7 +40,7 @@ fun SearchTVSeriesPagingError(
 )
 @Composable
 fun SearchTVSeriesPagingErrorPreview() {
-    val items = flowOf(TVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingTVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
 
     MovieAppTheme {
         Surface {

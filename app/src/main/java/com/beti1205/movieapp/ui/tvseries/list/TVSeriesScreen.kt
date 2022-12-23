@@ -14,7 +14,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
+import com.beti1205.movieapp.ui.tvseries.common.PagingTVSeriesPreviewDataProvider
 import com.beti1205.movieapp.ui.tvseries.common.widget.TVSeriesList
 import com.beti1205.movieapp.ui.tvseries.list.widget.TVOrderChipGroup
 import com.beti1205.movieapp.ui.tvseries.list.widget.TVSeriesListError
@@ -68,7 +68,7 @@ fun TVSeriesScreen(
 )
 @Composable
 fun TVSeriesScreenPreview() {
-    val items = flowOf(TVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingTVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
     TVSeriesScreen(
         tvSeriesListItems = items,
         selectedTVSeriesOrder = TVOrder.POPULAR,

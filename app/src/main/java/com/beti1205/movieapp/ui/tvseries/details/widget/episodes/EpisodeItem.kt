@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.common.widget.details.ReleaseDate
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @Composable
 fun EpisodeItem(
@@ -29,7 +29,9 @@ fun EpisodeItem(
         EpisodeTitle(name = item.name, modifier = Modifier.align(Alignment.CenterHorizontally))
         ReleaseDate(
             releaseDate = item.episodeAirDate,
-            modifier = Modifier.align(Alignment.End).padding(top = 8.dp)
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(top = 8.dp)
         )
         Overview(overview = item.overview)
     }
@@ -41,10 +43,13 @@ fun EpisodeItem(
     showBackground = true
 )
 @Composable
-fun EpisodeItemPreview() {
+fun EpisodeItemPreview(
+    @PreviewParameter(EpisodeItemPreviewProvider::class)
+    episode: Episode
+) {
     MovieAppTheme {
         Surface {
-            EpisodeItem(item = TVSeriesPreviewDataProvider.episodesList.first())
+            EpisodeItem(item = episode)
         }
     }
 }

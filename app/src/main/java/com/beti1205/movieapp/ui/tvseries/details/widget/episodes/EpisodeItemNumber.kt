@@ -9,10 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @Composable
 fun EpisodeItemNumber(numberOfEpisode: String, modifier: Modifier = Modifier) {
@@ -32,11 +33,14 @@ fun EpisodeItemNumber(numberOfEpisode: String, modifier: Modifier = Modifier) {
     showBackground = true
 )
 @Composable
-fun EpisodeItemNumberPreview() {
+fun EpisodeItemNumberPreview(
+    @PreviewParameter(EpisodeItemPreviewProvider::class)
+    episode: Episode
+) {
     MovieAppTheme {
         Surface {
             EpisodeItemNumber(
-                numberOfEpisode = TVSeriesPreviewDataProvider.episodesList.first().numberOfEpisode
+                numberOfEpisode = episode.numberOfEpisode
             )
         }
     }

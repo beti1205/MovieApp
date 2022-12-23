@@ -8,9 +8,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @Composable
 fun EpisodeTitle(name: String, modifier: Modifier = Modifier) {
@@ -28,11 +29,14 @@ fun EpisodeTitle(name: String, modifier: Modifier = Modifier) {
     showBackground = true
 )
 @Composable
-fun EpisodeTitlePreview() {
+fun EpisodeTitlePreview(
+    @PreviewParameter(EpisodeItemPreviewProvider::class)
+    episode: Episode
+) {
     MovieAppTheme {
         Surface {
             EpisodeTitle(
-                name = TVSeriesPreviewDataProvider.episodesList.first().name
+                name = episode.name
             )
         }
     }

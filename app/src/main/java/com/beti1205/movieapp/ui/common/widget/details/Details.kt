@@ -9,11 +9,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.Genre
+import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.common.widget.Rating
-import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -23,8 +24,8 @@ fun Details(
     votes: String,
     releaseDate: String?,
     overview: String,
-    modifier: Modifier = Modifier,
-    genres: List<Genre>?
+    genres: List<Genre>?,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -61,16 +62,16 @@ fun Details(
     showBackground = true
 )
 @Composable
-fun DetailsPreview() {
+fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails: MovieDetails) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            with(MovieDetailsPreviewDataProvider) {
+            movieDetails.apply {
                 Details(
-                    posterPath = movie.posterPath,
-                    title = movie.title,
-                    votes = movie.votes,
-                    releaseDate = movie.releaseDate,
-                    overview = movie.overview,
+                    posterPath = posterPath,
+                    title = title,
+                    votes = votes,
+                    releaseDate = releaseDate,
+                    overview = overview,
                     genres = genres
                 )
             }

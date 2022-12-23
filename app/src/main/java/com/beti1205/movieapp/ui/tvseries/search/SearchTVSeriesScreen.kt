@@ -10,7 +10,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
+import com.beti1205.movieapp.ui.tvseries.common.PagingTVSeriesPreviewDataProvider
 import com.beti1205.movieapp.ui.tvseries.search.widget.SearchTVSeriesList
 import kotlinx.coroutines.flow.flowOf
 
@@ -49,7 +49,7 @@ fun SearchTVSeriesScreen(
 )
 @Composable
 fun SearchTVSeriesScreenPreview() {
-    val items = flowOf(TVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingTVSeriesPreviewDataProvider.pagingData).collectAsLazyPagingItems()
     MovieAppTheme {
         Surface {
             SearchTVSeriesScreen(searchTVSeriesItems = items, onTVSeriesClicked = {})

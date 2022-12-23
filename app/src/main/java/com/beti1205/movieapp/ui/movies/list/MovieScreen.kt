@@ -13,7 +13,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
-import com.beti1205.movieapp.ui.movies.common.MoviePreviewDataProvider
+import com.beti1205.movieapp.ui.movies.common.PagingMoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.common.widget.MovieList
 import com.beti1205.movieapp.ui.movies.list.widget.MovieListError
 import com.beti1205.movieapp.ui.movies.list.widget.MovieOrderChipGroup
@@ -68,7 +68,7 @@ fun MovieScreen(
 )
 @Composable
 fun MovieScreenPreview() {
-    val items = flowOf(MoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
+    val items = flowOf(PagingMoviePreviewDataProvider.pagingData).collectAsLazyPagingItems()
     MovieScreen(
         movieListItems = items,
         selectedMovieOrder = MovieOrder.POPULAR,

@@ -7,7 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.beti1205.movieapp.ui.persondetails.PersonDetailsPreviewDataProvider
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -28,11 +29,14 @@ fun PersonBirthPlace(
     showBackground = true
 )
 @Composable
-fun PersonBirthPlacePreview() {
+fun PersonBirthPlacePreview(
+    @PreviewParameter(PersonPreviewProvider::class)
+    personDetails: PersonDetails
+) {
     MovieAppTheme {
         Surface {
             PersonBirthPlace(
-                place = PersonDetailsPreviewDataProvider.personDetails.birthPlace
+                place = personDetails.birthPlace
             )
         }
     }

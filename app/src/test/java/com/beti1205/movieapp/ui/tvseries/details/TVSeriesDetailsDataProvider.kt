@@ -1,5 +1,6 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
+import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
@@ -7,7 +8,6 @@ import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.SeasonResponse
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 object TVSeriesDetailsDataProvider {
 
@@ -54,12 +54,21 @@ object TVSeriesDetailsDataProvider {
         firstAirDate = "2019-11-01",
         voteAverage = 8.3,
         posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg",
-        genres = TVSeriesPreviewDataProvider.genres,
+        genres = listOf(
+            Genre(
+                id = 18,
+                name = "Drama"
+            ),
+            Genre(
+                id = 20,
+                name = "Crime"
+            )
+        ),
         inProduction = true,
         lastAirDate = "2019-11-01",
         numberOfEpisodes = 2,
         numberOfSeasons = 2,
-        seasons = TVSeriesPreviewDataProvider.seasonsList
+        seasons = seasonsList
     )
 
     val cast = listOf(

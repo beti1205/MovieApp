@@ -8,13 +8,13 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
-import com.beti1205.movieapp.ui.common.CreditsPreviewDataProvider
 import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
 import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew
-import com.beti1205.movieapp.ui.movies.details.MovieDetailsPreviewDataProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -45,13 +45,16 @@ fun MovieDetails(
     heightDp = 2000
 )
 @Composable
-fun MovieDetailsScreenPreview() {
+fun MovieDetailsPreview(
+    @PreviewParameter(MovieDetailsPreviewProvider::class)
+    state: Pair<MovieDetails, Credits>
+) {
     MovieAppTheme {
         Surface {
             MovieDetails(
-                movieDetails = MovieDetailsPreviewDataProvider.movie,
-                cast = CreditsPreviewDataProvider.credits.cast,
-                crew = CreditsPreviewDataProvider.credits.crew,
+                movieDetails = state.first,
+                cast = state.second.cast,
+                crew = state.second.crew,
                 onPersonClicked = {}
             )
         }

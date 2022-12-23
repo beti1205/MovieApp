@@ -12,13 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.common.widget.details.ReleaseDate
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.common.TVSeriesPreviewDataProvider
 
 @Composable
 fun Season(
@@ -53,10 +54,39 @@ fun Season(
     showBackground = true
 )
 @Composable
-fun SeasonPreview() {
+fun SeasonPreview(
+    @PreviewParameter(SeasonPreviewProvider::class)
+    season: Season
+) {
     MovieAppTheme {
         Surface {
-            Season(selectedSeason = TVSeriesPreviewDataProvider.seasonsList.first())
+            Season(selectedSeason = season)
         }
     }
+}
+
+class SeasonPreviewProvider : PreviewParameterProvider<Season> {
+    override val values = sequenceOf(
+        Season(
+            airDate = "2021-09-21",
+            episodeCount = 10,
+            id = 170644,
+            name = "Limited Series",
+            overview = "In prison, Jeff's newfound fame makes him a target.",
+            posterPath = "/h7YlJ1Mhg6jCZiHToUiKqHdzMO9.jpg",
+            seasonNumber = 1
+        ),
+        Season(
+            airDate = "2008-01-20",
+            episodeCount = 7,
+            id = 3572,
+            name = "Season 1",
+            overview = "When an unassuming high school chemistry teacher discovers he has " +
+                "a rare form of lung cancer, he decides to team up with a former student " +
+                "and create a top of the line crystal meth in a used RV, to provide for his " +
+                "family once he is gone.",
+            posterPath = "/1BP4xYv9ZG4ZVHkL7ocOziBbSYH.jpg",
+            seasonNumber = 1
+        )
+    )
 }

@@ -37,7 +37,9 @@ fun Person(
                     PersonDeathDay(personDetails.deathday)
                 }
             }
-            ExpandableOverview(personDetails.biography)
+            if (personDetails.biography.isNotEmpty()) {
+                ExpandableOverview(personDetails.biography)
+            }
         }
     }
 }

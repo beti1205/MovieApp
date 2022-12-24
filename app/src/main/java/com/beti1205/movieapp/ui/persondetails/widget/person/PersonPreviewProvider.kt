@@ -28,6 +28,16 @@ class PersonPreviewProvider : PreviewParameterProvider<PersonDetails> {
             popularity = 17.015,
             birthPlace = "Omaha, Nebraska, USA",
             personPoster = "/fuTEPMsBtV1zE98ujPONbKiYDc2.jpg"
+        ),
+        PersonDetails(
+            id = 238,
+            birthday = "1924-04-03",
+            deathday = "2004-07-01",
+            name = "Marlon Brando",
+            biography = "",
+            popularity = 17.015,
+            birthPlace = "Omaha, Nebraska, USA",
+            personPoster = "/fuTEPMsBtV1zE98ujPONbKiYDc2.jpg"
         )
     )
 }

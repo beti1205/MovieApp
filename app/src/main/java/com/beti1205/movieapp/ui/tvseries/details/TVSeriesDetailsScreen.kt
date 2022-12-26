@@ -21,11 +21,10 @@ import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew
 import com.beti1205.movieapp.ui.common.widget.details.Details
 import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
+import com.beti1205.movieapp.ui.tvseries.details.widget.Credits
 import com.beti1205.movieapp.ui.tvseries.details.widget.episodes.EpisodeList
 import com.beti1205.movieapp.ui.tvseries.details.widget.season.Season
 import com.beti1205.movieapp.ui.tvseries.details.widget.season.SeasonDropdown
@@ -78,18 +77,20 @@ fun TVSeriesDetailsScreen(
                         )
                         StandardDivider()
                         if (credits != null) {
-                            SectionCast(cast = credits.cast, onPersonClicked = onPersonClicked)
-                            SectionCrew(crew = credits.crew, onPersonClicked = onPersonClicked)
-                            StandardDivider()
+                            Credits(credits, onPersonClicked)
                         }
-                        SeasonDropdown(
-                            selectedSeason = selectedSeason,
-                            seasons = seasons,
-                            onSeasonSelected = onSeasonSelected
-                        )
-                        Season(selectedSeason)
-                        StandardDivider()
-                        EpisodeList(episodes)
+                        if (selectedSeason != null) {
+                            SeasonDropdown(
+                                selectedSeason = selectedSeason,
+                                seasons = seasons,
+                                onSeasonSelected = onSeasonSelected
+                            )
+                            Season(selectedSeason)
+                        }
+                        if (!episodes.isNullOrEmpty()) {
+                            StandardDivider()
+                            EpisodeList(episodes)
+                        }
                     }
                 }
             }

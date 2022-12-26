@@ -23,27 +23,25 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun Season(
-    selectedSeason: Season?,
+    selectedSeason: Season,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-        if (selectedSeason != null) {
-            SeasonPoster(posterPath = selectedSeason.posterPath)
-            Column(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .align(Alignment.CenterVertically)
-            ) {
-                ReleaseDate(releaseDate = selectedSeason.airDate)
-                Text(
-                    text = stringResource(
-                        id = R.string.episodes_count,
-                        selectedSeason.episodes
-                    ),
-                    style = MaterialTheme.typography.body2
-                )
-                Overview(overview = selectedSeason.overview)
-            }
+        SeasonPoster(posterPath = selectedSeason.posterPath)
+        Column(
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .align(Alignment.CenterVertically)
+        ) {
+            ReleaseDate(releaseDate = selectedSeason.airDate)
+            Text(
+                text = stringResource(
+                    id = R.string.episodes_count,
+                    selectedSeason.episodes
+                ),
+                style = MaterialTheme.typography.body2
+            )
+            Overview(overview = selectedSeason.overview)
         }
     }
 }

@@ -42,8 +42,7 @@ fun MovieDetailsScreen(
                     state.isLoading -> Loader()
                     else -> MovieDetails(
                         movieDetails = state.movieDetails,
-                        cast = state.credits?.cast,
-                        crew = state.credits?.crew,
+                        credits = state.credits,
                         onPersonClicked = onPersonClicked
                     )
                 }

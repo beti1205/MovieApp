@@ -1,9 +1,7 @@
-package com.beti1205.movieapp.ui.tvseries.details.widget
+package com.beti1205.movieapp.ui.common.widget.credits
 
 import androidx.compose.runtime.Composable
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew
 
 @Composable
 fun Credits(

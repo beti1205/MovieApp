@@ -9,32 +9,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
-import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew
+import com.beti1205.movieapp.ui.common.widget.StandardDivider
+import com.beti1205.movieapp.ui.common.widget.credits.Credits
+import com.beti1205.movieapp.ui.common.widget.details.Details
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieDetails(
     movieDetails: MovieDetails?,
-    cast: List<Cast>?,
-    crew: List<Crew>?,
+    credits: Credits?,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-        SectionMovie(movieDetails = movieDetails)
-        SectionCast(
-            cast = cast,
-            onPersonClicked = onPersonClicked
-        )
-        SectionCrew(
-            crew = crew,
-            onPersonClicked = onPersonClicked
-        )
+        movieDetails?.let { movieDetails ->
+            Details(
+                posterPath = movieDetails.posterPath,
+                title = movieDetails.title,
+                votes = movieDetails.votes,
+                releaseDate = movieDetails.releaseDate,
+                overview = movieDetails.overview,
+                genres = movieDetails.genres
+            )
+            StandardDivider()
+            if (credits != null) {
+                Credits(credits, onPersonClicked)
+            }
+        }
     }
 }
 
@@ -53,8 +56,7 @@ fun MovieDetailsPreview(
         Surface {
             MovieDetails(
                 movieDetails = state.first,
-                cast = state.second.cast,
-                crew = state.second.crew,
+                credits = state.second,
                 onPersonClicked = {}
             )
         }

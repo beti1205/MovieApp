@@ -19,13 +19,15 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun Details(
+    id: Int,
     posterPath: String?,
     title: String,
     votes: String,
     releaseDate: String?,
     overview: String,
     genres: List<Genre>?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onButtonClicked: (Int) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -52,6 +54,7 @@ fun Details(
             if (overview.isNotEmpty()) {
                 Overview(overview)
             }
+            ReviewsButton(onButtonClicked = onButtonClicked, id = id)
         }
     }
 }
@@ -67,12 +70,14 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
         Surface(modifier = Modifier.fillMaxSize()) {
             movieDetails.apply {
                 Details(
+                    id = id,
                     posterPath = posterPath,
                     title = title,
                     votes = votes,
                     releaseDate = releaseDate,
                     overview = overview,
-                    genres = genres
+                    genres = genres,
+                    onButtonClicked = {}
                 )
             }
         }

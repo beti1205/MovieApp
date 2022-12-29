@@ -68,6 +68,7 @@ fun TVSeriesDetailsScreen(
                 else -> Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     tvSeriesDetails?.apply {
                         Details(
+                            id = id,
                             posterPath = posterPath,
                             title = name,
                             votes = votes,

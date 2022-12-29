@@ -42,4 +42,6 @@
     <string name="section_header_movie_cast">Acting</string>
     <string name="section_header_movie_crew">Participation in creation</string>
     <string name="filmography_unknown">unknown</string>
+    <string name="movie_review_label">Movie reviews</string>
+    <string name="reviews_button_label">Reviews</string>
 </resources>

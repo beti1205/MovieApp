@@ -19,20 +19,23 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel,
-    onPersonClicked: (Int) -> Unit
+    onPersonClicked: (Int) -> Unit,
+    onButtonClicked: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
     MovieDetailsScreen(
         state = state,
-        onPersonClicked = onPersonClicked
+        onPersonClicked = onPersonClicked,
+        onButtonClicked = onButtonClicked
     )
 }
 
 @Composable
 fun MovieDetailsScreen(
     state: MovieDetailsScreenState,
-    onPersonClicked: (Int) -> Unit
+    onPersonClicked: (Int) -> Unit,
+    onButtonClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -43,7 +46,8 @@ fun MovieDetailsScreen(
                     else -> MovieDetails(
                         movieDetails = state.movieDetails,
                         credits = state.credits,
-                        onPersonClicked = onPersonClicked
+                        onPersonClicked = onPersonClicked,
+                        onButtonClicked = onButtonClicked
                     )
                 }
             }
@@ -70,7 +74,8 @@ fun MovieDetailsScreenPreview(
                     credits = state.credits,
                     hasError = state.hasError
                 ),
-                onPersonClicked = {}
+                onPersonClicked = {},
+                onButtonClicked = {}
             )
         }
     }

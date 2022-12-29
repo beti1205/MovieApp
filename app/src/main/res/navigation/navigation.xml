@@ -25,6 +25,15 @@
                 app:argType="integer" />
 
         </action>
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_movieReviewsFragment"
+            app:destination="@id/movieReviewsFragment">
+
+            <argument
+                android:name="movieId"
+                app:argType="integer" />
+
+        </action>
 
     </fragment>
 
@@ -78,5 +87,14 @@
         </action>
 
     </fragment>
+
+    <fragment
+        android:id="@+id/movieReviewsFragment"
+        android:name="com.beti1205.movieapp.ui.movies.reviews.MovieReviewsFragment"
+        android:label="@string/movie_review_label" />
+
+    <argument
+        android:name="movieId"
+        app:argType="integer" />
 
 </navigation>

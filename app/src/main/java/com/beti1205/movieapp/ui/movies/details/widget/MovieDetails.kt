@@ -21,17 +21,20 @@ fun MovieDetails(
     movieDetails: MovieDetails?,
     credits: Credits?,
     onPersonClicked: (Int) -> Unit,
+    onButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         movieDetails?.let { movieDetails ->
             Details(
+                id = movieDetails.id,
                 posterPath = movieDetails.posterPath,
                 title = movieDetails.title,
                 votes = movieDetails.votes,
                 releaseDate = movieDetails.releaseDate,
                 overview = movieDetails.overview,
-                genres = movieDetails.genres
+                genres = movieDetails.genres,
+                onButtonClicked = onButtonClicked
             )
             StandardDivider()
             if (credits != null) {
@@ -57,7 +60,8 @@ fun MovieDetailsPreview(
             MovieDetails(
                 movieDetails = state.first,
                 credits = state.second,
-                onPersonClicked = {}
+                onPersonClicked = {},
+                onButtonClicked = {}
             )
         }
     }

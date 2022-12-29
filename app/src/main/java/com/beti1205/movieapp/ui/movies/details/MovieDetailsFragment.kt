@@ -23,7 +23,8 @@ class MovieDetailsFragment : Fragment() {
         setContent {
             MovieDetailsScreen(
                 viewModel = viewModel,
-                onPersonClicked = ::navigateToPersonDetails
+                onPersonClicked = ::navigateToPersonDetails,
+                onButtonClicked = ::navigateToMovieReviews
             )
         }
     }
@@ -31,6 +32,12 @@ class MovieDetailsFragment : Fragment() {
     private fun navigateToPersonDetails(id: Int) {
         findNavController().navigate(
             MovieDetailsFragmentDirections.actionMovieDetailsFragmentToPersonDetailsFragment(id)
+        )
+    }
+
+    private fun navigateToMovieReviews(id: Int) {
+        findNavController().navigate(
+            MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(id)
         )
     }
 }

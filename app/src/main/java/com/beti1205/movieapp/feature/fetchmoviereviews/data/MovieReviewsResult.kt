@@ -1,5 +1,7 @@
 package com.beti1205.movieapp.feature.fetchmoviereviews.data
 
+import com.beti1205.movieapp.utils.formattedDate
+import com.beti1205.movieapp.utils.toZoneDateTime
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -19,4 +21,7 @@ data class MovieReview(
 
     @Json(name = "updated_up")
     val updatedUp: String?
-)
+) {
+    val createdDate: String
+        get() = createdAt.toZoneDateTime().formattedDate
+}

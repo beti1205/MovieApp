@@ -5,11 +5,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class MovieReviewsResult(
-    val results: List<MovieReviews>
+    val results: List<MovieReview>
 )
 
 @JsonClass(generateAdapter = true)
-data class MovieReviews(
+data class MovieReview(
     val author: String,
     val content: String,
     val id: String,
@@ -18,5 +18,5 @@ data class MovieReviews(
     val createdAt: String,
 
     @Json(name = "updated_up")
-    val updatedUp: String
+    val updatedUp: String?
 )

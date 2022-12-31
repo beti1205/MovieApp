@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -58,10 +59,10 @@ class MovieReviewsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.reviews.collect() }
+            launch { viewModel.reviewsError.collect() }
         }
 
-        assertEquals(emptyList<List<MovieReview>>(), viewModel.reviews.value)
+        assertTrue(viewModel.reviewsError.value)
 
         collectJob.cancel()
     }

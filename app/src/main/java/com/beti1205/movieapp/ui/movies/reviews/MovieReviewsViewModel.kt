@@ -26,6 +26,9 @@ class MovieReviewsViewModel @Inject constructor(
     private val _reviewsError = MutableStateFlow(false)
     val reviewsError: StateFlow<Boolean> = _reviewsError.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     init {
         val movieId = movieId.value
         if (movieId != null) {
@@ -35,11 +38,18 @@ class MovieReviewsViewModel @Inject constructor(
 
     private fun getMovieReview(id: Int) {
         viewModelScope.launch {
+            _isLoading.value = true
             val result = fetchMovieReviewsUseCase(id)
 
             when (result) {
-                is Result.Success -> _reviews.value = result.data.results
-                is Result.Error -> _reviewsError.value = true
+                is Result.Success -> {
+                    _reviews.value = result.data.results
+                    _isLoading.value = false
+                }
+                is Result.Error -> {
+                    _reviewsError.value = true
+                    _isLoading.value = false
+                }
             }
         }
     }

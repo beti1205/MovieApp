@@ -18,13 +18,16 @@ class MovieReviewsViewModel @Inject constructor(
     private val fetchMovieReviewsUseCase: FetchMovieReviewsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val movieId = savedStateHandle.getStateFlow("movieId", -1)
+    private val movieId = savedStateHandle.getStateFlow<Int?>("movieId", null)
 
     private val _reviews = MutableStateFlow<List<MovieReview>>(emptyList())
     val reviews: StateFlow<List<MovieReview>?> = _reviews.asStateFlow()
 
     init {
-        getMovieReview(movieId.value)
+        val movieId = movieId.value
+        if (movieId != null) {
+            getMovieReview(movieId)
+        }
     }
 
     private fun getMovieReview(id: Int) {

@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
+import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewList
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewsEmptyState
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -20,22 +21,25 @@ fun MovieReviewsScreen(
     viewModel: MovieReviewsViewModel
 ) {
     val reviews by viewModel.reviews.collectAsState()
+    val reviewsError by viewModel.reviewsError.collectAsState()
 
     MovieReviewsScreen(
-        reviews = reviews
+        reviews = reviews,
+        reviewsError = reviewsError
     )
 }
 
 @Composable
 fun MovieReviewsScreen(
-    reviews: List<MovieReview>
+    reviews: List<MovieReview>,
+    reviewsError: Boolean
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            if (reviews.isNotEmpty()) {
-                MovieReviewList(reviews = reviews)
-            } else {
-                MovieReviewsEmptyState()
+            when {
+                reviewsError -> EmptyStateMessage()
+                reviews.isNotEmpty() -> MovieReviewList(reviews = reviews)
+                else -> MovieReviewsEmptyState()
             }
         }
     }
@@ -53,7 +57,7 @@ fun MovieReviewsScreenPreview(
 ) {
     MovieAppTheme {
         Surface {
-            MovieReviewsScreen(reviews)
+            MovieReviewsScreen(reviews = reviews, reviewsError = false)
         }
     }
 }

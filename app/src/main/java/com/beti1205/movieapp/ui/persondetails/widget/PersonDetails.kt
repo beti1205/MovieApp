@@ -15,8 +15,8 @@ import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCas
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
+import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.persondetails.Section
 import com.beti1205.movieapp.ui.persondetails.SectionDataProvider
 import com.beti1205.movieapp.ui.persondetails.SectionType

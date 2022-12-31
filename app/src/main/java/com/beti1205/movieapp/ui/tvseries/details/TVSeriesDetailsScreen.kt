@@ -20,10 +20,10 @@ import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
+import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.common.widget.credits.Credits
 import com.beti1205.movieapp.ui.common.widget.details.Details
-import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.tvseries.details.widget.episodes.EpisodeList
 import com.beti1205.movieapp.ui.tvseries.details.widget.season.Season

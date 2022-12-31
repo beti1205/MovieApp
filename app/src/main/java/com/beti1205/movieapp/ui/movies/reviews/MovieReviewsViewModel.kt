@@ -23,6 +23,9 @@ class MovieReviewsViewModel @Inject constructor(
     private val _reviews = MutableStateFlow<List<MovieReview>>(emptyList())
     val reviews: StateFlow<List<MovieReview>> = _reviews.asStateFlow()
 
+    private val _reviewsError = MutableStateFlow(false)
+    val reviewsError: StateFlow<Boolean> = _reviewsError.asStateFlow()
+
     init {
         val movieId = movieId.value
         if (movieId != null) {
@@ -36,7 +39,7 @@ class MovieReviewsViewModel @Inject constructor(
 
             when (result) {
                 is Result.Success -> _reviews.value = result.data.results
-                is Result.Error -> {}
+                is Result.Error -> _reviewsError.value = true
             }
         }
     }

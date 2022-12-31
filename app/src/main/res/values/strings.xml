@@ -44,4 +44,5 @@
     <string name="filmography_unknown">unknown</string>
     <string name="movie_review_label">Movie reviews</string>
     <string name="reviews_button_label">Reviews</string>
+    <string name="movie_reviews_empty_state">No result. List of movie reviews is empty.</string>
 </resources>

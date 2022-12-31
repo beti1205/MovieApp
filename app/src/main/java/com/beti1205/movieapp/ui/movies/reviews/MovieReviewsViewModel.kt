@@ -21,7 +21,7 @@ class MovieReviewsViewModel @Inject constructor(
     private val movieId = savedStateHandle.getStateFlow<Int?>("movieId", null)
 
     private val _reviews = MutableStateFlow<List<MovieReview>>(emptyList())
-    val reviews: StateFlow<List<MovieReview>?> = _reviews.asStateFlow()
+    val reviews: StateFlow<List<MovieReview>> = _reviews.asStateFlow()
 
     init {
         val movieId = movieId.value

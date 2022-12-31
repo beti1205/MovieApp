@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewList
+import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewsEmptyState
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -27,12 +28,14 @@ fun MovieReviewsScreen(
 
 @Composable
 fun MovieReviewsScreen(
-    reviews: List<MovieReview>?
+    reviews: List<MovieReview>
 ) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            if (reviews != null) {
-                MovieReviewList(reviews)
+            if (reviews.isNotEmpty()) {
+                MovieReviewList(reviews = reviews)
+            } else {
+                MovieReviewsEmptyState()
             }
         }
     }
@@ -46,7 +49,7 @@ fun MovieReviewsScreen(
 )
 @Composable
 fun MovieReviewsScreenPreview(
-    @PreviewParameter(MovieReviewsScreenPreviewProvider::class) reviews: List<MovieReview>?
+    @PreviewParameter(MovieReviewsScreenPreviewProvider::class) reviews: List<MovieReview>
 ) {
     MovieAppTheme {
         Surface {
@@ -55,7 +58,7 @@ fun MovieReviewsScreenPreview(
     }
 }
 
-class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<MovieReview>?> {
+class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<MovieReview>> {
     override val values = sequenceOf(
         listOf(
             MovieReview(
@@ -70,6 +73,7 @@ class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<MovieRev
                 updatedUp = "2022-07-26T14:21:07.910Z"
 
             )
-        )
+        ),
+        emptyList()
     )
 }

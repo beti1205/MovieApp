@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget.search
+package com.beti1205.movieapp.ui.movies.reviews.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -22,11 +22,9 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun SearchEmptyList(
-    modifier: Modifier = Modifier
-) {
+fun MovieReviewsEmptyState() {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .padding(16.dp)
             .imePadding()
             .fillMaxSize(),
@@ -35,7 +33,7 @@ fun SearchEmptyList(
     ) {
         EmptyListIcon()
         Text(
-            text = stringResource(id = R.string.search_empty_list_message),
+            text = stringResource(R.string.movie_reviews_empty_state),
             color = SonicSilver,
             style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center
@@ -46,13 +44,14 @@ fun SearchEmptyList(
 @Preview
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
+    showBackground = true,
+    heightDp = 2000
 )
 @Composable
-fun SearchEmptyListPreview() {
+fun MovieReviewsEmptyStatePreview() {
     MovieAppTheme {
         Surface {
-            SearchEmptyList()
+            MovieReviewsEmptyState()
         }
     }
 }

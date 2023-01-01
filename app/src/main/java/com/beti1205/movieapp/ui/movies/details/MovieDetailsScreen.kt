@@ -10,8 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
-import com.beti1205.movieapp.ui.movies.details.widget.EmptyStateMessage
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetails
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetailsScreenPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -41,7 +41,7 @@ fun MovieDetailsScreen(
         Surface(modifier = Modifier.fillMaxSize()) {
             Crossfade(targetState = state) { state ->
                 when {
-                    state.hasError -> EmptyStateMessage()
+                    state.hasError -> Error()
                     state.isLoading -> Loader()
                     else -> MovieDetails(
                         movieDetails = state.movieDetails,

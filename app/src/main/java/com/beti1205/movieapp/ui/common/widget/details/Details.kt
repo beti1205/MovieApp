@@ -35,8 +35,9 @@ fun Details(
         DetailsPoster(posterPath = posterPath)
         Column(
             modifier = Modifier.padding(
-                horizontal = 16.dp,
-                vertical = 8.dp
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp
             )
         ) {
             Genres(genres = genres)

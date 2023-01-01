@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
-import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
+import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewList
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewsEmptyState
@@ -41,7 +41,7 @@ fun MovieReviewsScreen(
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             when {
-                reviewsError -> EmptyStateMessage()
+                reviewsError -> Error()
                 reviews.isNotEmpty() -> MovieReviewList(reviews = reviews)
                 isLoading -> Loader()
                 else -> MovieReviewsEmptyState()
@@ -79,7 +79,7 @@ class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<MovieRev
                     " years for Hollywood.",
                 id = "62d5ea2fe93e95095cbddefe",
                 createdAt = "2022-07-18T23:18:07.748Z",
-                updatedUp = "2022-07-26T14:21:07.910Z"
+                updatedAt = "2022-07-26T14:21:07.910Z"
 
             )
         ),

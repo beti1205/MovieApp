@@ -22,9 +22,9 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun MovieReviewsEmptyState() {
+fun MovieReviewsEmptyState(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
             .imePadding()
             .fillMaxSize(),

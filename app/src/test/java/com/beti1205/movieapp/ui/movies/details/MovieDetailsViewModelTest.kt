@@ -41,9 +41,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.state.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
 
         assertEquals(MovieDetailsDataProvider.movieDetailsScreenState, viewModel.state.value)
 
@@ -60,9 +58,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.state.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
 
         assertTrue(viewModel.state.value.hasError)
 
@@ -79,9 +75,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.state.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
 
         assertTrue(viewModel.state.value.hasError)
 
@@ -98,9 +92,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.state.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
 
         assertTrue(viewModel.state.value.hasError)
 

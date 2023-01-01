@@ -45,9 +45,7 @@ class PersonDetailsViewModelTest {
             fetchPersonTVSeriesCreditsUseCase
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.personDetails.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.personDetails.collect() }
 
         assertEquals(PersonDetailsDataProvider.personDetails, viewModel.personDetails.value)
 
@@ -225,9 +223,7 @@ class PersonDetailsViewModelTest {
             true
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.sectionStatuses.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.sectionStatuses.collect() }
 
         assertTrue(viewModel.sectionStatuses.value[SectionType.MOVIE_CAST] == true)
 

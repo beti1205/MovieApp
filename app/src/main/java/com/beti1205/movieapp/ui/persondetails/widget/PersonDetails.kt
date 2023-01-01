@@ -15,7 +15,7 @@ import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCas
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
-import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
+import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.persondetails.Section
 import com.beti1205.movieapp.ui.persondetails.SectionDataProvider
@@ -44,7 +44,7 @@ fun PersonDetails(
 
         when {
             hasCreditsError -> item {
-                EmptyStateMessage()
+                Error()
             }
             else -> {
                 if (movieCastSection.isNotEmpty() || tvCastSection.isNotEmpty()) {

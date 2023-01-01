@@ -20,7 +20,7 @@ import com.beti1205.movieapp.feature.fetchcredits.data.Crew
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
-import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
+import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.common.widget.credits.Credits
 import com.beti1205.movieapp.ui.common.widget.details.Details
@@ -64,7 +64,7 @@ fun TVSeriesDetailsScreen(
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             when {
-                hasError -> EmptyStateMessage()
+                hasError -> Error()
                 else -> Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     tvSeriesDetails?.apply {
                         Details(

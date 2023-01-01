@@ -41,9 +41,7 @@ class MovieReviewsViewModelTest {
             SavedStateHandle(mapOf("movieId" to movieReviewResult.id))
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.reviews.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviews.collect() }
 
         assertEquals(movieReviewResult.results, viewModel.reviews.value)
 
@@ -58,9 +56,7 @@ class MovieReviewsViewModelTest {
             SavedStateHandle(mapOf("movieId" to movieReviewResult.id))
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.reviewsError.collect() }
-        }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviewsError.collect() }
 
         assertTrue(viewModel.reviewsError.value)
 
@@ -80,7 +76,7 @@ class MovieReviewsViewModelTest {
                         " years for Hollywood.",
                     id = "62d5ea2fe93e95095cbddefe",
                     createdAt = "2022-07-18T23:18:07.748Z",
-                    updatedUp = "2022-07-26T14:21:07.910Z"
+                    updatedAt = "2022-07-26T14:21:07.910Z"
                 )
             )
         )

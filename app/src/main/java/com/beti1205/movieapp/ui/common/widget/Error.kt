@@ -25,7 +25,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun EmptyStateMessage(
+fun Error(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -58,10 +58,10 @@ fun EmptyStateMessage(
     showBackground = true
 )
 @Composable
-fun EmptyStateMessagePreview() {
+fun ErrorPreview() {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            EmptyStateMessage()
+            Error()
         }
     }
 }

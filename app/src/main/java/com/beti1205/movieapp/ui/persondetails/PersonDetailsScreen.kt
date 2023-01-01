@@ -15,7 +15,7 @@ import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCas
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
-import com.beti1205.movieapp.ui.common.widget.EmptyStateMessage
+import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.persondetails.widget.PersonDetails
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -68,7 +68,7 @@ fun PersonDetailsScreen(
         Surface(modifier = Modifier.fillMaxSize()) {
             when {
                 isLoading -> Loader()
-                hasError -> EmptyStateMessage()
+                hasError -> Error()
                 else -> PersonDetails(
                     details = details,
                     hasCreditsError = hasCreditsError,

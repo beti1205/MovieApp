@@ -20,8 +20,8 @@ data class MovieReview(
     @Json(name = "created_at")
     val createdAt: String,
 
-    @Json(name = "updated_up")
-    val updatedUp: String?
+    @Json(name = "updated_at")
+    val updatedAt: String?
 ) {
     val createdDate: String
         get() = createdAt.toZoneDateTime().formattedDate

@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.movieFragment,
-                R.id.TVSeriesFragment
+                R.id.TVSeriesFragment,
+                R.id.accountFragment
             )
         )
 
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomNavigation.isVisible = destination.id in listOf(
                 R.id.movieFragment,
-                R.id.TVSeriesFragment
+                R.id.TVSeriesFragment,
+                R.id.accountFragment
             )
             binding.searchEditFrame.isVisible = destination.id in listOf(
                 R.id.searchMoviesFragment,

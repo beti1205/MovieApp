@@ -91,10 +91,17 @@
     <fragment
         android:id="@+id/movieReviewsFragment"
         android:name="com.beti1205.movieapp.ui.movies.reviews.MovieReviewsFragment"
-        android:label="@string/movie_review_label" />
+        android:label="@string/movie_review_label">
 
-    <argument
-        android:name="movieId"
-        app:argType="integer" />
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.beti1205.movieapp.ui.account.AccountFragment"
+        android:label="@string/account_label" />
 
 </navigation>

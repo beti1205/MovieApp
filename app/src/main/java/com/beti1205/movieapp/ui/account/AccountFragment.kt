@@ -20,7 +20,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            AccountScreen()
+            AccountScreen(viewModel = viewModel)
         }
     }
 }

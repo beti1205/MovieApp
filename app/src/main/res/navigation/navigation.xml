@@ -102,6 +102,18 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.beti1205.movieapp.ui.account.AccountFragment"
-        android:label="@string/account_label" />
+        android:label="@string/account_label">
+
+        <argument
+            android:name="authenticationSuccess"
+            android:defaultValue="false"
+            app:argType="boolean"/>
+
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="movieapp://app/authenticate?authenticationSuccess={authenticationSuccess}">
+
+        </deepLink>
+    </fragment>
 
 </navigation>

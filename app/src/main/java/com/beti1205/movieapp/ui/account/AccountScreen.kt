@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.account
 
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -36,10 +36,22 @@ fun AccountScreen(viewModel: AccountViewModel) {
             return@LaunchedEffect
         }
 
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            "https://www.themoviedb.org/authenticate/$token".toUri()
-        )
+        val deepLinkUri = Uri.Builder().apply {
+            scheme("movieapp")
+            authority("app")
+            appendPath("authenticate")
+            appendQueryParameter("authenticationSuccess", "true")
+        }.build()
+
+        val uri = Uri.Builder().apply {
+            scheme("https")
+            authority("www.themoviedb.org")
+            appendPath("authenticate")
+            appendPath(token)
+            appendQueryParameter("redirect_to", deepLinkUri.toString())
+        }.build()
+
+        val intent = Intent(Intent.ACTION_VIEW, uri)
         context.startActivity(intent)
     }
 }

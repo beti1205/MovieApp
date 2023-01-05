@@ -28,7 +28,7 @@ fun AccountScreen(viewModel: AccountViewModel) {
     val context = LocalContext.current
 
     AccountScreen(
-        onLoginClicked = viewModel::createRequestToken
+        onLoginClicked = viewModel::getRequestToken
     )
 
     LaunchedEffect(token) {

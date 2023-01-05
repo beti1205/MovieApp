@@ -1,8 +1,8 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.createrequesttoken.data.RequestTokenService
-import com.beti1205.movieapp.feature.createrequesttoken.domain.CreateRequestTokenUseCase
-import com.beti1205.movieapp.feature.createrequesttoken.domain.CreateRequestTokenUseCaseImpl
+import com.beti1205.movieapp.feature.fetchrequesttoken.data.RequestTokenService
+import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
+import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,7 @@ interface TokenModule {
     }
 
     @Binds
-    fun bindCreateRequestTokenUseCase(
-        createRequestTokenUseCaseImpl: CreateRequestTokenUseCaseImpl
-    ): CreateRequestTokenUseCase
+    fun bindFetchRequestTokenUseCase(
+        fetchRequestTokenUseCaseImpl: FetchRequestTokenUseCaseImpl
+    ): FetchRequestTokenUseCase
 }

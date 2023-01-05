@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.feature.createrequesttoken.data
+package com.beti1205.movieapp.feature.fetchrequesttoken.data
 
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -3,7 +3,7 @@ package com.beti1205.movieapp.ui.account
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.createrequesttoken.domain.CreateRequestTokenUseCase
+import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,15 +13,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val createRequestTokenUseCase: CreateRequestTokenUseCase
+    private val fetchRequestTokenUseCase: FetchRequestTokenUseCase
 ) : ViewModel() {
 
     private val _requestToken = MutableStateFlow<String?>(null)
     val requestToken: StateFlow<String?> = _requestToken.asStateFlow()
 
-    fun createRequestToken() {
+    fun getRequestToken() {
         viewModelScope.launch {
-            val result = createRequestTokenUseCase()
+            val result = fetchRequestTokenUseCase()
 
             when (result) {
                 is Result.Success ->

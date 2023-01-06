@@ -7,5 +7,5 @@ import com.squareup.moshi.JsonClass
 data class SessionResponse(
     val success: Boolean,
     @Json(name = "session_id")
-    val sessionId: String
+    val sessionId: String?
 )

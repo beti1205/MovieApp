@@ -25,9 +25,11 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun AccountScreen(viewModel: AccountViewModel) {
     val token by viewModel.requestToken.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
+        isLoggedIn = isLoggedIn,
         onLoginClicked = viewModel::getRequestToken
     )
 
@@ -57,7 +59,10 @@ fun AccountScreen(viewModel: AccountViewModel) {
 }
 
 @Composable
-fun AccountScreen(onLoginClicked: () -> Unit) {
+fun AccountScreen(
+    isLoggedIn: Boolean,
+    onLoginClicked: () -> Unit
+) {
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Box(
@@ -65,14 +70,18 @@ fun AccountScreen(onLoginClicked: () -> Unit) {
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                TextButton(
-                    onClick = onLoginClicked,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.secondary,
-                        contentColor = MaterialTheme.colors.onSecondary
-                    )
-                ) {
-                    Text(text = stringResource(R.string.account_log_in_button))
+                if (isLoggedIn) {
+                    Text(text = "Logged in")
+                } else {
+                    TextButton(
+                        onClick = onLoginClicked,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.secondary,
+                            contentColor = MaterialTheme.colors.onSecondary
+                        )
+                    ) {
+                        Text(text = stringResource(R.string.account_log_in_button))
+                    }
                 }
             }
         }

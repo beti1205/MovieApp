@@ -7,9 +7,8 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +22,36 @@ class AccountViewModel @Inject constructor(
 
     private val authenticationSuccess = state.getStateFlow("authenticationSuccess", false)
 
-    private val _requestToken = MutableStateFlow<String?>(null)
-    val requestToken: StateFlow<String?> = _requestToken.asStateFlow()
+    val requestToken = authManager.requestTokenFlow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        null
+    )
+
+    val isLoggedIn = authManager.isLoggedIn.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        false
+    )
+
+    init {
+        viewModelScope.launch {
+            authenticationSuccess.collect { isSuccess ->
+                if (!isSuccess) {
+                    return@collect
+                }
+
+                val token = authManager.requestToken
+                authManager.setRequestToken(null)
+
+                if (token != null) {
+                    createSession(token)
+                } else {
+                    TODO()
+                }
+            }
+        }
+    }
 
     fun getRequestToken() {
         viewModelScope.launch {
@@ -33,7 +60,7 @@ class AccountViewModel @Inject constructor(
             when (result) {
                 is Result.Success ->
                     if (result.data.success) {
-                        _requestToken.value = result.data.requestToken
+                        authManager.setRequestToken(result.data.requestToken)
                     } else {
                         TODO()
                     }
@@ -48,7 +75,7 @@ class AccountViewModel @Inject constructor(
 
             when (result) {
                 is Result.Success -> if (result.data.success) {
-                    authManager.sessionId = result.data.sessionId
+                    authManager.setSessionId(result.data.sessionId)
                 } else {
                     TODO()
                 }

@@ -19,6 +19,7 @@ minSdk = "23"
 targetSdk = "33"
 versionCode = "2"
 versionName = "1.1"
+flowPreferences = "1.8.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.9.0" } #implementation
@@ -64,6 +65,10 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version =
 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" } #implementation
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" } #implementation
+
+security = { group = "androidx.security", name = "security-crypto-ktx", version = "1.1.0-alpha04" } #implementation
+
+flow-preferences = { group = "com.fredporciuncula", name = "flow-preferences", version.ref = "flowPreferences" } #implementation
 
 junit = { group = "junit", name = "junit", version = "4.13.2" } #testImplementation
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = "1.6.4" } #testImplementation

@@ -45,4 +45,6 @@
     <string name="movie_review_label">Movie reviews</string>
     <string name="reviews_button_label">Reviews</string>
     <string name="movie_reviews_empty_state">No result. List of movie reviews is empty.</string>
+    <string name="account_label">Account</string>
+    <string name="account_log_in_button">Log in</string>
 </resources>

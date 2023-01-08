@@ -94,6 +94,10 @@ dependencies {
     implementation(libs.moshi)
     kapt(libs.moshi.kotlin.codegen)
 
+    implementation(libs.security)
+
+    implementation(libs.flow.preferences)
+
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.core.testing)

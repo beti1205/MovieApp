@@ -7,7 +7,10 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +24,9 @@ class AccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val authenticationSuccess = state.getStateFlow("authenticationSuccess", false)
+
+    private val _hasError = MutableStateFlow<Boolean>(false)
+    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
 
     val requestToken = authManager.requestTokenFlow.stateIn(
         viewModelScope,
@@ -47,7 +53,7 @@ class AccountViewModel @Inject constructor(
                 if (token != null) {
                     createSession(token)
                 } else {
-                    TODO()
+                    _hasError.value = true
                 }
             }
         }
@@ -62,9 +68,9 @@ class AccountViewModel @Inject constructor(
                     if (result.data.success) {
                         authManager.setRequestToken(result.data.requestToken)
                     } else {
-                        TODO()
+                        _hasError.value = true
                     }
-                is Result.Error -> {}
+                is Result.Error -> _hasError.value = true
             }
         }
     }
@@ -77,10 +83,14 @@ class AccountViewModel @Inject constructor(
                 is Result.Success -> if (result.data.success) {
                     authManager.setSessionId(result.data.sessionId)
                 } else {
-                    TODO()
+                    _hasError.value = true
                 }
-                is Result.Error -> {}
+                is Result.Error -> _hasError.value = true
             }
         }
+    }
+
+    fun onErrorHandled() {
+        _hasError.value = false
     }
 }

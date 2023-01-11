@@ -1,6 +1,7 @@
 package com.beti1205.movieapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -51,7 +52,8 @@ class MainActivity : AppCompatActivity() {
         }
         binding.bottomNavigation.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, arguments ->
+            Log.d("Navigation", "destination: $destination, arguments: $arguments")
             binding.bottomNavigation.isVisible = destination.id in listOf(
                 R.id.movieFragment,
                 R.id.TVSeriesFragment,

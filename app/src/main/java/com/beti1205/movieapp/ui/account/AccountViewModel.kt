@@ -1,5 +1,6 @@
 package com.beti1205.movieapp.ui.account
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,28 +12,43 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val REQUEST_TOKEN = "request_token"
+private const val APPROVED = "approved"
+private const val DENIED = "denied"
+
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    state: SavedStateHandle,
+    private val stateHandle: SavedStateHandle,
     private val fetchRequestTokenUseCase: FetchRequestTokenUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    private val authenticationSuccess = state.getStateFlow("authenticationSuccess", false)
+    private val approved = stateHandle.getStateFlow(APPROVED, false)
 
-    private val _hasError = MutableStateFlow<Boolean>(false)
+    val denied = stateHandle.getStateFlow(DENIED, false)
+
+    private val _hasError = MutableStateFlow(false)
+
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
 
-    val requestToken = authManager.requestTokenFlow.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        null
-    )
+    private val _requestToken = stateHandle.getStateFlow<String?>(REQUEST_TOKEN, null)
+
+    val authUri = _requestToken
+        .filterNotNull()
+        .map { token ->
+            buildAuthUri(token)
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            null
+        )
 
     val isLoggedIn = authManager.isLoggedIn.stateIn(
         viewModelScope,
@@ -42,13 +58,14 @@ class AccountViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            authenticationSuccess.collect { isSuccess ->
+            approved.collect { isSuccess ->
+                val token = _requestToken.value
+                stateHandle[REQUEST_TOKEN] = null
+                stateHandle[APPROVED] = false
+
                 if (!isSuccess) {
                     return@collect
                 }
-
-                val token = authManager.requestToken
-                authManager.setRequestToken(null)
 
                 if (token != null) {
                     createSession(token)
@@ -66,7 +83,7 @@ class AccountViewModel @Inject constructor(
             when (result) {
                 is Result.Success ->
                     if (result.data.success) {
-                        authManager.setRequestToken(result.data.requestToken)
+                        stateHandle[REQUEST_TOKEN] = result.data.requestToken
                     } else {
                         _hasError.value = true
                     }
@@ -92,5 +109,25 @@ class AccountViewModel @Inject constructor(
 
     fun onErrorHandled() {
         _hasError.value = false
+    }
+
+    fun onDeniedHandled() {
+        stateHandle[DENIED] = false
+    }
+
+    private fun buildAuthUri(token: String?): Uri? {
+        val deepLinkUri = Uri.Builder().apply {
+            scheme("movieapp")
+            authority("app")
+            appendPath("authenticate")
+        }.build()
+
+        return Uri.Builder().apply {
+            scheme("https")
+            authority("www.themoviedb.org")
+            appendPath("authenticate")
+            appendPath(token)
+            appendQueryParameter("redirect_to", deepLinkUri.toString())
+        }.build()
     }
 }

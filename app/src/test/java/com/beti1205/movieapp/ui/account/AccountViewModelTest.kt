@@ -42,14 +42,11 @@ class AccountViewModelTest {
     @Test
     fun getRequestToken_successful() = runTest {
         coEvery { fetchRequestTokenUseCase() } returns getTokenSuccess
-        val slot = slot<String>()
-        every { authManager.setRequestToken(requestToken = capture(slot)) } returns Unit
-        coEvery { authManager.requestTokenFlow } returns flowOf("requestToken")
         every { authManager.isLoggedIn } returns flowOf(false)
-        every { authManager.requestToken } returns "requestToken"
+        val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
-            SavedStateHandle(),
+            state,
             fetchRequestTokenUseCase,
             createSessionUseCase,
             authManager
@@ -62,7 +59,7 @@ class AccountViewModelTest {
         }
 
         assertFalse(viewModel.hasError.value)
-        assertEquals("requestToken", slot.captured)
+        assertEquals("requestToken", state["request_token"])
 
         collectJob.cancel()
     }
@@ -70,13 +67,11 @@ class AccountViewModelTest {
     @Test
     fun getRequestToken_failed() = runTest {
         coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
-        every { authManager.setRequestToken(any()) } returns Unit
-        coEvery { authManager.requestTokenFlow } returns flowOf(null)
         every { authManager.isLoggedIn } returns flowOf(false)
-        every { authManager.requestToken } returns null
+        val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
-            SavedStateHandle(),
+            state,
             fetchRequestTokenUseCase,
             createSessionUseCase,
             authManager
@@ -89,6 +84,7 @@ class AccountViewModelTest {
         }
 
         assertTrue(viewModel.hasError.value)
+        assertNull(state["request_token"])
 
         collectJob.cancel()
     }
@@ -96,16 +92,13 @@ class AccountViewModelTest {
     @Test
     fun createSession_successful() = runTest {
         coEvery { createSessionUseCase(any()) } returns createSessionSuccess
-        val tokens = mutableListOf<String?>()
-        every { authManager.setRequestToken(requestToken = captureNullable(tokens)) } returns Unit
         val sessionIdSlot = slot<String>()
         every { authManager.setSessionId(sessionId = capture(sessionIdSlot)) } returns Unit
-        coEvery { authManager.requestTokenFlow } returns flowOf("requestToken")
         every { authManager.isLoggedIn } returns flowOf(true)
-        every { authManager.requestToken } returns "requestToken"
+        val state = SavedStateHandle(mapOf("approved" to true, "request_token" to "requestToken"))
 
         viewModel = AccountViewModel(
-            SavedStateHandle(mapOf("authenticationSuccess" to true)),
+            state,
             fetchRequestTokenUseCase,
             createSessionUseCase,
             authManager
@@ -121,8 +114,6 @@ class AccountViewModelTest {
         }
 
         assertTrue(!viewModel.hasError.value)
-        assertTrue(tokens.size == 1)
-        assertNull(tokens.first())
         assertEquals("sessionId", sessionIdSlot.captured)
         assertTrue(viewModel.isLoggedIn.value)
 
@@ -132,14 +123,12 @@ class AccountViewModelTest {
     @Test
     fun createSession_failed() = runTest {
         coEvery { createSessionUseCase(any()) } returns Result.Error(Exception())
-        every { authManager.setRequestToken(any()) } returns Unit
         every { authManager.setSessionId(any()) } returns Unit
-        coEvery { authManager.requestTokenFlow } returns flowOf("requestToken")
         every { authManager.isLoggedIn } returns flowOf(false)
-        every { authManager.requestToken } returns "requestToken"
+        val state = SavedStateHandle(mapOf("approved" to true, "request_token" to "requestToken"))
 
         viewModel = AccountViewModel(
-            SavedStateHandle(mapOf("authenticationSuccess" to true)),
+            state,
             fetchRequestTokenUseCase,
             createSessionUseCase,
             authManager
@@ -156,6 +145,34 @@ class AccountViewModelTest {
 
         assertTrue(viewModel.hasError.value)
         assertFalse(viewModel.isLoggedIn.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun onErrorHandled_verifyThatFalseWasSet() = runTest {
+        coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
+        every { authManager.isLoggedIn } returns flowOf(false)
+        val state = SavedStateHandle(mapOf("request_token" to null))
+
+        viewModel = AccountViewModel(
+            state,
+            fetchRequestTokenUseCase,
+            createSessionUseCase,
+            authManager
+        )
+
+        viewModel.getRequestToken()
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.hasError.collect()
+        }
+
+        assertTrue(viewModel.hasError.value)
+
+        viewModel.onErrorHandled()
+
+        assertFalse(viewModel.hasError.value)
 
         collectJob.cancel()
     }

@@ -105,13 +105,24 @@
         android:label="@string/account_label">
 
         <argument
-            android:name="authenticationSuccess"
+            android:name="request_token"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="approved"
             android:defaultValue="false"
-            app:argType="boolean"/>
+            app:argType="boolean" />
+
+        <argument
+            android:name="denied"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
         <deepLink
             android:id="@+id/deepLink"
-            app:uri="movieapp://app/authenticate?authenticationSuccess={authenticationSuccess}">
+            app:uri="movieapp://app/authenticate?request_token={request_token}&amp;approved={approved}&amp;denied={denied}">
 
         </deepLink>
     </fragment>

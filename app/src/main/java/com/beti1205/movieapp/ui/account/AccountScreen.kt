@@ -1,7 +1,6 @@
 package com.beti1205.movieapp.ui.account
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,39 +25,27 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun AccountScreen(viewModel: AccountViewModel) {
-    val token by viewModel.requestToken.collectAsState()
+    val authUri by viewModel.authUri.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
+    val denied by viewModel.denied.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
         isLoggedIn = isLoggedIn,
         hasError = hasError,
+        denied = denied,
         onLoginClicked = viewModel::getRequestToken,
-        onErrorHandled = viewModel::onErrorHandled
+        onErrorHandled = viewModel::onErrorHandled,
+        onDeniedHandled = viewModel::onDeniedHandled
     )
 
-    LaunchedEffect(token) {
-        if (token == null) {
+    LaunchedEffect(authUri) {
+        if (authUri == null) {
             return@LaunchedEffect
         }
 
-        val deepLinkUri = Uri.Builder().apply {
-            scheme("movieapp")
-            authority("app")
-            appendPath("authenticate")
-            appendQueryParameter("authenticationSuccess", "true")
-        }.build()
-
-        val uri = Uri.Builder().apply {
-            scheme("https")
-            authority("www.themoviedb.org")
-            appendPath("authenticate")
-            appendPath(token)
-            appendQueryParameter("redirect_to", deepLinkUri.toString())
-        }.build()
-
-        val intent = Intent(Intent.ACTION_VIEW, uri)
+        val intent = Intent(Intent.ACTION_VIEW, authUri)
         context.startActivity(intent)
     }
 }
@@ -67,10 +54,22 @@ fun AccountScreen(viewModel: AccountViewModel) {
 fun AccountScreen(
     isLoggedIn: Boolean,
     hasError: Boolean,
+    denied: Boolean,
     onLoginClicked: () -> Unit,
-    onErrorHandled: () -> Unit
+    onErrorHandled: () -> Unit,
+    onDeniedHandled: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
+
+    if (denied) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = "Login failed. Please give the necessary permissions."
+            )
+
+            onDeniedHandled()
+        }
+    }
 
     if (hasError) {
         LaunchedEffect(scaffoldState.snackbarHostState) {

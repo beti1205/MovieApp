@@ -5,13 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -37,35 +33,6 @@ fun MovieReviewItem(
             )
         }
     }
-}
-
-@Composable
-private fun MovieReviewAuthor(author: String, modifier: Modifier = Modifier) {
-    Text(
-        text = author,
-        fontWeight = FontWeight.Bold,
-        style = MaterialTheme.typography.body2,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun MovieReviewCreatedDate(createdDate: String, modifier: Modifier = Modifier) {
-    Text(
-        text = createdDate,
-        modifier = modifier,
-        style = MaterialTheme.typography.body2
-    )
-}
-
-@Composable
-private fun MovieReviewContent(content: String, modifier: Modifier = Modifier) {
-    Text(
-        text = content,
-        style = MaterialTheme.typography.body2,
-        fontStyle = FontStyle.Italic,
-        modifier = modifier
-    )
 }
 
 @Preview

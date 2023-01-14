@@ -47,4 +47,6 @@
     <string name="movie_reviews_empty_state">No result. List of movie reviews is empty.</string>
     <string name="account_label">Account</string>
     <string name="account_log_in_button">Log in</string>
+    <string name="generic_error_message">Whoops, something went wrong! Please try again.</string>
+    <string name="denied_login_message">Login failed. Please give the necessary permissions.</string>
 </resources>

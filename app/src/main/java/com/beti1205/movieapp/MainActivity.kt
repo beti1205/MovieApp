@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.searchMoviesFragment,
                 R.id.searchTvSeriesFragment
             )
+            binding.topAppBar.isVisible = destination.id != R.id.accountFragment
         }
     }
 

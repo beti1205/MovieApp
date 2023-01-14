@@ -5,11 +5,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
+import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
 fun AccountScreen(viewModel: AccountViewModel) {
@@ -37,7 +43,8 @@ fun AccountScreen(viewModel: AccountViewModel) {
         denied = denied,
         onLoginClicked = viewModel::getRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
-        onDeniedHandled = viewModel::onDeniedHandled
+        onDeniedHandled = viewModel::onDeniedHandled,
+        onDeleteSession = viewModel::deleteSession
     )
 
     LaunchedEffect(authUri) {
@@ -57,14 +64,17 @@ fun AccountScreen(
     denied: Boolean,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
-    onDeniedHandled: () -> Unit
+    onDeniedHandled: () -> Unit,
+    onDeleteSession: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
+    val errorMessage = stringResource(id = R.string.generic_error_message)
+    val deniedMessage = stringResource(id = R.string.denied_login_message)
 
     if (denied) {
         LaunchedEffect(scaffoldState.snackbarHostState) {
             scaffoldState.snackbarHostState.showSnackbar(
-                message = "Login failed. Please give the necessary permissions."
+                message = deniedMessage
             )
 
             onDeniedHandled()
@@ -74,7 +84,7 @@ fun AccountScreen(
     if (hasError) {
         LaunchedEffect(scaffoldState.snackbarHostState) {
             scaffoldState.snackbarHostState.showSnackbar(
-                message = "Login failed. Please try again!"
+                message = errorMessage
             )
 
             onErrorHandled()
@@ -83,7 +93,26 @@ fun AccountScreen(
 
     MovieAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Scaffold(scaffoldState = scaffoldState) { paddingValues ->
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    TopAppBar(
+                        title = { Text("Account") },
+                        actions = {
+                            if (isLoggedIn) {
+                                IconButton(onClick = { onDeleteSession() }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.ExitToApp,
+                                        contentDescription = null,
+                                        tint = SonicSilver
+                                    )
+                                }
+                            }
+                        },
+                        elevation = 0.dp
+                    )
+                }
+            ) { paddingValues ->
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

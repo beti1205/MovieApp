@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
@@ -26,9 +25,9 @@ class TVSeriesFragment : Fragment() {
         setContent {
             TVSeriesScreen(
                 viewModel = viewModel,
-                onTVSeriesClicked = ::navigateToTvSeriesDetails
+                onTVSeriesClicked = ::navigateToTvSeriesDetails,
+                onSearchClicked = ::navigateToSearchTVSeries
             )
-            addMenuProvider()
         }
     }
 
@@ -38,15 +37,9 @@ class TVSeriesFragment : Fragment() {
         )
     }
 
-    private fun addMenuProvider() {
-        activity?.addMenuProvider(
-            TVSeriesMenuProvider {
-                findNavController().navigate(
-                    TVSeriesFragmentDirections.actionTVSeriesFragmentToSearchTvSeriesFragment()
-                )
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.STARTED
+    private fun navigateToSearchTVSeries() {
+        findNavController().navigate(
+            TVSeriesFragmentDirections.actionTVSeriesFragmentToSearchTvSeriesFragment()
         )
     }
 }

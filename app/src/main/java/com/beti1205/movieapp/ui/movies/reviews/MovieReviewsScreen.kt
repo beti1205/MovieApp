@@ -1,25 +1,31 @@
 package com.beti1205.movieapp.ui.movies.reviews
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
+import com.beti1205.movieapp.ui.common.widget.TopAppBar
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewList
 import com.beti1205.movieapp.ui.movies.reviews.widget.MovieReviewsEmptyState
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieReviewsScreen(
-    viewModel: MovieReviewsViewModel
+    viewModel: MovieReviewsViewModel,
+    onBackPressed: () -> Unit
 ) {
     val reviews by viewModel.reviews.collectAsState()
     val reviewsError by viewModel.reviewsError.collectAsState()
@@ -28,7 +34,8 @@ fun MovieReviewsScreen(
     MovieReviewsScreen(
         reviews = reviews,
         reviewsError = reviewsError,
-        isLoading = isLoading
+        isLoading = isLoading,
+        onBackPressed = onBackPressed
     )
 }
 
@@ -36,10 +43,20 @@ fun MovieReviewsScreen(
 fun MovieReviewsScreen(
     reviews: List<MovieReview>,
     reviewsError: Boolean,
-    isLoading: Boolean
+    isLoading: Boolean,
+    onBackPressed: () -> Unit
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = stringResource(id = R.string.movie_review_label),
+                    onBackPressed = onBackPressed
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
             when {
                 reviewsError -> Error()
                 reviews.isNotEmpty() -> MovieReviewList(reviews = reviews)
@@ -61,9 +78,12 @@ fun MovieReviewsScreenPreview(
     @PreviewParameter(MovieReviewsScreenPreviewProvider::class) reviews: List<MovieReview>
 ) {
     MovieAppTheme {
-        Surface {
-            MovieReviewsScreen(reviews = reviews, reviewsError = false, isLoading = false)
-        }
+        MovieReviewsScreen(
+            reviews = reviews,
+            reviewsError = false,
+            isLoading = false,
+            onBackPressed = {}
+        )
     }
 }
 

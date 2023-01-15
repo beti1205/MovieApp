@@ -24,11 +24,15 @@ class PersonDetailsFragment : Fragment() {
             PersonDetailsScreen(
                 viewModel = viewModel,
                 onMovieClicked = ::navigateToMovieDetails,
-                onTVSeriesClicked = ::navigateToTVSeriesDetails
+                onTVSeriesClicked = ::navigateToTVSeriesDetails,
+                onBackPressed = ::onBackPressed
             )
         }
     }
 
+    private fun onBackPressed() {
+        findNavController().popBackStack()
+    }
     private fun navigateToMovieDetails(id: Int) {
         findNavController().navigate(
             PersonDetailsFragmentDirections.actionPersonDetailsFragmentToMovieDetailsFragment(id)

@@ -1,18 +1,19 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
@@ -21,18 +22,15 @@ import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.ui.common.widget.Error
-import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.common.widget.credits.Credits
-import com.beti1205.movieapp.ui.common.widget.details.Details
+import com.beti1205.movieapp.ui.common.widget.TopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.tvseries.details.widget.episodes.EpisodeList
-import com.beti1205.movieapp.ui.tvseries.details.widget.season.Season
-import com.beti1205.movieapp.ui.tvseries.details.widget.season.SeasonDropdown
+import com.beti1205.movieapp.ui.tvseries.details.widget.TVSeriesDetailsScreenContent
 
 @Composable
 fun TVSeriesDetailsScreen(
     viewModel: TVSeriesDetailsViewModel,
-    onPersonClicked: (Int) -> Unit
+    onPersonClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val tvSeriesDetails by viewModel.tvSeriesDetails.collectAsState()
     val selectedSeason by viewModel.selectedSeason.collectAsState()
@@ -47,7 +45,8 @@ fun TVSeriesDetailsScreen(
         episodes = episodes,
         hasError = hasError,
         credits = credits,
-        onPersonClicked = onPersonClicked
+        onPersonClicked = onPersonClicked,
+        onBackPressed = onBackPressed
     )
 }
 
@@ -59,40 +58,30 @@ fun TVSeriesDetailsScreen(
     episodes: List<Episode>?,
     hasError: Boolean,
     credits: Credits?,
-    onPersonClicked: (Int) -> Unit
+    onPersonClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            when {
-                hasError -> Error()
-                else -> Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    tvSeriesDetails?.apply {
-                        Details(
-                            id = id,
-                            posterPath = posterPath,
-                            title = name,
-                            votes = votes,
-                            releaseDate = firstAirDate,
-                            overview = overview,
-                            genres = genres
-                        )
-                        StandardDivider()
-                        if (credits != null) {
-                            Credits(credits, onPersonClicked)
-                        }
-                        if (selectedSeason != null) {
-                            SeasonDropdown(
-                                selectedSeason = selectedSeason,
-                                seasons = seasons,
-                                onSeasonSelected = onSeasonSelected
-                            )
-                            Season(selectedSeason)
-                        }
-                        if (!episodes.isNullOrEmpty()) {
-                            StandardDivider()
-                            EpisodeList(episodes)
-                        }
-                    }
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = stringResource(id = R.string.tv_details_label),
+                    onBackPressed = onBackPressed
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                when {
+                    hasError -> Error()
+                    else -> TVSeriesDetailsScreenContent(
+                        tvSeriesDetails = tvSeriesDetails,
+                        credits = credits,
+                        onPersonClicked = onPersonClicked,
+                        selectedSeason = selectedSeason,
+                        onSeasonSelected = onSeasonSelected,
+                        episodes = episodes
+                    )
                 }
             }
         }
@@ -111,17 +100,16 @@ fun TVSeriesDetailsScreenPreview(
     tvSeriesDetailsScreen: TVSeriesDetailsScreen
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            TVSeriesDetailsScreen(
-                tvSeriesDetails = tvSeriesDetailsScreen.tvSeriesDetails,
-                selectedSeason = tvSeriesDetailsScreen.selectedSeason,
-                onSeasonSelected = {},
-                episodes = tvSeriesDetailsScreen.episodes,
-                hasError = tvSeriesDetailsScreen.hasError,
-                credits = tvSeriesDetailsScreen.credits,
-                onPersonClicked = {}
-            )
-        }
+        TVSeriesDetailsScreen(
+            tvSeriesDetails = tvSeriesDetailsScreen.tvSeriesDetails,
+            selectedSeason = tvSeriesDetailsScreen.selectedSeason,
+            onSeasonSelected = {},
+            episodes = tvSeriesDetailsScreen.episodes,
+            hasError = tvSeriesDetailsScreen.hasError,
+            credits = tvSeriesDetailsScreen.credits,
+            onPersonClicked = {},
+            onBackPressed = {}
+        )
     }
 }
 

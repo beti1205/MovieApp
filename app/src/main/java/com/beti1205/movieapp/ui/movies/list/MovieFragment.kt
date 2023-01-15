@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
@@ -26,9 +25,9 @@ class MovieFragment : Fragment() {
         setContent {
             MovieScreen(
                 viewModel = viewModel,
-                onMovieClicked = ::navigateToMovieDetails
+                onMovieClicked = ::navigateToMovieDetails,
+                onSearchClicked = ::navigateToSearchMovies
             )
-            addMenuProvider()
         }
     }
 
@@ -38,15 +37,9 @@ class MovieFragment : Fragment() {
         )
     }
 
-    private fun addMenuProvider() {
-        activity?.addMenuProvider(
-            MovieMenuProvider {
-                findNavController().navigate(
-                    MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
-                )
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.STARTED
+    private fun navigateToSearchMovies() {
+        findNavController().navigate(
+            MovieFragmentDirections.actionMovieFragmentToSearchMoviesFragment()
         )
     }
 }

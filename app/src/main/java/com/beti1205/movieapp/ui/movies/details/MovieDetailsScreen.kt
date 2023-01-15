@@ -3,15 +3,19 @@ package com.beti1205.movieapp.ui.movies.details
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
+import com.beti1205.movieapp.ui.common.widget.TopAppBar
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetails
 import com.beti1205.movieapp.ui.movies.details.widget.MovieDetailsScreenPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -20,14 +24,16 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit
+    onButtonClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
     MovieDetailsScreen(
         state = state,
         onPersonClicked = onPersonClicked,
-        onButtonClicked = onButtonClicked
+        onButtonClicked = onButtonClicked,
+        onBackPressed = onBackPressed
     )
 }
 
@@ -35,11 +41,20 @@ fun MovieDetailsScreen(
 fun MovieDetailsScreen(
     state: MovieDetailsScreenState,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit
+    onButtonClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Crossfade(targetState = state) { state ->
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = stringResource(id = R.string.movie_details_label),
+                    onBackPressed = onBackPressed
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Crossfade(targetState = state, modifier = Modifier.padding(paddingValues)) { state ->
                 when {
                     state.hasError -> Error()
                     state.isLoading -> Loader()
@@ -67,16 +82,15 @@ fun MovieDetailsScreenPreview(
     state: MovieDetailsScreenState
 ) {
     MovieAppTheme {
-        Surface {
-            MovieDetailsScreen(
-                state = MovieDetailsScreenState(
-                    movieDetails = state.movieDetails,
-                    credits = state.credits,
-                    hasError = state.hasError
-                ),
-                onPersonClicked = {},
-                onButtonClicked = {}
-            )
-        }
+        MovieDetailsScreen(
+            state = MovieDetailsScreenState(
+                movieDetails = state.movieDetails,
+                credits = state.credits,
+                hasError = state.hasError
+            ),
+            onPersonClicked = {},
+            onButtonClicked = {},
+            onBackPressed = {}
+        )
     }
 }

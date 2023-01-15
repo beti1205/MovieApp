@@ -23,9 +23,14 @@ class TVSeriesDetailsFragment : Fragment() {
         setContent {
             TVSeriesDetailsScreen(
                 viewModel = viewModel,
-                onPersonClicked = ::navigateToPersonDetails
+                onPersonClicked = ::navigateToPersonDetails,
+                onBackPressed = ::onBackPressed
             )
         }
+    }
+
+    private fun onBackPressed() {
+        findNavController().popBackStack()
     }
 
     private fun navigateToPersonDetails(id: Int) {

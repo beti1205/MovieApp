@@ -1,15 +1,19 @@
 package com.beti1205.movieapp.ui.persondetails
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
@@ -17,6 +21,7 @@ import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSer
 import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
+import com.beti1205.movieapp.ui.common.widget.TopAppBar
 import com.beti1205.movieapp.ui.persondetails.widget.PersonDetails
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -24,7 +29,8 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun PersonDetailsScreen(
     viewModel: PersonDetailsViewModel,
     onMovieClicked: (Int) -> Unit,
-    onTVSeriesClicked: (Int) -> Unit
+    onTVSeriesClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val personDetails by viewModel.personDetails.collectAsState()
     val movieCastSection by viewModel.movieCastSection.collectAsState()
@@ -46,7 +52,8 @@ fun PersonDetailsScreen(
         hasCreditsError = hasCreditsError,
         onExpandedChanged = viewModel::onSectionExpandedChanged,
         onMovieClicked = onMovieClicked,
-        onTVSeriesClicked = onTVSeriesClicked
+        onTVSeriesClicked = onTVSeriesClicked,
+        onBackPressed = onBackPressed
     )
 }
 
@@ -62,24 +69,35 @@ fun PersonDetailsScreen(
     hasCreditsError: Boolean,
     onExpandedChanged: (SectionType, Boolean) -> Unit,
     onMovieClicked: (Int) -> Unit,
-    onTVSeriesClicked: (Int) -> Unit
+    onTVSeriesClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            when {
-                isLoading -> Loader()
-                hasError -> Error()
-                else -> PersonDetails(
-                    details = details,
-                    hasCreditsError = hasCreditsError,
-                    movieCastSection = movieCastSection,
-                    tvCastSection = tvCastSection,
-                    movieCrewSection = movieCrewSection,
-                    tvCrewSection = tvCrewSection,
-                    onExpandedChanged = onExpandedChanged,
-                    onMovieClicked = onMovieClicked,
-                    onTVSeriesClicked = onTVSeriesClicked
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = stringResource(id = R.string.person_details_label),
+                    onBackPressed = onBackPressed
                 )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                when {
+                    isLoading -> Loader()
+                    hasError -> Error()
+                    else -> PersonDetails(
+                        details = details,
+                        hasCreditsError = hasCreditsError,
+                        movieCastSection = movieCastSection,
+                        tvCastSection = tvCastSection,
+                        movieCrewSection = movieCrewSection,
+                        tvCrewSection = tvCrewSection,
+                        onExpandedChanged = onExpandedChanged,
+                        onMovieClicked = onMovieClicked,
+                        onTVSeriesClicked = onTVSeriesClicked
+                    )
+                }
             }
         }
     }
@@ -96,21 +114,20 @@ fun PersonDetailsScreenPreview(
     personDetailsScreenData: PersonDetailsScreenData
 ) {
     MovieAppTheme {
-        Surface {
-            PersonDetailsScreen(
-                details = personDetailsScreenData.personDetails,
-                isLoading = personDetailsScreenData.isLoading,
-                hasError = personDetailsScreenData.hasError,
-                hasCreditsError = personDetailsScreenData.hasCreditsError,
-                onExpandedChanged = { _, _ -> },
-                onMovieClicked = {},
-                onTVSeriesClicked = {},
-                movieCastSection = personDetailsScreenData.movieCastSection,
-                tvCastSection = personDetailsScreenData.tvCastSection,
-                movieCrewSection = personDetailsScreenData.movieCrewSection,
-                tvCrewSection = personDetailsScreenData.tvCrewSection
-            )
-        }
+        PersonDetailsScreen(
+            details = personDetailsScreenData.personDetails,
+            isLoading = personDetailsScreenData.isLoading,
+            hasError = personDetailsScreenData.hasError,
+            hasCreditsError = personDetailsScreenData.hasCreditsError,
+            onExpandedChanged = { _, _ -> },
+            onMovieClicked = {},
+            onTVSeriesClicked = {},
+            movieCastSection = personDetailsScreenData.movieCastSection,
+            tvCastSection = personDetailsScreenData.tvCastSection,
+            movieCrewSection = personDetailsScreenData.movieCrewSection,
+            tvCrewSection = personDetailsScreenData.tvCrewSection,
+            onBackPressed = {}
+        )
     }
 }
 

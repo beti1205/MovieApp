@@ -4,17 +4,8 @@ import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,8 +17,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.ui.account.widget.AccountTopAppBar
+import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
 fun AccountScreen(viewModel: AccountViewModel) {
@@ -92,47 +84,23 @@ fun AccountScreen(
     }
 
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = {
-                    TopAppBar(
-                        title = { Text("Account") },
-                        actions = {
-                            if (isLoggedIn) {
-                                IconButton(onClick = { onDeleteSession() }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.ExitToApp,
-                                        contentDescription = null,
-                                        tint = SonicSilver
-                                    )
-                                }
-                            }
-                        },
-                        elevation = 0.dp
-                    )
-                }
-            ) { paddingValues ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (isLoggedIn) {
-                        Text(text = "Logged in")
-                    } else {
-                        TextButton(
-                            onClick = onLoginClicked,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = MaterialTheme.colors.secondary,
-                                contentColor = MaterialTheme.colors.onSecondary
-                            )
-                        ) {
-                            Text(text = stringResource(R.string.account_log_in_button))
-                        }
-                    }
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                AccountTopAppBar(isLoggedIn = isLoggedIn, onDeleteSession = onDeleteSession)
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isLoggedIn) {
+                    Text(text = "Logged in")
+                } else {
+                    LoginButton(onLoginClicked)
                 }
             }
         }

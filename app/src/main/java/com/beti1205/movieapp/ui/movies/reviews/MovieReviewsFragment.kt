@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,8 +22,13 @@ class MovieReviewsFragment : Fragment() {
     ): View = ComposeView(requireContext()).apply {
         setContent {
             MovieReviewsScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                onBackPressed = ::onBackPressed
             )
         }
+    }
+
+    private fun onBackPressed() {
+        findNavController().popBackStack()
     }
 }

@@ -3,16 +3,20 @@ package com.beti1205.movieapp.ui.movies.list
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.fetchmovies.data.Movie
 import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
+import com.beti1205.movieapp.ui.common.widget.list.ListTopAppBar
 import com.beti1205.movieapp.ui.movies.common.PagingMoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.common.widget.MovieList
 import com.beti1205.movieapp.ui.movies.list.widget.MovieListError
@@ -23,7 +27,8 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun MovieScreen(
     viewModel: MovieViewModel,
-    onMovieClicked: (Movie) -> Unit
+    onMovieClicked: (Movie) -> Unit,
+    onSearchClicked: () -> Unit
 ) {
     val movieListItems = viewModel.movies.collectAsLazyPagingItems()
     val selectedMovieOrder by viewModel.order.collectAsState()
@@ -32,7 +37,8 @@ fun MovieScreen(
         movieListItems = movieListItems,
         selectedMovieOrder = selectedMovieOrder,
         onSelectedMovieOrderChanged = viewModel::onOrderChanged,
-        onMovieClicked = onMovieClicked
+        onMovieClicked = onMovieClicked,
+        onSearchClicked = onSearchClicked
     )
 }
 
@@ -41,11 +47,20 @@ fun MovieScreen(
     movieListItems: LazyPagingItems<Movie>,
     selectedMovieOrder: MovieOrder,
     onSelectedMovieOrderChanged: (MovieOrder) -> Unit,
-    onMovieClicked: (Movie) -> Unit
+    onMovieClicked: (Movie) -> Unit,
+    onSearchClicked: () -> Unit
 ) {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Column {
+        Scaffold(
+            topBar = {
+                ListTopAppBar(
+                    stringResource(id = R.string.movies_title),
+                    onSearchClicked
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Column(modifier = Modifier.padding(paddingValues)) {
                 MovieOrderChipGroup(
                     selectedMovieOrder = selectedMovieOrder,
                     onSelectedMovieOrderChanged = onSelectedMovieOrderChanged
@@ -73,6 +88,7 @@ fun MovieScreenPreview() {
         movieListItems = items,
         selectedMovieOrder = MovieOrder.POPULAR,
         onSelectedMovieOrderChanged = {},
-        onMovieClicked = {}
+        onMovieClicked = {},
+        onSearchClicked = {}
     )
 }

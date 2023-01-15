@@ -10,6 +10,7 @@
 /.idea/assetWizardSettings.xml
 /.idea/misc.xml
 /.idea/detekt.xml
+/.idea/deploymentTargetDropDown.xml
 .DS_Store
 /build
 /captures

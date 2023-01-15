@@ -6,7 +6,7 @@
     <string name="movie_order_upcoming">Upcoming</string>
     <string name="movie_order_now_playing">Now playing</string>
     <string name="saved_order_key">saved_order_key</string>
-    <string name="tv_series_label">TV Series</string>
+    <string name="tv_series_label">TV series</string>
     <string name="home">Home</string>
     <string name="movie_details_label">Details</string>
     <string name="search">Search</string>

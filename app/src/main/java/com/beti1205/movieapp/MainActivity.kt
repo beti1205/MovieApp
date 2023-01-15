@@ -2,7 +2,6 @@ package com.beti1205.movieapp
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -18,9 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val searchEditText: EditText
-        get() = binding.searchEditFrame
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
 
@@ -45,11 +41,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        setSupportActionBar(binding.topAppBar)
-        binding.topAppBar.setupWithNavController(navController, appBarConfiguration)
-        binding.topAppBar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
@@ -59,11 +50,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.TVSeriesFragment,
                 R.id.accountFragment
             )
-            binding.searchEditFrame.isVisible = destination.id in listOf(
-                R.id.searchMoviesFragment,
-                R.id.searchTvSeriesFragment
-            )
-            binding.topAppBar.isVisible = destination.id != R.id.accountFragment
         }
     }
 

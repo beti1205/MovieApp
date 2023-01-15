@@ -12,28 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
         <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-    </style>
-
-    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorOnPrimary">@color/dark_grey</item>
-    </style>
-
-    <style name="ChipChoice" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="android:textColor">@color/chip_text_color</item>
-        <item name="android:textAppearance">@style/ChoiceChipTextAppearance</item>
-        <item name="chipBackgroundColor">@color/chip_background_color</item>
-    </style>
-
-    <style name="ChoiceChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
-        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
@@ -43,27 +23,6 @@
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">
         <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">@color/white</item>
-    </style>
-
-    <style name="ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
-        <item name="android:textColorHint">@color/orange</item>
-        <item name="boxBackgroundColor">?attr/colorPrimaryVariant</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExposedDropdownMenu</item>
-    </style>
-
-    <style name="ThemeOverlay.App.ExposedDropdownMenu" parent="ThemeOverlay.MaterialComponents.AutoCompleteTextView.FilledBox">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorOnSurface">@color/orange</item>
-    </style>
-
-    <style name="EmptyStateIcon">
-        <item name="tint">@color/sonic_silver</item>
-    </style>
-
-    <style name="EmptyStateText">
-        <item name="android:textColor">@color/sonic_silver</item>
-        <item name="android:textAppearance">?attr/textAppearanceSubtitle2</item>
-        <item name="android:textAlignment">center</item>
     </style>
 
 </resources>

@@ -57,10 +57,9 @@ fun TVSeriesScreen(
                     title = stringResource(id = R.string.tv_series_label),
                     onSearchClicked = onSearchClicked
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
+            Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 TVOrderChipGroup(
                     selectedTVSeriesOrder = selectedTVSeriesOrder,
                     onSelectedTVSeriesOrderChanged = onSelectedTVSeriesOrderChanged

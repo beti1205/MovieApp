@@ -53,10 +53,9 @@ fun MovieReviewsScreen(
                     title = stringResource(id = R.string.movie_review_label),
                     onBackPressed = onBackPressed
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues))
+            Box(modifier = Modifier.fillMaxSize().padding(paddingValues))
             when {
                 reviewsError -> Error()
                 reviews.isNotEmpty() -> MovieReviewList(reviews = reviews)

@@ -53,10 +53,9 @@ fun SearchTVSeriesScreen(
                     onQueryChange = onQueryChange,
                     onBackPressed = onBackPressed
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues)) {
+            Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 SearchTVSeriesList(
                     searchTVSeriesItems = searchTVSeriesItems,
                     onTVSeriesClicked = onTVSeriesClicked

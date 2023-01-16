@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase

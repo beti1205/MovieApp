@@ -12,8 +12,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.common.widget.credits.Credits
 import com.beti1205.movieapp.ui.common.widget.details.Details
+import com.beti1205.movieapp.ui.movies.details.widget.credits.MovieCredits
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -38,7 +38,7 @@ fun MovieDetails(
             )
             StandardDivider()
             if (credits != null) {
-                Credits(credits, onPersonClicked)
+                MovieCredits(credits, onPersonClicked)
             }
         }
     }

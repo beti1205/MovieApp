@@ -7,8 +7,8 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.beti1205.movieapp.BuildConfig
 import com.beti1205.movieapp.common.AppConfig
-import com.beti1205.movieapp.ui.account.AuthManager
-import com.beti1205.movieapp.ui.account.AuthManagerImpl
+import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.AuthManagerImpl
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.squareup.moshi.Moshi
 import dagger.Binds

@@ -51,16 +51,13 @@ fun MovieScreen(
     onSearchClicked: () -> Unit
 ) {
     MovieAppTheme {
-        Scaffold(
-            topBar = {
-                ListTopAppBar(
-                    stringResource(id = R.string.movies_title),
-                    onSearchClicked
-                )
-            },
-            modifier = Modifier.fillMaxSize()
-        ) { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
+        Scaffold(topBar = {
+            ListTopAppBar(
+                stringResource(id = R.string.movies_title),
+                onSearchClicked
+            )
+        }) { paddingValues ->
+            Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 MovieOrderChipGroup(
                     selectedMovieOrder = selectedMovieOrder,
                     onSelectedMovieOrderChanged = onSelectedMovieOrderChanged

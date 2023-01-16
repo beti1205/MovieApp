@@ -68,10 +68,9 @@ fun TVSeriesDetailsScreen(
                     title = stringResource(id = R.string.tv_details_label),
                     onBackPressed = onBackPressed
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues)) {
+            Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 when {
                     hasError -> Error()
                     else -> TVSeriesDetailsScreenContent(

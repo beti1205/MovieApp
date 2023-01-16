@@ -1,11 +1,11 @@
 package com.beti1205.movieapp.feature.deletesession.domain
 
 import com.beti1205.movieapp.common.AppConfig
+import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.deletesession.data.DeleteSessionBody
 import com.beti1205.movieapp.feature.deletesession.data.DeleteSessionService
-import com.beti1205.movieapp.ui.account.AuthManager
 import javax.inject.Inject
 
 interface DeleteSessionUseCase {

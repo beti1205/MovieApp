@@ -47,7 +47,12 @@ fun PersonDetails(
                 Error()
             }
             else -> {
-                if (movieCastSection.isNotEmpty() || tvCastSection.isNotEmpty()) {
+                val castSectionsNotEmpty = movieCastSection.isNotEmpty() ||
+                    tvCastSection.isNotEmpty()
+                val crewSectionsNotEmpty = movieCrewSection.isNotEmpty() ||
+                    tvCrewSection.isNotEmpty()
+
+                if (castSectionsNotEmpty) {
                     item {
                         SectionHeader(text = stringResource(id = R.string.section_header_movie_cast))
                     }
@@ -56,13 +61,13 @@ fun PersonDetails(
                 movieCastSection(movieCastSection, onMovieClicked, onExpandedChanged)
                 tvCastSection(tvCastSection, onTVSeriesClicked, onExpandedChanged)
 
-                if (movieCastSection.isNotEmpty() || tvCastSection.isNotEmpty()) {
+                if (castSectionsNotEmpty && crewSectionsNotEmpty) {
                     item {
                         StandardDivider()
                     }
                 }
 
-                if (movieCrewSection.isNotEmpty() || tvCrewSection.isNotEmpty()) {
+                if (crewSectionsNotEmpty) {
                     item {
                         SectionHeader(text = stringResource(id = R.string.section_header_movie_crew))
                     }
@@ -70,12 +75,6 @@ fun PersonDetails(
 
                 movieCrewSection(movieCrewSection, onMovieClicked, onExpandedChanged)
                 tvCrewSection(tvCrewSection, onTVSeriesClicked, onExpandedChanged)
-
-                if (movieCrewSection.isNotEmpty() || tvCrewSection.isNotEmpty()) {
-                    item {
-                        StandardDivider()
-                    }
-                }
             }
         }
     }
@@ -88,8 +87,7 @@ fun PersonDetails(
 )
 @Composable
 fun PersonDetailsPreview(
-    @PreviewParameter(PersonDetailsPreviewProvider::class)
-    personDetailsData: PersonDetailsData
+    @PreviewParameter(PersonDetailsPreviewProvider::class) personDetailsData: PersonDetailsData
 ) {
     MovieAppTheme {
         Surface {

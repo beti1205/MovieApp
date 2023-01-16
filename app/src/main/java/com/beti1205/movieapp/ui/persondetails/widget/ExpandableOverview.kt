@@ -34,17 +34,21 @@ fun ExpandableOverview(
         derivedStateOf { if (expanded) text else text.split("\n\n").first() }
     }
 
+    val expandable = text.split("\n\n").size > 1
+
     Column(modifier = modifier) {
         Overview(
             overview = newText,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.animateContentSize()
         )
-        ShowMoreButton(
-            expanded = expanded,
-            onClick = { expanded = !expanded },
-            modifier = Modifier.padding(top = 8.dp)
-        )
+        if (expandable) {
+            ShowMoreButton(
+                expanded = expanded,
+                onClick = { expanded = !expanded },
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
     }
 }
 

@@ -10,8 +10,8 @@ import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
-import com.beti1205.movieapp.ui.common.widget.credits.Credits
 import com.beti1205.movieapp.ui.common.widget.details.Details
+import com.beti1205.movieapp.ui.tvseries.details.widget.credits.TVSeriesCredits
 import com.beti1205.movieapp.ui.tvseries.details.widget.episodes.EpisodeList
 import com.beti1205.movieapp.ui.tvseries.details.widget.season.Season
 import com.beti1205.movieapp.ui.tvseries.details.widget.season.SeasonDropdown
@@ -39,7 +39,7 @@ fun TVSeriesDetailsScreenContent(
             )
             StandardDivider()
             if (credits != null) {
-                Credits(credits, onPersonClicked)
+                TVSeriesCredits(credits, onPersonClicked)
             }
             if (selectedSeason != null) {
                 SeasonDropdown(

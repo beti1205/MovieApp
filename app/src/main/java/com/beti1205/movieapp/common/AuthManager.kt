@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.account
+package com.beti1205.movieapp.common
 
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.fredporciuncula.flow.preferences.Preference

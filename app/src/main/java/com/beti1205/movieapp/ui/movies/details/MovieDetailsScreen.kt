@@ -51,10 +51,12 @@ fun MovieDetailsScreen(
                     title = stringResource(id = R.string.movie_details_label),
                     onBackPressed = onBackPressed
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Crossfade(targetState = state, modifier = Modifier.padding(paddingValues)) { state ->
+            Crossfade(
+                targetState = state,
+                modifier = Modifier.fillMaxSize().padding(paddingValues)
+            ) { state ->
                 when {
                     state.hasError -> Error()
                     state.isLoading -> Loader()

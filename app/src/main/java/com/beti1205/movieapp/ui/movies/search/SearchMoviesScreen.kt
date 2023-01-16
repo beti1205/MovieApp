@@ -53,10 +53,9 @@ fun SearchMoviesScreen(
                     onQueryChange = onQueryChange,
                     onBackPressed = onBackPressed
                 )
-            },
-            modifier = Modifier.fillMaxSize()
+            }
         ) { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
+            Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
                 SearchMoviesList(
                     searchMoviesItems = searchMoviesItems,
                     onMovieClicked = onMovieClicked

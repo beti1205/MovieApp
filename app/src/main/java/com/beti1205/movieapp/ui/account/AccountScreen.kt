@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -83,16 +84,34 @@ fun AccountScreen(
         }
     }
 
+    AccountScreenContent(
+        scaffoldState = scaffoldState,
+        isLoggedIn = isLoggedIn,
+        onDeleteSession = onDeleteSession,
+        onLoginClicked = onLoginClicked
+    )
+}
+
+@Composable
+private fun AccountScreenContent(
+    scaffoldState: ScaffoldState,
+    isLoggedIn: Boolean,
+    onDeleteSession: () -> Unit,
+    onLoginClicked: () -> Unit
+) {
     MovieAppTheme {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                AccountTopAppBar(isLoggedIn = isLoggedIn, onDeleteSession = onDeleteSession)
-            },
-            modifier = Modifier.fillMaxSize()
+                AccountTopAppBar(
+                    isLoggedIn = isLoggedIn,
+                    onDeleteSession = onDeleteSession
+                )
+            }
         ) { paddingValues ->
             Box(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
                     .padding(16.dp),
                 contentAlignment = Alignment.Center

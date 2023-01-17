@@ -8,6 +8,7 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.createsession.data.SessionResponse
 import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase
+import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.fetchrequesttoken.data.RequestTokenResponse
 import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
 import io.mockk.coEvery
@@ -42,6 +43,7 @@ class AccountViewModelTest {
     private val createSessionUseCase = mockk<CreateSessionUseCase>()
     private val authManager = mockk<AuthManager>()
     private val deleteSessionUseCase = mockk<DeleteSessionUseCase>()
+    private val fetchAccountDetailsUseCase = mockk<FetchAccountDetailsUseCase>()
 
     @Test
     fun getRequestToken_successful() = runTest {
@@ -54,6 +56,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -80,6 +83,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -108,6 +112,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -138,6 +143,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -167,6 +173,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -193,6 +200,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 
@@ -221,6 +229,7 @@ class AccountViewModelTest {
             fetchRequestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
             authManager
         )
 

@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
+import com.beti1205.movieapp.ui.account.widget.AccountPopup
 import com.beti1205.movieapp.ui.account.widget.AccountTopAppBar
 import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -28,17 +33,23 @@ fun AccountScreen(viewModel: AccountViewModel) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val denied by viewModel.denied.collectAsState()
+    val account by viewModel.account.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
         isLoggedIn = isLoggedIn,
         hasError = hasError,
         denied = denied,
+        account = account,
         onLoginClicked = viewModel::getRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
         onDeleteSession = viewModel::deleteSession
     )
+
+    LaunchedEffect(isLoggedIn) {
+        viewModel.getAccountDetails()
+    }
 
     LaunchedEffect(authUri) {
         if (authUri == null) {
@@ -55,11 +66,13 @@ fun AccountScreen(
     isLoggedIn: Boolean,
     hasError: Boolean,
     denied: Boolean,
+    account: AccountDetails?,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
     onDeleteSession: () -> Unit
 ) {
+    var isPopupVisible by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val errorMessage = stringResource(id = R.string.generic_error_message)
     val deniedMessage = stringResource(id = R.string.denied_login_message)
@@ -87,25 +100,36 @@ fun AccountScreen(
     AccountScreenContent(
         scaffoldState = scaffoldState,
         isLoggedIn = isLoggedIn,
-        onDeleteSession = onDeleteSession,
-        onLoginClicked = onLoginClicked
+        account = account,
+        onLoginClicked = onLoginClicked,
+        onAvatarClicked = { isPopupVisible = !isPopupVisible }
     )
+
+    if (isLoggedIn && isPopupVisible) {
+        AccountPopup(
+            account = account,
+            onDeleteSession = onDeleteSession,
+            onDismissRequest = { isPopupVisible = false }
+        )
+    }
 }
 
 @Composable
 private fun AccountScreenContent(
     scaffoldState: ScaffoldState,
     isLoggedIn: Boolean,
-    onDeleteSession: () -> Unit,
-    onLoginClicked: () -> Unit
+    account: AccountDetails?,
+    onLoginClicked: () -> Unit,
+    onAvatarClicked: () -> Unit
 ) {
     MovieAppTheme {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
                 AccountTopAppBar(
+                    account = account,
                     isLoggedIn = isLoggedIn,
-                    onDeleteSession = onDeleteSession
+                    onAvatarClicked = onAvatarClicked
                 )
             }
         ) { paddingValues ->

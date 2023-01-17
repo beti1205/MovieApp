@@ -8,6 +8,8 @@ import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase
+import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +32,7 @@ class AccountViewModel @Inject constructor(
     private val fetchRequestTokenUseCase: FetchRequestTokenUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
     private val deleteSessionUseCase: DeleteSessionUseCase,
+    private val fetchAccountDetailsUseCase: FetchAccountDetailsUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -41,6 +44,9 @@ class AccountViewModel @Inject constructor(
 
     private val _hasError = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
+
+    private val _account = MutableStateFlow<AccountDetails?>(null)
+    val account: StateFlow<AccountDetails?> = _account.asStateFlow()
 
     val authUri = _requestToken
         .filterNotNull()
@@ -115,6 +121,17 @@ class AccountViewModel @Inject constructor(
 
             if (result is Result.Error) {
                 _hasError.value = true
+            }
+        }
+    }
+
+    fun getAccountDetails() {
+        viewModelScope.launch {
+            val result = fetchAccountDetailsUseCase()
+
+            when (result) {
+                is Result.Success -> _account.value = result.data
+                is Result.Error -> {}
             }
         }
     }

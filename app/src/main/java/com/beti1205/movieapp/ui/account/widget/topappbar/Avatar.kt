@@ -1,36 +1,21 @@
-package com.beti1205.movieapp.ui.account.widget
+package com.beti1205.movieapp.ui.account.widget.topappbar
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
-
-@Composable
-fun AccountTopAppBar(
-    account: AccountDetails?,
-    isLoggedIn: Boolean,
-    onAvatarClicked: () -> Unit
-) {
-    TopAppBar(
-        title = { Text("Account") },
-        actions = {
-            if (isLoggedIn) {
-                Avatar(text = account?.name, onClick = onAvatarClicked)
-            }
-        },
-        elevation = 0.dp
-    )
-}
+import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun Avatar(
@@ -47,5 +32,22 @@ fun Avatar(
         contentAlignment = Alignment.Center
     ) {
         Text(text = text?.first()?.toString() ?: "")
+    }
+}
+
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun AvatarPreview() {
+    MovieAppTheme {
+        Surface {
+            Avatar(
+                text = "B",
+                onClick = {}
+            )
+        }
     }
 }

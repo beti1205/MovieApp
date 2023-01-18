@@ -49,4 +49,5 @@
     <string name="account_log_in_button">Log in</string>
     <string name="generic_error_message">Whoops, something went wrong! Please try again.</string>
     <string name="denied_login_message">Login failed. Please give the necessary permissions.</string>
+    <string name="account_log_out_button">Log out</string>
 </resources>

@@ -19,11 +19,19 @@ class FetchAccountDetailsUseCaseImpl @Inject constructor(
     private val authManager: AuthManager
 ) : FetchAccountDetailsUseCase {
     override suspend fun invoke(): Result<AccountDetails> {
-        return performRequest {
+        val result = performRequest {
             accountDetailsService.getAccountDetails(
                 key = appConfig.apiKey,
                 session = authManager.sessionId!!
             )
         }
+
+        when (result) {
+            is Result.Success -> {
+                authManager.setAccountId(result.data.id)
+            }
+            is Result.Error -> {}
+        }
+        return result
     }
 }

@@ -10,8 +10,10 @@ import javax.inject.Named
 interface AuthManager {
     val sessionId: String?
     val isLoggedIn: Flow<Boolean>
+    val accountId: Int
 
     fun setSessionId(sessionId: String?)
+    fun setAccountId(accountId: Int)
 }
 
 class AuthManagerImpl @Inject constructor(
@@ -23,10 +25,19 @@ class AuthManagerImpl @Inject constructor(
         defaultValue = null
     )
 
+    private val accountIdPreference: Preference<Int> = sharedPreferences.getInt(
+        key = "accountId",
+        defaultValue = 0
+    )
+
     override val sessionId: String?
         get() = sessionIdPreference.get()
 
     override val isLoggedIn: Flow<Boolean> = sessionIdPreference.asFlow().map { it != null }
 
+    override val accountId: Int
+        get() = accountIdPreference.get()
+
     override fun setSessionId(sessionId: String?) = sessionIdPreference.set(sessionId)
+    override fun setAccountId(accountId: Int) = accountIdPreference.set(accountId)
 }

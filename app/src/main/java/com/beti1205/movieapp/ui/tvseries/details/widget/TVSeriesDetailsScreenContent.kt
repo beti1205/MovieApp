@@ -20,6 +20,7 @@ import com.beti1205.movieapp.ui.tvseries.details.widget.season.SeasonDropdown
 fun TVSeriesDetailsScreenContent(
     tvSeriesDetails: TVSeriesDetails?,
     credits: Credits?,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     selectedSeason: Season?,
     onSeasonSelected: (Season) -> Unit,
@@ -35,7 +36,8 @@ fun TVSeriesDetailsScreenContent(
                 votes = votes,
                 releaseDate = firstAirDate,
                 overview = overview,
-                genres = genres
+                genres = genres,
+                onFavoriteClicked = onFavoriteClicked
             )
             StandardDivider()
             if (credits != null) {

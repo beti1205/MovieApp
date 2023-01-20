@@ -5,22 +5,16 @@ import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.markfavorite.data.MarkFavoriteBody
-import com.beti1205.movieapp.feature.markfavorite.data.MarkFavoriteResponse
 import com.beti1205.movieapp.feature.markfavorite.data.MarkFavoriteService
 import javax.inject.Inject
-
-enum class Media(val mediaType: String) {
-    MOVIE("movie"),
-    TV("tv")
-}
 
 interface MarkFavoriteUseCase {
 
     suspend operator fun invoke(
         favorite: Boolean,
-        mediaType: Media,
+        mediaType: MediaType,
         mediaId: Int
-    ): Result<MarkFavoriteResponse>
+    ): Result<Unit>
 }
 
 class MarkFavoriteUseCaseImpl @Inject constructor(
@@ -31,20 +25,26 @@ class MarkFavoriteUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(
         favorite: Boolean,
-        mediaType: Media,
+        mediaType: MediaType,
         mediaId: Int
-    ): Result<MarkFavoriteResponse> {
-        return performRequest {
-            markFavoriteService.markFavorite(
-                accountId = authManager.accountId,
-                key = appConfig.apiKey,
-                sessionId = authManager.sessionId!!,
-                body = MarkFavoriteBody(
-                    favorite = favorite,
-                    mediaType = mediaType.mediaType,
-                    mediaId = mediaId
+    ): Result<Unit> {
+        val result =
+            performRequest {
+                markFavoriteService.markFavorite(
+                    accountId = authManager.accountId,
+                    key = appConfig.apiKey,
+                    sessionId = authManager.sessionId!!,
+                    body = MarkFavoriteBody(
+                        favorite = favorite,
+                        mediaType = mediaType.mediaType,
+                        mediaId = mediaId
+                    )
                 )
-            )
+            }
+
+        return when (result) {
+            is Result.Error -> result
+            is Result.Success -> Result.Success(Unit)
         }
     }
 }

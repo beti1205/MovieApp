@@ -31,6 +31,7 @@ fun MovieDetailsScreen(
 
     MovieDetailsScreen(
         state = state,
+        onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
         onButtonClicked = onButtonClicked,
         onBackPressed = onBackPressed
@@ -40,6 +41,7 @@ fun MovieDetailsScreen(
 @Composable
 fun MovieDetailsScreen(
     state: MovieDetailsScreenState,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onButtonClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
@@ -64,7 +66,8 @@ fun MovieDetailsScreen(
                         movieDetails = state.movieDetails,
                         credits = state.credits,
                         onPersonClicked = onPersonClicked,
-                        onButtonClicked = onButtonClicked
+                        onButtonClicked = onButtonClicked,
+                        onFavoriteClicked = onFavoriteClicked
                     )
                 }
             }
@@ -90,6 +93,7 @@ fun MovieDetailsScreenPreview(
                 credits = state.credits,
                 hasError = state.hasError
             ),
+            onFavoriteClicked = {},
             onPersonClicked = {},
             onButtonClicked = {},
             onBackPressed = {}

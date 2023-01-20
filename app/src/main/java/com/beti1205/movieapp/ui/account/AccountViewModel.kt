@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -81,6 +82,16 @@ class AccountViewModel @Inject constructor(
                     _hasError.value = true
                 }
             }
+        }
+
+        viewModelScope.launch {
+            authManager.isLoggedIn
+                .distinctUntilChanged()
+                .collect { isLoggedIn ->
+                    if (isLoggedIn) {
+                        getAccountDetails()
+                    }
+                }
         }
     }
 

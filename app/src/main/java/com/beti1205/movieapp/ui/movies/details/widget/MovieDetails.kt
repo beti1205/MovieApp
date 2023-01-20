@@ -20,6 +20,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun MovieDetails(
     movieDetails: MovieDetails?,
     credits: Credits?,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -34,7 +35,8 @@ fun MovieDetails(
                 releaseDate = movieDetails.releaseDate,
                 overview = movieDetails.overview,
                 genres = movieDetails.genres,
-                onButtonClicked = onButtonClicked
+                onButtonClicked = onButtonClicked,
+                onFavoriteClicked = onFavoriteClicked
             )
             StandardDivider()
             if (credits != null) {
@@ -60,6 +62,7 @@ fun MovieDetailsPreview(
             MovieDetails(
                 movieDetails = state.first,
                 credits = state.second,
+                onFavoriteClicked = {},
                 onPersonClicked = {},
                 onButtonClicked = {}
             )

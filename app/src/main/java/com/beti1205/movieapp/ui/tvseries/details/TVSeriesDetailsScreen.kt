@@ -45,6 +45,7 @@ fun TVSeriesDetailsScreen(
         episodes = episodes,
         hasError = hasError,
         credits = credits,
+        onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
         onBackPressed = onBackPressed
     )
@@ -58,6 +59,7 @@ fun TVSeriesDetailsScreen(
     episodes: List<Episode>?,
     hasError: Boolean,
     credits: Credits?,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -70,12 +72,17 @@ fun TVSeriesDetailsScreen(
                 )
             }
         ) { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
                 when {
                     hasError -> Error()
                     else -> TVSeriesDetailsScreenContent(
                         tvSeriesDetails = tvSeriesDetails,
                         credits = credits,
+                        onFavoriteClicked = onFavoriteClicked,
                         onPersonClicked = onPersonClicked,
                         selectedSeason = selectedSeason,
                         onSeasonSelected = onSeasonSelected,
@@ -106,6 +113,7 @@ fun TVSeriesDetailsScreenPreview(
             episodes = tvSeriesDetailsScreen.episodes,
             hasError = tvSeriesDetailsScreen.hasError,
             credits = tvSeriesDetailsScreen.credits,
+            onFavoriteClicked = {},
             onPersonClicked = {},
             onBackPressed = {}
         )

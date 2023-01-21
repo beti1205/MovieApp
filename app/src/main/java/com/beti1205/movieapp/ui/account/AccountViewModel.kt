@@ -59,7 +59,7 @@ class AccountViewModel @Inject constructor(
             null
         )
 
-    val isLoggedIn = authManager.isLoggedIn.stateIn(
+    val isLoggedIn = authManager.isLoggedInFlow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000L),
         false
@@ -85,7 +85,7 @@ class AccountViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            authManager.isLoggedIn
+            authManager.isLoggedInFlow
                 .distinctUntilChanged()
                 .collect { isLoggedIn ->
                     if (isLoggedIn) {

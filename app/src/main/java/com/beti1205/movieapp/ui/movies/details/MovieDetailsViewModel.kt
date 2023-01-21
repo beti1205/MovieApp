@@ -15,10 +15,8 @@ import com.beti1205.movieapp.feature.markfavorite.domain.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,19 +26,13 @@ class MovieDetailsViewModel @Inject constructor(
     private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase,
     private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
-    authManager: AuthManager
+    private val authManager: AuthManager
 ) : ViewModel() {
 
     val selectedMovieId = state.getStateFlow("selectedMovieId", -1)
 
     private val _state = MutableStateFlow(MovieDetailsScreenState())
     val state: StateFlow<MovieDetailsScreenState> = _state.asStateFlow()
-
-    val isLoggedIn = authManager.isLoggedIn.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        false
-    )
 
     init {
         val selectedMovieId = selectedMovieId.value
@@ -81,7 +73,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun markFavorite(favorite: Boolean) {
         viewModelScope.launch {
-            if (!isLoggedIn.value) {
+            if (!authManager.isLoggedIn) {
                 return@launch
             }
 

@@ -51,7 +51,7 @@ class AccountViewModelTest {
     @Test
     fun getRequestToken_successful() = runTest {
         coEvery { fetchRequestTokenUseCase() } returns getTokenSuccess
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
@@ -78,7 +78,7 @@ class AccountViewModelTest {
     @Test
     fun getRequestToken_failed() = runTest {
         coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
@@ -107,7 +107,7 @@ class AccountViewModelTest {
         coEvery { createSessionUseCase(any()) } returns createSessionSuccess
         val sessionIdSlot = slot<String>()
         every { authManager.setSessionId(sessionId = capture(sessionIdSlot)) } returns Unit
-        every { authManager.isLoggedIn } returns flowOf(true)
+        every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle(mapOf("approved" to true, "request_token" to "requestToken"))
 
         viewModel = AccountViewModel(
@@ -138,7 +138,7 @@ class AccountViewModelTest {
     @Test
     fun createSession_failed() = runTest {
         coEvery { createSessionUseCase(any()) } returns Result.Error(Exception())
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("approved" to true, "request_token" to "requestToken"))
 
         viewModel = AccountViewModel(
@@ -168,7 +168,7 @@ class AccountViewModelTest {
     @Test
     fun deleteSession_successful() = runTest {
         coEvery { deleteSessionUseCase() } returns Result.Success(Unit)
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to "requestToken"))
 
         viewModel = AccountViewModel(
@@ -195,7 +195,7 @@ class AccountViewModelTest {
     @Test
     fun deleteSession_failed() = runTest {
         coEvery { deleteSessionUseCase() } returns Result.Error(Exception())
-        every { authManager.isLoggedIn } returns flowOf(true)
+        every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
@@ -224,7 +224,7 @@ class AccountViewModelTest {
     @Test
     fun getAccountDetails_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        every { authManager.isLoggedIn } returns flowOf(true)
+        every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -250,7 +250,7 @@ class AccountViewModelTest {
     @Test
     fun getAccountDetails_failed() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns Result.Error(Exception())
-        every { authManager.isLoggedIn } returns flowOf(true)
+        every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -276,7 +276,7 @@ class AccountViewModelTest {
     @Test
     fun onErrorHandled_verifyThatFalseWasSet() = runTest {
         coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
@@ -306,7 +306,7 @@ class AccountViewModelTest {
     @Test
     fun onDeniedHandled_verifyThatFalseWasSet() = runTest {
         val state = SavedStateHandle(mapOf("denied" to true, "request_token" to null))
-        every { authManager.isLoggedIn } returns flowOf(false)
+        every { authManager.isLoggedInFlow } returns flowOf(false)
 
         viewModel = AccountViewModel(
             state,

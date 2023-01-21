@@ -9,7 +9,8 @@ import javax.inject.Named
 
 interface AuthManager {
     val sessionId: String?
-    val isLoggedIn: Flow<Boolean>
+    val isLoggedInFlow: Flow<Boolean>
+    val isLoggedIn: Boolean
     val accountId: Int
 
     fun setSessionId(sessionId: String?)
@@ -33,7 +34,10 @@ class AuthManagerImpl @Inject constructor(
     override val sessionId: String?
         get() = sessionIdPreference.get()
 
-    override val isLoggedIn: Flow<Boolean> = sessionIdPreference.asFlow().map { it != null }
+    override val isLoggedInFlow: Flow<Boolean> = sessionIdPreference.asFlow().map { it != null }
+
+    override val isLoggedIn: Boolean
+        get() = sessionIdPreference.get() != null
 
     override val accountId: Int
         get() = accountIdPreference.get()

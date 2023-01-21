@@ -1,11 +1,11 @@
 package com.beti1205.movieapp.ui.account.widget.popup
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -42,7 +42,9 @@ fun AccountPopup(
         onDismissRequest = onDismissRequest
     ) {
         MovieAppTheme {
-            Surface {
+            Surface(
+                elevation = 8.dp
+            ) {
                 AccountPopupContent(account, onDeleteSession)
             }
         }
@@ -58,13 +60,12 @@ private fun AccountPopupContent(
         modifier = Modifier
             .fillMaxWidth(0.95f)
             .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colors.primaryVariant)
     ) {
         if (account != null) {
             val avatarPath = account.avatar.tmdb.avatarPath
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (avatarPath != null) {
-                    AccountAvatar(avatar = avatarPath, modifier = Modifier.weight(1f))
+                    AccountAvatar(avatar = avatarPath, modifier = Modifier.weight(1f).padding(8.dp))
                 }
                 Column(
                     modifier = Modifier.weight(1f),

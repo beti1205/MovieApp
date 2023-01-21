@@ -31,7 +31,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val fetchEpisodesUseCase: FetchEpisodesUseCase,
     private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
-    authManager: AuthManager
+    private val authManager: AuthManager
 ) : ViewModel() {
 
     val selectedTVSeriesId = state.getStateFlow<Int>(
@@ -50,12 +50,6 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
-
-    val isLoggedIn = authManager.isLoggedIn.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        false
-    )
 
     val episodes: StateFlow<List<Episode>> = selectedTVSeriesId
         .combine(selectedSeason) { tvSeriesId, season ->
@@ -107,7 +101,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     fun markFavorite(favorite: Boolean) {
         viewModelScope.launch {
-            if (!isLoggedIn.value) {
+            if (!authManager.isLoggedIn) {
                 return@launch
             }
 

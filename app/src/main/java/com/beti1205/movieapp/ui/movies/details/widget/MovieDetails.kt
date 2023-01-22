@@ -20,6 +20,8 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun MovieDetails(
     movieDetails: MovieDetails?,
     credits: Credits?,
+    favorite: Boolean,
+    isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onButtonClicked: (Int) -> Unit,
@@ -35,6 +37,8 @@ fun MovieDetails(
                 releaseDate = movieDetails.releaseDate,
                 overview = movieDetails.overview,
                 genres = movieDetails.genres,
+                favorite = favorite,
+                isLoggedIn = isLoggedIn,
                 onButtonClicked = onButtonClicked,
                 onFavoriteClicked = onFavoriteClicked
             )
@@ -62,6 +66,8 @@ fun MovieDetailsPreview(
             MovieDetails(
                 movieDetails = state.first,
                 credits = state.second,
+                favorite = false,
+                isLoggedIn = false,
                 onFavoriteClicked = {},
                 onPersonClicked = {},
                 onButtonClicked = {}

@@ -28,3 +28,17 @@ inline fun <T1, T2, U> flatZip(
             transform(v1, v2)
         }
     }
+
+inline fun <T1, T2, T3, U> flatZip(
+    r1: Result<T1>,
+    r2: Result<T2>,
+    r3: Result<T3>,
+    transform: (T1, T2, T3) -> Result<U>
+): Result<U> =
+    r1.flatMap { v1 ->
+        r2.flatMap { v2 ->
+            r3.flatMap { v3 ->
+                transform(v1, v2, v3)
+            }
+        }
+    }

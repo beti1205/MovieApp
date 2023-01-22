@@ -5,6 +5,7 @@ import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
 
 data class MovieDetailsScreenState(
     val movieDetails: MovieDetails? = null,
+    val favorite: Boolean = false,
     val credits: Credits? = null,
     val hasError: Boolean = false,
     val isLoading: Boolean = false

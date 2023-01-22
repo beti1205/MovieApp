@@ -10,6 +10,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +36,8 @@ fun Details(
     releaseDate: String?,
     overview: String,
     genres: List<Genre>?,
+    favorite: Boolean,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onFavoriteClicked: (Boolean) -> Unit,
     onButtonClicked: (Int) -> Unit = {}
@@ -68,6 +71,8 @@ fun Details(
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 ReviewsButton(onButtonClicked = onButtonClicked, id = id)
                 FavoriteButton(
+                    favorite = favorite,
+                    isLoggedIn = isLoggedIn,
                     onFavoriteClicked = onFavoriteClicked
                 )
             }
@@ -77,19 +82,23 @@ fun Details(
 
 @Composable
 private fun FavoriteButton(
+    favorite: Boolean,
+    isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit
 ) {
-    var favorite by remember {
-        mutableStateOf(false)
+    var localFavorite by remember(favorite) {
+        mutableStateOf(favorite)
     }
 
     IconButton(onClick = {
-        favorite = !favorite
-        onFavoriteClicked(favorite)
+        if (isLoggedIn) {
+            localFavorite = !localFavorite
+            onFavoriteClicked(localFavorite)
+        }
     }) {
-        if (favorite) {
+        if (localFavorite) {
             Icon(
-                imageVector = Icons.Filled.FavoriteBorder,
+                imageVector = Icons.Filled.Favorite,
                 contentDescription = null,
                 tint = MaterialTheme.colors.secondary
             )
@@ -120,6 +129,8 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
                     releaseDate = releaseDate,
                     overview = overview,
                     genres = genres,
+                    favorite = false,
+                    isLoggedIn = false,
                     onFavoriteClicked = {},
                     onButtonClicked = {}
                 )

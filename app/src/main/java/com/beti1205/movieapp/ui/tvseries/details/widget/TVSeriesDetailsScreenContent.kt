@@ -37,6 +37,8 @@ fun TVSeriesDetailsScreenContent(
                 releaseDate = firstAirDate,
                 overview = overview,
                 genres = genres,
+                favorite = false,
+                isLoggedIn = false,
                 onFavoriteClicked = onFavoriteClicked
             )
             StandardDivider()

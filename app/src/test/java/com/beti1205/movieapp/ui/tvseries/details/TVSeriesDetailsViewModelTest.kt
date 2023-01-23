@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
 import com.beti1205.movieapp.feature.fetchtvepisodes.domain.FetchEpisodesUseCase
@@ -37,6 +38,7 @@ class TVSeriesDetailsViewModelTest {
     private val fetchEpisodesUseCase = mockk<FetchEpisodesUseCase>()
     private val fetchTVSeriesCreditsUseCase = mockk<FetchTVSeriesCreditsUseCase>()
     private val markFavoriteUseCase = mockk<MarkFavoriteUseCase>()
+    private val fetchTVAccountStatesUseCase = mockk<FetchTVAccountStatesUseCase>()
     private val authManager = mockk<AuthManager>()
 
     @Test
@@ -44,13 +46,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -71,13 +75,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesError
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -94,13 +100,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -117,13 +125,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesError
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -140,13 +150,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -163,13 +175,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesError
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -186,13 +200,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -207,14 +223,19 @@ class TVSeriesDetailsViewModelTest {
 
     @Test
     fun markFavorite_verifyThatMethodWasCalled() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
         coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Success(Unit)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
         every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -235,13 +256,15 @@ class TVSeriesDetailsViewModelTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(false)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedInFlow } returns flowOf(true)
 
         viewModel = TVSeriesDetailsViewModel(
             SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
             fetchTVSeriesDetailsUseCase,
             fetchEpisodesUseCase,
             fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
             authManager
         )
@@ -259,6 +282,7 @@ class TVSeriesDetailsViewModelTest {
         val tvSeriesDetailsSuccess = Result.Success(TVSeriesDetailsDataProvider.tvSeriesDetails)
         val tvSeriesEpisodesSuccess = Result.Success(TVSeriesDetailsDataProvider.seasonResponse)
         val tvSeriesCreditsSuccess = Result.Success(TVSeriesDetailsDataProvider.credits)
+        val accountStatusSuccess = Result.Success(TVSeriesDetailsDataProvider.accountStates)
         val tvSeriesError = Result.Error(Exception())
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
@@ -30,11 +31,12 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val fetchTVSeriesDetailsUseCase: FetchTVSeriesDetailsUseCase,
     private val fetchEpisodesUseCase: FetchEpisodesUseCase,
     private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase,
+    private val fetchTVAccountStatesUseCase: FetchTVAccountStatesUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    val selectedTVSeriesId = state.getStateFlow<Int>(
+    val selectedTVSeriesId = state.getStateFlow(
         "selectedTVSeriesId",
         -1
     )
@@ -50,6 +52,15 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
+
+    private val _favorite = MutableStateFlow(false)
+    val favorite: StateFlow<Boolean> = _favorite.asStateFlow()
+
+    val isLoggedIn = authManager.isLoggedInFlow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        false
+    )
 
     val episodes: StateFlow<List<Episode>> = selectedTVSeriesId
         .combine(selectedSeason) { tvSeriesId, season ->
@@ -72,6 +83,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
         val selectedTvSeriesId = selectedTVSeriesId.value
         fetchTVSeriesDetails(selectedTvSeriesId)
         fetchTVSeriesCredits(selectedTvSeriesId)
+        getTVAccountStates(selectedTvSeriesId)
     }
 
     private fun fetchTVSeriesDetails(id: Int) {
@@ -94,6 +106,17 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
             when (result) {
                 is Result.Success -> _credits.value = result.data
+                is Result.Error -> {}
+            }
+        }
+    }
+
+    private fun getTVAccountStates(id: Int) {
+        viewModelScope.launch {
+            val result = fetchTVAccountStatesUseCase(id)
+
+            when (result) {
+                is Result.Success -> _favorite.value = result.data.favorite
                 is Result.Error -> {}
             }
         }

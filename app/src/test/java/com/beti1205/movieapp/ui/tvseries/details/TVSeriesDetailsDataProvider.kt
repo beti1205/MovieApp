@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
 import com.beti1205.movieapp.common.Genre
+import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStates
 import com.beti1205.movieapp.feature.fetchcredits.data.Cast
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.data.Crew
@@ -95,4 +96,6 @@ object TVSeriesDetailsDataProvider {
         cast = cast,
         crew = crew
     )
+
+    val accountStates = AccountStates(id = 1, favorite = true, watchlist = false)
 }

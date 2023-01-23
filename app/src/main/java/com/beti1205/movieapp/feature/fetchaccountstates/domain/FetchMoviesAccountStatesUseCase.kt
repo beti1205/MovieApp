@@ -8,16 +8,16 @@ import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStates
 import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStatesService
 import javax.inject.Inject
 
-interface FetchAccountStatesUseCase {
+interface FetchMoviesAccountStatesUseCase {
 
     suspend operator fun invoke(movieId: Int): Result<AccountStates>
 }
 
-class FetchAccountStatesUseCaseImpl @Inject constructor(
+class FetchMoviesAccountStatesUseCaseImpl @Inject constructor(
     private val accountStatesService: AccountStatesService,
     private val appConfig: AppConfig,
     private val authManager: AuthManager
-) : FetchAccountStatesUseCase {
+) : FetchMoviesAccountStatesUseCase {
     override suspend fun invoke(movieId: Int): Result<AccountStates> {
         if (!authManager.isLoggedIn) {
             return Result.Success(
@@ -29,7 +29,7 @@ class FetchAccountStatesUseCaseImpl @Inject constructor(
             )
         }
         return performRequest {
-            accountStatesService.getAccountStates(
+            accountStatesService.getMoviesAccountStates(
                 movieId = movieId,
                 key = appConfig.apiKey,
                 authManager.sessionId!!

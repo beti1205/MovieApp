@@ -4,8 +4,10 @@ import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetailsServ
 import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCaseImpl
 import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStatesService
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchAccountStatesUseCase
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchAccountStatesUseCaseImpl
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCase
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCaseImpl
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCase
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -35,6 +37,11 @@ interface AccountModule {
 
     @Binds
     fun bindFetchAccountStatesUseCase(
-        fetchAccountStatesUseCaseImpl: FetchAccountStatesUseCaseImpl
-    ): FetchAccountStatesUseCase
+        fetchMoviesAccountStatesUseCaseImpl: FetchMoviesAccountStatesUseCaseImpl
+    ): FetchMoviesAccountStatesUseCase
+
+    @Binds
+    fun bindFetchTVAccountStatesUseCase(
+        fetchTVAccountStatesUseCaseImpl: FetchTVAccountStatesUseCaseImpl
+    ): FetchTVAccountStatesUseCase
 }

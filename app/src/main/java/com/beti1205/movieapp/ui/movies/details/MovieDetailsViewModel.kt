@@ -7,7 +7,7 @@ import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatZip
 import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStates
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchAccountStatesUseCase
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCase
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
@@ -30,7 +30,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase,
     private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
-    private val fetchAccountStatesUseCase: FetchAccountStatesUseCase,
+    private val fetchMoviesAccountStatesUseCase: FetchMoviesAccountStatesUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -61,7 +61,7 @@ class MovieDetailsViewModel @Inject constructor(
                 fetchMovieCreditsUseCase(id)
             }
             val accountStatesDeferredResult = async {
-                fetchAccountStatesUseCase(id)
+                fetchMoviesAccountStatesUseCase(id)
             }
 
             val movieDetailsResult: Result<MovieDetails> = movieDetailsDeferredResult.await()

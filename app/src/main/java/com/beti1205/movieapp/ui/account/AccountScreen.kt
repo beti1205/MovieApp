@@ -47,10 +47,6 @@ fun AccountScreen(viewModel: AccountViewModel) {
         onDeleteSession = viewModel::deleteSession
     )
 
-    LaunchedEffect(isLoggedIn) {
-        viewModel.getAccountDetails()
-    }
-
     LaunchedEffect(authUri) {
         if (authUri == null) {
             return@LaunchedEffect

@@ -3,7 +3,9 @@ package com.beti1205.movieapp.ui.tvseries.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.fetchcredits.data.Credits
 import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
@@ -11,6 +13,8 @@ import com.beti1205.movieapp.feature.fetchtvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.feature.fetchtvseriesdetails.domain.FetchTVSeriesDetailsUseCase
+import com.beti1205.movieapp.feature.markfavorite.domain.MarkFavoriteUseCase
+import com.beti1205.movieapp.feature.markfavorite.domain.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,12 +30,15 @@ class TVSeriesDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val fetchTVSeriesDetailsUseCase: FetchTVSeriesDetailsUseCase,
     private val fetchEpisodesUseCase: FetchEpisodesUseCase,
-    private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase
+    private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase,
+    private val fetchTVAccountStatesUseCase: FetchTVAccountStatesUseCase,
+    private val markFavoriteUseCase: MarkFavoriteUseCase,
+    private val authManager: AuthManager
 ) : ViewModel() {
 
-    val selectedTVSeriesId = state.getStateFlow<Int?>(
+    val selectedTVSeriesId = state.getStateFlow(
         "selectedTVSeriesId",
-        null
+        -1
     )
 
     private val _tvSeriesDetails = MutableStateFlow<TVSeriesDetails?>(null)
@@ -46,9 +53,18 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
 
+    private val _favorite = MutableStateFlow(false)
+    val favorite: StateFlow<Boolean> = _favorite.asStateFlow()
+
+    val isLoggedIn = authManager.isLoggedInFlow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000L),
+        false
+    )
+
     val episodes: StateFlow<List<Episode>> = selectedTVSeriesId
         .combine(selectedSeason) { tvSeriesId, season ->
-            if (season == null || tvSeriesId == null) {
+            if (season == null) {
                 return@combine emptyList()
             }
 
@@ -65,10 +81,9 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     init {
         val selectedTvSeriesId = selectedTVSeriesId.value
-        if (selectedTvSeriesId != null) {
-            fetchTVSeriesDetails(selectedTvSeriesId)
-            fetchTVSeriesCredits(selectedTvSeriesId)
-        }
+        fetchTVSeriesDetails(selectedTvSeriesId)
+        fetchTVSeriesCredits(selectedTvSeriesId)
+        getTVAccountStates(selectedTvSeriesId)
     }
 
     private fun fetchTVSeriesDetails(id: Int) {
@@ -92,6 +107,35 @@ class TVSeriesDetailsViewModel @Inject constructor(
             when (result) {
                 is Result.Success -> _credits.value = result.data
                 is Result.Error -> {}
+            }
+        }
+    }
+
+    private fun getTVAccountStates(id: Int) {
+        viewModelScope.launch {
+            val result = fetchTVAccountStatesUseCase(id)
+
+            when (result) {
+                is Result.Success -> _favorite.value = result.data.favorite
+                is Result.Error -> {}
+            }
+        }
+    }
+
+    fun markFavorite(favorite: Boolean) {
+        viewModelScope.launch {
+            if (!authManager.isLoggedIn) {
+                return@launch
+            }
+
+            val result = markFavoriteUseCase(
+                favorite = favorite,
+                mediaType = MediaType.TV,
+                mediaId = selectedTVSeriesId.value
+            )
+
+            if (result is Result.Error) {
+//                _hasError.value = true
             }
         }
     }

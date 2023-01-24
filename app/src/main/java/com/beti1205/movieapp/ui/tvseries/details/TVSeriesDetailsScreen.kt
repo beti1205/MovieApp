@@ -37,14 +37,19 @@ fun TVSeriesDetailsScreen(
     val episodes by viewModel.episodes.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val credits by viewModel.credits.collectAsState()
+    val favorite by viewModel.favorite.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
     TVSeriesDetailsScreen(
         tvSeriesDetails = tvSeriesDetails,
-        selectedSeason = selectedSeason,
-        onSeasonSelected = viewModel::setSelectedSeason,
-        episodes = episodes,
-        hasError = hasError,
         credits = credits,
+        selectedSeason = selectedSeason,
+        episodes = episodes,
+        favorite = favorite,
+        isLoggedIn = isLoggedIn,
+        hasError = hasError,
+        onSeasonSelected = viewModel::setSelectedSeason,
+        onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
         onBackPressed = onBackPressed
     )
@@ -53,11 +58,14 @@ fun TVSeriesDetailsScreen(
 @Composable
 fun TVSeriesDetailsScreen(
     tvSeriesDetails: TVSeriesDetails?,
-    selectedSeason: Season?,
-    onSeasonSelected: (Season) -> Unit,
-    episodes: List<Episode>?,
-    hasError: Boolean,
     credits: Credits?,
+    selectedSeason: Season?,
+    episodes: List<Episode>?,
+    favorite: Boolean,
+    isLoggedIn: Boolean,
+    hasError: Boolean,
+    onSeasonSelected: (Season) -> Unit,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -70,16 +78,23 @@ fun TVSeriesDetailsScreen(
                 )
             }
         ) { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
                 when {
                     hasError -> Error()
                     else -> TVSeriesDetailsScreenContent(
                         tvSeriesDetails = tvSeriesDetails,
                         credits = credits,
-                        onPersonClicked = onPersonClicked,
                         selectedSeason = selectedSeason,
-                        onSeasonSelected = onSeasonSelected,
-                        episodes = episodes
+                        episodes = episodes,
+                        favorite = favorite,
+                        isLoggedIn = isLoggedIn,
+                        onFavoriteClicked = onFavoriteClicked,
+                        onPersonClicked = onPersonClicked,
+                        onSeasonSelected = onSeasonSelected
                     )
                 }
             }
@@ -101,11 +116,14 @@ fun TVSeriesDetailsScreenPreview(
     MovieAppTheme {
         TVSeriesDetailsScreen(
             tvSeriesDetails = tvSeriesDetailsScreen.tvSeriesDetails,
-            selectedSeason = tvSeriesDetailsScreen.selectedSeason,
-            onSeasonSelected = {},
-            episodes = tvSeriesDetailsScreen.episodes,
-            hasError = tvSeriesDetailsScreen.hasError,
             credits = tvSeriesDetailsScreen.credits,
+            selectedSeason = tvSeriesDetailsScreen.selectedSeason,
+            episodes = tvSeriesDetailsScreen.episodes,
+            favorite = false,
+            isLoggedIn = false,
+            hasError = tvSeriesDetailsScreen.hasError,
+            onSeasonSelected = {},
+            onFavoriteClicked = {},
             onPersonClicked = {},
             onBackPressed = {}
         )

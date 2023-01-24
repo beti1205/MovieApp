@@ -23,7 +23,7 @@ fun ReviewsButton(
         onClick = { onButtonClicked(id) },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primaryVariant,
-            contentColor = MaterialTheme.colors.secondary
+            contentColor = MaterialTheme.colors.onPrimary
         ),
         modifier = modifier
     ) {

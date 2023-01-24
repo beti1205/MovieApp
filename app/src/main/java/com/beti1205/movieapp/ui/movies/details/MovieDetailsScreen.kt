@@ -28,9 +28,12 @@ fun MovieDetailsScreen(
     onBackPressed: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
     MovieDetailsScreen(
         state = state,
+        isLoggedIn = isLoggedIn,
+        onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
         onButtonClicked = onButtonClicked,
         onBackPressed = onBackPressed
@@ -40,6 +43,8 @@ fun MovieDetailsScreen(
 @Composable
 fun MovieDetailsScreen(
     state: MovieDetailsScreenState,
+    isLoggedIn: Boolean,
+    onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onButtonClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
@@ -63,8 +68,11 @@ fun MovieDetailsScreen(
                     else -> MovieDetails(
                         movieDetails = state.movieDetails,
                         credits = state.credits,
+                        favorite = state.favorite,
+                        isLoggedIn = isLoggedIn,
                         onPersonClicked = onPersonClicked,
-                        onButtonClicked = onButtonClicked
+                        onButtonClicked = onButtonClicked,
+                        onFavoriteClicked = onFavoriteClicked
                     )
                 }
             }
@@ -90,6 +98,8 @@ fun MovieDetailsScreenPreview(
                 credits = state.credits,
                 hasError = state.hasError
             ),
+            isLoggedIn = false,
+            onFavoriteClicked = {},
             onPersonClicked = {},
             onButtonClicked = {},
             onBackPressed = {}

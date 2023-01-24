@@ -1,9 +1,9 @@
 # MovieApp
 
-
-The application for searching movies and tv series using Retrofit for communication with The Movie Database API.
-Displaying films with Paging library according to filters such as popular, top rated, now playing, upcoming, etc.
-It is also possible to search films by title and view their details.
+The application offers a convenient way to search and browse movies and TV shows,
+providing various filters such as popularity, top-rated, currently playing, and upcoming
+releases to help users find what they’re looking for. It also allows users to search for
+movies by title, view detailed information including cast and crew, and read reviews.
 
 ## Technologies
 

@@ -47,8 +47,11 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _selectedSeason = MutableStateFlow<Season?>(null)
     val selectedSeason: StateFlow<Season?> = _selectedSeason.asStateFlow()
 
-    private val _hasError = MutableStateFlow<Boolean>(false)
+    private val _hasError = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
+
+    private val _favoriteHasError = MutableStateFlow(false)
+    val favoriteHasError: StateFlow<Boolean> = _favoriteHasError.asStateFlow()
 
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
@@ -128,6 +131,8 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 return@launch
             }
 
+            _favorite.value = favorite
+
             val result = markFavoriteUseCase(
                 favorite = favorite,
                 mediaType = MediaType.TV,
@@ -135,9 +140,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-//                _hasError.value = true
+                _favorite.value = !favorite
+                _favoriteHasError.value = true
             }
         }
+    }
+
+    fun onFavoriteErrorHandled() {
+        _favoriteHasError.value = false
     }
 
     fun setSelectedSeason(season: Season) {

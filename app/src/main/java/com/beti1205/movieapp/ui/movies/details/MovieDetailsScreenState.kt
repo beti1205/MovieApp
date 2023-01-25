@@ -8,5 +8,6 @@ data class MovieDetailsScreenState(
     val favorite: Boolean = false,
     val credits: Credits? = null,
     val hasError: Boolean = false,
+    val favoriteHasError: Boolean = false,
     val isLoading: Boolean = false
 )

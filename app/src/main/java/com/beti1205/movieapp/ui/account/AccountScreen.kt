@@ -73,6 +73,22 @@ fun AccountScreen(
     val errorMessage = stringResource(id = R.string.generic_error_message)
     val deniedMessage = stringResource(id = R.string.denied_login_message)
 
+    AccountScreenContent(
+        scaffoldState = scaffoldState,
+        isLoggedIn = isLoggedIn,
+        account = account,
+        onLoginClicked = onLoginClicked,
+        onAvatarClicked = { isPopupVisible = !isPopupVisible }
+    )
+
+    if (isLoggedIn && isPopupVisible) {
+        AccountPopup(
+            account = account,
+            onDeleteSession = onDeleteSession,
+            onDismissRequest = { isPopupVisible = false }
+        )
+    }
+
     if (denied) {
         LaunchedEffect(scaffoldState.snackbarHostState) {
             scaffoldState.snackbarHostState.showSnackbar(
@@ -91,22 +107,6 @@ fun AccountScreen(
 
             onErrorHandled()
         }
-    }
-
-    AccountScreenContent(
-        scaffoldState = scaffoldState,
-        isLoggedIn = isLoggedIn,
-        account = account,
-        onLoginClicked = onLoginClicked,
-        onAvatarClicked = { isPopupVisible = !isPopupVisible }
-    )
-
-    if (isLoggedIn && isPopupVisible) {
-        AccountPopup(
-            account = account,
-            onDeleteSession = onDeleteSession,
-            onDismissRequest = { isPopupVisible = false }
-        )
     }
 }
 

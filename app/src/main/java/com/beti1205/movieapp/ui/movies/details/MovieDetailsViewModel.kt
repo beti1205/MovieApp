@@ -95,6 +95,8 @@ class MovieDetailsViewModel @Inject constructor(
                 return@launch
             }
 
+            _state.value = _state.value.copy(favorite = favorite)
+
             val result = markFavoriteUseCase(
                 favorite = favorite,
                 mediaType = MediaType.MOVIE,
@@ -102,8 +104,13 @@ class MovieDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-//                _hasError.value = true
+                _state.value = _state.value.copy(favorite = !favorite)
+                _state.value = _state.value.copy(favoriteHasError = true)
             }
         }
+    }
+
+    fun onFavoriteErrorHandled() {
+        _state.value = _state.value.copy(favoriteHasError = false)
     }
 }

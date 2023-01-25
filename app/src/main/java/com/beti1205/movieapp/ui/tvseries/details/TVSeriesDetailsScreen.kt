@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,6 +41,7 @@ fun TVSeriesDetailsScreen(
     val credits by viewModel.credits.collectAsState()
     val favorite by viewModel.favorite.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val favoriteHasError by viewModel.favoriteHasError.collectAsState()
 
     TVSeriesDetailsScreen(
         tvSeriesDetails = tvSeriesDetails,
@@ -48,6 +51,8 @@ fun TVSeriesDetailsScreen(
         favorite = favorite,
         isLoggedIn = isLoggedIn,
         hasError = hasError,
+        favoriteHasError = favoriteHasError,
+        onFavoriteErrorHandled = viewModel::onFavoriteErrorHandled,
         onSeasonSelected = viewModel::setSelectedSeason,
         onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
@@ -64,13 +69,19 @@ fun TVSeriesDetailsScreen(
     favorite: Boolean,
     isLoggedIn: Boolean,
     hasError: Boolean,
+    favoriteHasError: Boolean,
+    onFavoriteErrorHandled: () -> Unit,
     onSeasonSelected: (Season) -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
+    val scaffoldState = rememberScaffoldState()
+    val favoriteErrorMessage = stringResource(R.string.tv_series_details_favorite_error)
+
     MovieAppTheme {
         Scaffold(
+            scaffoldState = scaffoldState,
             topBar = {
                 TopAppBar(
                     title = stringResource(id = R.string.tv_details_label),
@@ -100,6 +111,15 @@ fun TVSeriesDetailsScreen(
             }
         }
     }
+
+    if (favoriteHasError) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = favoriteErrorMessage
+            )
+            onFavoriteErrorHandled()
+        }
+    }
 }
 
 @Preview
@@ -119,9 +139,11 @@ fun TVSeriesDetailsScreenPreview(
             credits = tvSeriesDetailsScreen.credits,
             selectedSeason = tvSeriesDetailsScreen.selectedSeason,
             episodes = tvSeriesDetailsScreen.episodes,
-            favorite = false,
-            isLoggedIn = false,
+            favorite = tvSeriesDetailsScreen.favorite,
+            isLoggedIn = tvSeriesDetailsScreen.isLoggedIn,
             hasError = tvSeriesDetailsScreen.hasError,
+            favoriteHasError = tvSeriesDetailsScreen.favoriteHasError,
+            onFavoriteErrorHandled = {},
             onSeasonSelected = {},
             onFavoriteClicked = {},
             onPersonClicked = {},
@@ -135,7 +157,10 @@ data class TVSeriesDetailsScreen(
     val selectedSeason: Season?,
     val episodes: List<Episode>?,
     val hasError: Boolean,
-    val credits: Credits?
+    val credits: Credits?,
+    val favorite: Boolean,
+    val isLoggedIn: Boolean,
+    val favoriteHasError: Boolean
 )
 
 class TVSeriesDetailsScreenPreviewProvider : PreviewParameterProvider<TVSeriesDetailsScreen> {
@@ -215,14 +240,20 @@ class TVSeriesDetailsScreenPreviewProvider : PreviewParameterProvider<TVSeriesDe
                         path = "/8WygpUzfdfztZQqxGE5zn3rCedJ.jpg"
                     )
                 )
-            )
+            ),
+            favorite = true,
+            isLoggedIn = true,
+            favoriteHasError = false
         ),
         TVSeriesDetailsScreen(
             tvSeriesDetails = null,
             selectedSeason = null,
             episodes = emptyList(),
             hasError = true,
-            credits = null
+            credits = null,
+            favorite = false,
+            isLoggedIn = false,
+            favoriteHasError = false
         )
     )
 }

@@ -7,12 +7,14 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -65,6 +67,38 @@ fun MovieDetailsScreen(
     val scaffoldState = rememberScaffoldState()
     val favoriteErrorMessage = stringResource(R.string.movie_details_favorite_error)
 
+    MovieDetailsScreenContent(
+        scaffoldState,
+        onBackPressed,
+        state,
+        isLoggedIn,
+        onPersonClicked,
+        onButtonClicked,
+        onFavoriteClicked,
+        scrollState
+    )
+
+    if (state.favoriteHasError) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = favoriteErrorMessage
+            )
+            onFavoriteErrorHandled()
+        }
+    }
+}
+
+@Composable
+private fun MovieDetailsScreenContent(
+    scaffoldState: ScaffoldState,
+    onBackPressed: () -> Unit,
+    state: MovieDetailsScreenState,
+    isLoggedIn: Boolean,
+    onPersonClicked: (Int) -> Unit,
+    onButtonClicked: (Int) -> Unit,
+    onFavoriteClicked: (Boolean) -> Unit,
+    scrollState: ScrollState
+) {
     MovieAppTheme {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -99,15 +133,6 @@ fun MovieDetailsScreen(
                     )
                 }
             }
-        }
-    }
-
-    if (state.favoriteHasError) {
-        LaunchedEffect(scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = favoriteErrorMessage
-            )
-            onFavoriteErrorHandled()
         }
     }
 }

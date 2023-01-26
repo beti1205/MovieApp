@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -79,6 +80,46 @@ fun TVSeriesDetailsScreen(
     val scaffoldState = rememberScaffoldState()
     val favoriteErrorMessage = stringResource(R.string.tv_series_details_favorite_error)
 
+    TVSeriesDetailsScreenContent(
+        scaffoldState,
+        onBackPressed,
+        hasError,
+        tvSeriesDetails,
+        credits,
+        selectedSeason,
+        episodes,
+        favorite,
+        isLoggedIn,
+        onFavoriteClicked,
+        onPersonClicked,
+        onSeasonSelected
+    )
+
+    if (favoriteHasError) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = favoriteErrorMessage
+            )
+            onFavoriteErrorHandled()
+        }
+    }
+}
+
+@Composable
+private fun TVSeriesDetailsScreenContent(
+    scaffoldState: ScaffoldState,
+    onBackPressed: () -> Unit,
+    hasError: Boolean,
+    tvSeriesDetails: TVSeriesDetails?,
+    credits: Credits?,
+    selectedSeason: Season?,
+    episodes: List<Episode>?,
+    favorite: Boolean,
+    isLoggedIn: Boolean,
+    onFavoriteClicked: (Boolean) -> Unit,
+    onPersonClicked: (Int) -> Unit,
+    onSeasonSelected: (Season) -> Unit
+) {
     MovieAppTheme {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -109,15 +150,6 @@ fun TVSeriesDetailsScreen(
                     )
                 }
             }
-        }
-    }
-
-    if (favoriteHasError) {
-        LaunchedEffect(scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = favoriteErrorMessage
-            )
-            onFavoriteErrorHandled()
         }
     }
 }

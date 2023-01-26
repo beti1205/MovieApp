@@ -13,10 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -70,11 +66,12 @@ fun Details(
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 ReviewsButton(onButtonClicked = onButtonClicked, id = id)
-                FavoriteButton(
-                    favorite = favorite,
-                    isLoggedIn = isLoggedIn,
-                    onFavoriteClicked = onFavoriteClicked
-                )
+                if (isLoggedIn) {
+                    FavoriteButton(
+                        favorite = favorite,
+                        onFavoriteClicked = onFavoriteClicked
+                    )
+                }
             }
         }
     }
@@ -83,20 +80,12 @@ fun Details(
 @Composable
 private fun FavoriteButton(
     favorite: Boolean,
-    isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit
 ) {
-    var localFavorite by remember(favorite) {
-        mutableStateOf(favorite)
-    }
-
     IconButton(onClick = {
-        if (isLoggedIn) {
-            localFavorite = !localFavorite
-            onFavoriteClicked(localFavorite)
-        }
+        onFavoriteClicked(!favorite)
     }) {
-        if (localFavorite) {
+        if (favorite) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
                 contentDescription = null,

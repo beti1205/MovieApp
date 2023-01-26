@@ -2,8 +2,6 @@ package com.beti1205.movieapp.ui.movies.details.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +25,7 @@ fun MovieDetails(
     onButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+    Column(modifier = modifier) {
         movieDetails?.let { movieDetails ->
             Details(
                 id = movieDetails.id,

@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -134,7 +135,7 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
-    fun markFavorite_verifyThatMethodWasCalled() = runTest {
+    fun markFavorite_successful() = runTest {
         coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
         coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
         coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
@@ -151,6 +152,8 @@ class MovieDetailsViewModelTest {
             authManager
         )
 
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
+
         viewModel.markFavorite(true)
 
         coVerify {
@@ -160,6 +163,73 @@ class MovieDetailsViewModelTest {
                 MovieDetailsDataProvider.movieDetails.id
             )
         }
+
+        assertTrue(viewModel.state.value.favorite)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun markFavorite_failure() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
+        coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
+
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase,
+            markFavoriteUseCase,
+            fetchMoviesAccountStatesUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
+
+        viewModel.markFavorite(true)
+
+        coVerify {
+            markFavoriteUseCase(
+                true,
+                MediaType.MOVIE,
+                MovieDetailsDataProvider.movieDetails.id
+            )
+        }
+
+        assertFalse(viewModel.state.value.favorite)
+        assertTrue(viewModel.state.value.favoriteHasError)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun onFavoriteErrorHandled_verifyThatErrorWasSet() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
+        coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
+
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase,
+            markFavoriteUseCase,
+            fetchMoviesAccountStatesUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
+
+        viewModel.onFavoriteErrorHandled()
+
+        assertFalse(viewModel.state.value.favoriteHasError)
+
+        collectJob.cancel()
     }
 
     @Test

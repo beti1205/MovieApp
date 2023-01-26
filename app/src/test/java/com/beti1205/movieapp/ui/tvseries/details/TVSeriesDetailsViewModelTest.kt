@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -222,7 +223,7 @@ class TVSeriesDetailsViewModelTest {
     }
 
     @Test
-    fun markFavorite_verifyThatMethodWasCalled() = runTest {
+    fun fetchTVAccountStates_successful() = runTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
         coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Success(Unit)
@@ -240,15 +241,109 @@ class TVSeriesDetailsViewModelTest {
             authManager
         )
 
-        viewModel.markFavorite(true)
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+
+        assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.favorite.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun markFavorite_successful() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
+        coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Success(Unit)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+
+        viewModel = TVSeriesDetailsViewModel(
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
+            fetchTVSeriesDetailsUseCase,
+            fetchEpisodesUseCase,
+            fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
+            markFavoriteUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+
+        viewModel.markFavorite(false)
 
         coVerify {
             markFavoriteUseCase(
-                true,
+                false,
                 MediaType.TV,
                 TVSeriesDataProvider.tvSeries.id
             )
         }
+
+        assertFalse(viewModel.favorite.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun markFavorite_failure() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
+        coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+
+        viewModel = TVSeriesDetailsViewModel(
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
+            fetchTVSeriesDetailsUseCase,
+            fetchEpisodesUseCase,
+            fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
+            markFavoriteUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.favoriteHasError.collect() }
+            launch { viewModel.favorite.collect() }
+        }
+
+        viewModel.markFavorite(false)
+
+        assertTrue(viewModel.favoriteHasError.value)
+        assertTrue(viewModel.favorite.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun onFavoriteErrorHandled_verifyThatFalseWasSet() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
+        coEvery { markFavoriteUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+
+        viewModel = TVSeriesDetailsViewModel(
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
+            fetchTVSeriesDetailsUseCase,
+            fetchEpisodesUseCase,
+            fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
+            markFavoriteUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.favoriteHasError.collect()
+        }
+
+        viewModel.onFavoriteErrorHandled()
+
+        assertFalse(viewModel.favoriteHasError.value)
+
+        collectJob.cancel()
     }
 
     @Test

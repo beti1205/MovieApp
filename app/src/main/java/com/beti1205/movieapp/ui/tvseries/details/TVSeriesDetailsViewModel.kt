@@ -86,7 +86,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
         val selectedTvSeriesId = selectedTVSeriesId.value
         fetchTVSeriesDetails(selectedTvSeriesId)
         fetchTVSeriesCredits(selectedTvSeriesId)
-        getTVAccountStates(selectedTvSeriesId)
+        fetchTVAccountStates(selectedTvSeriesId)
     }
 
     private fun fetchTVSeriesDetails(id: Int) {
@@ -114,7 +114,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun getTVAccountStates(id: Int) {
+    private fun fetchTVAccountStates(id: Int) {
         viewModelScope.launch {
             val result = fetchTVAccountStatesUseCase(id)
 

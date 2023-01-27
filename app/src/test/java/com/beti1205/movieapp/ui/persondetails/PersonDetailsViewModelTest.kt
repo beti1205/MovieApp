@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchpersondetails.domain.FetchPersonDetailsUseCase
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.domain.FetchPersonMovieCreditsUseCase
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
+import com.beti1205.movieapp.feature.persondetails.domain.FetchPersonDetailsUseCase
+import com.beti1205.movieapp.feature.personmoviecredits.domain.FetchPersonMovieCreditsUseCase
+import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

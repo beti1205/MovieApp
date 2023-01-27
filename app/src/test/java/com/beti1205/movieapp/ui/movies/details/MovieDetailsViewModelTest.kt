@@ -5,11 +5,11 @@ import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCase
-import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
-import com.beti1205.movieapp.feature.fetchmoviedetails.domain.FetchMovieDetailsUseCase
-import com.beti1205.movieapp.feature.markfavorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.markfavorite.domain.MediaType
+import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStatesUseCase
+import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
+import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
+import com.beti1205.movieapp.feature.favorite.domain.MediaType
+import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

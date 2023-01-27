@@ -7,8 +7,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.SearchTVSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

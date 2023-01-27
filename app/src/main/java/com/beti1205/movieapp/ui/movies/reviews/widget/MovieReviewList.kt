@@ -7,7 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable

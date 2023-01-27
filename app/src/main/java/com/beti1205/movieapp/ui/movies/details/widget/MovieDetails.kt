@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.feature.credits.data.Credits
+import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.common.widget.details.Details
 import com.beti1205.movieapp.ui.movies.details.widget.credits.MovieCredits

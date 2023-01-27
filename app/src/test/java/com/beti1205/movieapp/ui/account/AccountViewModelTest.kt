@@ -5,15 +5,15 @@ import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.createsession.data.SessionResponse
-import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
-import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.Avatar
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.Tmdb
-import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
-import com.beti1205.movieapp.feature.fetchrequesttoken.data.RequestTokenResponse
-import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.accountdetails.data.Avatar
+import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
+import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
+import com.beti1205.movieapp.feature.session.data.SessionResponse
+import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
+import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
+import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
+import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -42,7 +42,7 @@ class AccountViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: AccountViewModel
-    private val fetchRequestTokenUseCase = mockk<FetchRequestTokenUseCase>()
+    private val requestTokenUseCase = mockk<RequestTokenUseCase>()
     private val createSessionUseCase = mockk<CreateSessionUseCase>()
     private val authManager = mockk<AuthManager>()
     private val deleteSessionUseCase = mockk<DeleteSessionUseCase>()
@@ -50,13 +50,13 @@ class AccountViewModelTest {
 
     @Test
     fun getRequestToken_successful() = runTest {
-        coEvery { fetchRequestTokenUseCase() } returns getTokenSuccess
+        coEvery { requestTokenUseCase() } returns getTokenSuccess
         every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -77,13 +77,13 @@ class AccountViewModelTest {
 
     @Test
     fun getRequestToken_failed() = runTest {
-        coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
+        coEvery { requestTokenUseCase() } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -112,7 +112,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -143,7 +143,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -173,7 +173,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -200,7 +200,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -229,7 +229,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -255,7 +255,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -275,13 +275,13 @@ class AccountViewModelTest {
 
     @Test
     fun onErrorHandled_verifyThatFalseWasSet() = runTest {
-        coEvery { fetchRequestTokenUseCase() } returns Result.Error(Exception())
+        coEvery { requestTokenUseCase() } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(false)
         val state = SavedStateHandle(mapOf("request_token" to null))
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
@@ -310,7 +310,7 @@ class AccountViewModelTest {
 
         viewModel = AccountViewModel(
             state,
-            fetchRequestTokenUseCase,
+            requestTokenUseCase,
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,

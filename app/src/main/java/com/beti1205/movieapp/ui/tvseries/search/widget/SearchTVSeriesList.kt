@@ -2,7 +2,7 @@ package com.beti1205.movieapp.ui.tvseries.search.widget
 
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.LazyPagingItems
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.common.hasError
 import com.beti1205.movieapp.ui.common.isListEmpty
 import com.beti1205.movieapp.ui.common.isLoading

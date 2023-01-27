@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.Genre
-import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.google.accompanist.flowlayout.FlowRow
 

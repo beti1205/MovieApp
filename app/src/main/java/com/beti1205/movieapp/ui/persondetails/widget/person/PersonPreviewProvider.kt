@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.persondetails.widget.person
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
+import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 
 class PersonPreviewProvider : PreviewParameterProvider<PersonDetails> {
     override val values = sequenceOf(

@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.common.widget.list.ListTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.tvseries.common.PagingTVSeriesPreviewDataProvider

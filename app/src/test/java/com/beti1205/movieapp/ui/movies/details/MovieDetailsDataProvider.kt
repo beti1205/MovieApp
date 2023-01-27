@@ -1,11 +1,11 @@
 package com.beti1205.movieapp.ui.movies.details
 
 import com.beti1205.movieapp.common.Genre
-import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStates
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
-import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
-import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.feature.accountstates.data.AccountStates
+import com.beti1205.movieapp.feature.credits.data.Cast
+import com.beti1205.movieapp.feature.credits.data.Credits
+import com.beti1205.movieapp.feature.credits.data.Crew
+import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 
 object MovieDetailsDataProvider {
 

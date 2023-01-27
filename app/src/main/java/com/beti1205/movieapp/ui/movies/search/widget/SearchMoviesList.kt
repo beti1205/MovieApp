@@ -2,7 +2,7 @@ package com.beti1205.movieapp.ui.movies.search.widget
 
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.LazyPagingItems
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.ui.common.hasError
 import com.beti1205.movieapp.ui.common.isListEmpty
 import com.beti1205.movieapp.ui.common.isLoading

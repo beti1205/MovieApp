@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.feature.fetchmovies.domain.SearchMoviesUseCase
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.SearchMoviesUseCase
 import com.beti1205.movieapp.ui.common.TooShortQueryException
 import com.beti1205.movieapp.ui.common.getNextPageKey
 import com.beti1205.movieapp.ui.movies.common.getMovieRefreshKey

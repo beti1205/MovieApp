@@ -2,10 +2,10 @@ package com.beti1205.movieapp.ui.movies.details.widget
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.common.Genre
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
-import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
-import com.beti1205.movieapp.feature.fetchmoviedetails.data.MovieDetails
+import com.beti1205.movieapp.feature.credits.data.Cast
+import com.beti1205.movieapp.feature.credits.data.Credits
+import com.beti1205.movieapp.feature.credits.data.Crew
+import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 
 class MovieDetailsPreviewProvider : PreviewParameterProvider<Pair<MovieDetails, Credits>> {
     override val values = sequenceOf(

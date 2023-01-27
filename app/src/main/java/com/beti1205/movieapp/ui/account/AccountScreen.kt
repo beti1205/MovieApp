@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.account.widget.popup.AccountPopup
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar

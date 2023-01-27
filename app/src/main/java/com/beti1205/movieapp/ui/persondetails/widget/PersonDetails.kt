@@ -10,11 +10,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
+import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCrew
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCast
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.persondetails.Section

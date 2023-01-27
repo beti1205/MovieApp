@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.Avatar
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.Tmdb
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.accountdetails.data.Avatar
+import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 private val appBarHeight: Dp = 56.dp

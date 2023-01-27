@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.ui.common.widget.search.SearchTopAppBar
 import com.beti1205.movieapp.ui.movies.common.PagingMoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.search.widget.SearchMoviesList

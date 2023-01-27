@@ -1,8 +1,8 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCreditsService
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCaseImpl
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCreditsService
+import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
+import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

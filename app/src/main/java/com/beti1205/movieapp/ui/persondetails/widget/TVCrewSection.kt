@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
 import com.beti1205.movieapp.ui.persondetails.Section
 import com.beti1205.movieapp.ui.persondetails.SectionType
 

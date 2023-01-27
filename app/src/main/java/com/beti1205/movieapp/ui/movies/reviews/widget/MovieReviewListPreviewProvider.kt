@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.movies.reviews.widget
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
 
 class MovieReviewListPreviewProvider : PreviewParameterProvider<List<MovieReview>> {
     override val values = sequenceOf(

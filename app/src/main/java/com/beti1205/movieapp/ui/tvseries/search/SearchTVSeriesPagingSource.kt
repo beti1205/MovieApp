@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.SearchTVSeriesUseCase
 import com.beti1205.movieapp.ui.common.TooShortQueryException
 import com.beti1205.movieapp.ui.common.getNextPageKey
 import com.beti1205.movieapp.ui.tvseries.list.getTVSeriesRefreshKey

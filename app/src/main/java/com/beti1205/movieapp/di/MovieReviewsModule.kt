@@ -1,8 +1,8 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReviewsService
-import com.beti1205.movieapp.feature.fetchmoviereviews.domain.FetchMovieReviewsUseCase
-import com.beti1205.movieapp.feature.fetchmoviereviews.domain.FetchMovieReviewsUseCaseImpl
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReviewsService
+import com.beti1205.movieapp.feature.moviereviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.feature.moviereviews.domain.FetchMovieReviewsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

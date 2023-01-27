@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.SearchTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.SearchTVSeriesUseCase
 import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDiffCallback

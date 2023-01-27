@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.feature.tvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.movies.list.widget.OrderChip
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.google.accompanist.flowlayout.FlowRow

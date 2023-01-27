@@ -1,8 +1,8 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetailsService
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.domain.FetchTVSeriesDetailsUseCase
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.domain.FetchTVSeriesDetailsUseCaseImpl
+import com.beti1205.movieapp.feature.tvseriesdetails.data.TVSeriesDetailsService
+import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
+import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

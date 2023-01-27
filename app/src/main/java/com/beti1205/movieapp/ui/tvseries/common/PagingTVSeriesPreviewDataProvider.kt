@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries.common
 
 import androidx.paging.PagingData
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 
 object PagingTVSeriesPreviewDataProvider {
 

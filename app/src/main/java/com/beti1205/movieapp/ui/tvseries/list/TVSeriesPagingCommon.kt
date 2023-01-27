@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries.list
 
 import androidx.paging.PagingState
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 
 fun getTVSeriesRefreshKey(state: PagingState<Int, TVSeries>): Int? {
     return state.anchorPosition?.let { anchorPosition ->

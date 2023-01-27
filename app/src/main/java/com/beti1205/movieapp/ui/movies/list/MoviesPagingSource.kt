@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.feature.fetchmovies.domain.FetchMoviesUseCase
-import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FetchMoviesUseCase
+import com.beti1205.movieapp.feature.movies.domain.MovieOrder
 import com.beti1205.movieapp.ui.common.getNextPageKey
 import com.beti1205.movieapp.ui.movies.common.getMovieRefreshKey
 

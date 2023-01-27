@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries
 
 import com.beti1205.movieapp.common.ApiResponse
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 
 object TVSeriesDataProvider {
 

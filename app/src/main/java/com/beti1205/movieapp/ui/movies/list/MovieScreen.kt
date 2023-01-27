@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
-import com.beti1205.movieapp.feature.fetchmovies.domain.MovieOrder
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.MovieOrder
 import com.beti1205.movieapp.ui.common.widget.list.ListTopAppBar
 import com.beti1205.movieapp.ui.movies.common.PagingMoviePreviewDataProvider
 import com.beti1205.movieapp.ui.movies.common.widget.MovieList

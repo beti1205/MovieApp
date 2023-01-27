@@ -1,8 +1,8 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.markfavorite.data.MarkFavoriteService
-import com.beti1205.movieapp.feature.markfavorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.markfavorite.domain.MarkFavoriteUseCaseImpl
+import com.beti1205.movieapp.feature.favorite.data.MarkFavoriteService
+import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
+import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

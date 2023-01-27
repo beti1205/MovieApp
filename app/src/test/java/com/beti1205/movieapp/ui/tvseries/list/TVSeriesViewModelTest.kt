@@ -3,9 +3,9 @@ package com.beti1205.movieapp.ui.tvseries.list
 import androidx.paging.AsyncPagingDataDiffer
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.FetchTVSeriesUseCase
-import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.FetchTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.NoopListCallback
 import com.beti1205.movieapp.ui.common.Preferences
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider

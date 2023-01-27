@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.tvseries.details.widget.episodes
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
+import com.beti1205.movieapp.feature.tvepisodes.data.Episode
 
 class EpisodeItemPreviewProvider : PreviewParameterProvider<Episode> {
     override val values = sequenceOf(

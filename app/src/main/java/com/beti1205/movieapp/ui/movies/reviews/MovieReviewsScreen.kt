@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.common.widget.TopAppBar

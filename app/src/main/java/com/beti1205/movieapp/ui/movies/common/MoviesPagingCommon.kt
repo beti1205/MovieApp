@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.movies.common
 
 import androidx.paging.PagingState
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.feature.movies.data.Movie
 
 fun getMovieRefreshKey(state: PagingState<Int, Movie>): Int? {
     return state.anchorPosition?.let { anchorPosition ->

@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable

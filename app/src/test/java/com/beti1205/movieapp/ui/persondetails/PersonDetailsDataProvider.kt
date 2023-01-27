@@ -1,12 +1,12 @@
 package com.beti1205.movieapp.ui.persondetails
 
-import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCast
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCreditsResponse
-import com.beti1205.movieapp.feature.fetchpersonmoviecredits.data.PersonMovieCrew
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCast
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCreditsResponse
-import com.beti1205.movieapp.feature.fetchpersontvseriescredits.data.PersonTVSeriesCrew
+import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCreditsResponse
+import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCrew
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCast
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCreditsResponse
+import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
 
 object PersonDetailsDataProvider {
 

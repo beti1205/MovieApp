@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
-import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
-import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
-import com.beti1205.movieapp.feature.fetchrequesttoken.domain.FetchRequestTokenUseCase
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
+import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
+import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
+import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,7 +30,7 @@ private const val DENIED = "denied"
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val stateHandle: SavedStateHandle,
-    private val fetchRequestTokenUseCase: FetchRequestTokenUseCase,
+    private val requestTokenUseCase: RequestTokenUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
     private val deleteSessionUseCase: DeleteSessionUseCase,
     private val fetchAccountDetailsUseCase: FetchAccountDetailsUseCase,
@@ -97,7 +97,7 @@ class AccountViewModel @Inject constructor(
 
     fun getRequestToken() {
         viewModelScope.launch {
-            val result = fetchRequestTokenUseCase()
+            val result = requestTokenUseCase()
 
             when (result) {
                 is Result.Success ->

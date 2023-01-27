@@ -1,11 +1,11 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.createsession.data.SessionService
-import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCase
-import com.beti1205.movieapp.feature.createsession.domain.CreateSessionUseCaseImpl
-import com.beti1205.movieapp.feature.deletesession.data.DeleteSessionService
-import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCase
-import com.beti1205.movieapp.feature.deletesession.domain.DeleteSessionUseCaseImpl
+import com.beti1205.movieapp.feature.session.data.DeleteSessionService
+import com.beti1205.movieapp.feature.session.data.SessionService
+import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
+import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCaseImpl
+import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
+import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

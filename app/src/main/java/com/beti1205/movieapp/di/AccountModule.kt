@@ -1,13 +1,13 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetailsService
-import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCase
-import com.beti1205.movieapp.feature.fetchaccountdetails.domain.FetchAccountDetailsUseCaseImpl
-import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStatesService
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCase
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchMoviesAccountStatesUseCaseImpl
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCase
-import com.beti1205.movieapp.feature.fetchaccountstates.domain.FetchTVAccountStatesUseCaseImpl
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetailsService
+import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
+import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCaseImpl
+import com.beti1205.movieapp.feature.accountstates.data.AccountStatesService
+import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStatesUseCase
+import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStatesUseCaseImpl
+import com.beti1205.movieapp.feature.accountstates.domain.FetchTVAccountStatesUseCase
+import com.beti1205.movieapp.feature.accountstates.domain.FetchTVAccountStatesUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

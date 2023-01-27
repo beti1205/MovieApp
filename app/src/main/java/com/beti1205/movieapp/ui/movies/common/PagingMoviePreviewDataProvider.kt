@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.movies.common
 
 import androidx.paging.PagingData
-import com.beti1205.movieapp.feature.fetchmovies.data.Movie
+import com.beti1205.movieapp.feature.movies.data.Movie
 
 object PagingMoviePreviewDataProvider {
 

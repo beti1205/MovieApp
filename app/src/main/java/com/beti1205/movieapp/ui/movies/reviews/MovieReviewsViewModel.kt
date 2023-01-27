@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
-import com.beti1205.movieapp.feature.fetchmoviereviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.moviereviews.domain.FetchMovieReviewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

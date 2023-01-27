@@ -1,10 +1,10 @@
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.fetchcredits.data.CreditsService
-import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCase
-import com.beti1205.movieapp.feature.fetchcredits.domain.FetchMovieCreditsUseCaseImpl
-import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCase
-import com.beti1205.movieapp.feature.fetchcredits.domain.FetchTVSeriesCreditsUseCaseImpl
+import com.beti1205.movieapp.feature.credits.data.CreditsService
+import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
+import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCaseImpl
+import com.beti1205.movieapp.feature.credits.domain.FetchTVSeriesCreditsUseCase
+import com.beti1205.movieapp.feature.credits.domain.FetchTVSeriesCreditsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

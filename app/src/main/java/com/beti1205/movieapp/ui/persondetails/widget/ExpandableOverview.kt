@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.fetchpersondetails.data.PersonDetails
+import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.ui.common.widget.Overview
 import com.beti1205.movieapp.ui.persondetails.widget.person.PersonPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme

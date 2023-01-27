@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchtvseries.data.TVSeries
-import com.beti1205.movieapp.feature.fetchtvseries.domain.FetchTVSeriesUseCase
-import com.beti1205.movieapp.feature.fetchtvseries.domain.TVOrder
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.FetchTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.domain.TVOrder
 import com.beti1205.movieapp.ui.common.getNextPageKey
 
 class TVSeriesPagingSource(

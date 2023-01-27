@@ -3,7 +3,7 @@ package com.beti1205.movieapp.ui.movies.details.widget.credits
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.beti1205.movieapp.feature.fetchcredits.data.Credits
+import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.ui.common.widget.StandardDivider
 import com.beti1205.movieapp.ui.common.widget.credits.SectionCast
 import com.beti1205.movieapp.ui.common.widget.credits.SectionCrew

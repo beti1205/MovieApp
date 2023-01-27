@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReview
-import com.beti1205.movieapp.feature.fetchmoviereviews.data.MovieReviewsResult
-import com.beti1205.movieapp.feature.fetchmoviereviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.moviereviews.data.MovieReviewsResult
+import com.beti1205.movieapp.feature.moviereviews.domain.FetchMovieReviewsUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -4,7 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.fetchaccountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 
 @Composable
 fun AccountTopAppBar(

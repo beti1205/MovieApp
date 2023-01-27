@@ -1,14 +1,14 @@
 package com.beti1205.movieapp.ui.tvseries.details
 
 import com.beti1205.movieapp.common.Genre
-import com.beti1205.movieapp.feature.fetchaccountstates.data.AccountStates
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
-import com.beti1205.movieapp.feature.fetchcredits.data.Credits
-import com.beti1205.movieapp.feature.fetchcredits.data.Crew
-import com.beti1205.movieapp.feature.fetchtvepisodes.data.Episode
-import com.beti1205.movieapp.feature.fetchtvepisodes.data.SeasonResponse
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.Season
-import com.beti1205.movieapp.feature.fetchtvseriesdetails.data.TVSeriesDetails
+import com.beti1205.movieapp.feature.accountstates.data.AccountStates
+import com.beti1205.movieapp.feature.credits.data.Cast
+import com.beti1205.movieapp.feature.credits.data.Credits
+import com.beti1205.movieapp.feature.credits.data.Crew
+import com.beti1205.movieapp.feature.tvepisodes.data.Episode
+import com.beti1205.movieapp.feature.tvepisodes.data.SeasonResponse
+import com.beti1205.movieapp.feature.tvseriesdetails.data.Season
+import com.beti1205.movieapp.feature.tvseriesdetails.data.TVSeriesDetails
 
 object TVSeriesDetailsDataProvider {
 

@@ -1,7 +1,7 @@
 package com.beti1205.movieapp.ui.common.widget.credits
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.beti1205.movieapp.feature.fetchcredits.data.Cast
+import com.beti1205.movieapp.feature.credits.data.Cast
 
 class CastListPreviewProvider : PreviewParameterProvider<List<Cast>> {
     override val values = sequenceOf(

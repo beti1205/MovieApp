@@ -8,10 +8,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -92,7 +93,7 @@ private fun Rating(
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_star_24),
+            imageVector = Icons.Outlined.Star,
             contentDescription = null,
             tint = MaterialTheme.colors.secondary
         )

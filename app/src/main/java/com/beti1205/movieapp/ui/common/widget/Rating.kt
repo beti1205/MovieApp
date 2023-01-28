@@ -7,13 +7,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.ui.common.widget.list.ListItemPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
@@ -25,7 +25,7 @@ fun Rating(
 ) {
     Row(modifier = modifier) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_stars_24),
+            imageVector = Icons.Outlined.Star,
             contentDescription = null,
             tint = MaterialTheme.colors.secondary
         )

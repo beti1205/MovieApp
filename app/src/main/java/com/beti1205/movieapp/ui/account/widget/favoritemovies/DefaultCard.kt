@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.account.widget
+package com.beti1205.movieapp.ui.account.widget.favoritemovies
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

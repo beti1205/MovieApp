@@ -1,6 +1,7 @@
 package com.beti1205.movieapp.ui.account
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,15 +21,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
-import com.beti1205.movieapp.ui.account.widget.AccountSectionHeader
-import com.beti1205.movieapp.ui.account.widget.DefaultCard
-import com.beti1205.movieapp.ui.account.widget.FavoriteMoviesSection
 import com.beti1205.movieapp.ui.account.widget.LoginButton
+import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
+import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
+import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteMoviesSection
 import com.beti1205.movieapp.ui.account.widget.popup.AccountPopup
+import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenData
+import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenPreviewProvider
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -149,7 +154,11 @@ private fun AccountScreenContent(
                     .padding(paddingValues)
             ) {
                 if (isLoggedIn) {
-                    Column(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    ) {
                         FavoriteMoviesSection(movies = movies, onMovieClicked = onMovieClicked)
 
                         DefaultCard {
@@ -164,5 +173,30 @@ private fun AccountScreenContent(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun AccountScreenPreview(
+    @PreviewParameter(AccountScreenPreviewProvider::class) data: AccountScreenData
+) {
+    MovieAppTheme {
+        AccountScreen(
+            isLoggedIn = data.isLoggedIn,
+            hasError = data.hasError,
+            denied = data.denied,
+            account = data.account,
+            movies = data.movies,
+            onLoginClicked = {},
+            onErrorHandled = {},
+            onDeniedHandled = {},
+            onDeleteSession = {},
+            onMovieClicked = {}
+        )
     }
 }

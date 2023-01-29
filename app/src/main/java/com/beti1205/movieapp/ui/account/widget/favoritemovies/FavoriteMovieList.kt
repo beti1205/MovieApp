@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.account.widget
+package com.beti1205.movieapp.ui.account.widget.favoritemovies
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

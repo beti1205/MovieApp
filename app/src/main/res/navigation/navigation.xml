@@ -25,6 +25,7 @@
                 app:argType="integer" />
 
         </action>
+
         <action
             android:id="@+id/action_movieDetailsFragment_to_movieReviewsFragment"
             app:destination="@id/movieReviewsFragment">
@@ -45,6 +46,7 @@
         <argument
             android:name="selectedTVSeriesId"
             app:argType="integer" />
+
         <action
             android:id="@+id/action_TVSeriesDetailsFragment_to_personDetailsFragment"
             app:destination="@id/personDetailsFragment">
@@ -125,6 +127,21 @@
             app:uri="movieapp://app/authenticate?request_token={request_token}&amp;approved={approved}&amp;denied={denied}">
 
         </deepLink>
+
+        <action
+            android:id="@+id/action_accountFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" >
+
+            <argument
+                android:name="selectedMovieId"
+                app:argType="integer" />
+
+        </action>
+
+        <action
+            android:id="@+id/action_accountFragment_to_TVSeriesDetailsFragment2"
+            app:destination="@id/TVSeriesDetailsFragment" />
+
     </fragment>
 
 </navigation>

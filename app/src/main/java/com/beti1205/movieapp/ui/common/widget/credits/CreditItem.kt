@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.credits.data.Cast
+import com.beti1205.movieapp.ui.common.widget.HorizontalListItemPoster
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -26,7 +27,7 @@ fun CreditItem(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.clickable { onPersonClicked(id) }) {
-        CreditsPoster(posterPath = path)
+        HorizontalListItemPoster(posterPath = path)
         Text(
             text = name,
             modifier = Modifier.padding(top = 8.dp),

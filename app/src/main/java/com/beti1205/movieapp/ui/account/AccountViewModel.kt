@@ -8,6 +8,8 @@ import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
@@ -34,6 +36,7 @@ class AccountViewModel @Inject constructor(
     private val createSessionUseCase: CreateSessionUseCase,
     private val deleteSessionUseCase: DeleteSessionUseCase,
     private val fetchAccountDetailsUseCase: FetchAccountDetailsUseCase,
+    private val fetchFavoriteMoviesUseCase: FetchFavoriteMoviesUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -48,6 +51,9 @@ class AccountViewModel @Inject constructor(
 
     private val _account = MutableStateFlow<AccountDetails?>(null)
     val account: StateFlow<AccountDetails?> = _account.asStateFlow()
+
+    private val _movies = MutableStateFlow<List<Movie>>(emptyList())
+    val movies: StateFlow<List<Movie>> = _movies.asStateFlow()
 
     val authUri = _requestToken
         .filterNotNull()
@@ -90,6 +96,7 @@ class AccountViewModel @Inject constructor(
                 .collect { isLoggedIn ->
                     if (isLoggedIn) {
                         getAccountDetails()
+                        getFavoriteMovies()
                     }
                 }
         }
@@ -142,6 +149,17 @@ class AccountViewModel @Inject constructor(
 
             when (result) {
                 is Result.Success -> _account.value = result.data
+                is Result.Error -> {}
+            }
+        }
+    }
+
+    fun getFavoriteMovies() {
+        viewModelScope.launch {
+            val result = fetchFavoriteMoviesUseCase()
+
+            when (result) {
+                is Result.Success -> _movies.value = result.data.items
                 is Result.Error -> {}
             }
         }

@@ -2,11 +2,12 @@ package com.beti1205.movieapp.ui.account
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,18 +23,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.ui.account.widget.AccountSectionHeader
+import com.beti1205.movieapp.ui.account.widget.DefaultCard
+import com.beti1205.movieapp.ui.account.widget.FavoriteMoviesSection
 import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.account.widget.popup.AccountPopup
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun AccountScreen(viewModel: AccountViewModel) {
+fun AccountScreen(viewModel: AccountViewModel, onMovieClicked: (Int) -> Unit) {
     val authUri by viewModel.authUri.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val denied by viewModel.denied.collectAsState()
     val account by viewModel.account.collectAsState()
+    val movies by viewModel.movies.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
@@ -41,10 +47,12 @@ fun AccountScreen(viewModel: AccountViewModel) {
         hasError = hasError,
         denied = denied,
         account = account,
+        movies = movies,
         onLoginClicked = viewModel::getRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
-        onDeleteSession = viewModel::deleteSession
+        onDeleteSession = viewModel::deleteSession,
+        onMovieClicked = onMovieClicked
     )
 
     LaunchedEffect(authUri) {
@@ -63,10 +71,12 @@ fun AccountScreen(
     hasError: Boolean,
     denied: Boolean,
     account: AccountDetails?,
+    movies: List<Movie>,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
-    onDeleteSession: () -> Unit
+    onDeleteSession: () -> Unit,
+    onMovieClicked: (Int) -> Unit
 ) {
     var isPopupVisible by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
@@ -77,7 +87,9 @@ fun AccountScreen(
         scaffoldState = scaffoldState,
         isLoggedIn = isLoggedIn,
         account = account,
+        movies = movies,
         onLoginClicked = onLoginClicked,
+        onMovieClicked = onMovieClicked,
         onAvatarClicked = { isPopupVisible = !isPopupVisible }
     )
 
@@ -115,7 +127,9 @@ private fun AccountScreenContent(
     scaffoldState: ScaffoldState,
     isLoggedIn: Boolean,
     account: AccountDetails?,
+    movies: List<Movie>,
     onLoginClicked: () -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onAvatarClicked: () -> Unit
 ) {
     MovieAppTheme {
@@ -133,13 +147,20 @@ private fun AccountScreenContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
             ) {
                 if (isLoggedIn) {
-                    Text(text = "Logged in")
+                    Column(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
+                        FavoriteMoviesSection(movies = movies, onMovieClicked = onMovieClicked)
+
+                        DefaultCard {
+                            AccountSectionHeader(text = "Favorite tv series")
+                        }
+                    }
                 } else {
-                    LoginButton(onLoginClicked)
+                    LoginButton(
+                        onLoginClicked = onLoginClicked,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }

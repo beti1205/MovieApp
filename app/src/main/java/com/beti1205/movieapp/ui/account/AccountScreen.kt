@@ -53,7 +53,7 @@ fun AccountScreen(viewModel: AccountViewModel, onMovieClicked: (Int) -> Unit) {
         denied = denied,
         account = account,
         movies = movies,
-        onLoginClicked = viewModel::getRequestToken,
+        onLoginClicked = viewModel::fetchRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
         onDeleteSession = viewModel::deleteSession,

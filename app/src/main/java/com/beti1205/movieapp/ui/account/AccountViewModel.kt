@@ -95,14 +95,13 @@ class AccountViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect { isLoggedIn ->
                     if (isLoggedIn) {
-                        getAccountDetails()
-                        getFavoriteMovies()
+                        fetchAccountDetails()
                     }
                 }
         }
     }
 
-    fun getRequestToken() {
+    fun fetchRequestToken() {
         viewModelScope.launch {
             val result = requestTokenUseCase()
 
@@ -143,7 +142,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private fun getAccountDetails() {
+    private fun fetchAccountDetails() {
         viewModelScope.launch {
             val result = fetchAccountDetailsUseCase()
 
@@ -154,7 +153,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private fun getFavoriteMovies() {
+    fun fetchFavoriteMovies() {
         viewModelScope.launch {
             val result = fetchFavoriteMoviesUseCase()
 

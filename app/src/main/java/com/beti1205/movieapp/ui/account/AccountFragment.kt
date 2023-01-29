@@ -28,6 +28,12 @@ class AccountFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.fetchFavoriteMovies()
+    }
+
     private fun navigateToMovieDetails(movieId: Int) {
         findNavController().navigate(
             AccountFragmentDirections.actionAccountFragmentToMovieDetailsFragment(movieId)

@@ -9,11 +9,14 @@ import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.data.Avatar
 import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
 import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.session.data.SessionResponse
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
+import com.beti1205.movieapp.ui.movies.MovieDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -47,6 +50,7 @@ class AccountViewModelTest {
     private val authManager = mockk<AuthManager>()
     private val deleteSessionUseCase = mockk<DeleteSessionUseCase>()
     private val fetchAccountDetailsUseCase = mockk<FetchAccountDetailsUseCase>()
+    private val fetchFavoriteMoviesUseCase = mockk<FetchFavoriteMoviesUseCase>()
 
     @Test
     fun getRequestToken_successful() = runTest {
@@ -60,6 +64,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -87,6 +92,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -104,6 +110,8 @@ class AccountViewModelTest {
 
     @Test
     fun createSession_successful() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
         coEvery { createSessionUseCase(any()) } returns createSessionSuccess
         val sessionIdSlot = slot<String>()
         every { authManager.setSessionId(sessionId = capture(sessionIdSlot)) } returns Unit
@@ -116,6 +124,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -147,6 +156,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -177,6 +187,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -194,6 +205,8 @@ class AccountViewModelTest {
 
     @Test
     fun deleteSession_failed() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
         coEvery { deleteSessionUseCase() } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle(mapOf("request_token" to null))
@@ -204,6 +217,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -224,6 +238,7 @@ class AccountViewModelTest {
     @Test
     fun getAccountDetails_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
@@ -233,10 +248,9 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
-
-        viewModel.getAccountDetails()
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             viewModel.account.collect()
@@ -250,6 +264,7 @@ class AccountViewModelTest {
     @Test
     fun getAccountDetails_failed() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns Result.Error(Exception())
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
@@ -259,16 +274,67 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
-
-        viewModel.getAccountDetails()
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             viewModel.account.collect()
         }
 
         assertNull(viewModel.account.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun getFavoriteMovies_success() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.movies.collect()
+        }
+
+        assertEquals(favoriteMovies.data.items, viewModel.movies.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun getFavoriteMovies_failed() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.movies.collect()
+        }
+
+        assertEquals(emptyList<Movie>(), viewModel.movies.value)
 
         collectJob.cancel()
     }
@@ -285,6 +351,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -314,6 +381,7 @@ class AccountViewModelTest {
             createSessionUseCase,
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
             authManager
         )
 
@@ -344,5 +412,7 @@ class AccountViewModelTest {
                 avatar = Avatar(tmdb = Tmdb(avatarPath = null))
             )
         )
+
+        val favoriteMovies = Result.Success(MovieDataProvider.apiResponse)
     }
 }

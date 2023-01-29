@@ -143,7 +143,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun getAccountDetails() {
+    private fun getAccountDetails() {
         viewModelScope.launch {
             val result = fetchAccountDetailsUseCase()
 
@@ -154,7 +154,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun getFavoriteMovies() {
+    private fun getFavoriteMovies() {
         viewModelScope.launch {
             val result = fetchFavoriteMoviesUseCase()
 

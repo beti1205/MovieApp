@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.common.widget.credits
+package com.beti1205.movieapp.ui.common.widget
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -10,7 +10,7 @@ import coil.request.ImageRequest
 import com.beti1205.movieapp.R
 
 @Composable
-fun CreditsPoster(
+fun HorizontalListItemPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {

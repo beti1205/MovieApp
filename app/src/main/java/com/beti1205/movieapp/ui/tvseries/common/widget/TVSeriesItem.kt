@@ -28,7 +28,6 @@ fun TVSeriesItem(
         onClick = { onTVSeriesClicked(tvSeries) },
         shape = RoundedCornerShape(16.dp),
         contentColor = MaterialTheme.colors.onPrimary,
-        backgroundColor = MaterialTheme.colors.primaryVariant,
         modifier = modifier.padding(8.dp),
         elevation = 16.dp
     ) {

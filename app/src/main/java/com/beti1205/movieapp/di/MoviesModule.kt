@@ -1,6 +1,9 @@
 package com.beti1205.movieapp.di
 
+import com.beti1205.movieapp.feature.movies.data.FavoriteMoviesService
 import com.beti1205.movieapp.feature.movies.data.MovieApiService
+import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
+import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCaseImpl
 import com.beti1205.movieapp.feature.movies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.movies.domain.FetchMoviesUseCaseImpl
 import com.beti1205.movieapp.feature.movies.domain.SearchMoviesUseCase
@@ -20,6 +23,11 @@ interface MoviesModule {
     companion object {
         @Provides
         fun provideMovieService(retrofit: Retrofit): MovieApiService = retrofit.create()
+
+        @Provides
+        fun provideFavoriteMoviesService(
+            retrofit: Retrofit
+        ): FavoriteMoviesService = retrofit.create()
     }
 
     @Binds
@@ -31,4 +39,9 @@ interface MoviesModule {
     fun bindSearchMoviesUseCase(
         searchMoviesUseCaseImpl: SearchMoviesUseCaseImpl
     ): SearchMoviesUseCase
+
+    @Binds
+    fun bindFetchFavoriteMoviesUseCase(
+        fetchFavoriteMoviesUseCaseImpl: FetchFavoriteMoviesUseCaseImpl
+    ): FetchFavoriteMoviesUseCase
 }

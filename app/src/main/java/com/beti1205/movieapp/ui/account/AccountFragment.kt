@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,22 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            AccountScreen(viewModel = viewModel)
+            AccountScreen(
+                viewModel = viewModel,
+                onMovieClicked = ::navigateToMovieDetails
+            )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.fetchFavoriteMovies()
+    }
+
+    private fun navigateToMovieDetails(movieId: Int) {
+        findNavController().navigate(
+            AccountFragmentDirections.actionAccountFragmentToMovieDetailsFragment(movieId)
+        )
     }
 }

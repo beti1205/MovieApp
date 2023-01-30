@@ -14,7 +14,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun SectionCast(
-    cast: List<Cast>?,
+    cast: List<Cast>,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {

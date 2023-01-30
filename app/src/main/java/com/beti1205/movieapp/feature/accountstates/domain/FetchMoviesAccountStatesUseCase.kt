@@ -32,7 +32,7 @@ class FetchMoviesAccountStatesUseCaseImpl @Inject constructor(
             accountStatesService.getMoviesAccountStates(
                 movieId = movieId,
                 key = appConfig.apiKey,
-                authManager.sessionId!!
+                sessionId = authManager.sessionId!!
             )
         }
     }

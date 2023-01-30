@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun MovieList(
     movieListItems: LazyPagingItems<Movie>,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(

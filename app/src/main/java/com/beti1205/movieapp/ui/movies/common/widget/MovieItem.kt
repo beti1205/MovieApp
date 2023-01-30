@@ -20,11 +20,11 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun MovieItem(
     movie: Movie,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { onMovieClicked(movie) },
+        onClick = { onMovieClicked(movie.id) },
         shape = RoundedCornerShape(16.dp),
         contentColor = MaterialTheme.colors.onPrimary,
         modifier = modifier.padding(8.dp),

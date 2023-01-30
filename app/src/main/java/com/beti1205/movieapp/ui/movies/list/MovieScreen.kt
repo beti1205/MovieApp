@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun MovieScreen(
     viewModel: MovieViewModel,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onSearchClicked: () -> Unit
 ) {
     val movieListItems = viewModel.movies.collectAsLazyPagingItems()
@@ -47,7 +47,7 @@ fun MovieScreen(
     movieListItems: LazyPagingItems<Movie>,
     selectedMovieOrder: MovieOrder,
     onSelectedMovieOrderChanged: (MovieOrder) -> Unit,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onSearchClicked: () -> Unit
 ) {
     MovieAppTheme {

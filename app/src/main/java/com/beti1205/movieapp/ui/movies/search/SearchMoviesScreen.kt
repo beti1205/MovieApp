@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun SearchMoviesScreen(
     viewModel: SearchMoviesViewModel,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val searchMoviesItems = viewModel.querySearchResults.collectAsLazyPagingItems()
@@ -41,7 +41,7 @@ fun SearchMoviesScreen(
 fun SearchMoviesScreen(
     query: String,
     searchMoviesItems: LazyPagingItems<Movie>,
-    onMovieClicked: (Movie) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onQueryChange: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {

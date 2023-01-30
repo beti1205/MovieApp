@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.movies.data.Movie
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,9 +30,9 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun navigateToMovieDetails(movie: Movie) {
+    private fun navigateToMovieDetails(movieId: Int) {
         findNavController().navigate(
-            MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(movie.id)
+            MovieFragmentDirections.actionMovieFragmentToMovieDetailsFragment(movieId)
         )
     }
 

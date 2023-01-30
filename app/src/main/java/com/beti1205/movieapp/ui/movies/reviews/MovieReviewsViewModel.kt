@@ -32,11 +32,11 @@ class MovieReviewsViewModel @Inject constructor(
     init {
         val movieId = movieId.value
         if (movieId != null) {
-            getMovieReview(movieId)
+            fetchMovieReview(movieId)
         }
     }
 
-    private fun getMovieReview(id: Int) {
+    private fun fetchMovieReview(id: Int) {
         viewModelScope.launch {
             _isLoading.value = true
             val result = fetchMovieReviewsUseCase(id)

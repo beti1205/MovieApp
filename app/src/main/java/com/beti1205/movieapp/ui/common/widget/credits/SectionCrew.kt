@@ -14,7 +14,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun SectionCrew(
-    crew: List<Crew>?,
+    crew: List<Crew>,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {

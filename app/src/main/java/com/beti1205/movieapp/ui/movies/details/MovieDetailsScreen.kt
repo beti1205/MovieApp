@@ -114,13 +114,13 @@ private fun MovieDetailsScreenContent(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                DefaultAnimatedVisibility(state.hasError) {
+                DefaultAnimatedVisibility(visible = state.hasError) {
                     Error()
                 }
-                DefaultAnimatedVisibility(state.isLoading) {
+                DefaultAnimatedVisibility(visible = state.isLoading) {
                     Loader()
                 }
-                DefaultAnimatedVisibility(!state.hasError && !state.isLoading) {
+                DefaultAnimatedVisibility(visible = !state.hasError && !state.isLoading) {
                     MovieDetails(
                         movieDetails = state.movieDetails,
                         credits = state.credits,

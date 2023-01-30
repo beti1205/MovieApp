@@ -15,7 +15,7 @@ import com.beti1205.movieapp.ui.movies.common.widget.MovieList
 @Composable
 fun SearchMoviesList(
     searchMoviesItems: LazyPagingItems<Movie>,
-    onMovieClicked: (Movie) -> Unit
+    onMovieClicked: (Int) -> Unit
 ) {
     searchMoviesItems.apply {
         when {

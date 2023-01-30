@@ -22,6 +22,12 @@ class SearchMoviesUseCaseImpl @Inject constructor(
 ) : SearchMoviesUseCase {
 
     override suspend fun invoke(query: String, page: Int): Result<ApiResponse<Movie>> {
-        return performRequest { movieApiService.getSearchedMovies(appConfig.apiKey, query, page) }
+        return performRequest {
+            movieApiService.getSearchedMovies(
+                key = appConfig.apiKey,
+                query = query,
+                page = page
+            )
+        }
     }
 }

@@ -19,33 +19,31 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun CastList(
-    cast: List<Cast>?,
+    cast: List<Cast>,
     onPersonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (cast != null) {
-        LazyRow(
-            modifier = modifier
-                .padding(16.dp)
-                .animateContentSize()
-        ) {
-            itemsIndexed(
-                items = cast,
-                key = { _, item -> item.id }
-            ) { index, item ->
-                Column(
-                    modifier = Modifier
-                        .listItemHorizontalPadding(cast, index)
-                        .width(100.dp)
-                ) {
-                    CreditItem(
-                        path = item.path,
-                        name = item.name,
-                        id = item.id,
-                        description = item.character,
-                        onPersonClicked = onPersonClicked
-                    )
-                }
+    LazyRow(
+        modifier = modifier
+            .padding(16.dp)
+            .animateContentSize()
+    ) {
+        itemsIndexed(
+            items = cast,
+            key = { _, item -> item.id }
+        ) { index, item ->
+            Column(
+                modifier = Modifier
+                    .listItemHorizontalPadding(cast, index)
+                    .width(100.dp)
+            ) {
+                CreditItem(
+                    path = item.path,
+                    name = item.name,
+                    id = item.id,
+                    description = item.character,
+                    onPersonClicked = onPersonClicked
+                )
             }
         }
     }

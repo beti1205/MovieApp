@@ -29,9 +29,12 @@ fun ListItem(
         ) {
             ItemTitle(
                 title = title,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).alignByBaseline()
             )
-            Rating(votes = votes, modifier = Modifier.padding(top = 8.dp, end = 8.dp))
+            Rating(
+                votes = votes,
+                modifier = Modifier.padding(top = 8.dp, end = 8.dp).alignByBaseline()
+            )
         }
     }
 }

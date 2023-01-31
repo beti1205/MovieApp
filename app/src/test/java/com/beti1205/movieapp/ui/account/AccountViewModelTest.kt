@@ -16,6 +16,7 @@ import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
+import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
 import com.beti1205.movieapp.ui.movies.MovieDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -51,6 +52,7 @@ class AccountViewModelTest {
     private val deleteSessionUseCase = mockk<DeleteSessionUseCase>()
     private val fetchAccountDetailsUseCase = mockk<FetchAccountDetailsUseCase>()
     private val fetchFavoriteMoviesUseCase = mockk<FetchFavoriteMoviesUseCase>()
+    private val fetchFavoriteTVSeriesUseCase = mockk<FetchFavoriteTVSeriesUseCase>()
 
     @Test
     fun fetchRequestToken_successful() = runTest {
@@ -65,6 +67,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -93,6 +96,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -124,6 +128,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -156,6 +161,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -187,6 +193,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -216,6 +223,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -246,6 +254,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -271,6 +280,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -297,6 +307,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -325,6 +336,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -352,6 +364,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -382,6 +395,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 

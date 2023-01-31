@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.account.widget.favoritemovies
+package com.beti1205.movieapp.ui.account.widget.favoritetvseries
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -8,33 +8,33 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteItem
 import com.beti1205.movieapp.ui.common.widget.listItemHorizontalPadding
 
 @Composable
-fun FavoriteMovieList(
-    movies: List<Movie>,
-    onMovieClicked: (Int) -> Unit,
+fun FavoriteTVSeriesList(
+    tvSeries: List<TVSeries>,
+    onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
-        modifier = modifier
-            .padding(16.dp)
+        modifier = modifier.padding(16.dp)
     ) {
         itemsIndexed(
-            items = movies,
+            items = tvSeries,
             key = { _, item -> item.id }
         ) { index, item ->
             Column(
                 modifier = Modifier
-                    .listItemHorizontalPadding(movies, index)
+                    .listItemHorizontalPadding(tvSeries, index)
                     .width(100.dp)
             ) {
                 FavoriteItem(
                     poster = item.posterPath,
-                    title = item.title,
+                    title = item.name,
                     id = item.id,
-                    onItemClicked = { onMovieClicked(item.id) }
+                    onItemClicked = { onTVSeriesClicked(item.id) }
                 )
             }
         }

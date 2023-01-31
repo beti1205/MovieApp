@@ -31,7 +31,9 @@ fun FavoriteMoviesSection(
                 modifier = Modifier.padding(top = 8.dp)
             )
             AnimatedVisibility(visible = movies.isEmpty()) {
-                FavoriteMoviesEmptyState()
+                FavoriteListEmptyState(
+                    text = stringResource(R.string.favorite_movies_empty_state_message)
+                )
             }
             AnimatedVisibility(
                 visible = movies.isNotEmpty()

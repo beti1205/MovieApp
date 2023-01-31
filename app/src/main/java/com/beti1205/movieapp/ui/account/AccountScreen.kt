@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.LoginButton
-import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
-import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteMoviesSection
+import com.beti1205.movieapp.ui.account.widget.favoritetvseries.FavoriteTVSeriesSection
 import com.beti1205.movieapp.ui.account.widget.popup.AccountPopup
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenData
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenPreviewProvider
@@ -38,13 +38,18 @@ import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun AccountScreen(viewModel: AccountViewModel, onMovieClicked: (Int) -> Unit) {
+fun AccountScreen(
+    viewModel: AccountViewModel,
+    onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
+) {
     val authUri by viewModel.authUri.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val denied by viewModel.denied.collectAsState()
     val account by viewModel.account.collectAsState()
     val movies by viewModel.movies.collectAsState()
+    val tvSeries by viewModel.tvSeries.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
@@ -52,12 +57,14 @@ fun AccountScreen(viewModel: AccountViewModel, onMovieClicked: (Int) -> Unit) {
         hasError = hasError,
         denied = denied,
         account = account,
+        tvSeries = tvSeries,
         movies = movies,
         onLoginClicked = viewModel::fetchRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
         onDeleteSession = viewModel::deleteSession,
-        onMovieClicked = onMovieClicked
+        onMovieClicked = onMovieClicked,
+        onTVSeriesClicked = onTVSeriesClicked
     )
 
     LaunchedEffect(authUri) {
@@ -77,11 +84,13 @@ fun AccountScreen(
     denied: Boolean,
     account: AccountDetails?,
     movies: List<Movie>,
+    tvSeries: List<TVSeries>,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
     onDeleteSession: () -> Unit,
-    onMovieClicked: (Int) -> Unit
+    onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
 ) {
     var isPopupVisible by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
@@ -93,8 +102,10 @@ fun AccountScreen(
         isLoggedIn = isLoggedIn,
         account = account,
         movies = movies,
+        tvSeries = tvSeries,
         onLoginClicked = onLoginClicked,
         onMovieClicked = onMovieClicked,
+        onTVSeriesClicked = onTVSeriesClicked,
         onAvatarClicked = { isPopupVisible = !isPopupVisible }
     )
 
@@ -133,8 +144,10 @@ private fun AccountScreenContent(
     isLoggedIn: Boolean,
     account: AccountDetails?,
     movies: List<Movie>,
+    tvSeries: List<TVSeries>,
     onLoginClicked: () -> Unit,
     onMovieClicked: (Int) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     onAvatarClicked: () -> Unit
 ) {
     MovieAppTheme {
@@ -159,11 +172,15 @@ private fun AccountScreenContent(
                             .padding(8.dp)
                             .fillMaxWidth()
                     ) {
-                        FavoriteMoviesSection(movies = movies, onMovieClicked = onMovieClicked)
+                        FavoriteMoviesSection(
+                            movies = movies,
+                            onMovieClicked = onMovieClicked
+                        )
 
-                        DefaultCard {
-                            AccountSectionHeader(text = "Favorite tv series")
-                        }
+                        FavoriteTVSeriesSection(
+                            tvSeries = tvSeries,
+                            onTVSeriesClicked = onTVSeriesClicked
+                        )
                     }
                 } else {
                     LoginButton(
@@ -192,11 +209,13 @@ fun AccountScreenPreview(
             denied = data.denied,
             account = data.account,
             movies = data.movies,
+            tvSeries = emptyList(),
             onLoginClicked = {},
             onErrorHandled = {},
             onDeniedHandled = {},
             onDeleteSession = {},
-            onMovieClicked = {}
+            onMovieClicked = {},
+            onTVSeriesClicked = {}
         )
     }
 }

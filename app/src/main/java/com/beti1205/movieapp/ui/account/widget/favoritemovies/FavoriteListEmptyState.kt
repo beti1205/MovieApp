@@ -22,7 +22,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun FavoriteMoviesEmptyState() {
+fun FavoriteListEmptyState(text: String) {
     Column(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -38,7 +38,7 @@ fun FavoriteMoviesEmptyState() {
             tint = SonicSilver
         )
         Text(
-            text = stringResource(R.string.favorite_movies_empty_state_message),
+            text = text,
             color = SonicSilver
         )
     }
@@ -53,7 +53,9 @@ fun FavoriteMoviesEmptyState() {
 fun FavoriteMoviesEmptyStatePreview() {
     MovieAppTheme {
         Surface {
-            FavoriteMoviesEmptyState()
+            FavoriteListEmptyState(
+                text = stringResource(R.string.favorite_movies_empty_state_message)
+            )
         }
     }
 }

@@ -13,6 +13,8 @@ import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,6 +39,7 @@ class AccountViewModel @Inject constructor(
     private val deleteSessionUseCase: DeleteSessionUseCase,
     private val fetchAccountDetailsUseCase: FetchAccountDetailsUseCase,
     private val fetchFavoriteMoviesUseCase: FetchFavoriteMoviesUseCase,
+    private val fetchFavoriteTVSeriesUseCase: FetchFavoriteTVSeriesUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -54,6 +57,9 @@ class AccountViewModel @Inject constructor(
 
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> = _movies.asStateFlow()
+
+    private val _tvSeries = MutableStateFlow<List<TVSeries>>(emptyList())
+    val tvSeries: StateFlow<List<TVSeries>> = _tvSeries.asStateFlow()
 
     val authUri = _requestToken
         .filterNotNull()
@@ -159,6 +165,17 @@ class AccountViewModel @Inject constructor(
 
             when (result) {
                 is Result.Success -> _movies.value = result.data.items
+                is Result.Error -> {}
+            }
+        }
+    }
+
+    fun fetchFavoriteTVSeries() {
+        viewModelScope.launch {
+            val result = fetchFavoriteTVSeriesUseCase()
+
+            when (result) {
+                is Result.Success -> _tvSeries.value = result.data.items
                 is Result.Error -> {}
             }
         }

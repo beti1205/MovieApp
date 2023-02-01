@@ -16,7 +16,9 @@ import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
-import com.beti1205.movieapp.ui.movies.MovieDataProvider
+import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
+import com.beti1205.movieapp.ui.MovieDataProvider
+import com.beti1205.movieapp.ui.TVSeriesDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -51,6 +53,7 @@ class AccountViewModelTest {
     private val deleteSessionUseCase = mockk<DeleteSessionUseCase>()
     private val fetchAccountDetailsUseCase = mockk<FetchAccountDetailsUseCase>()
     private val fetchFavoriteMoviesUseCase = mockk<FetchFavoriteMoviesUseCase>()
+    private val fetchFavoriteTVSeriesUseCase = mockk<FetchFavoriteTVSeriesUseCase>()
 
     @Test
     fun fetchRequestToken_successful() = runTest {
@@ -65,6 +68,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -93,6 +97,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -124,6 +129,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -156,6 +162,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -187,6 +194,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -216,6 +224,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -246,6 +255,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -271,6 +281,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -297,6 +308,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -325,6 +337,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -335,6 +348,64 @@ class AccountViewModelTest {
         }
 
         assertEquals(emptyList<Movie>(), viewModel.movies.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchFavoriteTVSeries_success() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteTVSeriesUseCase() } returns favoriteTVSeries
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        viewModel.fetchFavoriteTVSeries()
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.tvSeries.collect()
+        }
+
+        assertEquals(favoriteTVSeries.data.items, viewModel.tvSeries.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchFavoriteTVSeries_failed() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteTVSeriesUseCase() } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        viewModel.fetchFavoriteTVSeries()
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.tvSeries.collect()
+        }
+
+        assertEquals(emptyList<Movie>(), viewModel.tvSeries.value)
 
         collectJob.cancel()
     }
@@ -352,6 +423,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -382,6 +454,7 @@ class AccountViewModelTest {
             deleteSessionUseCase,
             fetchAccountDetailsUseCase,
             fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
             authManager
         )
 
@@ -414,5 +487,6 @@ class AccountViewModelTest {
         )
 
         val favoriteMovies = Result.Success(MovieDataProvider.apiResponse)
+        val favoriteTVSeries = Result.Success(TVSeriesDataProvider.apiResponse)
     }
 }

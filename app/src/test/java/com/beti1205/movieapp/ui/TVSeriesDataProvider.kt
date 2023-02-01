@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.tvseries
+package com.beti1205.movieapp.ui
 
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries

@@ -7,7 +7,7 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.feature.tvseries.domain.SearchTVSeriesUseCase
 import com.beti1205.movieapp.ui.NoopListCallback
-import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
+import com.beti1205.movieapp.ui.TVSeriesDataProvider
 import com.beti1205.movieapp.ui.tvseries.TVSeriesDiffCallback
 import io.mockk.coEvery
 import io.mockk.mockk

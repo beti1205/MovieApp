@@ -15,14 +15,14 @@ import com.beti1205.movieapp.ui.common.widget.list.ListItemPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun FavoriteMovieItem(
+fun FavoriteItem(
     poster: String?,
     title: String,
     id: Int,
-    onMovieClicked: (Int) -> Unit,
+    onItemClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.clickable { onMovieClicked(id) }) {
+    Column(modifier = modifier.clickable { onItemClicked(id) }) {
         HorizontalListItemPoster(posterPath = poster)
         ItemTitle(title = title)
     }
@@ -37,11 +37,11 @@ fun FavoriteMovieItem(
 fun FavoriteMovieItemPreview(@PreviewParameter(ListItemPreviewProvider::class) movie: Movie) {
     MovieAppTheme {
         Surface {
-            FavoriteMovieItem(
+            FavoriteItem(
                 poster = movie.posterPath,
                 title = movie.title,
                 id = movie.id,
-                onMovieClicked = {}
+                onItemClicked = {}
             )
         }
     }

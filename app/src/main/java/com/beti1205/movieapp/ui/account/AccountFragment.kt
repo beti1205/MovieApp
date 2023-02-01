@@ -23,7 +23,8 @@ class AccountFragment : Fragment() {
         setContent {
             AccountScreen(
                 viewModel = viewModel,
-                onMovieClicked = ::navigateToMovieDetails
+                onMovieClicked = ::navigateToMovieDetails,
+                onTVSeriesClicked = ::navigateToTVSeriesDetails
             )
         }
     }
@@ -32,11 +33,18 @@ class AccountFragment : Fragment() {
         super.onResume()
 
         viewModel.fetchFavoriteMovies()
+        viewModel.fetchFavoriteTVSeries()
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
         findNavController().navigate(
             AccountFragmentDirections.actionAccountFragmentToMovieDetailsFragment(movieId)
+        )
+    }
+
+    private fun navigateToTVSeriesDetails(tvSeriesId: Int) {
+        findNavController().navigate(
+            AccountFragmentDirections.actionAccountFragmentToTVSeriesDetailsFragment(tvSeriesId)
         )
     }
 }

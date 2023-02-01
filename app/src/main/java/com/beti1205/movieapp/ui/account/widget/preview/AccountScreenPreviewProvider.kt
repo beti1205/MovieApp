@@ -5,6 +5,7 @@ import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.data.Avatar
 import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 
 class AccountScreenPreviewProvider : PreviewParameterProvider<AccountScreenData> {
     override val values = sequenceOf(
@@ -32,6 +33,18 @@ class AccountScreenPreviewProvider : PreviewParameterProvider<AccountScreenData>
                     originalTitle = "Fall",
                     releaseDate = "2022-08-11"
                 )
+            ),
+            tvSeries = listOf(
+                TVSeries(
+                    popularity = 632.02,
+                    id = 80752,
+                    overview = "A virus has decimated humankind. Those who survived emerged blind",
+                    name = "See",
+                    firstAirDate = "2019-11-01",
+                    originalName = "See",
+                    voteAverage = 8.3,
+                    posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg"
+                )
             )
         ),
         AccountScreenData(
@@ -39,7 +52,8 @@ class AccountScreenPreviewProvider : PreviewParameterProvider<AccountScreenData>
             hasError = false,
             denied = true,
             account = null,
-            movies = emptyList()
+            movies = emptyList(),
+            tvSeries = emptyList()
         )
     )
 }

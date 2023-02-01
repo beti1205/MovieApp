@@ -11,7 +11,7 @@ import com.beti1205.movieapp.feature.favorite.domain.MediaType
 import com.beti1205.movieapp.feature.tvepisodes.data.Episode
 import com.beti1205.movieapp.feature.tvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
-import com.beti1205.movieapp.ui.tvseries.TVSeriesDataProvider
+import com.beti1205.movieapp.ui.TVSeriesDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -139,8 +139,14 @@
         </action>
 
         <action
-            android:id="@+id/action_accountFragment_to_TVSeriesDetailsFragment2"
-            app:destination="@id/TVSeriesDetailsFragment" />
+            android:id="@+id/action_accountFragment_to_TVSeriesDetailsFragment"
+            app:destination="@id/TVSeriesDetailsFragment" >
+
+            <argument
+                android:name="selectedTVSeriesId"
+                app:argType="integer" />
+
+        </action>
 
     </fragment>
 

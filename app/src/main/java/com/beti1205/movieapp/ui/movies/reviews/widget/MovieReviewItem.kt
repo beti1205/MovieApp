@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieReviewItem(
-    item: MovieReview,
-    reviews: List<MovieReview>,
+    item: Review,
+    reviews: List<Review>,
     index: Int,
     modifier: Modifier = Modifier
 ) {
@@ -43,7 +43,7 @@ fun MovieReviewItem(
 )
 @Composable
 fun MovieReviewItemPreview(
-    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<MovieReview>
+    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
         Surface {

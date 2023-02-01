@@ -7,11 +7,11 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun MovieReviewList(reviews: List<MovieReview>) {
+fun MovieReviewList(reviews: List<Review>) {
     LazyColumn {
         itemsIndexed(
             items = reviews,
@@ -30,7 +30,7 @@ fun MovieReviewList(reviews: List<MovieReview>) {
 )
 @Composable
 fun MovieReviewListPreview(
-    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<MovieReview>
+    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
         Surface {

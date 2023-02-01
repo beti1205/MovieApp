@@ -1,12 +1,12 @@
 package com.beti1205.movieapp.ui.movies.reviews.widget
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.reviews.data.Review
 
-class MovieReviewListPreviewProvider : PreviewParameterProvider<List<MovieReview>> {
+class MovieReviewListPreviewProvider : PreviewParameterProvider<List<Review>> {
     override val values = sequenceOf(
         listOf(
-            MovieReview(
+            Review(
                 author = "crastana",
                 content = "The best movie ever...A masterpiece by the young and talented " +
                     "Francis Ford Coppola, about a Mob family and their drama, the story telling" +
@@ -17,7 +17,7 @@ class MovieReviewListPreviewProvider : PreviewParameterProvider<List<MovieReview
                 createdAt = "2022-07-18T23:18:07.748Z",
                 updatedAt = "2022-07-26T14:21:07.910Z"
             ),
-            MovieReview(
+            Review(
                 author = "jkbbr549",
                 content = "This is by far the greatest movie of all time!  Even " +
                     "better than the first Godfather!",

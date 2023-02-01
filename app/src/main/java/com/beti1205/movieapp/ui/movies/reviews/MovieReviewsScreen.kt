@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
 import com.beti1205.movieapp.ui.common.widget.TopAppBar
@@ -41,7 +41,7 @@ fun MovieReviewsScreen(
 
 @Composable
 fun MovieReviewsScreen(
-    reviews: List<MovieReview>,
+    reviews: List<Review>,
     reviewsError: Boolean,
     isLoading: Boolean,
     onBackPressed: () -> Unit
@@ -74,7 +74,7 @@ fun MovieReviewsScreen(
 )
 @Composable
 fun MovieReviewsScreenPreview(
-    @PreviewParameter(MovieReviewsScreenPreviewProvider::class) reviews: List<MovieReview>
+    @PreviewParameter(MovieReviewsScreenPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
         MovieReviewsScreen(
@@ -86,10 +86,10 @@ fun MovieReviewsScreenPreview(
     }
 }
 
-class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<MovieReview>> {
+class MovieReviewsScreenPreviewProvider : PreviewParameterProvider<List<Review>> {
     override val values = sequenceOf(
         listOf(
-            MovieReview(
+            Review(
                 author = "crastana",
                 content = "The best movie ever...A masterpiece by the young and talented " +
                     "Francis Ford Coppola, about a Mob family and their drama, the story telling" +

@@ -17,7 +17,8 @@ import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
 import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
-import com.beti1205.movieapp.ui.movies.MovieDataProvider
+import com.beti1205.movieapp.ui.MovieDataProvider
+import com.beti1205.movieapp.ui.TVSeriesDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -352,6 +353,64 @@ class AccountViewModelTest {
     }
 
     @Test
+    fun fetchFavoriteTVSeries_success() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteTVSeriesUseCase() } returns favoriteTVSeries
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        viewModel.fetchFavoriteTVSeries()
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.tvSeries.collect()
+        }
+
+        assertEquals(favoriteTVSeries.data.items, viewModel.tvSeries.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun fetchFavoriteTVSeries_failed() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteTVSeriesUseCase() } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        viewModel.fetchFavoriteTVSeries()
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.tvSeries.collect()
+        }
+
+        assertEquals(emptyList<Movie>(), viewModel.tvSeries.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
     fun onErrorHandled_verifyThatFalseWasSet() = runTest {
         coEvery { requestTokenUseCase() } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(false)
@@ -428,5 +487,6 @@ class AccountViewModelTest {
         )
 
         val favoriteMovies = Result.Success(MovieDataProvider.apiResponse)
+        val favoriteTVSeries = Result.Success(TVSeriesDataProvider.apiResponse)
     }
 }

@@ -6,8 +6,8 @@ import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.movies.domain.SearchMoviesUseCase
+import com.beti1205.movieapp.ui.MovieDataProvider
 import com.beti1205.movieapp.ui.NoopListCallback
-import com.beti1205.movieapp.ui.movies.MovieDataProvider
 import com.beti1205.movieapp.ui.movies.MovieDiffCallback
 import io.mockk.coEvery
 import io.mockk.mockk

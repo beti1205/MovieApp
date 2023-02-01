@@ -209,7 +209,7 @@ fun AccountScreenPreview(
             denied = data.denied,
             account = data.account,
             movies = data.movies,
-            tvSeries = emptyList(),
+            tvSeries = data.tvSeries,
             onLoginClicked = {},
             onErrorHandled = {},
             onDeniedHandled = {},

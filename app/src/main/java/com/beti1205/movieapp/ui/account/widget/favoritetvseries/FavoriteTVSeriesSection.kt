@@ -1,18 +1,25 @@
 package com.beti1205.movieapp.ui.account.widget.favoritetvseries
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteListEmptyState
+import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun FavoriteTVSeriesSection(
@@ -41,4 +48,43 @@ fun FavoriteTVSeriesSection(
             }
         }
     }
+}
+
+@Preview
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun FavoriteTVSeriesSectionPreview(
+    @PreviewParameter(
+        FavoriteTVSeriesSectionPreviewProvider::class
+    ) tvSeries: List<TVSeries>
+) {
+    MovieAppTheme {
+        Surface(Modifier.fillMaxSize()) {
+            FavoriteTVSeriesSection(
+                tvSeries = tvSeries,
+                onTVSeriesClicked = {}
+            )
+        }
+    }
+}
+
+class FavoriteTVSeriesSectionPreviewProvider : PreviewParameterProvider<List<TVSeries>> {
+    override val values = sequenceOf(
+        listOf(
+            TVSeries(
+                popularity = 632.02,
+                id = 80752,
+                overview = "A virus has decimated humankind. Those who survived emerged blind",
+                name = "See",
+                firstAirDate = "2019-11-01",
+                originalName = "See",
+                voteAverage = 8.3,
+                posterPath = "/lKDIhc9FQibDiBQ57n3ELfZCyZg.jpg"
+            )
+        ),
+        emptyList()
+    )
 }

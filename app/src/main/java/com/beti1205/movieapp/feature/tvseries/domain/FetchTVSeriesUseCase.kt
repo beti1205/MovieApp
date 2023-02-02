@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 package com.beti1205.movieapp.feature.tvseries.domain
 
 import com.beti1205.movieapp.common.ApiResponse

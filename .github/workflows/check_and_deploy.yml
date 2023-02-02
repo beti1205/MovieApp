@@ -41,6 +41,8 @@ jobs:
       # 2
       - name: Generate Release APK
         run: ./gradlew assembleRelease
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
       # 3
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)

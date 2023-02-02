@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 package com.beti1205.movieapp.ui.common.widget.list
 
 import android.annotation.SuppressLint
@@ -15,12 +20,15 @@ fun <T : Any> LazyGridScope.items(
 ) {
     items(
         count = items.itemCount,
-        key = if (key == null) null else { index ->
-            val item = items.peek(index)
-            if (item == null) {
-                PagingPlaceholderKey(index)
-            } else {
-                key(item)
+        key = when (key) {
+            null -> null
+            else -> { index ->
+                val item = items.peek(index)
+                if (item == null) {
+                    PagingPlaceholderKey(index)
+                } else {
+                    key(item)
+                }
             }
         }
     ) { index ->

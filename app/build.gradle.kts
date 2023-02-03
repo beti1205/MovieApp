@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -38,6 +43,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -90,6 +97,7 @@ dependencies {
     implementation(libs.recyclerview)
     implementation(libs.fragment.ktx)
     implementation(libs.accompanist.flowlayout)
+    coreLibraryDesugaring(libs.desugaring)
 
     implementation(libs.moshi)
     kapt(libs.moshi.kotlin.codegen)

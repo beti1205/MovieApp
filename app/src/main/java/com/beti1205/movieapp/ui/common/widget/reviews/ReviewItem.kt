@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -16,21 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.feature.moviereviews.data.MovieReview
+import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun MovieReviewItem(
-    item: MovieReview,
-    reviews: List<MovieReview>,
+fun ReviewItem(
+    item: Review,
+    reviews: List<Review>,
     index: Int,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        MovieReviewContent(item.content)
+        ReviewContent(item.content)
         Row(modifier = Modifier.padding(vertical = 8.dp)) {
-            MovieReviewCreatedDate(item.createdDate, modifier = Modifier.weight(1f))
-            MovieReviewAuthor(item.author)
+            ReviewCreatedDate(item.createdDate, modifier = Modifier.weight(1f))
+            ReviewAuthor(item.author)
         }
         if (index != reviews.size - 1) {
             Divider(
@@ -47,12 +47,12 @@ fun MovieReviewItem(
     heightDp = 2000
 )
 @Composable
-fun MovieReviewItemPreview(
-    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<MovieReview>
+fun ReviewItemPreview(
+    @PreviewParameter(ReviewsPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
         Surface {
-            MovieReviewItem(item = reviews.first(), reviews = reviews, index = 0)
+            ReviewItem(item = reviews.first(), reviews = reviews, index = 0)
         }
     }
 }

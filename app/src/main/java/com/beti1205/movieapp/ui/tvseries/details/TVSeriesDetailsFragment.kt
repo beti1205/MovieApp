@@ -29,6 +29,7 @@ class TVSeriesDetailsFragment : Fragment() {
             TVSeriesDetailsScreen(
                 viewModel = viewModel,
                 onPersonClicked = ::navigateToPersonDetails,
+                onReviewsClicked = ::navigateToTVSeriesReviews,
                 onBackPressed = ::onBackPressed
             )
         }
@@ -41,6 +42,14 @@ class TVSeriesDetailsFragment : Fragment() {
     private fun navigateToPersonDetails(id: Int) {
         findNavController().navigate(
             TVSeriesDetailsFragmentDirections.actionTVSeriesDetailsFragmentToPersonDetailsFragment(
+                id
+            )
+        )
+    }
+
+    private fun navigateToTVSeriesReviews(id: Int) {
+        findNavController().navigate(
+            TVSeriesDetailsFragmentDirections.actionTVSeriesDetailsFragmentToTVSeriesReviewsFragment(
                 id
             )
         )

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.moviereviews.data
+package com.beti1205.movieapp.feature.reviews.data
 
 import com.beti1205.movieapp.utils.formattedDate
 import com.beti1205.movieapp.utils.toZoneDateTime
@@ -11,13 +11,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class MovieReviewsResult(
+data class ReviewsResult(
     val id: Int,
-    val results: List<MovieReview>
+    val results: List<Review>
 )
 
 @JsonClass(generateAdapter = true)
-data class MovieReview(
+data class Review(
     val author: String,
     val content: String,
     val id: String,

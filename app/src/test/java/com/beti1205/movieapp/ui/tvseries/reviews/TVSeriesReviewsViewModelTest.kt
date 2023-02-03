@@ -1,15 +1,10 @@
-/*
- * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
- * All rights reserved.
- */
-
-package com.beti1205.movieapp.ui.movies.reviews
+package com.beti1205.movieapp.ui.tvseries.reviews
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.reviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.feature.reviews.domain.FetchTVSeriesReviewsUseCase
 import com.beti1205.movieapp.ui.ReviewsDataProvider
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -24,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MovieReviewsViewModelTest {
+class TVSeriesReviewsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -32,18 +27,18 @@ class MovieReviewsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: MovieReviewsViewModel
-    private val fetchMovieReviewsUseCase = mockk<FetchMovieReviewsUseCase>()
+    private lateinit var viewModel: TVSeriesReviewsViewModel
+    private val fetchTVSeriesReviewsUseCase = mockk<FetchTVSeriesReviewsUseCase>()
 
     @Test
-    fun fetchMovieReviews_successful() = runTest {
-        coEvery { fetchMovieReviewsUseCase(any()) } returns Result.Success(
+    fun fetchTVSeriesReviews_successful() = runTest {
+        coEvery { fetchTVSeriesReviewsUseCase(any()) } returns Result.Success(
             ReviewsDataProvider.reviewResult
         )
 
-        viewModel = MovieReviewsViewModel(
-            fetchMovieReviewsUseCase,
-            SavedStateHandle(mapOf("movieId" to ReviewsDataProvider.reviewResult.id))
+        viewModel = TVSeriesReviewsViewModel(
+            fetchTVSeriesReviewsUseCase,
+            SavedStateHandle(mapOf("tvSeriesId" to ReviewsDataProvider.reviewResult.id))
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviews.collect() }
@@ -54,12 +49,12 @@ class MovieReviewsViewModelTest {
     }
 
     @Test
-    fun fetchMovieReviews_failure() = runTest {
-        coEvery { fetchMovieReviewsUseCase(any()) } returns Result.Error(Exception())
+    fun fetchTVSeriesReviews_failure() = runTest {
+        coEvery { fetchTVSeriesReviewsUseCase(any()) } returns Result.Error(Exception())
 
-        viewModel = MovieReviewsViewModel(
-            fetchMovieReviewsUseCase,
-            SavedStateHandle(mapOf("movieId" to ReviewsDataProvider.reviewResult.id))
+        viewModel = TVSeriesReviewsViewModel(
+            fetchTVSeriesReviewsUseCase,
+            SavedStateHandle(mapOf("tvSeriesId" to ReviewsDataProvider.reviewResult.id))
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviewsError.collect() }

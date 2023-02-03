@@ -57,6 +57,16 @@
 
         </action>
 
+        <action
+            android:id="@+id/action_TVSeriesDetailsFragment_to_TVSeriesReviewsFragment"
+            app:destination="@id/TVSeriesReviewsFragment">
+
+            <argument
+                android:name="tvSeriesId"
+                app:argType="integer" />
+
+        </action>
+
     </fragment>
 
     <fragment
@@ -130,7 +140,7 @@
 
         <action
             android:id="@+id/action_accountFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" >
+            app:destination="@id/movieDetailsFragment">
 
             <argument
                 android:name="selectedMovieId"
@@ -140,13 +150,24 @@
 
         <action
             android:id="@+id/action_accountFragment_to_TVSeriesDetailsFragment"
-            app:destination="@id/TVSeriesDetailsFragment" >
+            app:destination="@id/TVSeriesDetailsFragment">
 
             <argument
                 android:name="selectedTVSeriesId"
                 app:argType="integer" />
 
         </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/TVSeriesReviewsFragment"
+        android:name="com.beti1205.movieapp.ui.tvseries.reviews.TVSeriesReviewsFragment"
+        android:label="TVSeriesReviewsFragment">
+
+        <argument
+            android:name="tvSeriesId"
+            app:argType="integer" />
 
     </fragment>
 

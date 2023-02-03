@@ -1,16 +1,11 @@
-/*
- * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
- * All rights reserved.
- */
-
-package com.beti1205.movieapp.ui.movies.reviews
+package com.beti1205.movieapp.ui.tvseries.reviews
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.reviews.data.Review
-import com.beti1205.movieapp.feature.reviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.feature.reviews.domain.FetchTVSeriesReviewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,12 +14,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieReviewsViewModel @Inject constructor(
-    private val fetchMovieReviewsUseCase: FetchMovieReviewsUseCase,
+class TVSeriesReviewsViewModel @Inject constructor(
+    private val fetchTVSeriesReviewsUseCase: FetchTVSeriesReviewsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val movieId = savedStateHandle.getStateFlow<Int?>("movieId", null)
+    private val tvSeriesId = savedStateHandle.getStateFlow<Int?>("tvSeriesId", null)
 
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews: StateFlow<List<Review>> = _reviews.asStateFlow()
@@ -36,16 +31,16 @@ class MovieReviewsViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
-        val movieId = movieId.value
-        if (movieId != null) {
-            fetchMovieReviews(movieId)
+        val tvSeriesId = tvSeriesId.value
+        if (tvSeriesId != null) {
+            fetchTVSeriesReviews(tvSeriesId)
         }
     }
 
-    private fun fetchMovieReviews(id: Int) {
+    private fun fetchTVSeriesReviews(id: Int) {
         viewModelScope.launch {
             _isLoading.value = true
-            val result = fetchMovieReviewsUseCase(id)
+            val result = fetchTVSeriesReviewsUseCase(id)
 
             when (result) {
                 is Result.Success -> {

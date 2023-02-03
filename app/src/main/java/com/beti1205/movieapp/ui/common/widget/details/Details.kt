@@ -41,7 +41,7 @@ fun Details(
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onFavoriteClicked: (Boolean) -> Unit,
-    onButtonClicked: (Int) -> Unit = {}
+    onReviewsClicked: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -70,7 +70,7 @@ fun Details(
                 Overview(overview)
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
-                ReviewsButton(onButtonClicked = onButtonClicked, id = id)
+                ReviewsButton(onReviewsClicked = onReviewsClicked, id = id)
                 if (isLoggedIn) {
                     FavoriteButton(
                         favorite = favorite,
@@ -126,7 +126,7 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
                     favorite = false,
                     isLoggedIn = false,
                     onFavoriteClicked = {},
-                    onButtonClicked = {}
+                    onReviewsClicked = {}
                 )
             }
         }

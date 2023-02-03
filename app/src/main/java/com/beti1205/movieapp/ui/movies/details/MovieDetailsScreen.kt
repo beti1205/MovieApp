@@ -41,7 +41,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -53,7 +53,7 @@ fun MovieDetailsScreen(
         onFavoriteErrorHandled = viewModel::onFavoriteErrorHandled,
         onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
-        onButtonClicked = onButtonClicked,
+        onReviewsClicked = onReviewsClicked,
         onBackPressed = onBackPressed
     )
 }
@@ -65,7 +65,7 @@ fun MovieDetailsScreen(
     onFavoriteErrorHandled: () -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -73,14 +73,14 @@ fun MovieDetailsScreen(
     val favoriteErrorMessage = stringResource(R.string.movie_details_favorite_error)
 
     MovieDetailsScreenContent(
-        scaffoldState,
-        onBackPressed,
-        state,
-        isLoggedIn,
-        onPersonClicked,
-        onButtonClicked,
-        onFavoriteClicked,
-        scrollState
+        scaffoldState = scaffoldState,
+        scrollState = scrollState,
+        state = state,
+        isLoggedIn = isLoggedIn,
+        onBackPressed = onBackPressed,
+        onPersonClicked = onPersonClicked,
+        onReviewsClicked = onReviewsClicked,
+        onFavoriteClicked = onFavoriteClicked
     )
 
     if (state.favoriteHasError) {
@@ -96,13 +96,13 @@ fun MovieDetailsScreen(
 @Composable
 private fun MovieDetailsScreenContent(
     scaffoldState: ScaffoldState,
-    onBackPressed: () -> Unit,
+    scrollState: ScrollState,
     state: MovieDetailsScreenState,
     isLoggedIn: Boolean,
+    onBackPressed: () -> Unit,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit,
-    onFavoriteClicked: (Boolean) -> Unit,
-    scrollState: ScrollState
+    onReviewsClicked: (Int) -> Unit,
+    onFavoriteClicked: (Boolean) -> Unit
 ) {
     MovieAppTheme {
         Scaffold(
@@ -132,7 +132,7 @@ private fun MovieDetailsScreenContent(
                         favorite = state.favorite,
                         isLoggedIn = isLoggedIn,
                         onPersonClicked = onPersonClicked,
-                        onButtonClicked = onButtonClicked,
+                        onReviewsClicked = onReviewsClicked,
                         onFavoriteClicked = onFavoriteClicked,
                         modifier = Modifier.verticalScroll(scrollState)
                     )
@@ -183,7 +183,7 @@ fun MovieDetailsScreenPreview(
             onFavoriteErrorHandled = {},
             onFavoriteClicked = {},
             onPersonClicked = {},
-            onButtonClicked = {},
+            onReviewsClicked = {},
             onBackPressed = {}
         )
     }

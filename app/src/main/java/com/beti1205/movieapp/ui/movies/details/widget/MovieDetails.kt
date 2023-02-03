@@ -27,7 +27,7 @@ fun MovieDetails(
     isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
-    onButtonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -42,7 +42,7 @@ fun MovieDetails(
                 genres = movieDetails.genres,
                 favorite = favorite,
                 isLoggedIn = isLoggedIn,
-                onButtonClicked = onButtonClicked,
+                onReviewsClicked = onReviewsClicked,
                 onFavoriteClicked = onFavoriteClicked
             )
             StandardDivider()
@@ -73,7 +73,7 @@ fun MovieDetailsPreview(
                 isLoggedIn = false,
                 onFavoriteClicked = {},
                 onPersonClicked = {},
-                onButtonClicked = {}
+                onReviewsClicked = {}
             )
         }
     }

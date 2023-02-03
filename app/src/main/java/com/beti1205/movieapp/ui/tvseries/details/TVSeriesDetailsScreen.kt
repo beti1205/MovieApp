@@ -33,6 +33,7 @@ import com.beti1205.movieapp.ui.tvseries.details.widget.TVSeriesDetailsScreenCon
 fun TVSeriesDetailsScreen(
     viewModel: TVSeriesDetailsViewModel,
     onPersonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val tvSeriesDetails by viewModel.tvSeriesDetails.collectAsState()
@@ -57,6 +58,7 @@ fun TVSeriesDetailsScreen(
         onSeasonSelected = viewModel::setSelectedSeason,
         onFavoriteClicked = viewModel::markFavorite,
         onPersonClicked = onPersonClicked,
+        onReviewsClicked = onReviewsClicked,
         onBackPressed = onBackPressed
     )
 }
@@ -75,24 +77,26 @@ fun TVSeriesDetailsScreen(
     onSeasonSelected: (Season) -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val favoriteErrorMessage = stringResource(R.string.tv_series_details_favorite_error)
 
     TVSeriesDetailsScreenContent(
-        scaffoldState,
-        onBackPressed,
-        hasError,
-        tvSeriesDetails,
-        credits,
-        selectedSeason,
-        episodes,
-        favorite,
-        isLoggedIn,
-        onFavoriteClicked,
-        onPersonClicked,
-        onSeasonSelected
+        scaffoldState = scaffoldState,
+        tvSeriesDetails = tvSeriesDetails,
+        credits = credits,
+        selectedSeason = selectedSeason,
+        episodes = episodes,
+        favorite = favorite,
+        hasError = hasError,
+        isLoggedIn = isLoggedIn,
+        onFavoriteClicked = onFavoriteClicked,
+        onPersonClicked = onPersonClicked,
+        onSeasonSelected = onSeasonSelected,
+        onBackPressed = onBackPressed,
+        onReviewsClicked = onReviewsClicked
     )
 
     if (favoriteHasError) {
@@ -108,17 +112,18 @@ fun TVSeriesDetailsScreen(
 @Composable
 private fun TVSeriesDetailsScreenContent(
     scaffoldState: ScaffoldState,
-    onBackPressed: () -> Unit,
-    hasError: Boolean,
     tvSeriesDetails: TVSeriesDetails?,
     credits: Credits?,
     selectedSeason: Season?,
     episodes: List<Episode>?,
     favorite: Boolean,
+    hasError: Boolean,
     isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
-    onSeasonSelected: (Season) -> Unit
+    onSeasonSelected: (Season) -> Unit,
+    onBackPressed: () -> Unit,
+    onReviewsClicked: (Int) -> Unit
 ) {
     MovieAppTheme {
         Scaffold(
@@ -146,7 +151,8 @@ private fun TVSeriesDetailsScreenContent(
                         isLoggedIn = isLoggedIn,
                         onFavoriteClicked = onFavoriteClicked,
                         onPersonClicked = onPersonClicked,
-                        onSeasonSelected = onSeasonSelected
+                        onSeasonSelected = onSeasonSelected,
+                        onReviewsClicked = onReviewsClicked
                     )
                 }
             }
@@ -179,7 +185,8 @@ fun TVSeriesDetailsScreenPreview(
             onSeasonSelected = {},
             onFavoriteClicked = {},
             onPersonClicked = {},
-            onBackPressed = {}
+            onBackPressed = {},
+            onReviewsClicked = {}
         )
     }
 }

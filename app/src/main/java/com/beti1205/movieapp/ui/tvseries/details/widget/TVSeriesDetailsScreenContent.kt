@@ -27,6 +27,7 @@ fun TVSeriesDetailsScreenContent(
     onFavoriteClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onSeasonSelected: (Season) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
@@ -41,7 +42,8 @@ fun TVSeriesDetailsScreenContent(
                 genres = genres,
                 favorite = favorite,
                 isLoggedIn = isLoggedIn,
-                onFavoriteClicked = onFavoriteClicked
+                onFavoriteClicked = onFavoriteClicked,
+                onReviewsClicked = onReviewsClicked
             )
             StandardDivider()
             if (credits != null) {

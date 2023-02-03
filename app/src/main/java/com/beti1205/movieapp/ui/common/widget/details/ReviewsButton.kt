@@ -16,11 +16,11 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun ReviewsButton(
     id: Int,
-    onButtonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextButton(
-        onClick = { onButtonClicked(id) },
+        onClick = { onReviewsClicked(id) },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primaryVariant,
             contentColor = MaterialTheme.colors.onPrimary
@@ -40,7 +40,7 @@ fun ReviewsButton(
 fun ReviewsButtonPreview() {
     MovieAppTheme {
         Surface {
-            ReviewsButton(id = 1, onButtonClicked = {})
+            ReviewsButton(id = 1, onReviewsClicked = {})
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,10 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun MovieReviewsEmptyState(modifier: Modifier = Modifier) {
+fun ReviewsEmptyState(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -33,7 +36,7 @@ fun MovieReviewsEmptyState(modifier: Modifier = Modifier) {
     ) {
         EmptyListIcon()
         Text(
-            text = stringResource(R.string.movie_reviews_empty_state),
+            text = text,
             color = SonicSilver,
             style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center
@@ -51,7 +54,7 @@ fun MovieReviewsEmptyState(modifier: Modifier = Modifier) {
 fun MovieReviewsEmptyStatePreview() {
     MovieAppTheme {
         Surface {
-            MovieReviewsEmptyState()
+            ReviewsEmptyState(stringResource(R.string.movie_reviews_empty_state))
         }
     }
 }

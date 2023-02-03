@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.persondetails.widget.ShowMoreButton
 
 @Composable
-fun MovieReviewContent(text: String, modifier: Modifier = Modifier) {
+fun ReviewContent(text: String, modifier: Modifier = Modifier) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -28,14 +28,14 @@ fun MovieReviewContent(text: String, modifier: Modifier = Modifier) {
             when {
                 expanded -> text
                 else -> {
-                    val strings = text.split(".").take(2).joinToString("")
+                    val strings = text.split(".").take(2).joinToString(".")
                     "$strings..."
                 }
             }
         }
     }
 
-    val expandable = text.split(".").size > 2
+    val expandable = text.split(".").size > 3
 
     Column(modifier = modifier) {
         Text(

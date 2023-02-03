@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import android.content.res.Configuration
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,13 +11,13 @@ import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun MovieReviewList(reviews: List<Review>) {
+fun ReviewList(reviews: List<Review>) {
     LazyColumn {
         itemsIndexed(
             items = reviews,
             key = { _, item -> item.id }
         ) { index, item ->
-            MovieReviewItem(item = item, reviews = reviews, index = index)
+            ReviewItem(item = item, reviews = reviews, index = index)
         }
     }
 }
@@ -29,12 +29,12 @@ fun MovieReviewList(reviews: List<Review>) {
     heightDp = 2000
 )
 @Composable
-fun MovieReviewListPreview(
-    @PreviewParameter(MovieReviewListPreviewProvider::class) reviews: List<Review>
+fun ReviewListPreview(
+    @PreviewParameter(ReviewsPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
         Surface {
-            MovieReviewList(reviews = reviews)
+            ReviewList(reviews = reviews)
         }
     }
 }

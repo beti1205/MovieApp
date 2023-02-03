@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -7,11 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
-fun MovieReviewCreatedDate(createdDate: String, modifier: Modifier = Modifier) {
+fun ReviewAuthor(author: String, modifier: Modifier = Modifier) {
     Text(
-        text = createdDate,
+        text = author,
+        color = MaterialTheme.colors.secondary,
         fontWeight = FontWeight.Bold,
-        modifier = modifier,
-        style = MaterialTheme.typography.body2
+        style = MaterialTheme.typography.body2,
+        modifier = modifier
     )
 }

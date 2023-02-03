@@ -1,4 +1,4 @@
-package com.beti1205.movieapp.ui.movies.reviews
+package com.beti1205.movieapp.ui.tvseries.reviews
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
@@ -23,15 +23,15 @@ import com.beti1205.movieapp.ui.common.widget.reviews.ReviewsPreviewProvider
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun MovieReviewsScreen(
-    viewModel: MovieReviewsViewModel,
+fun TVSeriesReviewsScreen(
+    viewModel: TVSeriesReviewsViewModel,
     onBackPressed: () -> Unit
 ) {
     val reviews by viewModel.reviews.collectAsState()
     val reviewsError by viewModel.reviewsError.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
-    MovieReviewsScreen(
+    TVSeriesReviewsScreen(
         reviews = reviews,
         reviewsError = reviewsError,
         isLoading = isLoading,
@@ -40,7 +40,7 @@ fun MovieReviewsScreen(
 }
 
 @Composable
-fun MovieReviewsScreen(
+fun TVSeriesReviewsScreen(
     reviews: List<Review>,
     reviewsError: Boolean,
     isLoading: Boolean,
@@ -50,7 +50,7 @@ fun MovieReviewsScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = stringResource(id = R.string.movie_review_label),
+                    title = stringResource(R.string.tv_series_reviews_label),
                     onBackPressed = onBackPressed
                 )
             }
@@ -61,7 +61,7 @@ fun MovieReviewsScreen(
                 reviews.isNotEmpty() -> ReviewList(reviews = reviews)
                 isLoading -> Loader()
                 else -> ReviewsEmptyState(
-                    text = stringResource(R.string.movie_reviews_empty_state)
+                    text = stringResource(R.string.tv_series_reviews_empty_state)
                 )
             }
         }
@@ -75,11 +75,11 @@ fun MovieReviewsScreen(
     heightDp = 2000
 )
 @Composable
-fun MovieReviewsScreenPreview(
+fun TVSeriesReviewsScreenPreview(
     @PreviewParameter(ReviewsPreviewProvider::class) reviews: List<Review>
 ) {
     MovieAppTheme {
-        MovieReviewsScreen(
+        TVSeriesReviewsScreen(
             reviews = reviews,
             reviewsError = false,
             isLoading = false,

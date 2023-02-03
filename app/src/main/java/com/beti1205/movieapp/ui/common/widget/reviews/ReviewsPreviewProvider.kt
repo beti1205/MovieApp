@@ -1,9 +1,9 @@
-package com.beti1205.movieapp.ui.movies.reviews.widget
+package com.beti1205.movieapp.ui.common.widget.reviews
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.beti1205.movieapp.feature.reviews.data.Review
 
-class MovieReviewListPreviewProvider : PreviewParameterProvider<List<Review>> {
+class ReviewsPreviewProvider : PreviewParameterProvider<List<Review>> {
     override val values = sequenceOf(
         listOf(
             Review(
@@ -25,6 +25,7 @@ class MovieReviewListPreviewProvider : PreviewParameterProvider<List<Review>> {
                 createdAt = "2015-04-21T11:41:26.541Z",
                 updatedAt = "2021-06-23T15:57:34.131Z"
             )
-        )
+        ),
+        emptyList()
     )
 }

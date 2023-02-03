@@ -4,9 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.reviews.data.Review
-import com.beti1205.movieapp.feature.reviews.data.ReviewsResult
 import com.beti1205.movieapp.feature.reviews.domain.FetchMovieReviewsUseCase
+import com.beti1205.movieapp.ui.ReviewsDataProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ReviewsViewModelTest {
+class MovieReviewsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -34,16 +33,17 @@ class ReviewsViewModelTest {
     @Test
     fun fetchMovieReviews_successful() = runTest {
         coEvery { fetchMovieReviewsUseCase(any()) } returns Result.Success(
-            reviewResult
+            ReviewsDataProvider.reviewResult
         )
+
         viewModel = MovieReviewsViewModel(
             fetchMovieReviewsUseCase,
-            SavedStateHandle(mapOf("movieId" to reviewResult.id))
+            SavedStateHandle(mapOf("movieId" to ReviewsDataProvider.reviewResult.id))
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviews.collect() }
 
-        assertEquals(reviewResult.results, viewModel.reviews.value)
+        assertEquals(ReviewsDataProvider.reviewResult.results, viewModel.reviews.value)
 
         collectJob.cancel()
     }
@@ -51,9 +51,10 @@ class ReviewsViewModelTest {
     @Test
     fun fetchMovieReviews_failure() = runTest {
         coEvery { fetchMovieReviewsUseCase(any()) } returns Result.Error(Exception())
+
         viewModel = MovieReviewsViewModel(
             fetchMovieReviewsUseCase,
-            SavedStateHandle(mapOf("movieId" to reviewResult.id))
+            SavedStateHandle(mapOf("movieId" to ReviewsDataProvider.reviewResult.id))
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.reviewsError.collect() }
@@ -61,24 +62,5 @@ class ReviewsViewModelTest {
         assertTrue(viewModel.reviewsError.value)
 
         collectJob.cancel()
-    }
-
-    companion object {
-        val reviewResult = ReviewsResult(
-            id = 1,
-            results = listOf(
-                Review(
-                    author = "crastana",
-                    content = "The best movie ever...A masterpiece by the young and talented " +
-                        "Francis Ford Coppola, about a Mob family and their drama, the story telling" +
-                        " is perfect, the acting good, sometimes a little over the top in the case of " +
-                        "Thalia Shire (the sister of the director).The 70's were the best" +
-                        " years for Hollywood.",
-                    id = "62d5ea2fe93e95095cbddefe",
-                    createdAt = "2022-07-18T23:18:07.748Z",
-                    updatedAt = "2022-07-26T14:21:07.910Z"
-                )
-            )
-        )
     }
 }

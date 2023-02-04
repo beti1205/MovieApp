@@ -8,12 +8,12 @@ package com.beti1205.movieapp.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.beti1205.movieapp.BuildConfig
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.AuthManagerImpl
+import com.beti1205.movieapp.common.EncryptedSharedPreferencesBuilder
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.squareup.moshi.Moshi
 import dagger.Binds
@@ -90,15 +90,10 @@ interface CoreModule {
         fun provideEncryptedSharedPreferences(
             @ApplicationContext appContext: Context,
             masterKey: MasterKey
-        ): SharedPreferences {
-            return EncryptedSharedPreferences.create(
-                appContext,
-                "encrypted_preferences",
-                masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-        }
+        ): SharedPreferences = EncryptedSharedPreferencesBuilder(
+            appContext,
+            masterKey
+        ).build()
 
         @Singleton
         @Provides

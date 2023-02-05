@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.popup
+package com.beti1205.movieapp.ui.account.widget.dialog
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -11,9 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AccountName(name: String, modifier: Modifier = Modifier) {
+fun AccountUsername(
+    username: String,
+    modifier: Modifier = Modifier
+) {
     Text(
-        text = name,
+        text = username,
         style = MaterialTheme.typography.body1,
         modifier = modifier
     )

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.popup
+package com.beti1205.movieapp.ui.account.widget.dialog
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -22,10 +22,10 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun PopupLogoutButton(onDeleteSession: () -> Unit, modifier: Modifier = Modifier) {
+fun DialogLogoutButton(onDeleteSession: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         onClick = onDeleteSession,
-        modifier = modifier.padding(vertical = 8.dp),
+        modifier = modifier.padding(top = 16.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = SonicSilver
         )
@@ -43,10 +43,10 @@ fun PopupLogoutButton(onDeleteSession: () -> Unit, modifier: Modifier = Modifier
     showBackground = true
 )
 @Composable
-fun ShowMoreButtonPreview() {
+fun DialogLogoutButtonPreview() {
     MovieAppTheme {
         Surface {
-            PopupLogoutButton(
+            DialogLogoutButton(
                 onDeleteSession = {}
             )
         }

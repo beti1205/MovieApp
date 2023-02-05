@@ -34,9 +34,9 @@ import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.LoginButton
+import com.beti1205.movieapp.ui.account.widget.dialog.AccountDialog
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteMoviesSection
 import com.beti1205.movieapp.ui.account.widget.favoritetvseries.FavoriteTVSeriesSection
-import com.beti1205.movieapp.ui.account.widget.popup.AccountPopup
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenData
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenPreviewProvider
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
@@ -97,7 +97,7 @@ fun AccountScreen(
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {
-    var isPopupVisible by remember { mutableStateOf(false) }
+    var isDialogVisible by remember { mutableStateOf(false) }
     val scaffoldState = rememberScaffoldState()
     val errorMessage = stringResource(id = R.string.generic_error_message)
     val deniedMessage = stringResource(id = R.string.denied_login_message)
@@ -111,14 +111,14 @@ fun AccountScreen(
         onLoginClicked = onLoginClicked,
         onMovieClicked = onMovieClicked,
         onTVSeriesClicked = onTVSeriesClicked,
-        onAvatarClicked = { isPopupVisible = !isPopupVisible }
+        onAvatarClicked = { isDialogVisible = !isDialogVisible }
     )
 
-    if (isLoggedIn && isPopupVisible) {
-        AccountPopup(
+    if (isLoggedIn && isDialogVisible && account != null) {
+        AccountDialog(
             account = account,
             onDeleteSession = onDeleteSession,
-            onDismissRequest = { isPopupVisible = false }
+            onDismissRequest = { isDialogVisible = false }
         )
     }
 

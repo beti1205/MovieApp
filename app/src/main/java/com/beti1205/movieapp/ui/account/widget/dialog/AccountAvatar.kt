@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.popup
+package com.beti1205.movieapp.ui.account.widget.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

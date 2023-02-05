@@ -36,7 +36,7 @@ fun Avatar(
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text?.first()?.toString() ?: "")
+        Text(text = text?.first()?.toString() ?: "", color = MaterialTheme.colors.onSecondary)
     }
 }
 

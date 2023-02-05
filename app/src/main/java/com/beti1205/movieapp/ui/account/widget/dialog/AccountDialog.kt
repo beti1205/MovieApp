@@ -3,29 +3,30 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.popup
+package com.beti1205.movieapp.ui.account.widget.dialog
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.data.Avatar
 import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
@@ -33,56 +34,59 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 private val appBarHeight: Dp = 56.dp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AccountPopup(
-    account: AccountDetails?,
+fun AccountDialog(
+    account: AccountDetails,
     onDeleteSession: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    val y = with(LocalDensity.current) { appBarHeight.toPx().toInt() }
-    Popup(
-        alignment = Alignment.TopCenter,
-        offset = IntOffset(0, y),
-        properties = PopupProperties(focusable = true),
-        onDismissRequest = onDismissRequest
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         MovieAppTheme {
-            Surface(
-                elevation = 8.dp
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        onDismissRequest()
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AccountPopupContent(account, onDeleteSession)
+                AccountDialogContent(
+                    account = account,
+                    onDeleteSession = onDeleteSession,
+                    onDismissRequest = onDismissRequest
+                )
             }
         }
     }
 }
 
 @Composable
-private fun AccountPopupContent(
-    account: AccountDetails?,
-    onDeleteSession: () -> Unit
+private fun AccountDialogContent(
+    account: AccountDetails,
+    onDeleteSession: () -> Unit,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = Modifier
+    Surface(
+        modifier = modifier
+            .padding(top = appBarHeight)
             .fillMaxWidth(0.95f)
-            .clip(MaterialTheme.shapes.medium)
+            .clip(MaterialTheme.shapes.medium),
+        color = MaterialTheme.colors.primaryVariant
     ) {
-        if (account != null) {
-            val avatarPath = account.avatar.tmdb.avatarPath
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (avatarPath != null) {
-                    AccountAvatar(avatar = avatarPath, modifier = Modifier.weight(1f).padding(8.dp))
-                }
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AccountUsername(account.username)
-                    if (account.name?.isNotEmpty() == true) {
-                        AccountName(account.name)
-                    }
-                    PopupLogoutButton(onDeleteSession)
-                }
-            }
+        Column(modifier = Modifier.padding(vertical = 8.dp)) {
+            AccountDialogTitle(onDismissRequest = onDismissRequest)
+            AccountDialogDetails(
+                account = account,
+                onDeleteSession = onDeleteSession
+            )
         }
     }
 }
@@ -93,14 +97,15 @@ private fun AccountPopupContent(
     showBackground = true
 )
 @Composable
-fun AccountPopupContentPreview(
+fun AccountDialogContentPreview(
     @PreviewParameter(AccountDetailsPreviewProvider::class) accountDetails: AccountDetails
 ) {
     MovieAppTheme {
         Surface {
-            AccountPopupContent(
+            AccountDialogContent(
                 account = accountDetails,
-                onDeleteSession = {}
+                onDeleteSession = {},
+                onDismissRequest = {}
             )
         }
     }

@@ -4,6 +4,8 @@ The application offers a convenient way to search and browse movies and TV shows
 providing various filters such as popularity, top-rated, currently playing, and upcoming
 releases to help users find what they’re looking for. It also allows users to search for
 movies by title, view detailed information including cast and crew, and read reviews.
+Additionally, by logging into your TMDB account, you can keep track of your favorite 
+movies and TV series by creating custom lists.
 
 ## Technologies
 

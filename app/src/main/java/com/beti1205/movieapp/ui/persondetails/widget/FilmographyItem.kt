@@ -8,6 +8,7 @@ package com.beti1205.movieapp.ui.persondetails.widget
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -44,11 +45,12 @@ fun FilmographyItem(
         modifier = modifier
             .clickable { onItemRowClicked(id) }
             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
+            .fillMaxWidth()
     ) {
-        Date(date = date)
-        Title(name = name, modifier = Modifier.weight(1F))
-        Description(description = description, modifier = Modifier.weight(1F))
-        Rating(rating = rating)
+        Date(date = date, modifier = Modifier.weight(1F))
+        Title(name = name, modifier = Modifier.weight(4F))
+        Description(description = description, modifier = Modifier.weight(4F))
+        Rating(rating = rating, modifier = Modifier.weight(2F))
     }
 }
 
@@ -58,7 +60,7 @@ private fun Description(
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = description,
+        text = description.ifEmpty { stringResource(R.string.filmography_unknown) },
         style = MaterialTheme.typography.body2,
         textAlign = TextAlign.Start,
         modifier = modifier
@@ -82,12 +84,13 @@ private fun Title(
 }
 
 @Composable
-private fun Date(date: String) {
+private fun Date(date: String, modifier: Modifier = Modifier) {
     Text(
-        text = date.ifEmpty { stringResource(R.string.filmography_unknown) },
+        text = date.ifEmpty { "-" },
         style = MaterialTheme.typography.body2,
-        textAlign = TextAlign.Start,
-        fontStyle = FontStyle.Italic
+        textAlign = if (date.isNotEmpty()) TextAlign.Start else TextAlign.Center,
+        fontStyle = FontStyle.Italic,
+        modifier = modifier
     )
 }
 
@@ -96,7 +99,10 @@ private fun Rating(
     rating: String,
     modifier: Modifier = Modifier
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.padding(start = 12.dp)
+    ) {
         Icon(
             imageVector = Icons.Outlined.Star,
             contentDescription = null,

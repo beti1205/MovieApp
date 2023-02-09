@@ -46,7 +46,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
       # 3
       - name: Sign APK
-        uses: r0adkll/sign-android-release@v2
+        uses: r0adkll/sign-android-release@v1
         # ID used to access action output
         id: sign_app
         with:

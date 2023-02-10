@@ -107,6 +107,8 @@ class AccountViewModel @Inject constructor(
                 .collect { isLoggedIn ->
                     if (isLoggedIn) {
                         fetchAccountDetails()
+                        fetchFavoriteMovies()
+                        fetchFavoriteTVSeries()
                     }
                 }
         }

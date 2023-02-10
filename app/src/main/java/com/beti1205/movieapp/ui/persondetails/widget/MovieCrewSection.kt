@@ -49,7 +49,7 @@ fun MovieCrewSectionButton(
 ) {
     SectionButton(expanded = movieCrewSection.expanded, onExpandedChanged = { expanded ->
         onExpandedChanged(
-            SectionType.MOVIE_CAST,
+            SectionType.MOVIE_CREW,
             expanded
         )
     })

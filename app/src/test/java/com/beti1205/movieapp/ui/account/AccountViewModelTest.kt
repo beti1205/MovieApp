@@ -416,6 +416,36 @@ class AccountViewModelTest {
     }
 
     @Test
+    fun verifyThatMethodsWereCalledAfterLoggingIn() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
+        coEvery { fetchFavoriteTVSeriesUseCase() } returns favoriteTVSeries
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.isLoggedIn.collect()
+        }
+
+        coVerify { fetchFavoriteMoviesUseCase() }
+        coVerify { fetchFavoriteTVSeriesUseCase() }
+        coVerify { fetchAccountDetailsUseCase() }
+
+        collectJob.cancel()
+    }
+
+    @Test
     fun onErrorHandled_verifyThatFalseWasSet() = runTest {
         coEvery { requestTokenUseCase() } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(false)

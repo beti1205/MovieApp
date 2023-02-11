@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.movies.domain
+package com.beti1205.movieapp.common
 
 enum class FavoriteListOrder(val type: String) {
     OLDEST("created_at.asc"),

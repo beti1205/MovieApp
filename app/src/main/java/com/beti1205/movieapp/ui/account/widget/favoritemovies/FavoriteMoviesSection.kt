@@ -8,12 +8,17 @@ package com.beti1205.movieapp.ui.account.widget.favoritemovies
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -21,20 +26,28 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FavoriteListOrder
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
+import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
 fun FavoriteMoviesSection(
     movies: List<Movie>,
+    order: FavoriteListOrder,
+    onOrderChanged: (FavoriteListOrder) -> Unit,
     onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     DefaultCard {
         Column(modifier = modifier.fillMaxWidth()) {
-            AccountSectionHeader(
-                text = stringResource(R.string.favorite_movies_section_header),
-                modifier = Modifier.padding(top = 8.dp)
-            )
+            Row {
+                AccountSectionHeader(
+                    text = stringResource(R.string.favorite_movies_section_header),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                FavoriteMoviesOrder(order = order, onOrderChanged = onOrderChanged)
+            }
             AnimatedVisibility(visible = movies.isEmpty()) {
                 FavoriteListEmptyState(
                     text = stringResource(R.string.favorite_movies_empty_state_message)
@@ -43,8 +56,39 @@ fun FavoriteMoviesSection(
             AnimatedVisibility(
                 visible = movies.isNotEmpty()
             ) {
-                FavoriteMovieList(movies = movies, onMovieClicked = onMovieClicked)
+                FavoriteMovieList(
+                    movies = movies,
+                    onMovieClicked = onMovieClicked
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun FavoriteMoviesOrder(
+    order: FavoriteListOrder,
+    onOrderChanged: (FavoriteListOrder) -> Unit
+) {
+    IconButton(
+        onClick = {
+            FavoriteListOrder.availableValues()
+                .first { it != order }
+                .let { onOrderChanged(it) }
+        }
+    ) {
+        if (order == FavoriteListOrder.LATEST) {
+            Icon(
+                painter = painterResource(id = R.drawable.sort_descending),
+                contentDescription = null,
+                tint = SonicSilver
+            )
+        } else {
+            Icon(
+                painter = painterResource(id = R.drawable.sort_ascending),
+                contentDescription = null,
+                tint = SonicSilver
+            )
         }
     }
 }
@@ -64,6 +108,8 @@ fun FavoriteMoviesSectionPreview(
         Surface(Modifier.fillMaxSize()) {
             FavoriteMoviesSection(
                 movies = movies,
+                order = FavoriteListOrder.LATEST,
+                onOrderChanged = {},
                 onMovieClicked = {}
             )
         }

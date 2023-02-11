@@ -15,6 +15,7 @@ import com.beti1205.movieapp.feature.accountdetails.data.Avatar
 import com.beti1205.movieapp.feature.accountdetails.data.Tmdb
 import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FavoriteListOrder
 import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.session.data.SessionResponse
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
@@ -302,7 +303,7 @@ class AccountViewModelTest {
     @Test
     fun fetchFavoriteMovies_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
+        coEvery { fetchFavoriteMoviesUseCase(any()) } returns favoriteMovies
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
@@ -331,7 +332,7 @@ class AccountViewModelTest {
     @Test
     fun fetchFavoriteMovies_failed() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchFavoriteMoviesUseCase() } returns Result.Error(Exception())
+        coEvery { fetchFavoriteMoviesUseCase(any()) } returns Result.Error(Exception())
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
 
@@ -355,6 +356,32 @@ class AccountViewModelTest {
         assertEquals(emptyList<Movie>(), viewModel.movies.value)
 
         collectJob.cancel()
+    }
+
+    @Test
+    fun onOrderChanged_verifyThatOrderWasChangedAndMethodWasCalled() = runTest {
+        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+        coEvery { fetchFavoriteMoviesUseCase(any()) } returns favoriteMovies
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        val state = SavedStateHandle()
+
+        viewModel = AccountViewModel(
+            state,
+            requestTokenUseCase,
+            createSessionUseCase,
+            deleteSessionUseCase,
+            fetchAccountDetailsUseCase,
+            fetchFavoriteMoviesUseCase,
+            fetchFavoriteTVSeriesUseCase,
+            authManager
+        )
+
+        assertEquals(FavoriteListOrder.OLDEST, viewModel.order.value)
+
+        viewModel.onOrderChanged(FavoriteListOrder.LATEST)
+
+        assertEquals(FavoriteListOrder.LATEST, viewModel.order.value)
+        coVerify { fetchFavoriteMoviesUseCase(FavoriteListOrder.LATEST) }
     }
 
     @Test
@@ -418,7 +445,7 @@ class AccountViewModelTest {
     @Test
     fun verifyThatMethodsWereCalledAfterLoggingIn() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchFavoriteMoviesUseCase() } returns favoriteMovies
+        coEvery { fetchFavoriteMoviesUseCase(any()) } returns favoriteMovies
         coEvery { fetchFavoriteTVSeriesUseCase() } returns favoriteTVSeries
         every { authManager.isLoggedInFlow } returns flowOf(true)
         val state = SavedStateHandle()
@@ -438,7 +465,7 @@ class AccountViewModelTest {
             viewModel.isLoggedIn.collect()
         }
 
-        coVerify { fetchFavoriteMoviesUseCase() }
+        coVerify { fetchFavoriteMoviesUseCase(any()) }
         coVerify { fetchFavoriteTVSeriesUseCase() }
         coVerify { fetchAccountDetailsUseCase() }
 

@@ -23,12 +23,10 @@ fun FavoriteMovieList(
     modifier: Modifier = Modifier
 ) {
     LazyRow(
-        modifier = modifier
-            .padding(16.dp)
+        modifier = modifier.padding(16.dp)
     ) {
         itemsIndexed(
-            items = movies,
-            key = { _, item -> item.id }
+            items = movies
         ) { index, item ->
             Column(
                 modifier = Modifier

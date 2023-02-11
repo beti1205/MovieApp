@@ -14,6 +14,7 @@ import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FavoriteListOrder
 import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
@@ -47,6 +48,10 @@ class AccountViewModel @Inject constructor(
     private val fetchFavoriteTVSeriesUseCase: FetchFavoriteTVSeriesUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
+
+    private val _order: MutableStateFlow<FavoriteListOrder> =
+        MutableStateFlow(FavoriteListOrder.OLDEST)
+    val order = _order.asStateFlow()
 
     private val approved = stateHandle.getStateFlow(APPROVED, false)
 
@@ -168,7 +173,8 @@ class AccountViewModel @Inject constructor(
 
     fun fetchFavoriteMovies() {
         viewModelScope.launch {
-            val result = fetchFavoriteMoviesUseCase()
+            val result =
+                fetchFavoriteMoviesUseCase(_order.value)
 
             when (result) {
                 is Result.Success -> _movies.value = result.data.items
@@ -186,6 +192,11 @@ class AccountViewModel @Inject constructor(
                 is Result.Error -> {}
             }
         }
+    }
+
+    fun onOrderChanged(order: FavoriteListOrder) {
+        _order.value = order
+        fetchFavoriteMovies()
     }
 
     fun onErrorHandled() {

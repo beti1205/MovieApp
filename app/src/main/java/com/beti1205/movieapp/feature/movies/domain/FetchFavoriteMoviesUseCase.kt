@@ -17,7 +17,9 @@ import javax.inject.Inject
 
 interface FetchFavoriteMoviesUseCase {
 
-    suspend operator fun invoke(): Result<ApiResponse<Movie>>
+    suspend operator fun invoke(
+        order: FavoriteListOrder
+    ): Result<ApiResponse<Movie>>
 }
 
 class FetchFavoriteMoviesUseCaseImpl @Inject constructor(
@@ -26,13 +28,14 @@ class FetchFavoriteMoviesUseCaseImpl @Inject constructor(
     private val authManager: AuthManager
 ) : FetchFavoriteMoviesUseCase {
 
-    override suspend fun invoke(): Result<ApiResponse<Movie>> {
+    override suspend fun invoke(order: FavoriteListOrder): Result<ApiResponse<Movie>> {
         if (!authManager.isLoggedIn) {
             return Result.Error(GenericApiException)
         }
         return performRequest {
             favoriteMoviesService.getFavoriteMovies(
                 accountId = authManager.accountId,
+                sortBy = order.type,
                 key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )

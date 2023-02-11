@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.domain.FavoriteListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.account.widget.dialog.AccountDialog
@@ -55,6 +56,7 @@ fun AccountScreen(
     val account by viewModel.account.collectAsState()
     val movies by viewModel.movies.collectAsState()
     val tvSeries by viewModel.tvSeries.collectAsState()
+    val order by viewModel.order.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
@@ -64,6 +66,8 @@ fun AccountScreen(
         account = account,
         tvSeries = tvSeries,
         movies = movies,
+        order = order,
+        onOrderChanged = viewModel::onOrderChanged,
         onLoginClicked = viewModel::fetchRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
@@ -90,6 +94,8 @@ fun AccountScreen(
     account: AccountDetails?,
     movies: List<Movie>,
     tvSeries: List<TVSeries>,
+    order: FavoriteListOrder,
+    onOrderChanged: (FavoriteListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
@@ -108,6 +114,8 @@ fun AccountScreen(
         account = account,
         movies = movies,
         tvSeries = tvSeries,
+        order = order,
+        onOrderChanged = onOrderChanged,
         onLoginClicked = onLoginClicked,
         onMovieClicked = onMovieClicked,
         onTVSeriesClicked = onTVSeriesClicked,
@@ -150,6 +158,8 @@ private fun AccountScreenContent(
     account: AccountDetails?,
     movies: List<Movie>,
     tvSeries: List<TVSeries>,
+    order: FavoriteListOrder,
+    onOrderChanged: (FavoriteListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
@@ -179,6 +189,8 @@ private fun AccountScreenContent(
                     ) {
                         FavoriteMoviesSection(
                             movies = movies,
+                            order = order,
+                            onOrderChanged = onOrderChanged,
                             onMovieClicked = onMovieClicked
                         )
 
@@ -215,6 +227,8 @@ fun AccountScreenPreview(
             account = data.account,
             movies = data.movies,
             tvSeries = data.tvSeries,
+            order = FavoriteListOrder.LATEST,
+            onOrderChanged = {},
             onLoginClicked = {},
             onErrorHandled = {},
             onDeniedHandled = {},

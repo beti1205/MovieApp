@@ -8,6 +8,8 @@ package com.beti1205.movieapp.ui.account.widget.favoritetvseries
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,7 +22,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.common.FavoriteListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.ui.account.widget.FavoriteListOrderButton
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteListEmptyState
@@ -29,15 +33,24 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun FavoriteTVSeriesSection(
     tvSeries: List<TVSeries>,
+    favoriteTVOrder: FavoriteListOrder,
+    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     DefaultCard {
         Column(modifier = modifier.fillMaxWidth()) {
-            AccountSectionHeader(
-                text = "Favorite tv series",
-                modifier = Modifier.padding(top = 8.dp)
-            )
+            Row {
+                AccountSectionHeader(
+                    text = "Favorite tv series",
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                FavoriteListOrderButton(
+                    order = favoriteTVOrder,
+                    onOrderChanged = onFavoriteTVOrderChanged
+                )
+            }
             AnimatedVisibility(visible = tvSeries.isEmpty()) {
                 FavoriteListEmptyState(
                     text = stringResource(R.string.favorite_tv_series_empty_state_message)
@@ -70,6 +83,8 @@ fun FavoriteTVSeriesSectionPreview(
         Surface(Modifier.fillMaxSize()) {
             FavoriteTVSeriesSection(
                 tvSeries = tvSeries,
+                favoriteTVOrder = FavoriteListOrder.LATEST,
+                onFavoriteTVOrderChanged = {},
                 onTVSeriesClicked = {}
             )
         }

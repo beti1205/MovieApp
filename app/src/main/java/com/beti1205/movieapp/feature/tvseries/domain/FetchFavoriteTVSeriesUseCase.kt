@@ -8,6 +8,7 @@ package com.beti1205.movieapp.feature.tvseries.domain
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.FavoriteListOrder
 import com.beti1205.movieapp.common.GenericApiException
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
@@ -17,7 +18,9 @@ import javax.inject.Inject
 
 interface FetchFavoriteTVSeriesUseCase {
 
-    suspend operator fun invoke(): Result<ApiResponse<TVSeries>>
+    suspend operator fun invoke(
+        order: FavoriteListOrder
+    ): Result<ApiResponse<TVSeries>>
 }
 
 class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
@@ -26,13 +29,14 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
     private val authManager: AuthManager
 ) : FetchFavoriteTVSeriesUseCase {
 
-    override suspend fun invoke(): Result<ApiResponse<TVSeries>> {
+    override suspend fun invoke(order: FavoriteListOrder): Result<ApiResponse<TVSeries>> {
         if (!authManager.isLoggedIn) {
             return Result.Error(GenericApiException)
         }
         return performRequest {
             favoriteTVSeriesService.getFavoriteTVSeries(
                 accountId = authManager.accountId,
+                sortBy = order.type,
                 key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )

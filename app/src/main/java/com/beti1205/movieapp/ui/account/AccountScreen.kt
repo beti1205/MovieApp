@@ -30,9 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
+import com.beti1205.movieapp.common.FavoriteListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
-import com.beti1205.movieapp.feature.movies.domain.FavoriteListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.LoginButton
 import com.beti1205.movieapp.ui.account.widget.dialog.AccountDialog
@@ -56,7 +56,8 @@ fun AccountScreen(
     val account by viewModel.account.collectAsState()
     val movies by viewModel.movies.collectAsState()
     val tvSeries by viewModel.tvSeries.collectAsState()
-    val order by viewModel.order.collectAsState()
+    val favoriteMoviesOrder by viewModel.favoriteMoviesOrder.collectAsState()
+    val favoriteTVOrder by viewModel.favoriteTVOrder.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
@@ -66,8 +67,10 @@ fun AccountScreen(
         account = account,
         tvSeries = tvSeries,
         movies = movies,
-        order = order,
-        onOrderChanged = viewModel::onOrderChanged,
+        favoriteMoviesOrder = favoriteMoviesOrder,
+        favoriteTVOrder = favoriteTVOrder,
+        onFavoriteMoviesOrderChanged = viewModel::onFavoriteMoviesOrderChanged,
+        onFavoriteTVOrderChanged = viewModel::onFavoriteTVOrderChanged,
         onLoginClicked = viewModel::fetchRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
@@ -94,8 +97,10 @@ fun AccountScreen(
     account: AccountDetails?,
     movies: List<Movie>,
     tvSeries: List<TVSeries>,
-    order: FavoriteListOrder,
-    onOrderChanged: (FavoriteListOrder) -> Unit,
+    favoriteMoviesOrder: FavoriteListOrder,
+    favoriteTVOrder: FavoriteListOrder,
+    onFavoriteMoviesOrderChanged: (FavoriteListOrder) -> Unit,
+    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
@@ -114,8 +119,10 @@ fun AccountScreen(
         account = account,
         movies = movies,
         tvSeries = tvSeries,
-        order = order,
-        onOrderChanged = onOrderChanged,
+        favoriteMoviesOrder = favoriteMoviesOrder,
+        favoriteTVOrder = favoriteTVOrder,
+        onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
+        onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
         onLoginClicked = onLoginClicked,
         onMovieClicked = onMovieClicked,
         onTVSeriesClicked = onTVSeriesClicked,
@@ -158,8 +165,10 @@ private fun AccountScreenContent(
     account: AccountDetails?,
     movies: List<Movie>,
     tvSeries: List<TVSeries>,
-    order: FavoriteListOrder,
-    onOrderChanged: (FavoriteListOrder) -> Unit,
+    favoriteMoviesOrder: FavoriteListOrder,
+    favoriteTVOrder: FavoriteListOrder,
+    onFavoriteMoviesOrderChanged: (FavoriteListOrder) -> Unit,
+    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
@@ -189,13 +198,15 @@ private fun AccountScreenContent(
                     ) {
                         FavoriteMoviesSection(
                             movies = movies,
-                            order = order,
-                            onOrderChanged = onOrderChanged,
+                            favoriteMoviesOrder = favoriteMoviesOrder,
+                            onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
                             onMovieClicked = onMovieClicked
                         )
 
                         FavoriteTVSeriesSection(
                             tvSeries = tvSeries,
+                            favoriteTVOrder = favoriteTVOrder,
+                            onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
                             onTVSeriesClicked = onTVSeriesClicked
                         )
                     }
@@ -227,8 +238,10 @@ fun AccountScreenPreview(
             account = data.account,
             movies = data.movies,
             tvSeries = data.tvSeries,
-            order = FavoriteListOrder.LATEST,
-            onOrderChanged = {},
+            favoriteMoviesOrder = FavoriteListOrder.LATEST,
+            favoriteTVOrder = FavoriteListOrder.LATEST,
+            onFavoriteMoviesOrderChanged = {},
+            onFavoriteTVOrderChanged = {},
             onLoginClicked = {},
             onErrorHandled = {},
             onDeniedHandled = {},

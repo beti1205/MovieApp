@@ -27,8 +27,7 @@ fun FavoriteTVSeriesList(
         modifier = modifier.padding(16.dp)
     ) {
         itemsIndexed(
-            items = tvSeries,
-            key = { _, item -> item.id }
+            items = tvSeries
         ) { index, item ->
             Column(
                 modifier = Modifier

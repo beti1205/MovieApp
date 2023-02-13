@@ -51,7 +51,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
         compose = true
     }
@@ -91,10 +90,6 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.constraintlayout)
-    implementation(libs.cardview)
-    implementation(libs.recyclerview)
     implementation(libs.fragment.ktx)
     implementation(libs.accompanist.flowlayout)
     coreLibraryDesugaring(libs.desugaring)
@@ -113,7 +108,6 @@ dependencies {
     testImplementation(libs.mockk)
 
     androidTestImplementation(libs.compose.ui.test.junit4)
-    androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
     debugImplementation(libs.compose.ui.tooling)

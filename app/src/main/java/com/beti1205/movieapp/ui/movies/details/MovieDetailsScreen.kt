@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
@@ -39,10 +40,10 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: MovieDetailsViewModel,
-    onPersonClicked: (Int) -> Unit,
-    onReviewsClicked: (Int) -> Unit,
-    onBackPressed: () -> Unit
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
+    onPersonClicked: (Int) -> Unit = {},
+    onReviewsClicked: (Int) -> Unit = {},
+    onBackPressed: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()

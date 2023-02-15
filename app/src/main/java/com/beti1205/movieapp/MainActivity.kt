@@ -30,10 +30,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.beti1205.movieapp.ui.movies.details.MovieDetailsScreen
+import com.beti1205.movieapp.ui.movies.list.MovieScreen
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,17 +52,42 @@ class MainActivity : ComponentActivity() {
             MovieAppTheme {
                 val navController = rememberNavController()
                 Scaffold(bottomBar = {
-                    BottomNavigationBar(navController)
+                    BottomNavigationBar(navController = navController)
                 }) {
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            HomeScreen()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.MovieScreen.route
+                    ) {
+                        composable(Screen.MovieScreen.route) {
+                            MovieScreen(
+                                onMovieClicked = { movieId ->
+                                    navController.navigate(
+                                        Screen.MovieDetailsScreen.withArgs(
+                                            movieId.toString()
+                                        )
+                                    )
+                                },
+                                onSearchClicked = { navController.navigate(Screen.MovieSearchScreen.route) }
+                            )
                         }
-                        composable("tv series") {
+                        composable(Screen.TVScreen.route) {
                             TVScreen()
                         }
-                        composable("account") {
+                        composable(Screen.AccountScreen.route) {
                             AccountScreen()
+                        }
+                        composable(
+                            route = "${Screen.MovieDetailsScreen.route}/{selectedMovieId}",
+                            arguments = listOf(
+                                navArgument("selectedMovieId") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            MovieDetailsScreen(onBackPressed = { navController.popBackStack() })
+                        }
+                        composable(Screen.MovieSearchScreen.route) {
+                            MovieSearchScreen()
                         }
                     }
                 }
@@ -73,17 +102,17 @@ private fun BottomNavigationBar(navController: NavHostController) {
         items = listOf(
             BottomNavItem(
                 name = "Home",
-                route = "home",
+                route = Screen.MovieScreen.route,
                 icon = Icons.Default.Home
             ),
             BottomNavItem(
                 name = "TV Series",
-                route = "tv series",
+                route = Screen.TVScreen.route,
                 icon = Icons.Default.Tv
             ),
             BottomNavItem(
                 name = "Account",
-                route = "account",
+                route = Screen.AccountScreen.route,
                 icon = Icons.Default.AccountBox
             )
 
@@ -94,12 +123,12 @@ private fun BottomNavigationBar(navController: NavHostController) {
 }
 
 @Composable
-fun HomeScreen() {
+fun MovieSearchScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Home Screen")
+        Text(text = "Movie Details Screen")
     }
 }
 
@@ -156,6 +185,23 @@ fun BottomNavigationBar(
                     }
                 }
             )
+        }
+    }
+}
+
+sealed class Screen(val route: String) {
+    object MovieScreen : Screen("movie")
+    object MovieDetailsScreen : Screen("movie_details")
+    object MovieSearchScreen : Screen("movie_search")
+    object TVScreen : Screen("tv_series")
+    object AccountScreen : Screen("account")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
         }
     }
 }

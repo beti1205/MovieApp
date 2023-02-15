@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.R
@@ -31,7 +32,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun MovieScreen(
-    viewModel: MovieViewModel,
+    viewModel: MovieViewModel = hiltViewModel(),
     onMovieClicked: (Int) -> Unit,
     onSearchClicked: () -> Unit
 ) {

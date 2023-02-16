@@ -41,9 +41,9 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel = hiltViewModel(),
-    onPersonClicked: (Int) -> Unit = {},
-    onReviewsClicked: (Int) -> Unit = {},
-    onBackPressed: () -> Unit = {}
+    onPersonClicked: (Int) -> Unit,
+    onReviewsClicked: (Int) -> Unit,
+    onBackPressed: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()

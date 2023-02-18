@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.FavoriteListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
@@ -45,7 +46,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun AccountScreen(
-    viewModel: AccountViewModel,
+    viewModel: AccountViewModel = hiltViewModel(),
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {

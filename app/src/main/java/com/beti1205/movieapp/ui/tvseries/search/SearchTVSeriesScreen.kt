@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
@@ -26,8 +27,8 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun SearchTVSeriesScreen(
-    viewModel: SearchTVSeriesViewModel,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    viewModel: SearchTVSeriesViewModel = hiltViewModel(),
+    onTVSeriesClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val searchTVSeriesItems = viewModel.querySearchResults.collectAsLazyPagingItems()
@@ -46,7 +47,7 @@ fun SearchTVSeriesScreen(
 fun SearchTVSeriesScreen(
     query: String,
     searchTVSeriesItems: LazyPagingItems<TVSeries>,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     onQueryChange: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {

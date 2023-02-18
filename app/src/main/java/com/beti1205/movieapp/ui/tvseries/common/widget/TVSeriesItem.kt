@@ -26,11 +26,11 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun TVSeriesItem(
     tvSeries: TVSeries,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { onTVSeriesClicked(tvSeries) },
+        onClick = { onTVSeriesClicked(tvSeries.id) },
         shape = RoundedCornerShape(16.dp),
         contentColor = MaterialTheme.colors.onPrimary,
         modifier = modifier.padding(8.dp),

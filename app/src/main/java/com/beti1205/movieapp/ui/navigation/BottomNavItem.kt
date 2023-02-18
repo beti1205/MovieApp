@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.beti1205.movieapp.Screen
 
 enum class BottomNavItem(
     val label: String,

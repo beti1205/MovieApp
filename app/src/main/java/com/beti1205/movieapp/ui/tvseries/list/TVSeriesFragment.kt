@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,9 +35,9 @@ class TVSeriesFragment : Fragment() {
         }
     }
 
-    private fun navigateToTvSeriesDetails(tvSeries: TVSeries) {
+    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
         findNavController().navigate(
-            TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeries.id)
+            TVSeriesFragmentDirections.actionTVSeriesFragmentToTVSeriesDetailsFragment(tvSeriesId)
         )
     }
 

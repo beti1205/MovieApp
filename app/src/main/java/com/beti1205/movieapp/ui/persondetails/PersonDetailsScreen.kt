@@ -35,7 +35,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 fun PersonDetailsScreen(
     viewModel: PersonDetailsViewModel = hiltViewModel(),
     onMovieClicked: (Int) -> Unit,
-    onTVSeriesClicked: (Int) -> Unit = {},
+    onTVSeriesClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val personDetails by viewModel.personDetails.collectAsState()

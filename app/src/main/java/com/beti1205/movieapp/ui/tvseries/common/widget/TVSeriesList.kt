@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun TVSeriesList(
     tvSeriesListItems: LazyPagingItems<TVSeries>,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(

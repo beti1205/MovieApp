@@ -50,6 +50,7 @@ compose-material = { group = "androidx.compose.material", name = "material" } #i
 compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" } #implementation
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" } #implementation
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" } #implementation
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }#implementation
 compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" } #androidTestImplementation
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" } #debugImplementation
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" } #debugImplementation
@@ -68,6 +69,7 @@ navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx",
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" } #implementation
 hilt-navigation-fragment = { group = "androidx.hilt", name = "hilt-navigation-fragment", version.ref = "hiltNavigation" } #implementation
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" } #implementation
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" } #kapt
 
 paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" } #implementation
@@ -104,7 +106,8 @@ compose = [
     "compose-material",
     "compose-runtime-livedata",
     "compose-activity",
-    "compose-material-icons"
+    "compose-material-icons",
+    "compose-navigation"
 ]
 retrofit = [
     "retrofit",
@@ -121,7 +124,8 @@ coil = [
 ]
 hilt = [
     "hilt-android",
-    "hilt-navigation-fragment"
+    "hilt-navigation-fragment",
+    "hilt-navigation-compose"
 ]
 
 [plugins]

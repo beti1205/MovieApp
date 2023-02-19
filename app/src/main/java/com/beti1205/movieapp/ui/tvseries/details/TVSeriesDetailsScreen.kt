@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.Genre
 import com.beti1205.movieapp.feature.credits.data.Cast
@@ -36,7 +37,7 @@ import com.beti1205.movieapp.ui.tvseries.details.widget.TVSeriesDetailsScreenCon
 
 @Composable
 fun TVSeriesDetailsScreen(
-    viewModel: TVSeriesDetailsViewModel,
+    viewModel: TVSeriesDetailsViewModel = hiltViewModel(),
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit

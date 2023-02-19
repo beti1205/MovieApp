@@ -20,7 +20,7 @@ import com.beti1205.movieapp.ui.tvseries.common.widget.TVSeriesList
 @Composable
 fun SearchTVSeriesList(
     searchTVSeriesItems: LazyPagingItems<TVSeries>,
-    onTVSeriesClicked: (TVSeries) -> Unit
+    onTVSeriesClicked: (Int) -> Unit
 ) {
     searchTVSeriesItems.apply {
         when {

@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.common.widget.Error
 import com.beti1205.movieapp.ui.common.widget.Loader
@@ -39,7 +40,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: MovieDetailsViewModel,
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit

@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
@@ -32,7 +33,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun PersonDetailsScreen(
-    viewModel: PersonDetailsViewModel,
+    viewModel: PersonDetailsViewModel = hiltViewModel(),
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
     onBackPressed: () -> Unit

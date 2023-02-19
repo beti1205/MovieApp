@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.beti1205.movieapp.R
@@ -31,8 +32,8 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun TVSeriesScreen(
-    viewModel: TVSeriesViewModel,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    viewModel: TVSeriesViewModel = hiltViewModel(),
+    onTVSeriesClicked: (Int) -> Unit,
     onSearchClicked: () -> Unit
 ) {
     val tvSeriesListItems = viewModel.tvSeries.collectAsLazyPagingItems()
@@ -52,7 +53,7 @@ fun TVSeriesScreen(
     tvSeriesListItems: LazyPagingItems<TVSeries>,
     selectedTVSeriesOrder: TVOrder,
     onSelectedTVSeriesOrderChanged: (TVOrder) -> Unit,
-    onTVSeriesClicked: (TVSeries) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit,
     onSearchClicked: () -> Unit
 ) {
     MovieAppTheme {

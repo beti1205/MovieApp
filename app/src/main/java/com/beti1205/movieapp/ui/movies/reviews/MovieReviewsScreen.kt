@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.ui.common.widget.Error
@@ -29,7 +30,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun MovieReviewsScreen(
-    viewModel: MovieReviewsViewModel,
+    viewModel: MovieReviewsViewModel = hiltViewModel(),
     onBackPressed: () -> Unit
 ) {
     val reviews by viewModel.reviews.collectAsState()

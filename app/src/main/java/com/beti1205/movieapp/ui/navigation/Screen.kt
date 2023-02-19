@@ -7,6 +7,7 @@ package com.beti1205.movieapp.ui.navigation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 
 sealed class Screen(val route: String) {
     object MovieScreen : Screen("movie")
@@ -63,5 +64,27 @@ sealed class Screen(val route: String) {
     }
 
     object TVSeriesSearchScreen : Screen("tv_series_search")
-    object AccountScreen : Screen("account")
+    object AccountScreen : Screen("account") {
+        private const val uri = "movieapp://app/authenticate"
+        val deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "$uri?request_token={request_token}&approved={approved}" +
+                    "&denied={denied}"
+            }
+        )
+        val arguments = listOf(
+            navArgument("request_token") {
+                type = NavType.StringType
+                nullable = true
+            },
+            navArgument("approved") {
+                type = NavType.BoolType
+                defaultValue = false
+            },
+            navArgument("denied") {
+                type = NavType.BoolType
+                defaultValue = false
+            }
+        )
+    }
 }

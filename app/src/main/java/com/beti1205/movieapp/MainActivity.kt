@@ -13,10 +13,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.beti1205.movieapp.ui.navigation.BottomNavigationBar
-import com.beti1205.movieapp.ui.navigation.Screen
-import com.beti1205.movieapp.ui.navigation.movieGraph
+import com.beti1205.movieapp.ui.navigation.Graph
 import com.beti1205.movieapp.ui.navigation.navGraph
-import com.beti1205.movieapp.ui.navigation.tvSeriesGraph
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,11 +40,9 @@ class MainActivity : ComponentActivity() {
                 }) { paddingValues ->
                     NavHost(
                         navController = appState.navController,
-                        startDestination = Screen.MovieScreen.route,
+                        startDestination = Graph.MoviesGraph.route,
                         modifier = Modifier.padding(paddingValues = paddingValues)
                     ) {
-                        movieGraph(navController)
-                        tvSeriesGraph(navController)
                         navGraph(navController)
                     }
                 }

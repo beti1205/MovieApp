@@ -14,26 +14,21 @@ import com.beti1205.movieapp.ui.persondetails.PersonDetailsScreen
 import com.beti1205.movieapp.ui.tvseries.details.TVSeriesDetailsScreen
 
 fun NavGraphBuilder.navGraph(navController: NavHostController) {
+    movieGraph(navController)
+    tvSeriesGraph(navController)
+    tvSeriesDetails(navController)
+    account(navController)
+    movieDetails(navController)
+    personDetails(navController)
+}
+
+private fun NavGraphBuilder.personDetails(navController: NavHostController) {
     composable(
-        route = Screen.TVSeriesDetailsScreen.route,
-        arguments = Screen.TVSeriesDetailsScreen.arguments
+        route = Screen.PersonDetailsScreen.route,
+        arguments = Screen.PersonDetailsScreen.arguments
     ) {
-        TVSeriesDetailsScreen(
-            onPersonClicked = { personId ->
-                navController.navigate(
-                    Screen.PersonDetailsScreen.createRoute(personId)
-                )
-            },
-            onReviewsClicked = { tvSeriesId ->
-                navController.navigate(
-                    Screen.TVSeriesReviewsScreen.createRoute(tvSeriesId)
-                )
-            },
-            onBackPressed = { navController.popBackStack() }
-        )
-    }
-    composable(Screen.AccountScreen.route) {
-        AccountScreen(
+        PersonDetailsScreen(
+            onBackPressed = { navController.popBackStack() },
             onMovieClicked = { movieId ->
                 navController.navigate(
                     Screen.MovieDetailsScreen.createRoute(movieId)
@@ -46,6 +41,9 @@ fun NavGraphBuilder.navGraph(navController: NavHostController) {
             }
         )
     }
+}
+
+private fun NavGraphBuilder.movieDetails(navController: NavHostController) {
     composable(
         route = Screen.MovieDetailsScreen.route,
         arguments = Screen.MovieDetailsScreen.arguments
@@ -64,12 +62,15 @@ fun NavGraphBuilder.navGraph(navController: NavHostController) {
             onBackPressed = { navController.popBackStack() }
         )
     }
+}
+
+private fun NavGraphBuilder.account(navController: NavHostController) {
     composable(
-        route = Screen.PersonDetailsScreen.route,
-        arguments = Screen.PersonDetailsScreen.arguments
+        route = Screen.AccountScreen.route,
+        arguments = Screen.AccountScreen.arguments,
+        deepLinks = Screen.AccountScreen.deepLinks
     ) {
-        PersonDetailsScreen(
-            onBackPressed = { navController.popBackStack() },
+        AccountScreen(
             onMovieClicked = { movieId ->
                 navController.navigate(
                     Screen.MovieDetailsScreen.createRoute(movieId)
@@ -80,6 +81,27 @@ fun NavGraphBuilder.navGraph(navController: NavHostController) {
                     Screen.TVSeriesDetailsScreen.createRoute(tvSeriesId)
                 )
             }
+        )
+    }
+}
+
+private fun NavGraphBuilder.tvSeriesDetails(navController: NavHostController) {
+    composable(
+        route = Screen.TVSeriesDetailsScreen.route,
+        arguments = Screen.TVSeriesDetailsScreen.arguments
+    ) {
+        TVSeriesDetailsScreen(
+            onPersonClicked = { personId ->
+                navController.navigate(
+                    Screen.PersonDetailsScreen.createRoute(personId)
+                )
+            },
+            onReviewsClicked = { tvSeriesId ->
+                navController.navigate(
+                    Screen.TVSeriesReviewsScreen.createRoute(tvSeriesId)
+                )
+            },
+            onBackPressed = { navController.popBackStack() }
         )
     }
 }

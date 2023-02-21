@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 package com.beti1205.movieapp.ui.tvseries.reviews
 
 import androidx.lifecycle.SavedStateHandle
@@ -19,7 +24,7 @@ class TVSeriesReviewsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val tvSeriesId = savedStateHandle.getStateFlow<Int?>("tvSeriesId", null)
+    private val tvSeriesReviewsArgs = TVSeriesReviewsArgs(savedStateHandle)
 
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews: StateFlow<List<Review>> = _reviews.asStateFlow()
@@ -31,10 +36,7 @@ class TVSeriesReviewsViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
-        val tvSeriesId = tvSeriesId.value
-        if (tvSeriesId != null) {
-            fetchTVSeriesReviews(tvSeriesId)
-        }
+        fetchTVSeriesReviews(tvSeriesReviewsArgs.tvId)
     }
 
     private fun fetchTVSeriesReviews(id: Int) {

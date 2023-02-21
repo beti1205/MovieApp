@@ -3,15 +3,23 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.navigation
+package com.beti1205.movieapp.ui.persondetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import com.beti1205.movieapp.ui.persondetails.PersonDetailsScreen
+import androidx.navigation.navArgument
 
 private const val selectedPersonIdArg = "selectedPersonId"
+private const val personDetailsScreenRoute = "person_details"
+
+private val arguments = listOf(
+    navArgument(selectedPersonIdArg) {
+        type = NavType.IntType
+    }
+)
 
 internal class PersonDetailsArgs(val selectedPersonId: Int) {
     constructor(
@@ -19,12 +27,15 @@ internal class PersonDetailsArgs(val selectedPersonId: Int) {
     ) : this(checkNotNull(savedStateHandle[selectedPersonIdArg]) as Int)
 }
 
-private fun NavGraphBuilder.personDetailsScreen(
+fun NavGraphBuilder.personDetailsScreen(
     onNavigateToMovieDetails: (movieId: Int) -> Unit,
     onNavigateToTVSeriesDetails: (tvId: Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
-    composable("person_details/{$selectedPersonIdArg}") {
+    composable(
+        route = "$personDetailsScreenRoute/{$selectedPersonIdArg}",
+        arguments = arguments
+    ) {
         PersonDetailsScreen(
             onMovieClicked = onNavigateToMovieDetails,
             onTVSeriesClicked = onNavigateToTVSeriesDetails,
@@ -34,5 +45,5 @@ private fun NavGraphBuilder.personDetailsScreen(
 }
 
 fun NavController.navigateToPersonDetailsScreen(personId: Int) {
-    this.navigate("person_details/$personId")
+    this.navigate("$personDetailsScreenRoute/$personId")
 }

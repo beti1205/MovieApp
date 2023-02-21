@@ -7,39 +7,29 @@ package com.beti1205.movieapp.ui.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.beti1205.movieapp.ui.movies.list.MovieScreen
-import com.beti1205.movieapp.ui.movies.reviews.MovieReviewsScreen
-import com.beti1205.movieapp.ui.movies.search.SearchMoviesScreen
+import com.beti1205.movieapp.ui.movies.details.navigateToMovieDetails
+import com.beti1205.movieapp.ui.movies.list.movieScreen
+import com.beti1205.movieapp.ui.movies.reviews.movieReviewsScreen
+import com.beti1205.movieapp.ui.movies.search.movieSearchScreen
+import com.beti1205.movieapp.ui.movies.search.navigateToMovieSearchScreen
 
 fun NavGraphBuilder.movieGraph(navController: NavHostController) {
-    navigation(startDestination = Screen.MovieScreen.route, route = Graph.MoviesGraph.route) {
-        composable(Screen.MovieScreen.route) {
-            MovieScreen(
-                onMovieClicked = { movieId ->
-                    navController.navigate(
-                        Screen.MovieDetailsScreen.createRoute(movieId)
-                    )
-                },
-                onSearchClicked = { navController.navigate(Screen.MovieSearchScreen.route) }
-            )
-        }
-        composable(Screen.MovieSearchScreen.route) {
-            SearchMoviesScreen(
-                onMovieClicked = { movieId ->
-                    navController.navigate(
-                        Screen.MovieDetailsScreen.createRoute(movieId)
-                    )
-                },
-                onBackPressed = { navController.popBackStack() }
-            )
-        }
-        composable(
-            route = Screen.MovieReviewsScreen.route,
-            arguments = Screen.MovieReviewsScreen.arguments
-        ) {
-            MovieReviewsScreen(onBackPressed = { navController.popBackStack() })
-        }
+    navigation(startDestination = "movie", route = Graph.MoviesGraph.route) {
+        movieScreen(
+            onNavigateToMovieDetails = { movieId ->
+                navController.navigateToMovieDetails(movieId)
+            },
+            onNavigateToMovieSearch = {
+                navController.navigateToMovieSearchScreen()
+            }
+        )
+        movieSearchScreen(
+            onNavigateToMovieDetails = { movieId ->
+                navController.navigateToMovieDetails(movieId)
+            },
+            onBackPressed = { navController.popBackStack() }
+        )
+        movieReviewsScreen(onBackPressed = { navController.popBackStack() })
     }
 }

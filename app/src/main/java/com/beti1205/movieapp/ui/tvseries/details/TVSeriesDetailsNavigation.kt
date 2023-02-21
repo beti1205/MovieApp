@@ -3,15 +3,23 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.navigation
+package com.beti1205.movieapp.ui.tvseries.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import com.beti1205.movieapp.ui.tvseries.details.TVSeriesDetailsScreen
+import androidx.navigation.navArgument
 
 private const val selectedTVSeriesIdArg = "selectedTVSeriesId"
+private const val tvSeriesDetailsScreenRoute = "tv_series_details"
+
+private val arguments = listOf(
+    navArgument(selectedTVSeriesIdArg) {
+        type = NavType.IntType
+    }
+)
 
 internal class TVSeriesDetailsArgs(val selectedTVSeriesId: Int) {
     constructor(
@@ -19,12 +27,15 @@ internal class TVSeriesDetailsArgs(val selectedTVSeriesId: Int) {
     ) : this(checkNotNull(savedStateHandle[selectedTVSeriesIdArg]) as Int)
 }
 
-private fun NavGraphBuilder.tvSeriesDetailsScreen(
-    onNavigateToPersonDetails: (Int) -> Unit,
-    onNavigateToTVReviews: (Int) -> Unit,
+fun NavGraphBuilder.tvSeriesDetailsScreen(
+    onNavigateToPersonDetails: (personId: Int) -> Unit,
+    onNavigateToTVReviews: (tvId: Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
-    composable("tv_series_details/{$selectedTVSeriesIdArg}") {
+    composable(
+        route = "$tvSeriesDetailsScreenRoute/{$selectedTVSeriesIdArg}",
+        arguments = arguments
+    ) {
         TVSeriesDetailsScreen(
             onPersonClicked = onNavigateToPersonDetails,
             onReviewsClicked = onNavigateToTVReviews,
@@ -34,5 +45,5 @@ private fun NavGraphBuilder.tvSeriesDetailsScreen(
 }
 
 fun NavController.navigateToTVSeriesDetailsScreen(tvId: Int) {
-    this.navigate("tv_series_details/$tvId")
+    this.navigate("$tvSeriesDetailsScreenRoute/$tvId")
 }

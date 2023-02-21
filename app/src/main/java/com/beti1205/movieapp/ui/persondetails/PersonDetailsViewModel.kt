@@ -19,7 +19,6 @@ import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCa
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCreditsResponse
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
 import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
-import com.beti1205.movieapp.ui.navigation.PersonDetailsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +38,6 @@ class PersonDetailsViewModel @Inject constructor(
     private val fetchPersonTVSeriesCreditsUseCase: FetchPersonTVSeriesCreditsUseCase
 ) : ViewModel() {
 
-    //    private val selectedPersonId = state.getStateFlow<Int>("selectedPersonId", -1)
     private val personDetailsArgs = PersonDetailsArgs(state)
 
     private val _personDetails = MutableStateFlow<PersonDetails?>(null)

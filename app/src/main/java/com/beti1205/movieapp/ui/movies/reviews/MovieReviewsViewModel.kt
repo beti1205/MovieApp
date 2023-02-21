@@ -24,7 +24,7 @@ class MovieReviewsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val movieId = savedStateHandle.getStateFlow<Int?>("movieId", null)
+    private val movieReviewsArgs = MovieReviewsArgs(savedStateHandle)
 
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews: StateFlow<List<Review>> = _reviews.asStateFlow()
@@ -36,10 +36,7 @@ class MovieReviewsViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
-        val movieId = movieId.value
-        if (movieId != null) {
-            fetchMovieReviews(movieId)
-        }
+        fetchMovieReviews(movieReviewsArgs.movieId)
     }
 
     private fun fetchMovieReviews(id: Int) {

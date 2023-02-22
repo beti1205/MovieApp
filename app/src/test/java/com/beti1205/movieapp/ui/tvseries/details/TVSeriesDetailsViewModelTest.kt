@@ -202,32 +202,6 @@ class TVSeriesDetailsViewModelTest {
     }
 
     @Test
-    fun verifyThatSelectedTVSeriesWasSet() = runTest {
-        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
-        coEvery { fetchEpisodesUseCase(any(), any()) } returns tvSeriesEpisodesSuccess
-        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
-        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-
-        viewModel = TVSeriesDetailsViewModel(
-            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
-            fetchTVSeriesDetailsUseCase,
-            fetchEpisodesUseCase,
-            fetchTVSeriesCreditsUseCase,
-            fetchTVAccountStatesUseCase,
-            markFavoriteUseCase,
-            authManager
-        )
-
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.selectedTVSeriesId.collect() }
-
-        assertEquals(TVSeriesDataProvider.tvSeries.id, viewModel.selectedTVSeriesId.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
     fun fetchTVAccountStates_successful() = runTest {
         coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
         coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess

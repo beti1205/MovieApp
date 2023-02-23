@@ -5,30 +5,29 @@
 
 package com.beti1205.movieapp.ui.navigation
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.beti1205.movieapp.R
 
 enum class BottomNavItem(
-    val label: String,
-    val route: String,
+    @StringRes
+    val label: Int,
     val icon: ImageVector
 ) {
     HOME(
-        label = "Home",
-        route = Screen.MovieScreen.route,
+        label = R.string.bottom_nav_home_label,
         icon = Icons.Default.Home
     ),
     TV_SERIES(
-        label = "TV Series",
-        route = Screen.TVSeriesScreen.route,
+        label = R.string.bottom_nav_tv_series_label,
         icon = Icons.Default.Tv
     ),
     ACCOUNT(
-        label = "Account",
-        route = Screen.AccountScreen.route,
+        label = R.string.bottom_nav_account_label,
         icon = Icons.Default.AccountBox
     )
 }

@@ -13,7 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.beti1205.movieapp.ui.navigation.BottomNavigationBar
-import com.beti1205.movieapp.ui.navigation.Graph
+import com.beti1205.movieapp.ui.navigation.movieGraphRoute
 import com.beti1205.movieapp.ui.navigation.navGraph
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,15 +32,15 @@ class MainActivity : ComponentActivity() {
                 Scaffold(bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         BottomNavigationBar(
-                            items = appState.bottomBarTabs,
-                            currentRoute = appState.currentRoute!!,
-                            navigateToRoute = appState::navigateToBottomBarRoute
+                            items = appState.bottomNavItems,
+                            currentRoute = appState.currentBottomNavItemDestination,
+                            navigateToRoute = appState::navigateToBottomNavItemDestination
                         )
                     }
                 }) { paddingValues ->
                     NavHost(
                         navController = appState.navController,
-                        startDestination = Graph.MoviesGraph.route,
+                        startDestination = movieGraphRoute,
                         modifier = Modifier.padding(paddingValues = paddingValues)
                     ) {
                         navGraph(navController)

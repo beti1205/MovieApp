@@ -10,12 +10,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.beti1205.movieapp.ui.tvseries.details.navigateToTVSeriesDetailsScreen
 import com.beti1205.movieapp.ui.tvseries.list.tvSeriesScreen
+import com.beti1205.movieapp.ui.tvseries.list.tvSeriesScreenRoute
 import com.beti1205.movieapp.ui.tvseries.reviews.tvSeriesReviewsScreen
 import com.beti1205.movieapp.ui.tvseries.search.navigateToTVSeriesSearchScreen
 import com.beti1205.movieapp.ui.tvseries.search.tvSeriesSearchScreen
 
+const val tvSeriesGraphRoute = "tv_series_graph"
+
 fun NavGraphBuilder.tvSeriesGraph(navController: NavHostController) {
-    navigation(startDestination = "tv_series", route = Graph.TVGraph.route) {
+    navigation(startDestination = tvSeriesScreenRoute, route = tvSeriesGraphRoute) {
         tvSeriesScreen(
             onNavigateToTVSeriesDetails = { tvId ->
                 navController.navigateToTVSeriesDetailsScreen(tvId)

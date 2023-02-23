@@ -8,17 +8,19 @@ package com.beti1205.movieapp.ui.account
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import kotlinx.coroutines.flow.StateFlow
 
+const val accountScreenRoute = "account"
+
 private const val requestTokenArg = "request_token"
 private const val approvedArg = "approved"
 private const val deniedArg = "denied"
 private const val uri = "movieapp://app/authenticate"
-private const val accountScreenRoute = "account"
 
 private val deepLinks = listOf(
     navDeepLink {
@@ -71,6 +73,6 @@ fun NavGraphBuilder.accountScreen(
     }
 }
 
-fun NavController.navigateToAccountScreen() {
-    this.navigate(accountScreenRoute)
+fun NavController.navigateToAccountScreen(navOptions: NavOptions? = null) {
+    this.navigate(accountScreenRoute, navOptions)
 }

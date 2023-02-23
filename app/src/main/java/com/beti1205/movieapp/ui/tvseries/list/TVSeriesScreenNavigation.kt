@@ -7,9 +7,10 @@ package com.beti1205.movieapp.ui.tvseries.list
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-private const val tvSeriesScreenRoute = "tv_series"
+const val tvSeriesScreenRoute = "tv_series"
 
 fun NavGraphBuilder.tvSeriesScreen(
     onNavigateToTVSeriesDetails: (tvId: Int) -> Unit,
@@ -23,6 +24,6 @@ fun NavGraphBuilder.tvSeriesScreen(
     }
 }
 
-fun NavController.navigateToTVSeriesScreen() {
-    this.navigate(tvSeriesScreenRoute)
+fun NavController.navigateToTVSeriesScreen(navOptions: NavOptions? = null) {
+    this.navigate(tvSeriesScreenRoute, navOptions)
 }

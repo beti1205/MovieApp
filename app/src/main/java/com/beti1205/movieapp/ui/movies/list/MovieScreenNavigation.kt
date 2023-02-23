@@ -7,9 +7,10 @@ package com.beti1205.movieapp.ui.movies.list
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-private const val movieScreenRoute = "movie"
+const val movieScreenRoute = "movie"
 
 fun NavGraphBuilder.movieScreen(
     onNavigateToMovieDetails: (movieId: Int) -> Unit,
@@ -23,6 +24,6 @@ fun NavGraphBuilder.movieScreen(
     }
 }
 
-fun NavController.navigateToMovieScreen() {
-    this.navigate(movieScreenRoute)
+fun NavController.navigateToMovieScreen(navOptions: NavOptions? = null) {
+    this.navigate(movieScreenRoute, navOptions)
 }

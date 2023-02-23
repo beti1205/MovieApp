@@ -12,12 +12,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavItem>,
-    currentRoute: String,
-    navigateToRoute: (String) -> Unit,
+    currentRoute: BottomNavItem?,
+    navigateToRoute: (BottomNavItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomNavigation(
@@ -26,10 +27,10 @@ fun BottomNavigationBar(
     ) {
         items.forEach { item ->
             BottomNavigationItem(
-                selected = currentRoute == item.route,
-                onClick = { navigateToRoute(item.route) },
+                selected = currentRoute == item,
+                onClick = { navigateToRoute(item) },
                 label = {
-                    Text(text = item.label)
+                    Text(text = stringResource(id = item.label))
                 },
                 icon = {
                     Icon(imageVector = item.icon, contentDescription = null)

@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,10 +41,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    val selectedTVSeriesId = state.getStateFlow(
-        "selectedTVSeriesId",
-        -1
-    )
+    private val tvSeriesDetailsArgs = TVSeriesDetailsArgs(state)
 
     private val _tvSeriesDetails = MutableStateFlow<TVSeriesDetails?>(null)
     val tvSeriesDetails: StateFlow<TVSeriesDetails?> = _tvSeriesDetails.asStateFlow()
@@ -70,15 +67,15 @@ class TVSeriesDetailsViewModel @Inject constructor(
         false
     )
 
-    val episodes: StateFlow<List<Episode>> = selectedTVSeriesId
-        .combine(selectedSeason) { tvSeriesId, season ->
+    val episodes: StateFlow<List<Episode>> =
+        selectedSeason.map { season ->
             if (season == null) {
-                return@combine emptyList()
+                return@map emptyList()
             }
 
             when (
                 val result = fetchEpisodesUseCase(
-                    tvSeriesId,
+                    tvSeriesDetailsArgs.selectedTVSeriesId,
                     season.seasonNumber
                 )
             ) {
@@ -88,10 +85,11 @@ class TVSeriesDetailsViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     init {
-        val selectedTvSeriesId = selectedTVSeriesId.value
-        fetchTVSeriesDetails(selectedTvSeriesId)
-        fetchTVSeriesCredits(selectedTvSeriesId)
-        fetchTVAccountStates(selectedTvSeriesId)
+        tvSeriesDetailsArgs.selectedTVSeriesId.apply {
+            fetchTVSeriesDetails(this)
+            fetchTVSeriesCredits(this)
+            fetchTVAccountStates(this)
+        }
     }
 
     private fun fetchTVSeriesDetails(id: Int) {
@@ -141,7 +139,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
             val result = markFavoriteUseCase(
                 favorite = favorite,
                 mediaType = MediaType.TV,
-                mediaId = selectedTVSeriesId.value
+                mediaId = tvSeriesDetailsArgs.selectedTVSeriesId
             )
 
             if (result is Result.Error) {

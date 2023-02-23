@@ -63,4 +63,7 @@
     <string name="favorite_movies_section_header">Favorite movies</string>
     <string name="tv_series_reviews_label">TV series reviews</string>
     <string name="account_dialog_title">Account Details</string>
+    <string name="bottom_nav_home_label">Home</string>
+    <string name="bottom_nav_tv_series_label">TV Series</string>
+    <string name="bottom_nav_account_label">Account</string>
 </resources>

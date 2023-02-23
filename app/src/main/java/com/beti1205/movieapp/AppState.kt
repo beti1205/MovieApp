@@ -9,44 +9,60 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
-import androidx.navigation.NavGraph
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.beti1205.movieapp.ui.account.accountScreenRoute
+import com.beti1205.movieapp.ui.account.navigateToAccountScreen
+import com.beti1205.movieapp.ui.movies.list.movieScreenRoute
+import com.beti1205.movieapp.ui.movies.list.navigateToMovieScreen
 import com.beti1205.movieapp.ui.navigation.BottomNavItem
+import com.beti1205.movieapp.ui.tvseries.list.navigateToTVSeriesScreen
+import com.beti1205.movieapp.ui.tvseries.list.tvSeriesScreenRoute
 
 @Stable
 class AppState(
     val navController: NavHostController
 ) {
-    val bottomBarTabs = BottomNavItem.values().toList()
-    private val bottomBarRoutes = bottomBarTabs.map { it.route }
-
-    val shouldShowBottomBar: Boolean
+    private val currentDestination: NavDestination?
         @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
+            .currentBackStackEntryAsState().value?.destination
 
-    val currentRoute: String?
-        get() = navController.currentDestination?.route
+    val currentBottomNavItemDestination: BottomNavItem?
+        @Composable get() = when (currentDestination?.route) {
+            movieScreenRoute -> BottomNavItem.HOME
+            tvSeriesScreenRoute -> BottomNavItem.TV_SERIES
+            accountScreenRoute -> BottomNavItem.ACCOUNT
+            else -> null
+        }
 
-    fun navigateToBottomBarRoute(route: String) {
-        if (route != currentRoute) {
-            navController.navigate(route) {
-                launchSingleTop = true
-                restoreState = true
-                popUpTo(findStartDestination(navController.graph).id) {
-                    saveState = true
-                }
+    val bottomNavItems: List<BottomNavItem> = BottomNavItem.values().asList()
+
+    fun navigateToBottomNavItemDestination(bottomNavItemDestination: BottomNavItem) {
+        val bottomNavItemOptions = navOptions {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
             }
+
+            launchSingleTop = true
+            restoreState = true
+        }
+
+        when (bottomNavItemDestination) {
+            BottomNavItem.HOME -> navController.navigateToMovieScreen(bottomNavItemOptions)
+            BottomNavItem.TV_SERIES -> navController.navigateToTVSeriesScreen(bottomNavItemOptions)
+            BottomNavItem.ACCOUNT -> navController.navigateToAccountScreen(bottomNavItemOptions)
         }
     }
 
-    private val NavGraph.startDestination: NavDestination?
-        get() = findNode(startDestinationId)
-
-    private tailrec fun findStartDestination(graph: NavDestination): NavDestination {
-        return if (graph is NavGraph) findStartDestination(graph.startDestination!!) else graph
-    }
+    val shouldShowBottomBar: Boolean
+        @Composable get() = currentDestination?.route in listOf(
+            movieScreenRoute,
+            tvSeriesScreenRoute,
+            accountScreenRoute
+        )
 }
 
 @Composable

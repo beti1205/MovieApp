@@ -38,7 +38,7 @@ class PersonDetailsViewModel @Inject constructor(
     private val fetchPersonTVSeriesCreditsUseCase: FetchPersonTVSeriesCreditsUseCase
 ) : ViewModel() {
 
-    private val selectedPersonId = state.getStateFlow<Int>("selectedPersonId", -1)
+    private val personDetailsArgs = PersonDetailsArgs(state)
 
     private val _personDetails = MutableStateFlow<PersonDetails?>(null)
     val personDetails: StateFlow<PersonDetails?> = _personDetails.asStateFlow()
@@ -107,7 +107,7 @@ class PersonDetailsViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
     init {
-        val selectedPersonId = selectedPersonId.value
+        val selectedPersonId = personDetailsArgs.selectedPersonId
         fetchPersonDetails(selectedPersonId)
         fetchPersonSectionsItems(selectedPersonId)
     }

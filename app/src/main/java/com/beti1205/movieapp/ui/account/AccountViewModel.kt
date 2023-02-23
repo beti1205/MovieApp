@@ -49,11 +49,11 @@ class AccountViewModel @Inject constructor(
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    private val approved = stateHandle.getStateFlow(APPROVED, false)
+    private val accountArgs = AccountScreenArgs(stateHandle)
 
-    val denied = stateHandle.getStateFlow(DENIED, false)
-
-    private val _requestToken = stateHandle.getStateFlow<String?>(REQUEST_TOKEN, null)
+    private val approved = accountArgs.approved
+    val denied = accountArgs.denied
+    private val _requestToken = accountArgs.requestToken
 
     private val _favoriteMoviesOrder = MutableStateFlow(FavoriteListOrder.OLDEST)
     val favoriteMoviesOrder: StateFlow<FavoriteListOrder> = _favoriteMoviesOrder.asStateFlow()
@@ -175,8 +175,7 @@ class AccountViewModel @Inject constructor(
 
     fun fetchFavoriteMovies() {
         viewModelScope.launch {
-            val result =
-                fetchFavoriteMoviesUseCase(_favoriteMoviesOrder.value)
+            val result = fetchFavoriteMoviesUseCase(_favoriteMoviesOrder.value)
 
             when (result) {
                 is Result.Success -> _movies.value = result.data.items

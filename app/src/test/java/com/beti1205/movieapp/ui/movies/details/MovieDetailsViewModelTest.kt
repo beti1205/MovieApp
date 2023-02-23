@@ -237,30 +237,6 @@ class MovieDetailsViewModelTest {
         collectJob.cancel()
     }
 
-    @Test
-    fun verifyThatSelectedMovieIdWasSet() = runTest {
-        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
-        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
-        coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-
-        viewModel = MovieDetailsViewModel(
-            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
-            fetchMovieCreditsUseCase,
-            fetchMovieDetailsUseCase,
-            markFavoriteUseCase,
-            fetchMoviesAccountStatesUseCase,
-            authManager
-        )
-
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.selectedMovieId.collect() }
-
-        assertEquals(MovieDetailsDataProvider.movieDetails.id, viewModel.selectedMovieId.value)
-
-        collectJob.cancel()
-    }
-
     private companion object {
         val movieDetailsSuccess = Result.Success(MovieDetailsDataProvider.movieDetails)
         val movieCreditsSuccess = Result.Success(MovieDetailsDataProvider.credits)

@@ -39,7 +39,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val authManager: AuthManager
 ) : ViewModel() {
 
-    val selectedMovieId = state.getStateFlow("selectedMovieId", -1)
+    private val movieDetailsArgs = MovieDetailsArgs(state)
 
     private val _state = MutableStateFlow(MovieDetailsScreenState())
     val state: StateFlow<MovieDetailsScreenState> = _state.asStateFlow()
@@ -51,8 +51,7 @@ class MovieDetailsViewModel @Inject constructor(
     )
 
     init {
-        val selectedMovieId = selectedMovieId.value
-        fetchMovieDetails(selectedMovieId)
+        fetchMovieDetails(movieDetailsArgs.selectedMovieId)
     }
 
     private fun fetchMovieDetails(id: Int) {
@@ -105,7 +104,7 @@ class MovieDetailsViewModel @Inject constructor(
             val result = markFavoriteUseCase(
                 favorite = favorite,
                 mediaType = MediaType.MOVIE,
-                mediaId = selectedMovieId.value
+                mediaId = movieDetailsArgs.selectedMovieId
             )
 
             if (result is Result.Error) {

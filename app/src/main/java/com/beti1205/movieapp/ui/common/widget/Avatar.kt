@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.topappbar
+package com.beti1205.movieapp.ui.common.widget
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -18,21 +18,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
 fun Avatar(
     text: String?,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colors.secondary,
+    size: Dp = 32.dp,
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
-            .size(32.dp)
+            .size(size)
             .clip(CircleShape)
-            .background(color = MaterialTheme.colors.secondary)
+            .background(color = color)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {

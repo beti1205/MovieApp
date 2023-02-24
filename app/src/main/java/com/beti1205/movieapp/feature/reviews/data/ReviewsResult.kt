@@ -26,8 +26,18 @@ data class Review(
     val createdAt: String,
 
     @Json(name = "updated_at")
-    val updatedAt: String?
+    val updatedAt: String?,
+
+    @Json(name = "author_details")
+    val authorDetails: AuthorDetails
+
 ) {
     val createdDate: String
         get() = createdAt.toZoneDateTime().formattedDate
 }
+
+@JsonClass(generateAdapter = true)
+data class AuthorDetails(
+    @Json(name = "avatar_path")
+    val avatar: String?
+)

@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
+import com.beti1205.movieapp.ui.common.widget.AccountAvatar
 
 @Composable
 fun AccountDialogDetails(

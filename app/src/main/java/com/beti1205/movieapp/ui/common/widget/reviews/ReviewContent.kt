@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,7 +55,7 @@ fun ReviewContent(text: String, modifier: Modifier = Modifier) {
             ShowMoreButton(
                 expanded = expanded,
                 onClick = { expanded = !expanded },
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp).align(Alignment.End)
             )
         }
     }

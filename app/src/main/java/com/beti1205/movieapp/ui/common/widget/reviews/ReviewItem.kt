@@ -35,21 +35,16 @@ fun ReviewItem(
         val avatar = item.authorDetails.avatar
 
         Row {
-            when {
-                avatar != null -> AccountAvatar(
-                    avatar = avatar,
-                    modifier = Modifier.weight(1f).size(80.dp)
-                )
-                else -> DefaultReviewerAvatar(item = item, modifier = modifier.weight(1f))
-            }
-            ReviewContent(
-                text = item.content,
-                modifier = Modifier
-                    .weight(3f)
-                    .padding(start = 8.dp)
+            ReviewAuthor(
+                avatar = avatar,
+                item = item,
+                modifier = Modifier.weight(1f)
+            )
+            Review(
+                item = item,
+                modifier = Modifier.weight(3f)
             )
         }
-        ReviewsInfo(item = item)
         if (index != reviews.size - 1) {
             Divider(
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -59,10 +54,40 @@ fun ReviewItem(
 }
 
 @Composable
-private fun ReviewsInfo(item: Review) {
-    Row(modifier = Modifier.padding(vertical = 8.dp)) {
-        ReviewCreatedDate(item.createdDate, modifier = Modifier.weight(1f))
-        ReviewAuthor(item.author)
+private fun Review(item: Review, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        ReviewCreatedDate(
+            item.createdDate,
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(bottom = 8.dp)
+        )
+        ReviewContent(
+            text = item.content,
+            modifier = Modifier
+                .padding(start = 8.dp)
+        )
+    }
+}
+
+@Composable
+private fun ReviewAuthor(
+    avatar: String?,
+    item: Review,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        when {
+            avatar != null -> AccountAvatar(
+                avatar = avatar,
+                modifier = Modifier.size(80.dp)
+            )
+            else -> DefaultReviewerAvatar(item = item)
+        }
+        ReviewAuthorName(item.author, modifier = Modifier.padding(top = 8.dp))
     }
 }
 

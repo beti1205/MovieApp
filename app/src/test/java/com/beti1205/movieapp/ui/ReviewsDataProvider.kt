@@ -1,5 +1,11 @@
+/*
+ * Copyright (c) 2023. Beata Bujalska<beta.bujalska@gmail.com>
+ * All rights reserved.
+ */
+
 package com.beti1205.movieapp.ui
 
+import com.beti1205.movieapp.feature.reviews.data.AuthorDetails
 import com.beti1205.movieapp.feature.reviews.data.Review
 import com.beti1205.movieapp.feature.reviews.data.ReviewsResult
 
@@ -16,7 +22,8 @@ object ReviewsDataProvider {
                     " years for Hollywood.",
                 id = "62d5ea2fe93e95095cbddefe",
                 createdAt = "2022-07-18T23:18:07.748Z",
-                updatedAt = "2022-07-26T14:21:07.910Z"
+                updatedAt = "2022-07-26T14:21:07.910Z",
+                authorDetails = AuthorDetails(avatar = null)
             )
         )
     )

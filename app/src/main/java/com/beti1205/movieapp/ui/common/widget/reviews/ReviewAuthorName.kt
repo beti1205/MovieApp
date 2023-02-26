@@ -10,14 +10,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun ReviewAuthor(author: String, modifier: Modifier = Modifier) {
+fun ReviewAuthorName(author: String, modifier: Modifier = Modifier) {
     Text(
         text = author,
         color = MaterialTheme.colors.secondary,
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Center,
         modifier = modifier
     )
 }

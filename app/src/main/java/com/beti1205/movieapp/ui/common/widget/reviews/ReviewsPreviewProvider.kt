@@ -6,6 +6,7 @@
 package com.beti1205.movieapp.ui.common.widget.reviews
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.beti1205.movieapp.feature.reviews.data.AuthorDetails
 import com.beti1205.movieapp.feature.reviews.data.Review
 
 class ReviewsPreviewProvider : PreviewParameterProvider<List<Review>> {
@@ -20,7 +21,8 @@ class ReviewsPreviewProvider : PreviewParameterProvider<List<Review>> {
                     " years for Hollywood.",
                 id = "62d5ea2fe93e95095cbddefe",
                 createdAt = "2022-07-18T23:18:07.748Z",
-                updatedAt = "2022-07-26T14:21:07.910Z"
+                updatedAt = "2022-07-26T14:21:07.910Z",
+                authorDetails = AuthorDetails(avatar = null)
             ),
             Review(
                 author = "jkbbr549",
@@ -28,7 +30,8 @@ class ReviewsPreviewProvider : PreviewParameterProvider<List<Review>> {
                     "better than the first Godfather!",
                 id = "553637669251416518002602",
                 createdAt = "2015-04-21T11:41:26.541Z",
-                updatedAt = "2021-06-23T15:57:34.131Z"
+                updatedAt = "2021-06-23T15:57:34.131Z",
+                authorDetails = AuthorDetails(avatar = null)
             )
         ),
         emptyList()

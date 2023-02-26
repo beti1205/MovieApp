@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.ui.account.widget.dialog
+package com.beti1205.movieapp.ui.common.widget
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,11 +13,9 @@ import coil.request.ImageRequest
 
 @Composable
 fun AccountAvatar(avatar: String, modifier: Modifier = Modifier) {
-    val baseUrl = "https://image.tmdb.org/t/p/w500"
-    val imageUri = "$baseUrl$avatar"
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUri)
+            .data(avatar)
             .crossfade(true)
             .build(),
         contentDescription = null,

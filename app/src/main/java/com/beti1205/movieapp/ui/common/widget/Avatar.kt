@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -30,6 +32,7 @@ fun Avatar(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colors.secondary,
     size: Dp = 32.dp,
+    fontSize: TextUnit = 14.sp,
     onClick: () -> Unit = {}
 ) {
     Box(
@@ -40,7 +43,11 @@ fun Avatar(
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text?.first()?.toString() ?: "", color = MaterialTheme.colors.onSecondary)
+        Text(
+            text = text?.first()?.uppercase() ?: "",
+            fontSize = fontSize,
+            color = MaterialTheme.colors.onSecondary
+        )
     }
 }
 

@@ -13,11 +13,9 @@ import coil.request.ImageRequest
 
 @Composable
 fun AccountAvatar(avatar: String, modifier: Modifier = Modifier) {
-    val baseUrl = "https://image.tmdb.org/t/p/w500"
-    val imageUri = "$baseUrl$avatar"
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUri)
+            .data(avatar)
             .crossfade(true)
             .build(),
         contentDescription = null,

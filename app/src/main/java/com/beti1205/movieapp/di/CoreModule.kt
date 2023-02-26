@@ -14,6 +14,8 @@ import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.AuthManagerImpl
 import com.beti1205.movieapp.common.EncryptedSharedPreferencesBuilder
+import com.beti1205.movieapp.feature.transformavatarurl.TransformAvatarUrlUseCase
+import com.beti1205.movieapp.feature.transformavatarurl.TransformAvatarUrlUseCaseImpl
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.squareup.moshi.Moshi
 import dagger.Binds
@@ -38,6 +40,7 @@ interface CoreModule {
         fun provideAppConfig(): AppConfig {
             return AppConfig(
                 baseUrl = "https://api.themoviedb.org/3/",
+                imageUrl = "https://image.tmdb.org/t/p/w500",
                 apiKey = BuildConfig.API_KEY
             )
         }
@@ -108,4 +111,9 @@ interface CoreModule {
     fun bindAuthManager(
         authManagerImpl: AuthManagerImpl
     ): AuthManager
+
+    @Binds
+    fun bindTransformAvatarUrl(
+        transformAvatarUrlImpl: TransformAvatarUrlUseCaseImpl
+    ): TransformAvatarUrlUseCase
 }

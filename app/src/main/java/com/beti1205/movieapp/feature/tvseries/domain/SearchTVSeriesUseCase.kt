@@ -36,7 +36,7 @@ class SearchTVSeriesUseCaseImpl @Inject constructor(
             )
         }.flatMap { result ->
             Result.Success(
-                result.transformTVSeriesImageUrl(appConfig.imageUrl)
+                result.transformTVSeriesPosterPath(appConfig.imageUrl)
             )
         }
     }

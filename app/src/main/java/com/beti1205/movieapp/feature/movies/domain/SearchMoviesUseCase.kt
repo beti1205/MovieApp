@@ -8,6 +8,7 @@ package com.beti1205.movieapp.feature.movies.domain
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.movies.data.MovieApiService
@@ -32,6 +33,10 @@ class SearchMoviesUseCaseImpl @Inject constructor(
                 key = appConfig.apiKey,
                 query = query,
                 page = page
+            )
+        }.flatMap { result ->
+            Result.Success(
+                result.transformMovieImageUrl(appConfig.imageUrl)
             )
         }
     }

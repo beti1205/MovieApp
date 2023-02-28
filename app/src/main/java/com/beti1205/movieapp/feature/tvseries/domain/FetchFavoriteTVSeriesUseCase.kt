@@ -43,17 +43,7 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
             )
         }.flatMap { result ->
             Result.Success(
-                result.copy(
-                    items = result.items.map { tvSeries ->
-                        val poster = when {
-                            tvSeries.posterPath != null -> "${appConfig.imageUrl}${tvSeries.posterPath}"
-                            else -> null
-                        }
-                        tvSeries.copy(
-                            posterPath = poster
-                        )
-                    }
-                )
+                result.transformTVSeriesImageUrl(appConfig.imageUrl)
             )
         }
     }

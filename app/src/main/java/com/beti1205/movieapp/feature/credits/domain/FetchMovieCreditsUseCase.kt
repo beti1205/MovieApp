@@ -32,8 +32,8 @@ class FetchMovieCreditsUseCaseImpl @Inject constructor(
         return when (result) {
             is Result.Success -> Result.Success(
                 result.data.copy(
-                    crew = result.getTransformedCrewList(),
-                    cast = result.getTransformedCastList()
+                    crew = result.getTransformedCrewList(appConfig.imageUrl),
+                    cast = result.getTransformedCastList(appConfig.imageUrl)
                 )
             )
             is Result.Error -> result

@@ -7,7 +7,9 @@ package com.beti1205.movieapp.feature.moviedetails.domain
 
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
+import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetailsService
 import javax.inject.Inject
@@ -29,6 +31,12 @@ class FetchMovieDetailsUseCaseImpl @Inject constructor(
             movieDetailsService.getMovieDetails(
                 movieId,
                 appConfig.apiKey
+            )
+        }.flatMap { result ->
+            Result.Success(
+                result.copy(
+                    posterPath = transformImageUrl(result.posterPath, appConfig.imageUrl)
+                )
             )
         }
     }

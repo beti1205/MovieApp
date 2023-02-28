@@ -11,6 +11,7 @@ import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.FavoriteListOrder
 import com.beti1205.movieapp.common.GenericApiException
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.tvseries.data.FavoriteTVSeriesService
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
@@ -39,6 +40,10 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
                 sortBy = order.type,
                 key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
+            )
+        }.flatMap { result ->
+            Result.Success(
+                result.transformTVSeriesPosterPath(appConfig.imageUrl)
             )
         }
     }

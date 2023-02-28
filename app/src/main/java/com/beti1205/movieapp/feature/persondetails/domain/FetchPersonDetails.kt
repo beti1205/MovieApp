@@ -7,7 +7,9 @@ package com.beti1205.movieapp.feature.persondetails.domain
 
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
+import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetailsService
 import javax.inject.Inject
@@ -27,6 +29,12 @@ class FetchPersonDetailsUseCaseImpl @Inject constructor(
     override suspend fun invoke(personId: Int): Result<PersonDetails> {
         return performRequest {
             personDetailsService.getPersonDetails(personId, appConfig.apiKey)
+        }.flatMap { result ->
+            Result.Success(
+                result.copy(
+                    personPoster = transformImageUrl(result.personPoster, appConfig.imageUrl)
+                )
+            )
         }
     }
 }

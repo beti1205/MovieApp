@@ -8,6 +8,7 @@ package com.beti1205.movieapp.feature.tvseries.domain
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.feature.tvseries.data.TVSeriesService
@@ -34,6 +35,10 @@ class FetchTVSeriesUseCaseImpl @Inject constructor(
                 TVOrder.AIRING_TODAY -> tvSeriesService.getAiringToday(appConfig.apiKey, page)
                 TVOrder.ON_THE_AIR -> tvSeriesService.getOnTheAir(appConfig.apiKey, page)
             }
+        }.flatMap { result ->
+            Result.Success(
+                result.transformTVSeriesPosterPath(appConfig.imageUrl)
+            )
         }
     }
 }

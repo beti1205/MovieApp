@@ -21,11 +21,9 @@ fun ItemPoster(
     posterPath: String?,
     modifier: Modifier = Modifier
 ) {
-    val baseUrl = "https://image.tmdb.org/t/p/w500"
-    val imageUri = "$baseUrl$posterPath"
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUri)
+            .data(posterPath)
             .crossfade(true)
             .build(),
         placeholder = painterResource(R.drawable.placeholder_image),

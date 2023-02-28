@@ -6,6 +6,7 @@
 package com.beti1205.movieapp.feature.credits.domain
 
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.credits.data.Cast
 import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.feature.credits.data.Crew
@@ -18,7 +19,7 @@ fun Result.Success<Credits>.getTransformedCastList(imageUrl: String) = this.data
             id = entry.key,
             name = firstRole.name,
             popularity = firstRole.popularity,
-            path = if (firstRole.path != null) "${imageUrl}${firstRole.path}" else null,
+            path = transformImageUrl(firstRole.path, imageUrl),
             character = entry.value.joinToString { it.character }
         )
     }
@@ -32,7 +33,7 @@ fun Result.Success<Credits>.getTransformedCrewList(imageUrl: String) = this.data
             department = entry.value.joinToString { it.department },
             name = firstRole.name,
             popularity = firstRole.popularity,
-            path = if (firstRole.path != null) "${imageUrl}${firstRole.path}" else null,
+            path = transformImageUrl(firstRole.path, imageUrl),
             job = entry.value.joinToString { it.job }
         )
     }

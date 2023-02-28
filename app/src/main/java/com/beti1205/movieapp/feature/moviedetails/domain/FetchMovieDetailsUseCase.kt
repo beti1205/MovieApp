@@ -9,6 +9,7 @@ import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
+import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetailsService
 import javax.inject.Inject
@@ -34,10 +35,7 @@ class FetchMovieDetailsUseCaseImpl @Inject constructor(
         }.flatMap { result ->
             Result.Success(
                 result.copy(
-                    posterPath = when {
-                        result.posterPath != null -> "${appConfig.imageUrl}${result.posterPath}"
-                        else -> null
-                    }
+                    posterPath = transformImageUrl(result.posterPath, appConfig.imageUrl)
                 )
             )
         }

@@ -15,7 +15,7 @@ data class Episode(
     val overview: String,
 
     @Json(name = "still_path")
-    val posterPath: String,
+    val posterPath: String?,
 
     @Json(name = "air_date")
     val episodeAirDate: String,

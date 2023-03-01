@@ -3,45 +3,44 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.favorite.domain
+package com.beti1205.movieapp.feature.watchlist.domain
 
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
-import com.beti1205.movieapp.feature.favorite.data.MarkFavoriteBody
-import com.beti1205.movieapp.feature.favorite.data.MarkFavoriteService
+import com.beti1205.movieapp.feature.watchlist.data.AddToWatchlistBody
+import com.beti1205.movieapp.feature.watchlist.data.AddToWatchlistService
 import javax.inject.Inject
 
-interface MarkFavoriteUseCase {
+interface AddToWatchlistUseCase {
 
     suspend operator fun invoke(
-        favorite: Boolean,
+        watchlist: Boolean,
         mediaType: MediaType,
         mediaId: Int
     ): Result<Unit>
 }
 
-class MarkFavoriteUseCaseImpl @Inject constructor(
-    private val markFavoriteService: MarkFavoriteService,
+class AddToWatchlistUseCaseImpl @Inject constructor(
+    private val addToWatchlistService: AddToWatchlistService,
     private val appConfig: AppConfig,
     private val authManager: AuthManager
-) : MarkFavoriteUseCase {
-
+) : AddToWatchlistUseCase {
     override suspend fun invoke(
-        favorite: Boolean,
+        watchlist: Boolean,
         mediaType: MediaType,
         mediaId: Int
     ): Result<Unit> {
         val result =
             performRequest {
-                markFavoriteService.markFavorite(
+                addToWatchlistService.addToWatchlist(
                     accountId = authManager.accountId,
                     key = appConfig.apiKey,
                     sessionId = authManager.sessionId!!,
-                    body = MarkFavoriteBody(
-                        favorite = favorite,
+                    body = AddToWatchlistBody(
+                        watchlist = watchlist,
                         mediaType = mediaType.mediaType,
                         mediaId = mediaId
                     )

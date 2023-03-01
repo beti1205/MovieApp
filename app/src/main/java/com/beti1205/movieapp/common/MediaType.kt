@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.favorite.domain
+package com.beti1205.movieapp.common
 
 enum class MediaType(val mediaType: String) {
     MOVIE("movie"),

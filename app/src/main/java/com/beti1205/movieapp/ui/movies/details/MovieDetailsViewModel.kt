@@ -9,6 +9,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatZip
 import com.beti1205.movieapp.feature.accountstates.data.AccountStates
@@ -16,7 +17,6 @@ import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStat
 import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.favorite.domain.MediaType
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

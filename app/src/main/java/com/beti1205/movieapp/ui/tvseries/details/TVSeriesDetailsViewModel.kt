@@ -20,6 +20,7 @@ import com.beti1205.movieapp.feature.tvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.tvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.tvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
+import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,6 +39,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase,
     private val fetchTVAccountStatesUseCase: FetchTVAccountStatesUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
+    private val addToWatchlistUseCase: AddToWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -60,6 +62,9 @@ class TVSeriesDetailsViewModel @Inject constructor(
 
     private val _favorite = MutableStateFlow(false)
     val favorite: StateFlow<Boolean> = _favorite.asStateFlow()
+
+    private val _watchlist = MutableStateFlow(false)
+    val watchlist: StateFlow<Boolean> = _watchlist.asStateFlow()
 
     val isLoggedIn = authManager.isLoggedInFlow.stateIn(
         viewModelScope,
@@ -145,6 +150,26 @@ class TVSeriesDetailsViewModel @Inject constructor(
             if (result is Result.Error) {
                 _favorite.value = !favorite
                 _favoriteHasError.value = true
+            }
+        }
+    }
+
+    fun addToWatchlist(watchlist: Boolean) {
+        viewModelScope.launch {
+            if (!authManager.isLoggedIn) {
+                return@launch
+            }
+
+            _watchlist.value = watchlist
+
+            val result = addToWatchlistUseCase(
+                watchlist = watchlist,
+                mediaType = MediaType.TV,
+                mediaId = tvSeriesDetailsArgs.selectedTVSeriesId
+            )
+
+            if (result is Result.Error) {
+                _watchlist.value = !watchlist
             }
         }
     }

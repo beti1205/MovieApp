@@ -28,8 +28,10 @@ fun TVSeriesDetailsScreenContent(
     selectedSeason: Season?,
     episodes: List<Episode>?,
     favorite: Boolean,
+    watchlist: Boolean,
     isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
+    onWatchlistClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onSeasonSelected: (Season) -> Unit,
     onReviewsClicked: (Int) -> Unit,
@@ -46,9 +48,11 @@ fun TVSeriesDetailsScreenContent(
                 overview = overview,
                 genres = genres,
                 favorite = favorite,
+                watchlist = watchlist,
                 isLoggedIn = isLoggedIn,
                 onFavoriteClicked = onFavoriteClicked,
-                onReviewsClicked = onReviewsClicked
+                onReviewsClicked = onReviewsClicked,
+                onWatchlistClicked = onWatchlistClicked
             )
             StandardDivider()
             if (credits != null) {

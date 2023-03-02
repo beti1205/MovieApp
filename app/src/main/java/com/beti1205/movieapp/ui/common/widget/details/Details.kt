@@ -15,8 +15,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BookmarkAdded
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,10 +40,12 @@ fun Details(
     overview: String,
     genres: List<Genre>?,
     favorite: Boolean,
+    watchlist: Boolean,
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onFavoriteClicked: (Boolean) -> Unit,
-    onReviewsClicked: (Int) -> Unit
+    onReviewsClicked: (Int) -> Unit,
+    onWatchlistClicked: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -76,6 +80,10 @@ fun Details(
                         favorite = favorite,
                         onFavoriteClicked = onFavoriteClicked
                     )
+                    AddToWatchlistButton(
+                        watchlist = watchlist,
+                        onWatchlistClicked = onWatchlistClicked
+                    )
                 }
             }
         }
@@ -105,6 +113,29 @@ private fun FavoriteButton(
     }
 }
 
+@Composable
+private fun AddToWatchlistButton(
+    watchlist: Boolean,
+    onWatchlistClicked: (Boolean) -> Unit
+) {
+    IconButton(onClick = {
+        onWatchlistClicked(!watchlist)
+    }) {
+        if (watchlist) {
+            Icon(
+                imageVector = Icons.Filled.BookmarkAdded,
+                contentDescription = null,
+                tint = MaterialTheme.colors.secondary
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
+                contentDescription = null
+            )
+        }
+    }
+}
+
 @Preview
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -124,9 +155,11 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
                     overview = overview,
                     genres = genres,
                     favorite = false,
+                    watchlist = false,
                     isLoggedIn = false,
                     onFavoriteClicked = {},
-                    onReviewsClicked = {}
+                    onReviewsClicked = {},
+                    onWatchlistClicked = {}
                 )
             }
         }

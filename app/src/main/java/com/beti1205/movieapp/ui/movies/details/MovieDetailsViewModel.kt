@@ -19,6 +19,7 @@ import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
 import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
+import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +37,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
     private val fetchMoviesAccountStatesUseCase: FetchMoviesAccountStatesUseCase,
+    private val addToWatchlistUseCase: AddToWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -110,6 +112,26 @@ class MovieDetailsViewModel @Inject constructor(
             if (result is Result.Error) {
                 _state.value = _state.value.copy(favorite = !favorite)
                 _state.value = _state.value.copy(favoriteHasError = true)
+            }
+        }
+    }
+
+    fun addToWatchlist(watchlist: Boolean) {
+        viewModelScope.launch {
+            if (!authManager.isLoggedIn) {
+                return@launch
+            }
+
+            _state.value = _state.value.copy(watchlist = watchlist)
+
+            val result = addToWatchlistUseCase(
+                watchlist = watchlist,
+                mediaType = MediaType.MOVIE,
+                mediaId = movieDetailsArgs.selectedMovieId
+            )
+
+            if (result is Result.Error) {
+                _state.value = _state.value.copy(watchlist = !watchlist)
             }
         }
     }

@@ -53,6 +53,7 @@ fun MovieDetailsScreen(
         isLoggedIn = isLoggedIn,
         onFavoriteErrorHandled = viewModel::onFavoriteErrorHandled,
         onFavoriteClicked = viewModel::markFavorite,
+        onWatchlistClicked = viewModel::addToWatchlist,
         onPersonClicked = onPersonClicked,
         onReviewsClicked = onReviewsClicked,
         onBackPressed = onBackPressed
@@ -65,6 +66,7 @@ fun MovieDetailsScreen(
     isLoggedIn: Boolean,
     onFavoriteErrorHandled: () -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
+    onWatchlistClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
@@ -81,7 +83,8 @@ fun MovieDetailsScreen(
         onBackPressed = onBackPressed,
         onPersonClicked = onPersonClicked,
         onReviewsClicked = onReviewsClicked,
-        onFavoriteClicked = onFavoriteClicked
+        onFavoriteClicked = onFavoriteClicked,
+        onWatchlistClicked = onWatchlistClicked
     )
 
     if (state.favoriteHasError) {
@@ -103,7 +106,8 @@ private fun MovieDetailsScreenContent(
     onBackPressed: () -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
-    onFavoriteClicked: (Boolean) -> Unit
+    onFavoriteClicked: (Boolean) -> Unit,
+    onWatchlistClicked: (Boolean) -> Unit
 ) {
     MovieAppTheme {
         Scaffold(
@@ -131,10 +135,12 @@ private fun MovieDetailsScreenContent(
                         movieDetails = state.movieDetails,
                         credits = state.credits,
                         favorite = state.favorite,
+                        watchlist = state.watchlist,
                         isLoggedIn = isLoggedIn,
                         onPersonClicked = onPersonClicked,
                         onReviewsClicked = onReviewsClicked,
                         onFavoriteClicked = onFavoriteClicked,
+                        onWatchlistClicked = onWatchlistClicked,
                         modifier = Modifier.verticalScroll(scrollState)
                     )
                 }
@@ -183,6 +189,7 @@ fun MovieDetailsScreenPreview(
             isLoggedIn = true,
             onFavoriteErrorHandled = {},
             onFavoriteClicked = {},
+            onWatchlistClicked = {},
             onPersonClicked = {},
             onReviewsClicked = {},
             onBackPressed = {}

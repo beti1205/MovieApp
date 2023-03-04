@@ -39,13 +39,13 @@ fun Details(
     releaseDate: String?,
     overview: String,
     genres: List<Genre>?,
-    favorite: Boolean,
-    watchlist: Boolean,
+    isFavorite: Boolean,
+    isAddedToWatchlist: Boolean,
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onFavoriteClicked: (Boolean) -> Unit,
     onReviewsClicked: (Int) -> Unit,
-    onWatchlistClicked: (Boolean) -> Unit
+    onWatchlistIconClicked: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -77,12 +77,12 @@ fun Details(
                 ReviewsButton(onReviewsClicked = onReviewsClicked, id = id)
                 if (isLoggedIn) {
                     FavoriteButton(
-                        favorite = favorite,
+                        isFavorite = isFavorite,
                         onFavoriteClicked = onFavoriteClicked
                     )
                     AddToWatchlistButton(
-                        watchlist = watchlist,
-                        onWatchlistClicked = onWatchlistClicked
+                        isAddedToWatchlist = isAddedToWatchlist,
+                        onWatchlistIconClicked = onWatchlistIconClicked
                     )
                 }
             }
@@ -92,13 +92,13 @@ fun Details(
 
 @Composable
 private fun FavoriteButton(
-    favorite: Boolean,
+    isFavorite: Boolean,
     onFavoriteClicked: (Boolean) -> Unit
 ) {
     IconButton(onClick = {
-        onFavoriteClicked(!favorite)
+        onFavoriteClicked(!isFavorite)
     }) {
-        if (favorite) {
+        if (isFavorite) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
                 contentDescription = null,
@@ -115,13 +115,13 @@ private fun FavoriteButton(
 
 @Composable
 private fun AddToWatchlistButton(
-    watchlist: Boolean,
-    onWatchlistClicked: (Boolean) -> Unit
+    isAddedToWatchlist: Boolean,
+    onWatchlistIconClicked: (Boolean) -> Unit
 ) {
     IconButton(onClick = {
-        onWatchlistClicked(!watchlist)
+        onWatchlistIconClicked(!isAddedToWatchlist)
     }) {
-        if (watchlist) {
+        if (isAddedToWatchlist) {
             Icon(
                 imageVector = Icons.Filled.BookmarkAdded,
                 contentDescription = null,
@@ -154,12 +154,12 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
                     releaseDate = releaseDate,
                     overview = overview,
                     genres = genres,
-                    favorite = false,
-                    watchlist = false,
+                    isFavorite = false,
+                    isAddedToWatchlist = false,
                     isLoggedIn = false,
                     onFavoriteClicked = {},
                     onReviewsClicked = {},
-                    onWatchlistClicked = {}
+                    onWatchlistIconClicked = {}
                 )
             }
         }

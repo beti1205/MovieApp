@@ -132,11 +132,16 @@ class MovieDetailsViewModel @Inject constructor(
 
             if (result is Result.Error) {
                 _state.value = _state.value.copy(watchlist = !watchlist)
+                _state.value = _state.value.copy(watchlistError = true)
             }
         }
     }
 
     fun onFavoriteErrorHandled() {
         _state.value = _state.value.copy(favoriteHasError = false)
+    }
+
+    fun onWatchlistErrorHandled() {
+        _state.value = _state.value.copy(watchlistError = false)
     }
 }

@@ -27,7 +27,7 @@ fun MovieDetails(
     watchlist: Boolean,
     isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
-    onWatchlistClicked: (Boolean) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -42,12 +42,12 @@ fun MovieDetails(
                 releaseDate = movieDetails.releaseDate,
                 overview = movieDetails.overview,
                 genres = movieDetails.genres,
-                favorite = favorite,
-                watchlist = watchlist,
+                isFavorite = favorite,
+                isAddedToWatchlist = watchlist,
                 isLoggedIn = isLoggedIn,
                 onReviewsClicked = onReviewsClicked,
                 onFavoriteClicked = onFavoriteClicked,
-                onWatchlistClicked = onWatchlistClicked
+                onWatchlistIconClicked = onWatchlistIconClicked
             )
             StandardDivider()
             if (credits != null) {
@@ -79,7 +79,7 @@ fun MovieDetailsPreview(
                 onFavoriteClicked = {},
                 onPersonClicked = {},
                 onReviewsClicked = {},
-                onWatchlistClicked = {}
+                onWatchlistIconClicked = {}
             )
         }
     }

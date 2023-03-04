@@ -286,6 +286,7 @@ class MovieDetailsViewModelTest {
         }
 
         assertFalse(viewModel.state.value.watchlist)
+        assertTrue(viewModel.state.value.watchlistError)
 
         collectJob.cancel()
     }

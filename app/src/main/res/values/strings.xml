@@ -57,7 +57,9 @@
     <string name="denied_login_message">Login failed. Please give the necessary permissions.</string>
     <string name="account_log_out_button">Log out</string>
     <string name="tv_series_details_favorite_error">An error occurred, the TV series could not be added to favorites.</string>
+    <string name="tv_series_details_watchlist_error">An error occurred, the TV series could not be added to watchlist.</string>
     <string name="movie_details_favorite_error">An error occurred, the movie could not be added to favorites.</string>
+    <string name="movie_details_watchlist_error">An error occurred, the movie could not be added to watchlist.</string>
     <string name="favorite_movies_empty_state_message">Add movie to favorite list.</string>
     <string name="favorite_tv_series_empty_state_message">Add tv series to favorite list.</string>
     <string name="favorite_movies_section_header">Favorite movies</string>

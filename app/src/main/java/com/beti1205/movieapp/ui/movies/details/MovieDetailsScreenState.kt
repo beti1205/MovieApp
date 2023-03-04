@@ -15,5 +15,6 @@ data class MovieDetailsScreenState(
     val watchlist: Boolean = false,
     val hasError: Boolean = false,
     val favoriteHasError: Boolean = false,
+    val watchlistError: Boolean = false,
     val isLoading: Boolean = false
 )

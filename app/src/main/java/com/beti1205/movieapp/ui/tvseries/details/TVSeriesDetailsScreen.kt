@@ -47,25 +47,28 @@ fun TVSeriesDetailsScreen(
     val episodes by viewModel.episodes.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val credits by viewModel.credits.collectAsState()
-    val favorite by viewModel.favorite.collectAsState()
-    val watchlist by viewModel.watchlist.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
+    val isAddedToWatchlist by viewModel.isAddedToWatchlist.collectAsState()
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     val favoriteHasError by viewModel.favoriteHasError.collectAsState()
+    val watchlistError by viewModel.watchlistError.collectAsState()
 
     TVSeriesDetailsScreen(
         tvSeriesDetails = tvSeriesDetails,
         credits = credits,
         selectedSeason = selectedSeason,
         episodes = episodes,
-        favorite = favorite,
-        watchlist = watchlist,
+        isFavorite = isFavorite,
+        isAddedToWatchlist = isAddedToWatchlist,
         isLoggedIn = isLoggedIn,
         hasError = hasError,
         favoriteHasError = favoriteHasError,
+        watchlistError = watchlistError,
+        onWatchlistErrorHandled = viewModel::onWatchlistErrorHandled,
         onFavoriteErrorHandled = viewModel::onFavoriteErrorHandled,
         onSeasonSelected = viewModel::setSelectedSeason,
         onFavoriteClicked = viewModel::markFavorite,
-        onWatchlistClicked = viewModel::addToWatchlist,
+        onWatchlistIconClicked = viewModel::addToWatchlist,
         onPersonClicked = onPersonClicked,
         onReviewsClicked = onReviewsClicked,
         onBackPressed = onBackPressed
@@ -78,21 +81,24 @@ fun TVSeriesDetailsScreen(
     credits: Credits?,
     selectedSeason: Season?,
     episodes: List<Episode>?,
-    favorite: Boolean,
-    watchlist: Boolean,
+    isFavorite: Boolean,
+    isAddedToWatchlist: Boolean,
     isLoggedIn: Boolean,
     hasError: Boolean,
     favoriteHasError: Boolean,
+    watchlistError: Boolean,
+    onWatchlistErrorHandled: () -> Unit,
     onFavoriteErrorHandled: () -> Unit,
     onSeasonSelected: (Season) -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
-    onWatchlistClicked: (Boolean) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val favoriteErrorMessage = stringResource(R.string.tv_series_details_favorite_error)
+    val watchlistErrorMessage = stringResource(R.string.tv_series_details_watchlist_error)
 
     TVSeriesDetailsScreenContent(
         scaffoldState = scaffoldState,
@@ -100,12 +106,12 @@ fun TVSeriesDetailsScreen(
         credits = credits,
         selectedSeason = selectedSeason,
         episodes = episodes,
-        favorite = favorite,
-        watchlist = watchlist,
+        isFavorite = isFavorite,
+        isAddedToWatchlist = isAddedToWatchlist,
         hasError = hasError,
         isLoggedIn = isLoggedIn,
         onFavoriteClicked = onFavoriteClicked,
-        onWatchlistClicked = onWatchlistClicked,
+        onWatchlistIconClicked = onWatchlistIconClicked,
         onPersonClicked = onPersonClicked,
         onSeasonSelected = onSeasonSelected,
         onBackPressed = onBackPressed,
@@ -120,6 +126,15 @@ fun TVSeriesDetailsScreen(
             onFavoriteErrorHandled()
         }
     }
+
+    if (watchlistError) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = watchlistErrorMessage
+            )
+            onWatchlistErrorHandled()
+        }
+    }
 }
 
 @Composable
@@ -129,12 +144,12 @@ private fun TVSeriesDetailsScreenContent(
     credits: Credits?,
     selectedSeason: Season?,
     episodes: List<Episode>?,
-    favorite: Boolean,
-    watchlist: Boolean,
+    isFavorite: Boolean,
+    isAddedToWatchlist: Boolean,
     hasError: Boolean,
     isLoggedIn: Boolean,
     onFavoriteClicked: (Boolean) -> Unit,
-    onWatchlistClicked: (Boolean) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onSeasonSelected: (Season) -> Unit,
     onBackPressed: () -> Unit,
@@ -162,11 +177,11 @@ private fun TVSeriesDetailsScreenContent(
                         credits = credits,
                         selectedSeason = selectedSeason,
                         episodes = episodes,
-                        favorite = favorite,
-                        watchlist = watchlist,
+                        isFavorite = isFavorite,
+                        isAddedToWatchlist = isAddedToWatchlist,
                         isLoggedIn = isLoggedIn,
                         onFavoriteClicked = onFavoriteClicked,
-                        onWatchlistClicked = onWatchlistClicked,
+                        onWatchlistIconClicked = onWatchlistIconClicked,
                         onPersonClicked = onPersonClicked,
                         onSeasonSelected = onSeasonSelected,
                         onReviewsClicked = onReviewsClicked
@@ -194,15 +209,17 @@ fun TVSeriesDetailsScreenPreview(
             credits = tvSeriesDetailsScreen.credits,
             selectedSeason = tvSeriesDetailsScreen.selectedSeason,
             episodes = tvSeriesDetailsScreen.episodes,
-            favorite = tvSeriesDetailsScreen.favorite,
-            watchlist = tvSeriesDetailsScreen.watchlist,
+            isFavorite = tvSeriesDetailsScreen.favorite,
+            isAddedToWatchlist = tvSeriesDetailsScreen.watchlist,
             isLoggedIn = tvSeriesDetailsScreen.isLoggedIn,
             hasError = tvSeriesDetailsScreen.hasError,
             favoriteHasError = tvSeriesDetailsScreen.favoriteHasError,
+            watchlistError = tvSeriesDetailsScreen.watchlistError,
+            onWatchlistErrorHandled = {},
             onFavoriteErrorHandled = {},
             onSeasonSelected = {},
             onFavoriteClicked = {},
-            onWatchlistClicked = {},
+            onWatchlistIconClicked = {},
             onPersonClicked = {},
             onBackPressed = {},
             onReviewsClicked = {}
@@ -219,7 +236,8 @@ data class TVSeriesDetailsScreen(
     val favorite: Boolean,
     val watchlist: Boolean,
     val isLoggedIn: Boolean,
-    val favoriteHasError: Boolean
+    val favoriteHasError: Boolean,
+    val watchlistError: Boolean
 )
 
 class TVSeriesDetailsScreenPreviewProvider : PreviewParameterProvider<TVSeriesDetailsScreen> {
@@ -303,7 +321,8 @@ class TVSeriesDetailsScreenPreviewProvider : PreviewParameterProvider<TVSeriesDe
             favorite = true,
             watchlist = true,
             isLoggedIn = true,
-            favoriteHasError = false
+            favoriteHasError = false,
+            watchlistError = false
         ),
         TVSeriesDetailsScreen(
             tvSeriesDetails = null,
@@ -314,7 +333,8 @@ class TVSeriesDetailsScreenPreviewProvider : PreviewParameterProvider<TVSeriesDe
             favorite = false,
             watchlist = false,
             isLoggedIn = false,
-            favoriteHasError = false
+            favoriteHasError = false,
+            watchlistError = false
         )
     )
 }

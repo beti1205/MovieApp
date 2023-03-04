@@ -229,9 +229,9 @@ class TVSeriesDetailsViewModelTest {
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.isFavorite.collect() }
 
-        assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.favorite.value)
+        assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.isFavorite.value)
 
         collectJob.cancel()
     }
@@ -256,7 +256,7 @@ class TVSeriesDetailsViewModelTest {
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.isFavorite.collect() }
 
         viewModel.markFavorite(false)
 
@@ -268,7 +268,7 @@ class TVSeriesDetailsViewModelTest {
             )
         }
 
-        assertFalse(viewModel.favorite.value)
+        assertFalse(viewModel.isFavorite.value)
 
         collectJob.cancel()
     }
@@ -295,13 +295,13 @@ class TVSeriesDetailsViewModelTest {
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             launch { viewModel.favoriteHasError.collect() }
-            launch { viewModel.favorite.collect() }
+            launch { viewModel.isFavorite.collect() }
         }
 
         viewModel.markFavorite(false)
 
         assertTrue(viewModel.favoriteHasError.value)
-        assertTrue(viewModel.favorite.value)
+        assertTrue(viewModel.isFavorite.value)
 
         collectJob.cancel()
     }
@@ -326,7 +326,8 @@ class TVSeriesDetailsViewModelTest {
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.watchlist.collect() }
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.isAddedToWatchlist.collect() }
 
         viewModel.addToWatchlist(false)
 
@@ -338,7 +339,7 @@ class TVSeriesDetailsViewModelTest {
             )
         }
 
-        assertFalse(viewModel.watchlist.value)
+        assertFalse(viewModel.isAddedToWatchlist.value)
 
         collectJob.cancel()
     }
@@ -364,12 +365,13 @@ class TVSeriesDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            viewModel.watchlist.collect()
+            viewModel.isAddedToWatchlist.collect()
         }
 
         viewModel.addToWatchlist(false)
 
-        assertTrue(viewModel.watchlist.value)
+        assertTrue(viewModel.isAddedToWatchlist.value)
+        assertTrue(viewModel.watchlistError.value)
 
         collectJob.cancel()
     }

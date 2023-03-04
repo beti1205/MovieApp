@@ -60,11 +60,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
 
-    private val _favorite = MutableStateFlow(false)
-    val favorite: StateFlow<Boolean> = _favorite.asStateFlow()
+    private val _isFavorite = MutableStateFlow(false)
+    val isFavorite: StateFlow<Boolean> = _isFavorite.asStateFlow()
 
-    private val _watchlist = MutableStateFlow(false)
-    val watchlist: StateFlow<Boolean> = _watchlist.asStateFlow()
+    private val _isAddedToWatchlist = MutableStateFlow(false)
+    val isAddedToWatchlist: StateFlow<Boolean> = _isAddedToWatchlist.asStateFlow()
+
+    private val _watchlistError = MutableStateFlow(false)
+    val watchlistError: StateFlow<Boolean> = _watchlistError.asStateFlow()
 
     val isLoggedIn = authManager.isLoggedInFlow.stateIn(
         viewModelScope,
@@ -127,7 +130,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
             val result = fetchTVAccountStatesUseCase(id)
 
             when (result) {
-                is Result.Success -> _favorite.value = result.data.favorite
+                is Result.Success -> _isFavorite.value = result.data.favorite
                 is Result.Error -> {}
             }
         }
@@ -139,7 +142,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 return@launch
             }
 
-            _favorite.value = favorite
+            _isFavorite.value = favorite
 
             val result = markFavoriteUseCase(
                 favorite = favorite,
@@ -148,7 +151,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-                _favorite.value = !favorite
+                _isFavorite.value = !favorite
                 _favoriteHasError.value = true
             }
         }
@@ -160,7 +163,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 return@launch
             }
 
-            _watchlist.value = watchlist
+            _isAddedToWatchlist.value = watchlist
 
             val result = addToWatchlistUseCase(
                 watchlist = watchlist,
@@ -169,13 +172,18 @@ class TVSeriesDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-                _watchlist.value = !watchlist
+                _isAddedToWatchlist.value = !watchlist
+                _watchlistError.value = true
             }
         }
     }
 
     fun onFavoriteErrorHandled() {
         _favoriteHasError.value = false
+    }
+
+    fun onWatchlistErrorHandled() {
+        _watchlistError.value = false
     }
 
     fun setSelectedSeason(season: Season) {

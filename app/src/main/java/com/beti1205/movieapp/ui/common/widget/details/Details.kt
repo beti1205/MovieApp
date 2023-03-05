@@ -15,8 +15,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BookmarkAdded
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,11 +39,13 @@ fun Details(
     releaseDate: String?,
     overview: String,
     genres: List<Genre>?,
-    favorite: Boolean,
+    isFavorite: Boolean,
+    isAddedToWatchlist: Boolean,
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onFavoriteClicked: (Boolean) -> Unit,
-    onReviewsClicked: (Int) -> Unit
+    onReviewsClicked: (Int) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -73,8 +77,12 @@ fun Details(
                 ReviewsButton(onReviewsClicked = onReviewsClicked, id = id)
                 if (isLoggedIn) {
                     FavoriteButton(
-                        favorite = favorite,
+                        isFavorite = isFavorite,
                         onFavoriteClicked = onFavoriteClicked
+                    )
+                    AddToWatchlistButton(
+                        isAddedToWatchlist = isAddedToWatchlist,
+                        onWatchlistIconClicked = onWatchlistIconClicked
                     )
                 }
             }
@@ -84,13 +92,13 @@ fun Details(
 
 @Composable
 private fun FavoriteButton(
-    favorite: Boolean,
+    isFavorite: Boolean,
     onFavoriteClicked: (Boolean) -> Unit
 ) {
     IconButton(onClick = {
-        onFavoriteClicked(!favorite)
+        onFavoriteClicked(!isFavorite)
     }) {
-        if (favorite) {
+        if (isFavorite) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
                 contentDescription = null,
@@ -99,6 +107,29 @@ private fun FavoriteButton(
         } else {
             Icon(
                 imageVector = Icons.Filled.FavoriteBorder,
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddToWatchlistButton(
+    isAddedToWatchlist: Boolean,
+    onWatchlistIconClicked: (Boolean) -> Unit
+) {
+    IconButton(onClick = {
+        onWatchlistIconClicked(!isAddedToWatchlist)
+    }) {
+        if (isAddedToWatchlist) {
+            Icon(
+                imageVector = Icons.Filled.BookmarkAdded,
+                contentDescription = null,
+                tint = MaterialTheme.colors.secondary
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.BookmarkAdd,
                 contentDescription = null
             )
         }
@@ -123,10 +154,12 @@ fun DetailsPreview(@PreviewParameter(DetailsPreviewProvider::class) movieDetails
                     releaseDate = releaseDate,
                     overview = overview,
                     genres = genres,
-                    favorite = false,
+                    isFavorite = false,
+                    isAddedToWatchlist = false,
                     isLoggedIn = false,
                     onFavoriteClicked = {},
-                    onReviewsClicked = {}
+                    onReviewsClicked = {},
+                    onWatchlistIconClicked = {}
                 )
             }
         }

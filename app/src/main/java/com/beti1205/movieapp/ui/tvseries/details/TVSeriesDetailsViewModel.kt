@@ -9,17 +9,18 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.feature.credits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.favorite.domain.MediaType
 import com.beti1205.movieapp.feature.tvepisodes.data.Episode
 import com.beti1205.movieapp.feature.tvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.tvseriesdetails.data.Season
 import com.beti1205.movieapp.feature.tvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
+import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,6 +39,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val fetchTVSeriesCreditsUseCase: FetchTVSeriesCreditsUseCase,
     private val fetchTVAccountStatesUseCase: FetchTVAccountStatesUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
+    private val addToWatchlistUseCase: AddToWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -58,8 +60,14 @@ class TVSeriesDetailsViewModel @Inject constructor(
     private val _credits = MutableStateFlow<Credits?>(null)
     val credits: StateFlow<Credits?> = _credits.asStateFlow()
 
-    private val _favorite = MutableStateFlow(false)
-    val favorite: StateFlow<Boolean> = _favorite.asStateFlow()
+    private val _isFavorite = MutableStateFlow(false)
+    val isFavorite: StateFlow<Boolean> = _isFavorite.asStateFlow()
+
+    private val _isAddedToWatchlist = MutableStateFlow(false)
+    val isAddedToWatchlist: StateFlow<Boolean> = _isAddedToWatchlist.asStateFlow()
+
+    private val _watchlistError = MutableStateFlow(false)
+    val watchlistError: StateFlow<Boolean> = _watchlistError.asStateFlow()
 
     val isLoggedIn = authManager.isLoggedInFlow.stateIn(
         viewModelScope,
@@ -122,7 +130,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
             val result = fetchTVAccountStatesUseCase(id)
 
             when (result) {
-                is Result.Success -> _favorite.value = result.data.favorite
+                is Result.Success -> _isFavorite.value = result.data.favorite
                 is Result.Error -> {}
             }
         }
@@ -134,7 +142,7 @@ class TVSeriesDetailsViewModel @Inject constructor(
                 return@launch
             }
 
-            _favorite.value = favorite
+            _isFavorite.value = favorite
 
             val result = markFavoriteUseCase(
                 favorite = favorite,
@@ -143,14 +151,39 @@ class TVSeriesDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-                _favorite.value = !favorite
+                _isFavorite.value = !favorite
                 _favoriteHasError.value = true
+            }
+        }
+    }
+
+    fun addToWatchlist(watchlist: Boolean) {
+        viewModelScope.launch {
+            if (!authManager.isLoggedIn) {
+                return@launch
+            }
+
+            _isAddedToWatchlist.value = watchlist
+
+            val result = addToWatchlistUseCase(
+                watchlist = watchlist,
+                mediaType = MediaType.TV,
+                mediaId = tvSeriesDetailsArgs.selectedTVSeriesId
+            )
+
+            if (result is Result.Error) {
+                _isAddedToWatchlist.value = !watchlist
+                _watchlistError.value = true
             }
         }
     }
 
     fun onFavoriteErrorHandled() {
         _favoriteHasError.value = false
+    }
+
+    fun onWatchlistErrorHandled() {
+        _watchlistError.value = false
     }
 
     fun setSelectedSeason(season: Season) {

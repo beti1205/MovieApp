@@ -51,8 +51,10 @@ fun MovieDetailsScreen(
     MovieDetailsScreen(
         state = state,
         isLoggedIn = isLoggedIn,
+        onWatchlistErrorHandled = viewModel::onWatchlistErrorHandled,
         onFavoriteErrorHandled = viewModel::onFavoriteErrorHandled,
         onFavoriteClicked = viewModel::markFavorite,
+        onWatchlistIconClicked = viewModel::addToWatchlist,
         onPersonClicked = onPersonClicked,
         onReviewsClicked = onReviewsClicked,
         onBackPressed = onBackPressed
@@ -63,8 +65,10 @@ fun MovieDetailsScreen(
 fun MovieDetailsScreen(
     state: MovieDetailsScreenState,
     isLoggedIn: Boolean,
+    onWatchlistErrorHandled: () -> Unit,
     onFavoriteErrorHandled: () -> Unit,
     onFavoriteClicked: (Boolean) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
     onBackPressed: () -> Unit
@@ -72,6 +76,7 @@ fun MovieDetailsScreen(
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState()
     val favoriteErrorMessage = stringResource(R.string.movie_details_favorite_error)
+    val watchlistErrorMessage = stringResource(R.string.movie_details_watchlist_error)
 
     MovieDetailsScreenContent(
         scaffoldState = scaffoldState,
@@ -81,7 +86,8 @@ fun MovieDetailsScreen(
         onBackPressed = onBackPressed,
         onPersonClicked = onPersonClicked,
         onReviewsClicked = onReviewsClicked,
-        onFavoriteClicked = onFavoriteClicked
+        onFavoriteClicked = onFavoriteClicked,
+        onWatchlistIconClicked = onWatchlistIconClicked
     )
 
     if (state.favoriteHasError) {
@@ -90,6 +96,15 @@ fun MovieDetailsScreen(
                 message = favoriteErrorMessage
             )
             onFavoriteErrorHandled()
+        }
+    }
+
+    if (state.watchlistError) {
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = watchlistErrorMessage
+            )
+            onWatchlistErrorHandled()
         }
     }
 }
@@ -103,7 +118,8 @@ private fun MovieDetailsScreenContent(
     onBackPressed: () -> Unit,
     onPersonClicked: (Int) -> Unit,
     onReviewsClicked: (Int) -> Unit,
-    onFavoriteClicked: (Boolean) -> Unit
+    onFavoriteClicked: (Boolean) -> Unit,
+    onWatchlistIconClicked: (Boolean) -> Unit
 ) {
     MovieAppTheme {
         Scaffold(
@@ -131,10 +147,12 @@ private fun MovieDetailsScreenContent(
                         movieDetails = state.movieDetails,
                         credits = state.credits,
                         favorite = state.favorite,
+                        watchlist = state.watchlist,
                         isLoggedIn = isLoggedIn,
                         onPersonClicked = onPersonClicked,
                         onReviewsClicked = onReviewsClicked,
                         onFavoriteClicked = onFavoriteClicked,
+                        onWatchlistIconClicked = onWatchlistIconClicked,
                         modifier = Modifier.verticalScroll(scrollState)
                     )
                 }
@@ -181,8 +199,10 @@ fun MovieDetailsScreenPreview(
                 hasError = state.hasError
             ),
             isLoggedIn = true,
+            onWatchlistErrorHandled = {},
             onFavoriteErrorHandled = {},
             onFavoriteClicked = {},
+            onWatchlistIconClicked = {},
             onPersonClicked = {},
             onReviewsClicked = {},
             onBackPressed = {}

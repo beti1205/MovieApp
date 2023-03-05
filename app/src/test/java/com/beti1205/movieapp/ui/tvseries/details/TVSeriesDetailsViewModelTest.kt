@@ -8,14 +8,15 @@ package com.beti1205.movieapp.ui.tvseries.details
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.credits.domain.FetchTVSeriesCreditsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.favorite.domain.MediaType
 import com.beti1205.movieapp.feature.tvepisodes.data.Episode
 import com.beti1205.movieapp.feature.tvepisodes.domain.FetchEpisodesUseCase
 import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
+import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import com.beti1205.movieapp.ui.TVSeriesDataProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -45,6 +46,7 @@ class TVSeriesDetailsViewModelTest {
     private val fetchTVSeriesCreditsUseCase = mockk<FetchTVSeriesCreditsUseCase>()
     private val markFavoriteUseCase = mockk<MarkFavoriteUseCase>()
     private val fetchTVAccountStatesUseCase = mockk<FetchTVAccountStatesUseCase>()
+    private val addToWatchlistUseCase = mockk<AddToWatchlistUseCase>()
     private val authManager = mockk<AuthManager>()
 
     @Test
@@ -62,6 +64,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -91,6 +94,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -116,6 +120,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -141,6 +146,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -166,6 +172,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -191,6 +198,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -217,12 +225,13 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.isFavorite.collect() }
 
-        assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.favorite.value)
+        assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.isFavorite.value)
 
         collectJob.cancel()
     }
@@ -243,10 +252,11 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.favorite.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.isFavorite.collect() }
 
         viewModel.markFavorite(false)
 
@@ -258,7 +268,7 @@ class TVSeriesDetailsViewModelTest {
             )
         }
 
-        assertFalse(viewModel.favorite.value)
+        assertFalse(viewModel.isFavorite.value)
 
         collectJob.cancel()
     }
@@ -279,18 +289,89 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
             launch { viewModel.favoriteHasError.collect() }
-            launch { viewModel.favorite.collect() }
+            launch { viewModel.isFavorite.collect() }
         }
 
         viewModel.markFavorite(false)
 
         assertTrue(viewModel.favoriteHasError.value)
-        assertTrue(viewModel.favorite.value)
+        assertTrue(viewModel.isFavorite.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun addToWatchlist_successful() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
+        coEvery { addToWatchlistUseCase(any(), any(), any()) } returns Result.Success(Unit)
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+
+        viewModel = TVSeriesDetailsViewModel(
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
+            fetchTVSeriesDetailsUseCase,
+            fetchEpisodesUseCase,
+            fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
+            markFavoriteUseCase,
+            addToWatchlistUseCase,
+            authManager
+        )
+
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.isAddedToWatchlist.collect() }
+
+        viewModel.addToWatchlist(false)
+
+        coVerify {
+            addToWatchlistUseCase(
+                false,
+                MediaType.TV,
+                TVSeriesDataProvider.tvSeries.id
+            )
+        }
+
+        assertFalse(viewModel.isAddedToWatchlist.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun addToWatchlist_failure() = runTest {
+        coEvery { fetchTVSeriesDetailsUseCase(any()) } returns tvSeriesDetailsSuccess
+        coEvery { fetchTVSeriesCreditsUseCase(any()) } returns tvSeriesCreditsSuccess
+        coEvery { addToWatchlistUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        coEvery { fetchTVAccountStatesUseCase(any()) } returns accountStatusSuccess
+        every { authManager.isLoggedIn } returns true
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+
+        viewModel = TVSeriesDetailsViewModel(
+            SavedStateHandle(mapOf("selectedTVSeriesId" to TVSeriesDataProvider.tvSeries.id)),
+            fetchTVSeriesDetailsUseCase,
+            fetchEpisodesUseCase,
+            fetchTVSeriesCreditsUseCase,
+            fetchTVAccountStatesUseCase,
+            markFavoriteUseCase,
+            addToWatchlistUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.isAddedToWatchlist.collect()
+        }
+
+        viewModel.addToWatchlist(false)
+
+        assertTrue(viewModel.isAddedToWatchlist.value)
+        assertTrue(viewModel.watchlistError.value)
 
         collectJob.cancel()
     }
@@ -311,6 +392,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -340,6 +422,7 @@ class TVSeriesDetailsViewModelTest {
             fetchTVSeriesCreditsUseCase,
             fetchTVAccountStatesUseCase,
             markFavoriteUseCase,
+            addToWatchlistUseCase,
             authManager
         )
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.selectedSeason.collect() }

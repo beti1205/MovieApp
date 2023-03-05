@@ -9,12 +9,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.AuthManager
+import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStatesUseCase
 import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.favorite.domain.MediaType
 import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
+import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -45,6 +46,7 @@ class MovieDetailsViewModelTest {
     private val fetchMovieDetailsUseCase = mockk<FetchMovieDetailsUseCase>()
     private val markFavoriteUseCase = mockk<MarkFavoriteUseCase>()
     private val fetchMoviesAccountStatesUseCase = mockk<FetchMoviesAccountStatesUseCase>()
+    private val addToWatchlistUseCase = mockk<AddToWatchlistUseCase>()
     private val authManager = mockk<AuthManager>()
 
     @Test
@@ -60,6 +62,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -83,6 +86,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -106,6 +110,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -129,6 +134,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -154,6 +160,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -189,6 +196,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 
@@ -211,6 +219,79 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
+    fun addToWatchlist_successful() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
+        coEvery { addToWatchlistUseCase(any(), any(), any()) } returns Result.Success(Unit)
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
+
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase,
+            markFavoriteUseCase,
+            fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
+
+        viewModel.addToWatchlist(true)
+
+        coVerify {
+            addToWatchlistUseCase(
+                true,
+                MediaType.MOVIE,
+                MovieDetailsDataProvider.movieDetails.id
+            )
+        }
+
+        assertTrue(viewModel.state.value.watchlist)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun addToWatchlist_failure() = runTest {
+        coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
+        coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
+        coEvery { fetchMoviesAccountStatesUseCase(any()) } returns accountStatusSuccess
+        coEvery { addToWatchlistUseCase(any(), any(), any()) } returns Result.Error(Exception())
+        every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
+
+        viewModel = MovieDetailsViewModel(
+            SavedStateHandle(mapOf("selectedMovieId" to MovieDetailsDataProvider.movieDetails.id)),
+            fetchMovieCreditsUseCase,
+            fetchMovieDetailsUseCase,
+            markFavoriteUseCase,
+            fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
+            authManager
+        )
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.state.collect() }
+
+        viewModel.addToWatchlist(true)
+
+        coVerify {
+            addToWatchlistUseCase(
+                true,
+                MediaType.MOVIE,
+                MovieDetailsDataProvider.movieDetails.id
+            )
+        }
+
+        assertFalse(viewModel.state.value.watchlist)
+        assertTrue(viewModel.state.value.watchlistError)
+
+        collectJob.cancel()
+    }
+
+    @Test
     fun onFavoriteErrorHandled_verifyThatErrorWasSet() = runTest {
         coEvery { fetchMovieCreditsUseCase(any()) } returns movieCreditsSuccess
         coEvery { fetchMovieDetailsUseCase(any()) } returns movieDetailsSuccess
@@ -225,6 +306,7 @@ class MovieDetailsViewModelTest {
             fetchMovieDetailsUseCase,
             markFavoriteUseCase,
             fetchMoviesAccountStatesUseCase,
+            addToWatchlistUseCase,
             authManager
         )
 

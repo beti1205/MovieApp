@@ -22,6 +22,7 @@ import com.beti1205.movieapp.feature.tvseriesdetails.data.TVSeriesDetails
 import com.beti1205.movieapp.feature.tvseriesdetails.domain.FetchTVSeriesDetailsUseCase
 import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TVSeriesDetailsViewModel @Inject constructor(
@@ -130,7 +130,10 @@ class TVSeriesDetailsViewModel @Inject constructor(
             val result = fetchTVAccountStatesUseCase(id)
 
             when (result) {
-                is Result.Success -> _isFavorite.value = result.data.favorite
+                is Result.Success -> {
+                    _isFavorite.value = result.data.favorite
+                    _isAddedToWatchlist.value = result.data.watchlist
+                }
                 is Result.Error -> {}
             }
         }

@@ -58,11 +58,12 @@ object MovieDetailsDataProvider {
         crew = crew
     )
 
-    val accountStates = AccountStates(id = 1, favorite = true, watchlist = false)
+    val accountStates = AccountStates(id = 1, favorite = true, watchlist = true)
 
     val movieDetailsScreenState = MovieDetailsScreenState(
         movieDetails = movieDetails,
         favorite = accountStates.favorite,
+        watchlist = accountStates.watchlist,
         credits = credits,
         hasError = false
     )

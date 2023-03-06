@@ -229,9 +229,16 @@ class TVSeriesDetailsViewModelTest {
             authManager
         )
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.isFavorite.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            launch { viewModel.isFavorite.collect() }
+            launch { viewModel.isAddedToWatchlist.collect() }
+        }
 
         assertEquals(TVSeriesDetailsDataProvider.accountStates.favorite, viewModel.isFavorite.value)
+        assertEquals(
+            TVSeriesDetailsDataProvider.accountStates.watchlist,
+            viewModel.isAddedToWatchlist.value
+        )
 
         collectJob.cancel()
     }

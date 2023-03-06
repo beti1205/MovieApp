@@ -21,6 +21,7 @@ import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
 import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
 import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,7 +29,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
@@ -83,7 +83,8 @@ class MovieDetailsViewModel @Inject constructor(
                     MovieDetailsScreenState(
                         movieDetails = movieDetails,
                         credits = credits,
-                        favorite = accountStates.favorite
+                        favorite = accountStates.favorite,
+                        watchlist = accountStates.watchlist
                     )
                 )
             }

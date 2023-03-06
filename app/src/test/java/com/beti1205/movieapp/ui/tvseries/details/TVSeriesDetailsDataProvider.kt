@@ -102,5 +102,5 @@ object TVSeriesDetailsDataProvider {
         crew = crew
     )
 
-    val accountStates = AccountStates(id = 1, favorite = true, watchlist = false)
+    val accountStates = AccountStates(id = 1, favorite = true, watchlist = true)
 }

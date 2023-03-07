@@ -6,6 +6,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.kapt)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.navigation.safeargs)
@@ -94,8 +95,7 @@ dependencies {
     implementation(libs.accompanist.flowlayout)
     coreLibraryDesugaring(libs.desugaring)
 
-    implementation(libs.moshi)
-    kapt(libs.moshi.kotlin.codegen)
+    implementation(libs.kotlinx.serialization)
 
     implementation(libs.security)
 

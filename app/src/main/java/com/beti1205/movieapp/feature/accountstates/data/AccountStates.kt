@@ -5,9 +5,9 @@
 
 package com.beti1205.movieapp.feature.accountstates.data
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AccountStates(
     val id: Int,
     val favorite: Boolean,

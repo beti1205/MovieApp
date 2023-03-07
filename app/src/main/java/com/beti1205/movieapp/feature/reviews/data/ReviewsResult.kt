@@ -7,28 +7,28 @@ package com.beti1205.movieapp.feature.reviews.data
 
 import com.beti1205.movieapp.utils.formattedDate
 import com.beti1205.movieapp.utils.toZoneDateTime
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ReviewsResult(
     val id: Int,
     val results: List<Review>
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Review(
     val author: String,
     val content: String,
     val id: String,
 
-    @Json(name = "created_at")
+    @SerialName("created_at")
     val createdAt: String,
 
-    @Json(name = "updated_at")
+    @SerialName("updated_at")
     val updatedAt: String?,
 
-    @Json(name = "author_details")
+    @SerialName("author_details")
     val authorDetails: AuthorDetails
 
 ) {
@@ -36,8 +36,8 @@ data class Review(
         get() = createdAt.toZoneDateTime().formattedDate
 }
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AuthorDetails(
-    @Json(name = "avatar_path")
+    @SerialName("avatar_path")
     val avatar: String?
 )

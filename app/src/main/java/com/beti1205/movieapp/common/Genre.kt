@@ -5,9 +5,9 @@
 
 package com.beti1205.movieapp.common
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Genre(
     val id: Int,
     val name: String

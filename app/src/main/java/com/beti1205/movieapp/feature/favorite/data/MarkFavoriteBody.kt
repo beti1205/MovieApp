@@ -5,16 +5,16 @@
 
 package com.beti1205.movieapp.feature.favorite.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class MarkFavoriteBody(
     val favorite: Boolean,
 
-    @Json(name = "media_type")
+    @SerialName("media_type")
     val mediaType: String,
 
-    @Json(name = "media_id")
+    @SerialName("media_id")
     val mediaId: Int
 )

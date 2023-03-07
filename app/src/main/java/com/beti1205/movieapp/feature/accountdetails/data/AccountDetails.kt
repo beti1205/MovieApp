@@ -5,10 +5,10 @@
 
 package com.beti1205.movieapp.feature.accountdetails.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class AccountDetails(
     val id: Int,
     val name: String?,
@@ -16,13 +16,13 @@ data class AccountDetails(
     val avatar: Avatar
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Avatar(
     val tmdb: Tmdb
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Tmdb(
-    @Json(name = "avatar_path")
+    @SerialName("avatar_path")
     val avatarPath: String?
 )

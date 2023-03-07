@@ -5,37 +5,39 @@
 
 package com.beti1205.movieapp.feature.credits.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Credits(
     val id: Int,
     val cast: List<Cast>,
     val crew: List<Crew>
 )
 
-@JsonClass(generateAdapter = true)
+@OptIn(ExperimentalSerializationApi::class)
+@Serializable
 data class Cast(
     val id: Int,
     val name: String,
     val popularity: Double,
     val character: String,
 
-    @Json(name = "profile_path")
+    @SerialName("profile_path")
     val path: String?
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Crew(
     val id: Int,
     val name: String,
     val popularity: Double,
     val job: String,
 
-    @Json(name = "known_for_department")
+    @SerialName("known_for_department")
     val department: String,
 
-    @Json(name = "profile_path")
+    @SerialName("profile_path")
     val path: String?
 )

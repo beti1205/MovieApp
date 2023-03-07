@@ -5,9 +5,9 @@
 
 package com.beti1205.movieapp.feature.tvepisodes.data
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class SeasonResponse(
     val episodes: List<Episode>
 )

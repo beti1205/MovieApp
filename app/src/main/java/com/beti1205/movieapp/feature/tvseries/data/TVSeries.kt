@@ -7,28 +7,28 @@ package com.beti1205.movieapp.feature.tvseries.data
 
 import android.os.Parcelable
 import com.beti1205.movieapp.utils.formattedRating
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Parcelize
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TVSeries(
     val popularity: Double,
     val id: Int,
     val overview: String,
     val name: String,
 
-    @Json(name = "first_air_date")
+    @SerialName("first_air_date")
     val firstAirDate: String?,
 
-    @Json(name = "original_name")
+    @SerialName("original_name")
     val originalName: String,
 
-    @Json(name = "vote_average")
+    @SerialName("vote_average")
     val voteAverage: Double,
 
-    @Json(name = "poster_path")
+    @SerialName("poster_path")
     val posterPath: String?
 ) : Parcelable {
 

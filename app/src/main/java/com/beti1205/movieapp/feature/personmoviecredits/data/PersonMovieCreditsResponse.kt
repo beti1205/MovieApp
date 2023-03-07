@@ -5,9 +5,9 @@
 
 package com.beti1205.movieapp.feature.personmoviecredits.data
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class PersonMovieCreditsResponse(
     val cast: List<PersonMovieCast>,
     val crew: List<PersonMovieCrew>,

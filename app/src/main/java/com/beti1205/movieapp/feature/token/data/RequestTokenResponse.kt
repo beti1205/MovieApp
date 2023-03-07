@@ -5,16 +5,16 @@
 
 package com.beti1205.movieapp.feature.token.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class RequestTokenResponse(
     val success: Boolean,
 
-    @Json(name = "expires_at")
+    @SerialName("expires_at")
     val expiresAt: String,
 
-    @Json(name = "request_token")
+    @SerialName("request_token")
     val requestToken: String
 )

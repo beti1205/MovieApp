@@ -17,19 +17,22 @@ import com.beti1205.movieapp.common.EncryptedSharedPreferencesBuilder
 import com.beti1205.movieapp.feature.transformavatarurl.TransformAvatarUrlUseCase
 import com.beti1205.movieapp.feature.transformavatarurl.TransformAvatarUrlUseCaseImpl
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
-import com.squareup.moshi.Moshi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
+import retrofit2.Retrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -45,9 +48,17 @@ interface CoreModule {
             )
         }
 
+        @OptIn(ExperimentalSerializationApi::class)
         @Provides
-        fun provideMoshi(): Moshi = Moshi.Builder()
-            .build()
+        fun provideKotlinSerialization(): Converter.Factory {
+            val contentType = "application/json".toMediaType()
+            val json = Json {
+                explicitNulls = false
+                ignoreUnknownKeys = true
+                isLenient = true
+            }
+            return json.asConverterFactory(contentType)
+        }
 
         @Provides
         fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
@@ -64,11 +75,11 @@ interface CoreModule {
         @Provides
         fun provideRetrofit(
             client: OkHttpClient,
-            moshi: Moshi,
+            converterFactory: Converter.Factory,
             appConfig: AppConfig
         ): Retrofit = Retrofit.Builder()
             .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(converterFactory)
             .baseUrl(appConfig.baseUrl)
             .build()
 

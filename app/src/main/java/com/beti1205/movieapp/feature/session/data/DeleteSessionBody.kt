@@ -5,11 +5,11 @@
 
 package com.beti1205.movieapp.feature.session.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class DeleteSessionBody(
-    @Json(name = "session_id")
+    @SerialName("session_id")
     val sessionId: String
 )

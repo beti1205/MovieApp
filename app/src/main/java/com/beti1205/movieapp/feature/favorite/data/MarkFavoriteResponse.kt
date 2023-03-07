@@ -5,14 +5,14 @@
 
 package com.beti1205.movieapp.feature.favorite.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class MarkFavoriteResponse(
-    @Json(name = "status_code")
+    @SerialName("status_code")
     val statusCode: Int,
 
-    @Json(name = "status_message")
+    @SerialName("status_message")
     val statusMessage: String
 )

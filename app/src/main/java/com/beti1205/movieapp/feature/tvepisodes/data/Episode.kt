@@ -5,22 +5,22 @@
 
 package com.beti1205.movieapp.feature.tvepisodes.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Episode(
     val id: Int,
     val name: String,
     val overview: String,
 
-    @Json(name = "still_path")
+    @SerialName("still_path")
     val posterPath: String?,
 
-    @Json(name = "air_date")
+    @SerialName("air_date")
     val episodeAirDate: String,
 
-    @Json(name = "episode_number")
+    @SerialName("episode_number")
     val episodeNumber: Int
 ) {
     val numberOfEpisode = episodeNumber.toString()

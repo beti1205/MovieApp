@@ -5,10 +5,10 @@
 
 package com.beti1205.movieapp.feature.persondetails.data
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class PersonDetails(
     val id: Int,
     val birthday: String?,
@@ -17,9 +17,9 @@ data class PersonDetails(
     val biography: String,
     val popularity: Double,
 
-    @Json(name = "place_of_birth")
+    @SerialName("place_of_birth")
     val birthPlace: String?,
 
-    @Json(name = "profile_path")
+    @SerialName("profile_path")
     val personPoster: String?
 )

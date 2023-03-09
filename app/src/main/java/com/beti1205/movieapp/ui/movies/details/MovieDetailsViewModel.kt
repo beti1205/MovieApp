@@ -11,18 +11,11 @@ import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
 import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.common.flatZip
-import com.beti1205.movieapp.feature.accountstates.data.AccountStates
-import com.beti1205.movieapp.feature.accountstates.domain.FetchMoviesAccountStatesUseCase
-import com.beti1205.movieapp.feature.credits.data.Credits
-import com.beti1205.movieapp.feature.credits.domain.FetchMovieCreditsUseCase
+import com.beti1205.movieapp.feature.combinedmoviedetails.FetchCombinedMovieDetailsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
-import com.beti1205.movieapp.feature.moviedetails.data.MovieDetails
-import com.beti1205.movieapp.feature.moviedetails.domain.FetchMovieDetailsUseCase
 import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,10 +26,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val fetchMovieCreditsUseCase: FetchMovieCreditsUseCase,
-    private val fetchMovieDetailsUseCase: FetchMovieDetailsUseCase,
+    private val fetchCombinedMovieDetailsUseCase: FetchCombinedMovieDetailsUseCase,
     private val markFavoriteUseCase: MarkFavoriteUseCase,
-    private val fetchMoviesAccountStatesUseCase: FetchMoviesAccountStatesUseCase,
     private val addToWatchlistUseCase: AddToWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
@@ -60,34 +51,7 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = MovieDetailsScreenState(isLoading = true)
 
-            val movieDetailsDeferredResult = async {
-                fetchMovieDetailsUseCase(id)
-            }
-            val creditDeferredResult = async {
-                fetchMovieCreditsUseCase(id)
-            }
-            val accountStatesDeferredResult = async {
-                fetchMoviesAccountStatesUseCase(id)
-            }
-
-            val movieDetailsResult: Result<MovieDetails> = movieDetailsDeferredResult.await()
-            val creditsResult: Result<Credits> = creditDeferredResult.await()
-            val accountStatesResult: Result<AccountStates> = accountStatesDeferredResult.await()
-
-            val result: Result<MovieDetailsScreenState> = flatZip(
-                movieDetailsResult,
-                creditsResult,
-                accountStatesResult
-            ) { movieDetails, credits, accountStates ->
-                Result.Success(
-                    MovieDetailsScreenState(
-                        movieDetails = movieDetails,
-                        credits = credits,
-                        favorite = accountStates.favorite,
-                        watchlist = accountStates.watchlist
-                    )
-                )
-            }
+            val result = fetchCombinedMovieDetailsUseCase(id)
 
             when (result) {
                 is Result.Error -> _state.value = MovieDetailsScreenState(hasError = true)

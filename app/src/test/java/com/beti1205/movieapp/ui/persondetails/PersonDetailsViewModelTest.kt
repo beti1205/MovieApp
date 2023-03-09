@@ -9,9 +9,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.personcredits.domain.FetchPersonCreditsUseCase
 import com.beti1205.movieapp.feature.persondetails.domain.FetchPersonDetailsUseCase
-import com.beti1205.movieapp.feature.personmoviecredits.domain.FetchPersonMovieCreditsUseCase
-import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,19 +34,16 @@ class PersonDetailsViewModelTest {
 
     private lateinit var viewModel: PersonDetailsViewModel
     private val fetchPersonDetailsUseCase = mockk<FetchPersonDetailsUseCase>()
-    private val fetchPersonMovieCreditsUseCase = mockk<FetchPersonMovieCreditsUseCase>()
-    private val fetchPersonTVSeriesCreditsUseCase = mockk<FetchPersonTVSeriesCreditsUseCase>()
+    private val fetchPersonCreditsUseCase = mockk<FetchPersonCreditsUseCase>()
 
     @Test
     fun fetchPersonDetails_successful() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
+        coEvery { fetchPersonCreditsUseCase(any()) } returns personCreditsSuccess
         viewModel = PersonDetailsViewModel(
             SavedStateHandle(selectedPersonId),
             fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
+            fetchPersonCreditsUseCase
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.personDetails.collect() }
@@ -60,13 +56,11 @@ class PersonDetailsViewModelTest {
     @Test
     fun fetchPersonDetails_failure() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns Result.Error(Exception())
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
+        coEvery { fetchPersonCreditsUseCase(any()) } returns personCreditsSuccess
         viewModel = PersonDetailsViewModel(
             SavedStateHandle(selectedPersonId),
             fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
+            fetchPersonCreditsUseCase
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
@@ -83,13 +77,11 @@ class PersonDetailsViewModelTest {
     @Test
     fun fetchPersonSectionsItems_successful() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
+        coEvery { fetchPersonCreditsUseCase(any()) } returns personCreditsSuccess
         viewModel = PersonDetailsViewModel(
             SavedStateHandle(selectedPersonId),
             fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
+            fetchPersonCreditsUseCase
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
@@ -110,13 +102,11 @@ class PersonDetailsViewModelTest {
     @Test
     fun fetchPersonSectionsItems_failure() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns Result.Error(Exception())
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns Result.Error(Exception())
+        coEvery { fetchPersonCreditsUseCase(any()) } returns Result.Error(Exception())
         viewModel = PersonDetailsViewModel(
             SavedStateHandle(selectedPersonId),
             fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
+            fetchPersonCreditsUseCase
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
@@ -127,76 +117,6 @@ class PersonDetailsViewModelTest {
             launch { viewModel.tvCrewSection.collect() }
         }
 
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCast,
-            viewModel.movieCastSection.value
-        )
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCrew,
-            viewModel.movieCrewSection.value
-        )
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
-    fun fetchPersonSectionsItems_movieCreditsError_failure() = runTest {
-        coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns Result.Error(Exception())
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
-        viewModel = PersonDetailsViewModel(
-            SavedStateHandle(selectedPersonId),
-            fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
-        )
-
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.hasCreditsError.collect() }
-            launch { viewModel.movieCastSection.collect() }
-            launch { viewModel.movieCrewSection.collect() }
-            launch { viewModel.tvCastSection.collect() }
-            launch { viewModel.tvCrewSection.collect() }
-        }
-
-        assertTrue(viewModel.hasCreditsError.value)
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCast,
-            viewModel.movieCastSection.value
-        )
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCrew,
-            viewModel.movieCrewSection.value
-        )
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
-
-        collectJob.cancel()
-    }
-
-    @Test
-    fun fetchPersonSectionsItems_tvCreditsError_failure() = runTest {
-        coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns Result.Error(Exception())
-        viewModel = PersonDetailsViewModel(
-            SavedStateHandle(selectedPersonId),
-            fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
-        )
-
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.hasCreditsError.collect() }
-            launch { viewModel.movieCastSection.collect() }
-            launch { viewModel.movieCrewSection.collect() }
-            launch { viewModel.tvCastSection.collect() }
-            launch { viewModel.tvCrewSection.collect() }
-        }
-
-        assertTrue(viewModel.hasCreditsError.value)
         assertEquals(
             PersonDetailsDataProvider.sectionEmptyMovieCast,
             viewModel.movieCastSection.value
@@ -214,13 +134,11 @@ class PersonDetailsViewModelTest {
     @Test
     fun verifyThatSectionExpandedChanged() = runTest {
         coEvery { fetchPersonDetailsUseCase(any()) } returns personDetailsSuccess
-        coEvery { fetchPersonMovieCreditsUseCase(any()) } returns personMovieCreditsSuccess
-        coEvery { fetchPersonTVSeriesCreditsUseCase(any()) } returns personTVSeriesCreditsSuccess
+        coEvery { fetchPersonCreditsUseCase(any()) } returns personCreditsSuccess
         viewModel = PersonDetailsViewModel(
             SavedStateHandle(selectedPersonId),
             fetchPersonDetailsUseCase,
-            fetchPersonMovieCreditsUseCase,
-            fetchPersonTVSeriesCreditsUseCase
+            fetchPersonCreditsUseCase
         )
 
         viewModel.onSectionExpandedChanged(
@@ -236,11 +154,8 @@ class PersonDetailsViewModelTest {
     }
 
     companion object {
-        val personTVSeriesCreditsSuccess = Result.Success(
-            PersonDetailsDataProvider.personTVSeriesCreditsResponse
-        )
-        val personMovieCreditsSuccess = Result.Success(
-            PersonDetailsDataProvider.personMovieCreditsResponse
+        val personCreditsSuccess = Result.Success(
+            PersonDetailsDataProvider.personCredits
         )
         val personDetailsSuccess = Result.Success(
             PersonDetailsDataProvider.personDetails

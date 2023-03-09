@@ -5,6 +5,7 @@
 
 package com.beti1205.movieapp.ui.persondetails
 
+import com.beti1205.movieapp.feature.personcredits.domain.PersonCredits
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCreditsResponse
@@ -73,7 +74,10 @@ object PersonDetailsDataProvider {
             originCountry = emptyList(),
             originalLanguage = "en",
             originalName = "The Oscars",
-            overview = "An annual American awards ceremony honoring cinematic achievements in the film industry. The various category winners are awarded a copy of a statuette, officially the Academy Award of Merit, that is better known by its nickname Oscar.",
+            overview = "An annual American awards ceremony honoring cinematic achievements " +
+                "in the film industry. The various category winners are awarded a copy" +
+                " of a statuette, officially the Academy Award of Merit, that is better " +
+                "known by its nickname Oscar.",
             popularity = 14.916,
             posterPath = "/wyMHJMQp8WpmBg9CxefvbQnFhrm.jpg",
             firstAirDate = "1953-03-18",
@@ -160,5 +164,12 @@ object PersonDetailsDataProvider {
         items = emptyList(),
         expanded = false,
         expandable = false
+    )
+
+    val personCredits = PersonCredits(
+        personMovieCastList,
+        personMovieCrewList,
+        personTVSeriesCastList,
+        personTVSeriesCrewList
     )
 }

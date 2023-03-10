@@ -39,20 +39,17 @@ fun PersonDetailsScreen(
     onBackPressed: () -> Unit
 ) {
     val personDetails by viewModel.personDetails.collectAsState()
-    val movieCastSection by viewModel.movieCastSection.collectAsState()
-    val tvCastSection by viewModel.tvCastSection.collectAsState()
-    val movieCrewSection by viewModel.movieCrewSection.collectAsState()
-    val tvCrewSection by viewModel.tvCrewSection.collectAsState()
+    val sections by viewModel.sections.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val hasError by viewModel.hasError.collectAsState()
     val hasCreditsError by viewModel.hasCreditsError.collectAsState()
 
     PersonDetailsScreen(
         details = personDetails,
-        movieCastSection = movieCastSection,
-        tvCastSection = tvCastSection,
-        movieCrewSection = movieCrewSection,
-        tvCrewSection = tvCrewSection,
+        movieCastSection = sections.movieCast,
+        tvCastSection = sections.tvCast,
+        movieCrewSection = sections.movieCrew,
+        tvCrewSection = sections.tvCrew,
         isLoading = isLoading,
         hasError = hasError,
         hasCreditsError = hasCreditsError,

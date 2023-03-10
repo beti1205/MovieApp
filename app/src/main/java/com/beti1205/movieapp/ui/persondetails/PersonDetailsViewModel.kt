@@ -9,18 +9,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.feature.personcredits.domain.FetchPersonCreditsUseCase
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.persondetails.domain.FetchPersonDetailsUseCase
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
-import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCreditsResponse
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCrew
-import com.beti1205.movieapp.feature.personmoviecredits.domain.FetchPersonMovieCreditsUseCase
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCast
-import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCreditsResponse
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
-import com.beti1205.movieapp.feature.persontvseriescredits.domain.FetchPersonTVSeriesCreditsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,14 +25,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class PersonDetailsViewModel @Inject constructor(
     state: SavedStateHandle,
     private val fetchPersonDetailsUseCase: FetchPersonDetailsUseCase,
-    private val fetchPersonMovieCreditsUseCase: FetchPersonMovieCreditsUseCase,
-    private val fetchPersonTVSeriesCreditsUseCase: FetchPersonTVSeriesCreditsUseCase
+    private val fetchPersonCreditsUseCase: FetchPersonCreditsUseCase
 ) : ViewModel() {
 
     private val personDetailsArgs = PersonDetailsArgs(state)
@@ -63,46 +58,38 @@ class PersonDetailsViewModel @Inject constructor(
     val sectionStatuses: StateFlow<Map<SectionType, Boolean>> = _sectionsStatuses.asStateFlow()
 
     private val _personMovieCast = MutableStateFlow<List<PersonMovieCast>>(emptyList())
-    val movieCastSection = combine(_personMovieCast, _sectionsStatuses) { movieCast, statuses ->
-        val expanded = statuses[SectionType.MOVIE_CAST] == true
-
-        Section(
-            items = if (expanded) movieCast else movieCast.take(5),
-            expanded = expanded,
-            expandable = movieCast.size > 5
+    val movieCastSection = combine(_personMovieCast, _sectionsStatuses) { items, statuses ->
+        processSection(
+            sectionType = SectionType.MOVIE_CAST,
+            items = items,
+            statuses = statuses
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
     private val _personMovieCrew = MutableStateFlow<List<PersonMovieCrew>>(emptyList())
-    val movieCrewSection = combine(_personMovieCrew, _sectionsStatuses) { movieCrew, statuses ->
-        val expanded = statuses[SectionType.MOVIE_CREW] == true
-
-        Section(
-            items = if (expanded) movieCrew else movieCrew.take(5),
-            expanded = expanded,
-            expandable = movieCrew.size > 5
+    val movieCrewSection = combine(_personMovieCrew, _sectionsStatuses) { items, statuses ->
+        processSection(
+            sectionType = SectionType.MOVIE_CREW,
+            items = items,
+            statuses = statuses
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
     private val _personTVSeriesCast = MutableStateFlow<List<PersonTVSeriesCast>>(emptyList())
-    val tvCastSection = combine(_personTVSeriesCast, _sectionsStatuses) { tvCast, statuses ->
-        val expanded = statuses[SectionType.TV_CAST] == true
-
-        Section(
-            items = if (expanded) tvCast else tvCast.take(5),
-            expanded = expanded,
-            expandable = tvCast.size > 5
+    val tvCastSection = combine(_personTVSeriesCast, _sectionsStatuses) { items, statuses ->
+        processSection(
+            sectionType = SectionType.TV_CAST,
+            items = items,
+            statuses = statuses
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
     private val _personTVSeriesCrew = MutableStateFlow<List<PersonTVSeriesCrew>>(emptyList())
-    val tvCrewSection = combine(_personTVSeriesCrew, _sectionsStatuses) { tvCrew, statuses ->
-        val expanded = statuses[SectionType.TV_CREW] == true
-
-        Section(
-            items = if (expanded) tvCrew else tvCrew.take(5),
-            expanded = expanded,
-            expandable = tvCrew.size > 5
+    val tvCrewSection = combine(_personTVSeriesCrew, _sectionsStatuses) { items, statuses ->
+        processSection(
+            sectionType = SectionType.TV_CREW,
+            items = items,
+            statuses = statuses
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), Section())
 
@@ -133,22 +120,14 @@ class PersonDetailsViewModel @Inject constructor(
 
     private fun fetchPersonSectionsItems(personId: Int) {
         viewModelScope.launch {
-            val movieDeferredResult = async {
-                fetchPersonMovieCreditsUseCase(personId)
-            }
-            val tvDeferredResult = async {
-                fetchPersonTVSeriesCreditsUseCase(personId)
-            }
+            val result = fetchPersonCreditsUseCase(personId)
 
-            val movieResult: Result<PersonMovieCreditsResponse> = movieDeferredResult.await()
-            val tvResult: Result<PersonTVSeriesCreditsResponse> = tvDeferredResult.await()
+            if (result is Result.Success) {
+                _personMovieCast.value = result.data.personMovieCast
+                _personMovieCrew.value = result.data.personMovieCrew
 
-            if (movieResult is Result.Success && tvResult is Result.Success) {
-                _personMovieCast.value = movieResult.data.cast
-                _personMovieCrew.value = movieResult.data.crew
-
-                _personTVSeriesCast.value = tvResult.data.cast
-                _personTVSeriesCrew.value = tvResult.data.crew
+                _personTVSeriesCast.value = result.data.personTVSeriesCast
+                _personTVSeriesCrew.value = result.data.personTVSeriesCrew
 
                 return@launch
             }
@@ -159,5 +138,19 @@ class PersonDetailsViewModel @Inject constructor(
 
     fun onSectionExpandedChanged(sectionType: SectionType, expanded: Boolean) {
         _sectionsStatuses.value = _sectionsStatuses.value + (sectionType to expanded)
+    }
+
+    private fun <T> processSection(
+        sectionType: SectionType,
+        items: List<T>,
+        statuses: Map<SectionType, Boolean>
+    ): Section<T> {
+        val expanded = statuses[sectionType] == true
+
+        return Section(
+            items = if (expanded) items else items.take(5),
+            expanded = expanded,
+            expandable = items.size > 5
+        )
     }
 }

@@ -11,7 +11,6 @@ import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCast
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCreditsResponse
 import com.beti1205.movieapp.feature.personmoviecredits.data.PersonMovieCrew
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCast
-import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCreditsResponse
 import com.beti1205.movieapp.feature.persontvseriescredits.data.PersonTVSeriesCrew
 
 object PersonDetailsDataProvider {
@@ -53,7 +52,10 @@ object PersonDetailsDataProvider {
             originCountry = emptyList(),
             originalLanguage = "en",
             originalName = "The Oscars",
-            overview = "An annual American awards ceremony honoring cinematic achievements in the film industry. The various category winners are awarded a copy of a statuette, officially the Academy Award of Merit, that is better known by its nickname Oscar.",
+            overview = "An annual American awards ceremony honoring cinematic " +
+                "achievements in the film industry. The various category winners " +
+                "are awarded a copy of a statuette, officially the Academy Award of" +
+                " Merit, that is better known by its nickname Oscar.",
             popularity = 14.916,
             poster = "/wyMHJMQp8WpmBg9CxefvbQnFhrm.jpg",
             firstAirDate = "1953-03-18",
@@ -117,51 +119,26 @@ object PersonDetailsDataProvider {
         id = 1
     )
 
-    val personTVSeriesCreditsResponse = PersonTVSeriesCreditsResponse(
-        cast = personTVSeriesCastList,
-        crew = personTVSeriesCrewList,
-        id = 1
-    )
-
-    val sectionMovieCast = Section(
+    private val sectionMovieCast = Section(
         items = personMovieCastList,
         expanded = false,
         expandable = false
     )
 
-    val sectionMovieCrew = Section(
+    private val sectionMovieCrew = Section(
         items = personMovieCrewList,
         expanded = false,
         expandable = false
     )
 
-    val sectionTVCast = Section(
+    private val sectionTVCast = Section(
         items = personTVSeriesCastList,
         expanded = false,
         expandable = false
     )
 
-    val sectionTVCrew = Section(
+    private val sectionTVCrew = Section(
         items = personTVSeriesCrewList,
-        expanded = false,
-        expandable = false
-    )
-
-    val sectionEmptyMovieCast =
-        Section<PersonMovieCast>(items = emptyList(), expanded = false, expandable = false)
-
-    val sectionEmptyMovieCrew = Section<PersonMovieCrew>(
-        items = emptyList(),
-        expanded = false,
-        expandable = false
-    )
-    val sectionEmptyTVCast = Section<PersonTVSeriesCast>(
-        items = emptyList(),
-        expanded = false,
-        expandable = false
-    )
-    val sectionEmptyTVCrew = Section<PersonTVSeriesCrew>(
-        items = emptyList(),
         expanded = false,
         expandable = false
     )
@@ -171,5 +148,12 @@ object PersonDetailsDataProvider {
         personMovieCrewList,
         personTVSeriesCastList,
         personTVSeriesCrewList
+    )
+
+    val personDetailsSections = PersonDetailsSection(
+        movieCast = sectionMovieCast,
+        movieCrew = sectionMovieCrew,
+        tvCast = sectionTVCast,
+        tvCrew = sectionTVCrew
     )
 }

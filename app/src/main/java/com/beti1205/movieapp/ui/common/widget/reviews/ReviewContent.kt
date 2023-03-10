@@ -7,6 +7,8 @@ package com.beti1205.movieapp.ui.common.widget.reviews
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -31,32 +33,60 @@ fun ReviewContent(text: String, modifier: Modifier = Modifier) {
 
     val newText by remember {
         derivedStateOf {
-            when {
-                expanded -> text
-                else -> {
-                    val strings = text.split(".").take(2).joinToString(".")
-                    "$strings..."
-                }
-            }
+            getReviewContentText(
+                text = text,
+                expanded = expanded
+            )
         }
     }
 
     val expandable = text.split(".").size > 3
 
-    Column(modifier = modifier) {
-        Text(
-            text = if (expandable) newText else text,
-            style = MaterialTheme.typography.body2,
-            fontStyle = FontStyle.Italic,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.animateContentSize()
+    Column(modifier = modifier.fillMaxWidth()) {
+        ReviewText(newText)
+        ReviewButton(
+            expandable = expandable,
+            expanded = expanded,
+            onExpandedChanged = { expanded = !expanded }
         )
-        if (expandable) {
-            ShowMoreButton(
-                expanded = expanded,
-                onClick = { expanded = !expanded },
-                modifier = Modifier.padding(top = 8.dp).align(Alignment.End)
-            )
+    }
+}
+
+@Composable
+private fun ColumnScope.ReviewButton(
+    expandable: Boolean,
+    expanded: Boolean,
+    onExpandedChanged: (Boolean) -> Unit
+) {
+    if (expandable) {
+        ShowMoreButton(
+            expanded = expanded,
+            onClick = { onExpandedChanged(!expanded) },
+            modifier = Modifier.padding(top = 8.dp).align(Alignment.End)
+        )
+    }
+}
+
+@Composable
+private fun ReviewText(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.body2,
+        fontStyle = FontStyle.Italic,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.animateContentSize()
+    )
+}
+
+private fun getReviewContentText(text: String, expanded: Boolean): String {
+    val expandable = text.split(".").size > 3
+
+    return when {
+        !expandable -> text
+        expanded -> text
+        else -> {
+            val strings = text.split(".").take(2).joinToString(".")
+            "$strings..."
         }
     }
 }

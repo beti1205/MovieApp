@@ -85,16 +85,10 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.movieCastSection.collect() }
-            launch { viewModel.movieCrewSection.collect() }
-            launch { viewModel.tvCastSection.collect() }
-            launch { viewModel.tvCrewSection.collect() }
+            viewModel.sections.collect()
         }
 
-        assertEquals(PersonDetailsDataProvider.sectionMovieCast, viewModel.movieCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionMovieCrew, viewModel.movieCrewSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionTVCast, viewModel.tvCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionTVCrew, viewModel.tvCrewSection.value)
+        assertEquals(PersonDetailsDataProvider.personDetailsSections, viewModel.sections.value)
 
         collectJob.cancel()
     }
@@ -110,23 +104,10 @@ class PersonDetailsViewModelTest {
         )
 
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            launch { viewModel.hasCreditsError.collect() }
-            launch { viewModel.movieCastSection.collect() }
-            launch { viewModel.movieCrewSection.collect() }
-            launch { viewModel.tvCastSection.collect() }
-            launch { viewModel.tvCrewSection.collect() }
+            viewModel.hasCreditsError.collect()
         }
 
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCast,
-            viewModel.movieCastSection.value
-        )
-        assertEquals(
-            PersonDetailsDataProvider.sectionEmptyMovieCrew,
-            viewModel.movieCrewSection.value
-        )
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCast, viewModel.tvCastSection.value)
-        assertEquals(PersonDetailsDataProvider.sectionEmptyTVCrew, viewModel.tvCrewSection.value)
+        assertTrue(viewModel.hasCreditsError.value)
 
         collectJob.cancel()
     }

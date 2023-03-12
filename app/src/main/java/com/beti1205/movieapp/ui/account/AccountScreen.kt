@@ -7,13 +7,6 @@ package com.beti1205.movieapp.ui.account
 
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,26 +15,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.FavoriteListOrder
+import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
-import com.beti1205.movieapp.ui.account.widget.LoginButton
+import com.beti1205.movieapp.ui.account.widget.AccountScreenContent
 import com.beti1205.movieapp.ui.account.widget.dialog.AccountDialog
-import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteMoviesSection
-import com.beti1205.movieapp.ui.account.widget.favoritetvseries.FavoriteTVSeriesSection
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenData
 import com.beti1205.movieapp.ui.account.widget.preview.AccountScreenPreviewProvider
-import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
@@ -57,8 +44,10 @@ fun AccountScreen(
     val account by viewModel.account.collectAsState()
     val movies by viewModel.movies.collectAsState()
     val tvSeries by viewModel.tvSeries.collectAsState()
+    val movieWatchlist by viewModel.movieWatchlist.collectAsState()
     val favoriteMoviesOrder by viewModel.favoriteMoviesOrder.collectAsState()
     val favoriteTVOrder by viewModel.favoriteTVOrder.collectAsState()
+    val movieWatchlistOrder by viewModel.movieWatchlistOrder.collectAsState()
     val context = LocalContext.current
 
     AccountScreen(
@@ -68,10 +57,13 @@ fun AccountScreen(
         account = account,
         tvSeries = tvSeries,
         movies = movies,
+        movieWatchlist = movieWatchlist,
         favoriteMoviesOrder = favoriteMoviesOrder,
         favoriteTVOrder = favoriteTVOrder,
+        movieWatchlistOrder = movieWatchlistOrder,
         onFavoriteMoviesOrderChanged = viewModel::onFavoriteMoviesOrderChanged,
         onFavoriteTVOrderChanged = viewModel::onFavoriteTVOrderChanged,
+        onWatchlistOrderChanged = viewModel::onMovieWatchlistOrderChanged,
         onLoginClicked = viewModel::fetchRequestToken,
         onErrorHandled = viewModel::onErrorHandled,
         onDeniedHandled = viewModel::onDeniedHandled,
@@ -97,11 +89,14 @@ fun AccountScreen(
     denied: Boolean,
     account: AccountDetails?,
     movies: List<Movie>,
+    movieWatchlist: List<Movie>,
     tvSeries: List<TVSeries>,
-    favoriteMoviesOrder: FavoriteListOrder,
-    favoriteTVOrder: FavoriteListOrder,
-    onFavoriteMoviesOrderChanged: (FavoriteListOrder) -> Unit,
-    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
+    favoriteMoviesOrder: ListOrder,
+    favoriteTVOrder: ListOrder,
+    movieWatchlistOrder: ListOrder,
+    onFavoriteMoviesOrderChanged: (ListOrder) -> Unit,
+    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
+    onWatchlistOrderChanged: (ListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onErrorHandled: () -> Unit,
     onDeniedHandled: () -> Unit,
@@ -122,6 +117,9 @@ fun AccountScreen(
         tvSeries = tvSeries,
         favoriteMoviesOrder = favoriteMoviesOrder,
         favoriteTVOrder = favoriteTVOrder,
+        movieWatchlist = movieWatchlist,
+        movieWatchlistOrder = movieWatchlistOrder,
+        onWatchlistOrderChanged = onWatchlistOrderChanged,
         onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
         onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
         onLoginClicked = onLoginClicked,
@@ -159,69 +157,6 @@ fun AccountScreen(
     }
 }
 
-@Composable
-private fun AccountScreenContent(
-    scaffoldState: ScaffoldState,
-    isLoggedIn: Boolean,
-    account: AccountDetails?,
-    movies: List<Movie>,
-    tvSeries: List<TVSeries>,
-    favoriteMoviesOrder: FavoriteListOrder,
-    favoriteTVOrder: FavoriteListOrder,
-    onFavoriteMoviesOrderChanged: (FavoriteListOrder) -> Unit,
-    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
-    onLoginClicked: () -> Unit,
-    onMovieClicked: (Int) -> Unit,
-    onTVSeriesClicked: (Int) -> Unit,
-    onAvatarClicked: () -> Unit
-) {
-    MovieAppTheme {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                AccountTopAppBar(
-                    account = account,
-                    isLoggedIn = isLoggedIn,
-                    onAvatarClicked = onAvatarClicked
-                )
-            }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                if (isLoggedIn) {
-                    Column(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                    ) {
-                        FavoriteMoviesSection(
-                            movies = movies,
-                            favoriteMoviesOrder = favoriteMoviesOrder,
-                            onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
-                            onMovieClicked = onMovieClicked
-                        )
-
-                        FavoriteTVSeriesSection(
-                            tvSeries = tvSeries,
-                            favoriteTVOrder = favoriteTVOrder,
-                            onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
-                            onTVSeriesClicked = onTVSeriesClicked
-                        )
-                    }
-                } else {
-                    LoginButton(
-                        onLoginClicked = onLoginClicked,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Preview
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -238,11 +173,14 @@ fun AccountScreenPreview(
             denied = data.denied,
             account = data.account,
             movies = data.movies,
+            movieWatchlist = data.movies,
             tvSeries = data.tvSeries,
-            favoriteMoviesOrder = FavoriteListOrder.LATEST,
-            favoriteTVOrder = FavoriteListOrder.LATEST,
+            favoriteMoviesOrder = ListOrder.LATEST,
+            favoriteTVOrder = ListOrder.LATEST,
+            movieWatchlistOrder = ListOrder.LATEST,
             onFavoriteMoviesOrderChanged = {},
             onFavoriteTVOrderChanged = {},
+            onWatchlistOrderChanged = {},
             onLoginClicked = {},
             onErrorHandled = {},
             onDeniedHandled = {},

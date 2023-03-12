@@ -5,20 +5,20 @@
 
 package com.beti1205.movieapp.common
 
-enum class FavoriteListOrder(val type: String) {
+enum class ListOrder(val type: String) {
     OLDEST("created_at.asc"),
     LATEST("created_at.desc");
 
     companion object {
-        fun from(value: Int): FavoriteListOrder {
+        fun from(value: Int): ListOrder {
             if (value == -1) {
                 return OLDEST
             }
 
-            return FavoriteListOrder.values().find { it.ordinal == value }
+            return ListOrder.values().find { it.ordinal == value }
                 ?: OLDEST
         }
 
-        fun availableValues(): List<FavoriteListOrder> = values().toList()
+        fun availableValues(): List<ListOrder> = values().toList()
     }
 }

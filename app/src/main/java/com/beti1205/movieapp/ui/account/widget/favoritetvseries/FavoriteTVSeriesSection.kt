@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.FavoriteListOrder
+import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
-import com.beti1205.movieapp.ui.account.widget.FavoriteListOrderButton
+import com.beti1205.movieapp.ui.account.widget.ListOrderButton
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteListEmptyState
@@ -33,8 +33,8 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun FavoriteTVSeriesSection(
     tvSeries: List<TVSeries>,
-    favoriteTVOrder: FavoriteListOrder,
-    onFavoriteTVOrderChanged: (FavoriteListOrder) -> Unit,
+    favoriteTVOrder: ListOrder,
+    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +46,7 @@ fun FavoriteTVSeriesSection(
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                FavoriteListOrderButton(
+                ListOrderButton(
                     order = favoriteTVOrder,
                     onOrderChanged = onFavoriteTVOrderChanged
                 )
@@ -83,7 +83,7 @@ fun FavoriteTVSeriesSectionPreview(
         Surface(Modifier.fillMaxSize()) {
             FavoriteTVSeriesSection(
                 tvSeries = tvSeries,
-                favoriteTVOrder = FavoriteListOrder.LATEST,
+                favoriteTVOrder = ListOrder.LATEST,
                 onFavoriteTVOrderChanged = {},
                 onTVSeriesClicked = {}
             )

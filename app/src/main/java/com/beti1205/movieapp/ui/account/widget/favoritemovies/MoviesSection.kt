@@ -16,22 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.FavoriteListOrder
+import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.movies.data.Movie
-import com.beti1205.movieapp.ui.account.widget.FavoriteListOrderButton
+import com.beti1205.movieapp.ui.account.widget.ListOrderButton
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun FavoriteMoviesSection(
+fun MoviesSection(
+    title: String,
+    emptyStateMessage: String,
     movies: List<Movie>,
-    favoriteMoviesOrder: FavoriteListOrder,
-    onFavoriteMoviesOrderChanged: (FavoriteListOrder) -> Unit,
+    moviesOrder: ListOrder,
+    onMoviesListOrderChanged: (ListOrder) -> Unit,
     onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,18 +39,18 @@ fun FavoriteMoviesSection(
         Column(modifier = modifier.fillMaxWidth()) {
             Row {
                 AccountSectionHeader(
-                    text = stringResource(R.string.favorite_movies_section_header),
+                    text = title,
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                FavoriteListOrderButton(
-                    order = favoriteMoviesOrder,
-                    onOrderChanged = onFavoriteMoviesOrderChanged
+                ListOrderButton(
+                    order = moviesOrder,
+                    onOrderChanged = onMoviesListOrderChanged
                 )
             }
             AnimatedVisibility(visible = movies.isEmpty()) {
                 FavoriteListEmptyState(
-                    text = stringResource(R.string.favorite_movies_empty_state_message)
+                    text = emptyStateMessage
                 )
             }
             AnimatedVisibility(
@@ -78,10 +78,12 @@ fun FavoriteMoviesSectionPreview(
 ) {
     MovieAppTheme {
         Surface(Modifier.fillMaxSize()) {
-            FavoriteMoviesSection(
+            MoviesSection(
+                title = "Favorite movies",
+                emptyStateMessage = "Empty",
                 movies = movies,
-                favoriteMoviesOrder = FavoriteListOrder.LATEST,
-                onFavoriteMoviesOrderChanged = {},
+                moviesOrder = ListOrder.LATEST,
+                onMoviesListOrderChanged = {},
                 onMovieClicked = {}
             )
         }

@@ -7,8 +7,11 @@ package com.beti1205.movieapp.di
 
 import com.beti1205.movieapp.feature.movies.data.FavoriteMoviesService
 import com.beti1205.movieapp.feature.movies.data.MovieApiService
+import com.beti1205.movieapp.feature.movies.data.MovieWatchlistService
 import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
 import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCaseImpl
+import com.beti1205.movieapp.feature.movies.domain.FetchMovieWatchlistUseCase
+import com.beti1205.movieapp.feature.movies.domain.FetchMovieWatchlistUseCaseImpl
 import com.beti1205.movieapp.feature.movies.domain.FetchMoviesUseCase
 import com.beti1205.movieapp.feature.movies.domain.FetchMoviesUseCaseImpl
 import com.beti1205.movieapp.feature.movies.domain.SearchMoviesUseCase
@@ -33,6 +36,11 @@ interface MoviesModule {
         fun provideFavoriteMoviesService(
             retrofit: Retrofit
         ): FavoriteMoviesService = retrofit.create()
+
+        @Provides
+        fun providerMovieWatchlistService(
+            retrofit: Retrofit
+        ): MovieWatchlistService = retrofit.create()
     }
 
     @Binds
@@ -49,4 +57,9 @@ interface MoviesModule {
     fun bindFetchFavoriteMoviesUseCase(
         fetchFavoriteMoviesUseCaseImpl: FetchFavoriteMoviesUseCaseImpl
     ): FetchFavoriteMoviesUseCase
+
+    @Binds
+    fun bindFetchMovieWatchlistUseCase(
+        fetchMovieWatchlistUseCaseImpl: FetchMovieWatchlistUseCaseImpl
+    ): FetchMovieWatchlistUseCase
 }

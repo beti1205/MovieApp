@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.tvseries.domain
+package com.beti1205.movieapp.feature.movies.domain
 
 import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
@@ -13,29 +13,29 @@ import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
-import com.beti1205.movieapp.feature.tvseries.data.FavoriteTVSeriesService
-import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.feature.movies.data.MovieWatchlistService
 import javax.inject.Inject
 
-interface FetchFavoriteTVSeriesUseCase {
+interface FetchMovieWatchlistUseCase {
 
     suspend operator fun invoke(
         order: ListOrder
-    ): Result<ApiResponse<TVSeries>>
+    ): Result<ApiResponse<Movie>>
 }
 
-class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
-    private val favoriteTVSeriesService: FavoriteTVSeriesService,
+class FetchMovieWatchlistUseCaseImpl @Inject constructor(
+    private val movieWatchlistService: MovieWatchlistService,
     private val appConfig: AppConfig,
     private val authManager: AuthManager
-) : FetchFavoriteTVSeriesUseCase {
+) : FetchMovieWatchlistUseCase {
 
-    override suspend fun invoke(order: ListOrder): Result<ApiResponse<TVSeries>> {
+    override suspend fun invoke(order: ListOrder): Result<ApiResponse<Movie>> {
         if (!authManager.isLoggedIn) {
             return Result.Error(GenericApiException)
         }
         return performRequest {
-            favoriteTVSeriesService.getFavoriteTVSeries(
+            movieWatchlistService.getMovieWatchlist(
                 accountId = authManager.accountId,
                 sortBy = order.type,
                 key = appConfig.apiKey,
@@ -43,7 +43,7 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
             )
         }.flatMap { result ->
             Result.Success(
-                result.transformTVSeriesPosterPath(appConfig.imageUrl)
+                result.transformMoviePosterPath(appConfig.imageUrl)
             )
         }
     }

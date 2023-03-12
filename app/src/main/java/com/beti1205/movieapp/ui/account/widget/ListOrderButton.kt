@@ -10,22 +10,22 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.FavoriteListOrder
+import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
-fun FavoriteListOrderButton(
-    order: FavoriteListOrder,
-    onOrderChanged: (FavoriteListOrder) -> Unit
+fun ListOrderButton(
+    order: ListOrder,
+    onOrderChanged: (ListOrder) -> Unit
 ) {
     IconButton(
         onClick = {
-            FavoriteListOrder.availableValues()
+            ListOrder.availableValues()
                 .first { it != order }
                 .let { onOrderChanged(it) }
         }
     ) {
-        if (order == FavoriteListOrder.LATEST) {
+        if (order == ListOrder.LATEST) {
             Icon(
                 painter = painterResource(id = R.drawable.sort_descending),
                 contentDescription = null,

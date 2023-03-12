@@ -10,18 +10,20 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.FavoriteListOrder
+import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.domain.FetchAccountDetailsUseCase
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.movies.domain.FetchFavoriteMoviesUseCase
+import com.beti1205.movieapp.feature.movies.domain.FetchMovieWatchlistUseCase
 import com.beti1205.movieapp.feature.session.domain.CreateSessionUseCase
 import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +33,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val REQUEST_TOKEN = "request_token"
 private const val APPROVED = "approved"
@@ -46,6 +47,7 @@ class AccountViewModel @Inject constructor(
     private val fetchAccountDetailsUseCase: FetchAccountDetailsUseCase,
     private val fetchFavoriteMoviesUseCase: FetchFavoriteMoviesUseCase,
     private val fetchFavoriteTVSeriesUseCase: FetchFavoriteTVSeriesUseCase,
+    private val fetchMovieWatchlistUseCase: FetchMovieWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -55,11 +57,14 @@ class AccountViewModel @Inject constructor(
     val denied = accountArgs.denied
     private val _requestToken = accountArgs.requestToken
 
-    private val _favoriteMoviesOrder = MutableStateFlow(FavoriteListOrder.OLDEST)
-    val favoriteMoviesOrder: StateFlow<FavoriteListOrder> = _favoriteMoviesOrder.asStateFlow()
+    private val _favoriteMoviesOrder = MutableStateFlow(ListOrder.OLDEST)
+    val favoriteMoviesOrder: StateFlow<ListOrder> = _favoriteMoviesOrder.asStateFlow()
 
-    private val _favoriteTVOrder = MutableStateFlow(FavoriteListOrder.OLDEST)
-    val favoriteTVOrder: StateFlow<FavoriteListOrder> = _favoriteTVOrder.asStateFlow()
+    private val _movieWatchlistOrder = MutableStateFlow(ListOrder.OLDEST)
+    val movieWatchlistOrder: StateFlow<ListOrder> = _movieWatchlistOrder.asStateFlow()
+
+    private val _favoriteTVOrder = MutableStateFlow(ListOrder.OLDEST)
+    val favoriteTVOrder: StateFlow<ListOrder> = _favoriteTVOrder.asStateFlow()
 
     private val _hasError = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
@@ -69,6 +74,9 @@ class AccountViewModel @Inject constructor(
 
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> = _movies.asStateFlow()
+
+    private val _movieWatchlist = MutableStateFlow<List<Movie>>(emptyList())
+    val movieWatchlist: StateFlow<List<Movie>> = _movieWatchlist.asStateFlow()
 
     private val _tvSeries = MutableStateFlow<List<TVSeries>>(emptyList())
     val tvSeries: StateFlow<List<TVSeries>> = _tvSeries.asStateFlow()
@@ -116,6 +124,7 @@ class AccountViewModel @Inject constructor(
                         fetchAccountDetails()
                         fetchFavoriteMovies()
                         fetchFavoriteTVSeries()
+                        fetchMovieWatchlist()
                     }
                 }
         }
@@ -195,12 +204,28 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun onFavoriteMoviesOrderChanged(order: FavoriteListOrder) {
+    private fun fetchMovieWatchlist() {
+        viewModelScope.launch {
+            val result = fetchMovieWatchlistUseCase(_movieWatchlistOrder.value)
+
+            when (result) {
+                is Result.Success -> _movieWatchlist.value = result.data.items
+                is Result.Error -> {}
+            }
+        }
+    }
+
+    fun onFavoriteMoviesOrderChanged(order: ListOrder) {
         _favoriteMoviesOrder.value = order
         fetchFavoriteMovies()
     }
 
-    fun onFavoriteTVOrderChanged(order: FavoriteListOrder) {
+    fun onMovieWatchlistOrderChanged(order: ListOrder) {
+        _movieWatchlistOrder.value = order
+        fetchMovieWatchlist()
+    }
+
+    fun onFavoriteTVOrderChanged(order: ListOrder) {
         _favoriteTVOrder.value = order
         fetchFavoriteTVSeries()
     }

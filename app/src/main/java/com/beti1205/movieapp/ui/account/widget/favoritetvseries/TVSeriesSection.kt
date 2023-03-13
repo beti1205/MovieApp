@@ -16,12 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.ListOrderButton
@@ -31,10 +29,12 @@ import com.beti1205.movieapp.ui.account.widget.favoritemovies.FavoriteListEmptyS
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
 @Composable
-fun FavoriteTVSeriesSection(
+fun TVSeriesSection(
+    title: String,
+    emptyStateMessage: String,
     tvSeries: List<TVSeries>,
-    favoriteTVOrder: ListOrder,
-    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
+    tvOrder: ListOrder,
+    onTVOrderChanged: (ListOrder) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -42,18 +42,18 @@ fun FavoriteTVSeriesSection(
         Column(modifier = modifier.fillMaxWidth()) {
             Row {
                 AccountSectionHeader(
-                    text = "Favorite tv series",
+                    text = title,
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 ListOrderButton(
-                    order = favoriteTVOrder,
-                    onOrderChanged = onFavoriteTVOrderChanged
+                    order = tvOrder,
+                    onOrderChanged = onTVOrderChanged
                 )
             }
             AnimatedVisibility(visible = tvSeries.isEmpty()) {
                 FavoriteListEmptyState(
-                    text = stringResource(R.string.favorite_tv_series_empty_state_message)
+                    text = emptyStateMessage
                 )
             }
             AnimatedVisibility(
@@ -81,10 +81,12 @@ fun FavoriteTVSeriesSectionPreview(
 ) {
     MovieAppTheme {
         Surface(Modifier.fillMaxSize()) {
-            FavoriteTVSeriesSection(
+            TVSeriesSection(
+                title = "Favorite",
+                emptyStateMessage = "Empty",
                 tvSeries = tvSeries,
-                favoriteTVOrder = ListOrder.LATEST,
-                onFavoriteTVOrderChanged = {},
+                tvOrder = ListOrder.LATEST,
+                onTVOrderChanged = {},
                 onTVSeriesClicked = {}
             )
         }

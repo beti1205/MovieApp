@@ -268,6 +268,7 @@ class AccountViewModelTest {
     fun fetchAccountDetails_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -325,6 +326,7 @@ class AccountViewModelTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchFavoriteMoviesUseCase(any()) } returns movies
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -411,6 +413,7 @@ class AccountViewModelTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchFavoriteTVSeriesUseCase(any()) } returns tvSeries
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -497,6 +500,7 @@ class AccountViewModelTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchMovieWatchlistUseCase(any()) } returns movies
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -583,6 +587,7 @@ class AccountViewModelTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchTVSeriesWatchlistUseCase(any()) } returns tvSeries
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(
@@ -670,6 +675,7 @@ class AccountViewModelTest {
         coEvery { fetchFavoriteMoviesUseCase(any()) } returns movies
         coEvery { fetchFavoriteTVSeriesUseCase(any()) } returns tvSeries
         every { authManager.isLoggedInFlow } returns flowOf(true)
+        every { authManager.isLoggedIn } returns true
         val state = SavedStateHandle()
 
         viewModel = AccountViewModel(

@@ -127,15 +127,17 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             authManager.isLoggedInFlow
                 .distinctUntilChanged()
-                .collect { isLoggedIn ->
-                    if (isLoggedIn) {
-                        fetchAccountDetails()
-                        fetchFavoriteMovies()
-                        fetchFavoriteTVSeries()
-                        fetchMovieWatchlist()
-                        fetchTVSeriesWatchlist()
-                    }
-                }
+                .collect { fetchData() }
+        }
+    }
+
+    fun fetchData() {
+        if (authManager.isLoggedIn) {
+            fetchAccountDetails()
+            fetchFavoriteMovies()
+            fetchFavoriteTVSeries()
+            fetchMovieWatchlist()
+            fetchTVSeriesWatchlist()
         }
     }
 

@@ -9,17 +9,23 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
@@ -34,6 +40,7 @@ import com.beti1205.movieapp.ui.theme.MovieAppTheme
 @Composable
 fun AccountScreen(
     viewModel: AccountViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {
@@ -51,6 +58,7 @@ fun AccountScreen(
     val movieWatchlistOrder by viewModel.movieWatchlistOrder.collectAsState()
     val tvSeriesWatchlistOrder by viewModel.tvSeriesWatchlistOrder.collectAsState()
     val context = LocalContext.current
+    val currentOnResume by rememberUpdatedState(newValue = viewModel::fetchData)
 
     AccountScreen(
         isLoggedIn = isLoggedIn,
@@ -84,6 +92,19 @@ fun AccountScreen(
 
         val intent = Intent(Intent.ACTION_VIEW, authUri)
         context.startActivity(intent)
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                currentOnResume()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 }
 

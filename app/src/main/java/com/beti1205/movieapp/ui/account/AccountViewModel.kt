@@ -22,6 +22,7 @@ import com.beti1205.movieapp.feature.session.domain.DeleteSessionUseCase
 import com.beti1205.movieapp.feature.token.domain.RequestTokenUseCase
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.feature.tvseries.domain.FetchFavoriteTVSeriesUseCase
+import com.beti1205.movieapp.feature.tvseries.domain.FetchTVSeriesWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,6 +49,7 @@ class AccountViewModel @Inject constructor(
     private val fetchFavoriteMoviesUseCase: FetchFavoriteMoviesUseCase,
     private val fetchFavoriteTVSeriesUseCase: FetchFavoriteTVSeriesUseCase,
     private val fetchMovieWatchlistUseCase: FetchMovieWatchlistUseCase,
+    private val fetchTVSeriesWatchlistUseCase: FetchTVSeriesWatchlistUseCase,
     private val authManager: AuthManager
 ) : ViewModel() {
 
@@ -66,6 +68,9 @@ class AccountViewModel @Inject constructor(
     private val _favoriteTVOrder = MutableStateFlow(ListOrder.OLDEST)
     val favoriteTVOrder: StateFlow<ListOrder> = _favoriteTVOrder.asStateFlow()
 
+    private val _tvSeriesWatchlistOrder = MutableStateFlow(ListOrder.OLDEST)
+    val tvSeriesWatchlistOrder: StateFlow<ListOrder> = _tvSeriesWatchlistOrder.asStateFlow()
+
     private val _hasError = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
 
@@ -80,6 +85,9 @@ class AccountViewModel @Inject constructor(
 
     private val _tvSeries = MutableStateFlow<List<TVSeries>>(emptyList())
     val tvSeries: StateFlow<List<TVSeries>> = _tvSeries.asStateFlow()
+
+    private val _tvSeriesWatchlist = MutableStateFlow<List<TVSeries>>(emptyList())
+    val tvSeriesWatchlist: StateFlow<List<TVSeries>> = _tvSeriesWatchlist.asStateFlow()
 
     val authUri = _requestToken
         .filterNotNull()
@@ -125,6 +133,7 @@ class AccountViewModel @Inject constructor(
                         fetchFavoriteMovies()
                         fetchFavoriteTVSeries()
                         fetchMovieWatchlist()
+                        fetchTVSeriesWatchlist()
                     }
                 }
         }
@@ -182,7 +191,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun fetchFavoriteMovies() {
+    private fun fetchFavoriteMovies() {
         viewModelScope.launch {
             val result = fetchFavoriteMoviesUseCase(_favoriteMoviesOrder.value)
 
@@ -193,7 +202,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun fetchFavoriteTVSeries() {
+    private fun fetchFavoriteTVSeries() {
         viewModelScope.launch {
             val result = fetchFavoriteTVSeriesUseCase(_favoriteTVOrder.value)
 
@@ -215,6 +224,17 @@ class AccountViewModel @Inject constructor(
         }
     }
 
+    private fun fetchTVSeriesWatchlist() {
+        viewModelScope.launch {
+            val result = fetchTVSeriesWatchlistUseCase(_tvSeriesWatchlistOrder.value)
+
+            when (result) {
+                is Result.Success -> _tvSeriesWatchlist.value = result.data.items
+                is Result.Error -> {}
+            }
+        }
+    }
+
     fun onFavoriteMoviesOrderChanged(order: ListOrder) {
         _favoriteMoviesOrder.value = order
         fetchFavoriteMovies()
@@ -228,6 +248,11 @@ class AccountViewModel @Inject constructor(
     fun onFavoriteTVOrderChanged(order: ListOrder) {
         _favoriteTVOrder.value = order
         fetchFavoriteTVSeries()
+    }
+
+    fun onTVSeriesWatchlistOrderChanged(order: ListOrder) {
+        _tvSeriesWatchlistOrder.value = order
+        fetchTVSeriesWatchlist()
     }
 
     fun onErrorHandled() {

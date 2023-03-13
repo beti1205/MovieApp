@@ -25,7 +25,7 @@ import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.MoviesSection
-import com.beti1205.movieapp.ui.account.widget.favoritetvseries.FavoriteTVSeriesSection
+import com.beti1205.movieapp.ui.account.widget.favoritetvseries.TVSeriesSection
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -37,12 +37,15 @@ fun AccountScreenContent(
     movies: List<Movie>,
     movieWatchlist: List<Movie>,
     tvSeries: List<TVSeries>,
+    tvSeriesWatchlist: List<TVSeries>,
     favoriteMoviesOrder: ListOrder,
     favoriteTVOrder: ListOrder,
     movieWatchlistOrder: ListOrder,
+    tvSeriesWatchlistOrder: ListOrder,
+    onWatchlistOrderChanged: (ListOrder) -> Unit,
+    onTVSeriesWatchlistOrderChanged: (ListOrder) -> Unit,
     onFavoriteMoviesOrderChanged: (ListOrder) -> Unit,
     onFavoriteTVOrderChanged: (ListOrder) -> Unit,
-    onWatchlistOrderChanged: (ListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
@@ -71,31 +74,25 @@ fun AccountScreenContent(
                             .padding(8.dp)
                             .fillMaxWidth()
                     ) {
-                        MoviesSection(
-                            title = stringResource(R.string.favorite_movies_section_header),
-                            emptyStateMessage = stringResource(
-                                R.string.favorite_movies_empty_state_message
-                            ),
+                        FavoriteSectionsContent(
                             movies = movies,
-                            moviesOrder = favoriteMoviesOrder,
-                            onMoviesListOrderChanged = onFavoriteMoviesOrderChanged,
-                            onMovieClicked = onMovieClicked
-                        )
-                        FavoriteTVSeriesSection(
+                            favoriteMoviesOrder = favoriteMoviesOrder,
+                            onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
+                            onMovieClicked = onMovieClicked,
                             tvSeries = tvSeries,
                             favoriteTVOrder = favoriteTVOrder,
                             onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
                             onTVSeriesClicked = onTVSeriesClicked
                         )
-                        MoviesSection(
-                            title = stringResource(id = R.string.movie_watchlist_section_header),
-                            emptyStateMessage = stringResource(
-                                id = R.string.movie_watchlist_empty_state_message
-                            ),
-                            movies = movieWatchlist,
-                            moviesOrder = movieWatchlistOrder,
-                            onMoviesListOrderChanged = onWatchlistOrderChanged,
-                            onMovieClicked = onMovieClicked
+                        WatchlistSectionsContent(
+                            movieWatchlist = movieWatchlist,
+                            movieWatchlistOrder = movieWatchlistOrder,
+                            onWatchlistOrderChanged = onWatchlistOrderChanged,
+                            onMovieClicked = onMovieClicked,
+                            tvSeriesWatchlist = tvSeriesWatchlist,
+                            tvSeriesWatchlistOrder = tvSeriesWatchlistOrder,
+                            onTVSeriesWatchlistOrderChanged = onTVSeriesWatchlistOrderChanged,
+                            onTVSeriesClicked = onTVSeriesClicked
                         )
                     }
                 } else {
@@ -107,4 +104,70 @@ fun AccountScreenContent(
             }
         }
     }
+}
+
+@Composable
+private fun WatchlistSectionsContent(
+    movieWatchlist: List<Movie>,
+    movieWatchlistOrder: ListOrder,
+    onWatchlistOrderChanged: (ListOrder) -> Unit,
+    onMovieClicked: (Int) -> Unit,
+    tvSeriesWatchlist: List<TVSeries>,
+    tvSeriesWatchlistOrder: ListOrder,
+    onTVSeriesWatchlistOrderChanged: (ListOrder) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
+) {
+    MoviesSection(
+        title = stringResource(id = R.string.movie_watchlist_section_header),
+        emptyStateMessage = stringResource(
+            id = R.string.movie_watchlist_empty_state_message
+        ),
+        movies = movieWatchlist,
+        moviesOrder = movieWatchlistOrder,
+        onMoviesListOrderChanged = onWatchlistOrderChanged,
+        onMovieClicked = onMovieClicked
+    )
+    TVSeriesSection(
+        title = stringResource(id = R.string.tv_series_watchlist_section_header),
+        emptyStateMessage = stringResource(
+            id = R.string.tv_series_watchlist_empty_state_message
+        ),
+        tvSeries = tvSeriesWatchlist,
+        tvOrder = tvSeriesWatchlistOrder,
+        onTVOrderChanged = onTVSeriesWatchlistOrderChanged,
+        onTVSeriesClicked = onTVSeriesClicked
+    )
+}
+
+@Composable
+private fun FavoriteSectionsContent(
+    movies: List<Movie>,
+    favoriteMoviesOrder: ListOrder,
+    onFavoriteMoviesOrderChanged: (ListOrder) -> Unit,
+    onMovieClicked: (Int) -> Unit,
+    tvSeries: List<TVSeries>,
+    favoriteTVOrder: ListOrder,
+    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
+    onTVSeriesClicked: (Int) -> Unit
+) {
+    MoviesSection(
+        title = stringResource(R.string.favorite_movies_section_header),
+        emptyStateMessage = stringResource(
+            R.string.favorite_movies_empty_state_message
+        ),
+        movies = movies,
+        moviesOrder = favoriteMoviesOrder,
+        onMoviesListOrderChanged = onFavoriteMoviesOrderChanged,
+        onMovieClicked = onMovieClicked
+    )
+    TVSeriesSection(
+        title = stringResource(R.string.favorite_tv_series_section_header),
+        emptyStateMessage = stringResource(
+            id = R.string.favorite_tv_series_empty_state_message
+        ),
+        tvSeries = tvSeries,
+        tvOrder = favoriteTVOrder,
+        onTVOrderChanged = onFavoriteTVOrderChanged,
+        onTVSeriesClicked = onTVSeriesClicked
+    )
 }

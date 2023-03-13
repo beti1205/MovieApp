@@ -7,10 +7,10 @@ package com.beti1205.movieapp.common
 
 import com.fredporciuncula.flow.preferences.FlowSharedPreferences
 import com.fredporciuncula.flow.preferences.Preference
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Named
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 interface AuthManager {
     val sessionId: String?

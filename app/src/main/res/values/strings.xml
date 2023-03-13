@@ -61,13 +61,16 @@
     <string name="movie_details_favorite_error">An error occurred, the movie could not be added to favorites.</string>
     <string name="movie_details_watchlist_error">An error occurred, the movie could not be added to watchlist.</string>
     <string name="favorite_movies_empty_state_message">Add movie to favorite list.</string>
-    <string name="movie_watchlist_empty_state_message">Add movie to movie watchlist.</string>
+    <string name="movie_watchlist_empty_state_message">Add movie to watchlist.</string>
     <string name="favorite_tv_series_empty_state_message">Add tv series to favorite list.</string>
+    <string name="tv_series_watchlist_empty_state_message">Add tv series to watchlist.</string>
     <string name="favorite_movies_section_header">Favorite movies</string>
     <string name="movie_watchlist_section_header">Movie watchlist</string>
+    <string name="tv_series_watchlist_section_header">TV series watchlist</string>
     <string name="tv_series_reviews_label">TV series reviews</string>
     <string name="account_dialog_title">Account Details</string>
     <string name="bottom_nav_home_label">Home</string>
     <string name="bottom_nav_tv_series_label">TV Series</string>
     <string name="bottom_nav_account_label">Account</string>
+    <string name="favorite_tv_series_section_header">Favorite tv series</string>
 </resources>

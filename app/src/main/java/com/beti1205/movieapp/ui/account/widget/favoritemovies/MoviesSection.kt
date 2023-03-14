@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.movies.data.Movie
+import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.account.widget.ListOrderButton
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
 
@@ -31,7 +32,8 @@ fun MoviesSection(
     emptyStateMessage: String,
     movies: List<Movie>,
     moviesOrder: ListOrder,
-    onMoviesListOrderChanged: (ListOrder) -> Unit,
+    orderType: AccountScreenOrderType,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit,
     onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -45,7 +47,8 @@ fun MoviesSection(
                 Spacer(modifier = Modifier.weight(1f))
                 ListOrderButton(
                     order = moviesOrder,
-                    onOrderChanged = onMoviesListOrderChanged
+                    orderType = orderType,
+                    onOrderChanged = onOrderChanged
                 )
             }
             AnimatedVisibility(visible = movies.isEmpty()) {
@@ -83,7 +86,8 @@ fun FavoriteMoviesSectionPreview(
                 emptyStateMessage = "Empty",
                 movies = movies,
                 moviesOrder = ListOrder.LATEST,
-                onMoviesListOrderChanged = {},
+                orderType = AccountScreenOrderType.FAVORITE_MOVIES,
+                onOrderChanged = { _, _ -> },
                 onMovieClicked = {}
             )
         }

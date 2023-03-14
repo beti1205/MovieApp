@@ -24,6 +24,7 @@ import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.MoviesSection
 import com.beti1205.movieapp.ui.account.widget.favoritetvseries.TVSeriesSection
 import com.beti1205.movieapp.ui.account.widget.topappbar.AccountTopAppBar
@@ -42,10 +43,7 @@ fun AccountScreenContent(
     favoriteTVOrder: ListOrder,
     movieWatchlistOrder: ListOrder,
     tvSeriesWatchlistOrder: ListOrder,
-    onWatchlistOrderChanged: (ListOrder) -> Unit,
-    onTVSeriesWatchlistOrderChanged: (ListOrder) -> Unit,
-    onFavoriteMoviesOrderChanged: (ListOrder) -> Unit,
-    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit,
     onLoginClicked: () -> Unit,
     onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
@@ -77,21 +75,19 @@ fun AccountScreenContent(
                         FavoriteSectionsContent(
                             movies = movies,
                             favoriteMoviesOrder = favoriteMoviesOrder,
-                            onFavoriteMoviesOrderChanged = onFavoriteMoviesOrderChanged,
-                            onMovieClicked = onMovieClicked,
                             tvSeries = tvSeries,
                             favoriteTVOrder = favoriteTVOrder,
-                            onFavoriteTVOrderChanged = onFavoriteTVOrderChanged,
+                            onOrderChanged = onOrderChanged,
+                            onMovieClicked = onMovieClicked,
                             onTVSeriesClicked = onTVSeriesClicked
                         )
                         WatchlistSectionsContent(
                             movieWatchlist = movieWatchlist,
                             movieWatchlistOrder = movieWatchlistOrder,
-                            onWatchlistOrderChanged = onWatchlistOrderChanged,
-                            onMovieClicked = onMovieClicked,
                             tvSeriesWatchlist = tvSeriesWatchlist,
                             tvSeriesWatchlistOrder = tvSeriesWatchlistOrder,
-                            onTVSeriesWatchlistOrderChanged = onTVSeriesWatchlistOrderChanged,
+                            onOrderChanged = onOrderChanged,
+                            onMovieClicked = onMovieClicked,
                             onTVSeriesClicked = onTVSeriesClicked
                         )
                     }
@@ -110,11 +106,10 @@ fun AccountScreenContent(
 private fun WatchlistSectionsContent(
     movieWatchlist: List<Movie>,
     movieWatchlistOrder: ListOrder,
-    onWatchlistOrderChanged: (ListOrder) -> Unit,
-    onMovieClicked: (Int) -> Unit,
     tvSeriesWatchlist: List<TVSeries>,
     tvSeriesWatchlistOrder: ListOrder,
-    onTVSeriesWatchlistOrderChanged: (ListOrder) -> Unit,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {
     MoviesSection(
@@ -124,7 +119,8 @@ private fun WatchlistSectionsContent(
         ),
         movies = movieWatchlist,
         moviesOrder = movieWatchlistOrder,
-        onMoviesListOrderChanged = onWatchlistOrderChanged,
+        orderType = AccountScreenOrderType.WATCHLIST_MOVIE,
+        onOrderChanged = onOrderChanged,
         onMovieClicked = onMovieClicked
     )
     TVSeriesSection(
@@ -134,7 +130,8 @@ private fun WatchlistSectionsContent(
         ),
         tvSeries = tvSeriesWatchlist,
         tvOrder = tvSeriesWatchlistOrder,
-        onTVOrderChanged = onTVSeriesWatchlistOrderChanged,
+        orderType = AccountScreenOrderType.WATCHLIST_TV,
+        onOrderChanged = onOrderChanged,
         onTVSeriesClicked = onTVSeriesClicked
     )
 }
@@ -143,11 +140,10 @@ private fun WatchlistSectionsContent(
 private fun FavoriteSectionsContent(
     movies: List<Movie>,
     favoriteMoviesOrder: ListOrder,
-    onFavoriteMoviesOrderChanged: (ListOrder) -> Unit,
-    onMovieClicked: (Int) -> Unit,
     tvSeries: List<TVSeries>,
     favoriteTVOrder: ListOrder,
-    onFavoriteTVOrderChanged: (ListOrder) -> Unit,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit,
+    onMovieClicked: (Int) -> Unit,
     onTVSeriesClicked: (Int) -> Unit
 ) {
     MoviesSection(
@@ -157,7 +153,8 @@ private fun FavoriteSectionsContent(
         ),
         movies = movies,
         moviesOrder = favoriteMoviesOrder,
-        onMoviesListOrderChanged = onFavoriteMoviesOrderChanged,
+        orderType = AccountScreenOrderType.FAVORITE_MOVIES,
+        onOrderChanged = onOrderChanged,
         onMovieClicked = onMovieClicked
     )
     TVSeriesSection(
@@ -167,7 +164,8 @@ private fun FavoriteSectionsContent(
         ),
         tvSeries = tvSeries,
         tvOrder = favoriteTVOrder,
-        onTVOrderChanged = onFavoriteTVOrderChanged,
+        orderType = AccountScreenOrderType.FAVORITE_TV,
+        onOrderChanged = onOrderChanged,
         onTVSeriesClicked = onTVSeriesClicked
     )
 }

@@ -237,24 +237,25 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun onFavoriteMoviesOrderChanged(order: ListOrder) {
-        _favoriteMoviesOrder.value = order
-        fetchFavoriteMovies()
-    }
-
-    fun onMovieWatchlistOrderChanged(order: ListOrder) {
-        _movieWatchlistOrder.value = order
-        fetchMovieWatchlist()
-    }
-
-    fun onFavoriteTVOrderChanged(order: ListOrder) {
-        _favoriteTVOrder.value = order
-        fetchFavoriteTVSeries()
-    }
-
-    fun onTVSeriesWatchlistOrderChanged(order: ListOrder) {
-        _tvSeriesWatchlistOrder.value = order
-        fetchTVSeriesWatchlist()
+    fun onOrderChanged(type: AccountScreenOrderType, order: ListOrder) {
+        when (type) {
+            AccountScreenOrderType.FAVORITE_MOVIES -> {
+                _favoriteMoviesOrder.value = order
+                fetchFavoriteMovies()
+            }
+            AccountScreenOrderType.FAVORITE_TV -> {
+                _favoriteTVOrder.value = order
+                fetchFavoriteTVSeries()
+            }
+            AccountScreenOrderType.WATCHLIST_MOVIE -> {
+                _movieWatchlistOrder.value = order
+                fetchMovieWatchlist()
+            }
+            AccountScreenOrderType.WATCHLIST_TV -> {
+                _tvSeriesWatchlistOrder.value = order
+                fetchTVSeriesWatchlist()
+            }
+        }
     }
 
     fun onErrorHandled() {

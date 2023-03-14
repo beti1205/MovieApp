@@ -381,34 +381,6 @@ class AccountViewModelTest {
     }
 
     @Test
-    fun onFavoriteMoviesOrderChanged_verifyThatOrderWasChangedAndMethodWasCalled() = runTest {
-        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchFavoriteMoviesUseCase(any()) } returns movies
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-        val state = SavedStateHandle()
-
-        viewModel = AccountViewModel(
-            state,
-            requestTokenUseCase,
-            createSessionUseCase,
-            deleteSessionUseCase,
-            fetchAccountDetailsUseCase,
-            fetchFavoriteMoviesUseCase,
-            fetchFavoriteTVSeriesUseCase,
-            fetchMovieWatchlistUseCase,
-            fetchTVSeriesWatchlistUseCase,
-            authManager
-        )
-
-        assertEquals(ListOrder.OLDEST, viewModel.favoriteMoviesOrder.value)
-
-        viewModel.onFavoriteMoviesOrderChanged(ListOrder.LATEST)
-
-        assertEquals(ListOrder.LATEST, viewModel.favoriteMoviesOrder.value)
-        coVerify { fetchFavoriteMoviesUseCase(ListOrder.LATEST) }
-    }
-
-    @Test
     fun fetchFavoriteTVSeries_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchFavoriteTVSeriesUseCase(any()) } returns tvSeries
@@ -465,34 +437,6 @@ class AccountViewModelTest {
         assertEquals(emptyList<Movie>(), viewModel.tvSeries.value)
 
         collectJob.cancel()
-    }
-
-    @Test
-    fun onFavoriteTVOrderChanged_verifyThatOrderWasChangedAndMethodWasCalled() = runTest {
-        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchFavoriteTVSeriesUseCase(any()) } returns Result.Error(Exception())
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-        val state = SavedStateHandle()
-
-        viewModel = AccountViewModel(
-            state,
-            requestTokenUseCase,
-            createSessionUseCase,
-            deleteSessionUseCase,
-            fetchAccountDetailsUseCase,
-            fetchFavoriteMoviesUseCase,
-            fetchFavoriteTVSeriesUseCase,
-            fetchMovieWatchlistUseCase,
-            fetchTVSeriesWatchlistUseCase,
-            authManager
-        )
-
-        assertEquals(ListOrder.OLDEST, viewModel.favoriteTVOrder.value)
-
-        viewModel.onFavoriteTVOrderChanged(ListOrder.LATEST)
-
-        assertEquals(ListOrder.LATEST, viewModel.favoriteTVOrder.value)
-        coVerify { fetchFavoriteTVSeriesUseCase(ListOrder.LATEST) }
     }
 
     @Test
@@ -555,34 +499,6 @@ class AccountViewModelTest {
     }
 
     @Test
-    fun onMovieWatchlistOrderChanged_verifyThatOrderWasChangedAndMethodWasCalled() = runTest {
-        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchMovieWatchlistUseCase(any()) } returns movies
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-        val state = SavedStateHandle()
-
-        viewModel = AccountViewModel(
-            state,
-            requestTokenUseCase,
-            createSessionUseCase,
-            deleteSessionUseCase,
-            fetchAccountDetailsUseCase,
-            fetchFavoriteMoviesUseCase,
-            fetchFavoriteTVSeriesUseCase,
-            fetchMovieWatchlistUseCase,
-            fetchTVSeriesWatchlistUseCase,
-            authManager
-        )
-
-        assertEquals(ListOrder.OLDEST, viewModel.movieWatchlistOrder.value)
-
-        viewModel.onMovieWatchlistOrderChanged(ListOrder.LATEST)
-
-        assertEquals(ListOrder.LATEST, viewModel.movieWatchlistOrder.value)
-        coVerify { fetchMovieWatchlistUseCase(ListOrder.LATEST) }
-    }
-
-    @Test
     fun fetchTVSeriesWatchlist_success() = runTest {
         coEvery { fetchAccountDetailsUseCase() } returns accountDetails
         coEvery { fetchTVSeriesWatchlistUseCase(any()) } returns tvSeries
@@ -642,32 +558,120 @@ class AccountViewModelTest {
     }
 
     @Test
-    fun onTVSeriesOrderChanged_verifyThatOrderWasChangedAndMethodWasCalled() = runTest {
-        coEvery { fetchAccountDetailsUseCase() } returns accountDetails
-        coEvery { fetchTVSeriesWatchlistUseCase(any()) } returns Result.Error(Exception())
-        every { authManager.isLoggedInFlow } returns flowOf(true)
-        val state = SavedStateHandle()
+    fun onOrderChanged_favoriteMoviesOrderType_verifyThatOrderWasChangedAndMethodWasCalled() =
+        runTest {
+            coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+            coEvery { fetchFavoriteMoviesUseCase(any()) } returns Result.Error(Exception())
+            every { authManager.isLoggedInFlow } returns flowOf(true)
+            val state = SavedStateHandle()
 
-        viewModel = AccountViewModel(
-            state,
-            requestTokenUseCase,
-            createSessionUseCase,
-            deleteSessionUseCase,
-            fetchAccountDetailsUseCase,
-            fetchFavoriteMoviesUseCase,
-            fetchFavoriteTVSeriesUseCase,
-            fetchMovieWatchlistUseCase,
-            fetchTVSeriesWatchlistUseCase,
-            authManager
-        )
+            viewModel = AccountViewModel(
+                state,
+                requestTokenUseCase,
+                createSessionUseCase,
+                deleteSessionUseCase,
+                fetchAccountDetailsUseCase,
+                fetchFavoriteMoviesUseCase,
+                fetchFavoriteTVSeriesUseCase,
+                fetchMovieWatchlistUseCase,
+                fetchTVSeriesWatchlistUseCase,
+                authManager
+            )
 
-        assertEquals(ListOrder.OLDEST, viewModel.tvSeriesWatchlistOrder.value)
+            assertEquals(ListOrder.OLDEST, viewModel.favoriteMoviesOrder.value)
 
-        viewModel.onTVSeriesWatchlistOrderChanged(ListOrder.LATEST)
+            viewModel.onOrderChanged(AccountScreenOrderType.FAVORITE_MOVIES, ListOrder.LATEST)
 
-        assertEquals(ListOrder.LATEST, viewModel.tvSeriesWatchlistOrder.value)
-        coVerify { fetchTVSeriesWatchlistUseCase(ListOrder.LATEST) }
-    }
+            assertEquals(ListOrder.LATEST, viewModel.favoriteMoviesOrder.value)
+            coVerify { fetchFavoriteMoviesUseCase(ListOrder.LATEST) }
+        }
+
+    @Test
+    fun onOrderChanged_favoriteTVOrderType_verifyThatOrderWasChangedAndMethodWasCalled() =
+        runTest {
+            coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+            coEvery { fetchFavoriteTVSeriesUseCase(any()) } returns Result.Error(Exception())
+            every { authManager.isLoggedInFlow } returns flowOf(true)
+            val state = SavedStateHandle()
+
+            viewModel = AccountViewModel(
+                state,
+                requestTokenUseCase,
+                createSessionUseCase,
+                deleteSessionUseCase,
+                fetchAccountDetailsUseCase,
+                fetchFavoriteMoviesUseCase,
+                fetchFavoriteTVSeriesUseCase,
+                fetchMovieWatchlistUseCase,
+                fetchTVSeriesWatchlistUseCase,
+                authManager
+            )
+
+            assertEquals(ListOrder.OLDEST, viewModel.favoriteTVOrder.value)
+
+            viewModel.onOrderChanged(AccountScreenOrderType.FAVORITE_TV, ListOrder.LATEST)
+
+            assertEquals(ListOrder.LATEST, viewModel.favoriteTVOrder.value)
+            coVerify { fetchFavoriteTVSeriesUseCase(ListOrder.LATEST) }
+        }
+
+    @Test
+    fun onOrderChanged_watchlistTVOrderType_verifyThatOrderWasChangedAndMethodWasCalled() =
+        runTest {
+            coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+            coEvery { fetchTVSeriesWatchlistUseCase(any()) } returns Result.Error(Exception())
+            every { authManager.isLoggedInFlow } returns flowOf(true)
+            val state = SavedStateHandle()
+
+            viewModel = AccountViewModel(
+                state,
+                requestTokenUseCase,
+                createSessionUseCase,
+                deleteSessionUseCase,
+                fetchAccountDetailsUseCase,
+                fetchFavoriteMoviesUseCase,
+                fetchFavoriteTVSeriesUseCase,
+                fetchMovieWatchlistUseCase,
+                fetchTVSeriesWatchlistUseCase,
+                authManager
+            )
+
+            assertEquals(ListOrder.OLDEST, viewModel.tvSeriesWatchlistOrder.value)
+
+            viewModel.onOrderChanged(AccountScreenOrderType.WATCHLIST_TV, ListOrder.LATEST)
+
+            assertEquals(ListOrder.LATEST, viewModel.tvSeriesWatchlistOrder.value)
+            coVerify { fetchTVSeriesWatchlistUseCase(ListOrder.LATEST) }
+        }
+
+    @Test
+    fun onOrderChanged_watchlistMovieOrderType_verifyThatOrderWasChangedAndMethodWasCalled() =
+        runTest {
+            coEvery { fetchAccountDetailsUseCase() } returns accountDetails
+            coEvery { fetchMovieWatchlistUseCase(any()) } returns Result.Error(Exception())
+            every { authManager.isLoggedInFlow } returns flowOf(true)
+            val state = SavedStateHandle()
+
+            viewModel = AccountViewModel(
+                state,
+                requestTokenUseCase,
+                createSessionUseCase,
+                deleteSessionUseCase,
+                fetchAccountDetailsUseCase,
+                fetchFavoriteMoviesUseCase,
+                fetchFavoriteTVSeriesUseCase,
+                fetchMovieWatchlistUseCase,
+                fetchTVSeriesWatchlistUseCase,
+                authManager
+            )
+
+            assertEquals(ListOrder.OLDEST, viewModel.movieWatchlistOrder.value)
+
+            viewModel.onOrderChanged(AccountScreenOrderType.WATCHLIST_MOVIE, ListOrder.LATEST)
+
+            assertEquals(ListOrder.LATEST, viewModel.movieWatchlistOrder.value)
+            coVerify { fetchMovieWatchlistUseCase(ListOrder.LATEST) }
+        }
 
     @Test
     fun verifyThatMethodsWereCalledAfterLoggingIn() = runTest {

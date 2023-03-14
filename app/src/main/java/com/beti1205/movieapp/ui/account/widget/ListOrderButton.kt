@@ -11,18 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.common.ListOrder
+import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
 fun ListOrderButton(
     order: ListOrder,
-    onOrderChanged: (ListOrder) -> Unit
+    orderType: AccountScreenOrderType,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit
 ) {
     IconButton(
         onClick = {
             ListOrder.availableValues()
                 .first { it != order }
-                .let { onOrderChanged(it) }
+                .let { onOrderChanged(orderType, it) }
         }
     ) {
         if (order == ListOrder.LATEST) {

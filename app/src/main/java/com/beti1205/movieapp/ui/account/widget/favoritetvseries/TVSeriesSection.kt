@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
+import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.account.widget.ListOrderButton
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.AccountSectionHeader
 import com.beti1205.movieapp.ui.account.widget.favoritemovies.DefaultCard
@@ -34,7 +35,8 @@ fun TVSeriesSection(
     emptyStateMessage: String,
     tvSeries: List<TVSeries>,
     tvOrder: ListOrder,
-    onTVOrderChanged: (ListOrder) -> Unit,
+    orderType: AccountScreenOrderType,
+    onOrderChanged: (AccountScreenOrderType, ListOrder) -> Unit,
     onTVSeriesClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -48,7 +50,8 @@ fun TVSeriesSection(
                 Spacer(modifier = Modifier.weight(1f))
                 ListOrderButton(
                     order = tvOrder,
-                    onOrderChanged = onTVOrderChanged
+                    orderType = orderType,
+                    onOrderChanged = onOrderChanged
                 )
             }
             AnimatedVisibility(visible = tvSeries.isEmpty()) {
@@ -86,7 +89,8 @@ fun FavoriteTVSeriesSectionPreview(
                 emptyStateMessage = "Empty",
                 tvSeries = tvSeries,
                 tvOrder = ListOrder.LATEST,
-                onTVOrderChanged = {},
+                orderType = AccountScreenOrderType.FAVORITE_MOVIES,
+                onOrderChanged = { _, _ -> },
                 onTVSeriesClicked = {}
             )
         }

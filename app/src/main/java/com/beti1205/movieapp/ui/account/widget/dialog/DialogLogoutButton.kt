@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
 import com.beti1205.movieapp.ui.theme.MovieAppTheme
-import com.beti1205.movieapp.ui.theme.SonicSilver
 
 @Composable
 fun DialogLogoutButton(onDeleteSession: () -> Unit, modifier: Modifier = Modifier) {
@@ -27,7 +26,7 @@ fun DialogLogoutButton(onDeleteSession: () -> Unit, modifier: Modifier = Modifie
         onClick = onDeleteSession,
         modifier = modifier.padding(top = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = SonicSilver
+            backgroundColor = MaterialTheme.colors.secondary
         )
     ) {
         Text(

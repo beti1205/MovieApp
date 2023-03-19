@@ -12,13 +12,12 @@ for favorite movies and TV series.
 - Compose
 - Paging
 - Flows
-- Moshi
+- Kotlin serialization 
 - Retrofit
 - Navigation
 - Hilt
 - Coil
 - Coroutines
-- Fragment
 
 ## APIs
 - [The Movie Database API](https://api.themoviedb.org)

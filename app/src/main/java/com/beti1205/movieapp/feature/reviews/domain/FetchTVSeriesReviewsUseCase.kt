@@ -12,7 +12,7 @@ import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.reviews.data.AuthorDetails
 import com.beti1205.movieapp.feature.reviews.data.ReviewsResult
 import com.beti1205.movieapp.feature.reviews.data.TVSeriesReviewsService
-import com.beti1205.movieapp.feature.transformavatarurl.TransformAvatarUrlUseCase
+import com.beti1205.movieapp.utils.transformAvatarUrl
 import javax.inject.Inject
 
 interface FetchTVSeriesReviewsUseCase {
@@ -24,7 +24,6 @@ interface FetchTVSeriesReviewsUseCase {
 
 class FetchTVSeriesReviewsUseCaseImpl @Inject constructor(
     private val tvSeriesReviewsService: TVSeriesReviewsService,
-    private val transformAvatarUrlUseCase: TransformAvatarUrlUseCase,
     private val appConfig: AppConfig
 ) : FetchTVSeriesReviewsUseCase {
 
@@ -40,7 +39,12 @@ class FetchTVSeriesReviewsUseCaseImpl @Inject constructor(
                     results = result.results.map { review ->
                         val avatarUrl = review.authorDetails.avatar
                         review.copy(
-                            authorDetails = AuthorDetails(transformAvatarUrlUseCase(avatarUrl))
+                            authorDetails = AuthorDetails(
+                                transformAvatarUrl(
+                                    avatarUrl = avatarUrl,
+                                    imageUrl = appConfig.imageUrl
+                                )
+                            )
                         )
                     }
                 )

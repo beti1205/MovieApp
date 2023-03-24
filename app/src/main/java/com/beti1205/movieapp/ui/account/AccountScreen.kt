@@ -27,7 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.ListOrder
+import com.beti1205.movieapp.common.data.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries

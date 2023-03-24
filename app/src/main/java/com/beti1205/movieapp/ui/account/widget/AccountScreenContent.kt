@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.ListOrder
+import com.beti1205.movieapp.common.data.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries

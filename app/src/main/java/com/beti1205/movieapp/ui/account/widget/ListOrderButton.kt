@@ -10,7 +10,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.beti1205.movieapp.R
-import com.beti1205.movieapp.common.ListOrder
+import com.beti1205.movieapp.common.data.ListOrder
 import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.theme.SonicSilver
 

@@ -5,7 +5,7 @@
 
 package com.beti1205.movieapp.ui
 
-import com.beti1205.movieapp.common.ApiResponse
+import com.beti1205.movieapp.common.data.ApiResponse
 import com.beti1205.movieapp.feature.movies.data.Movie
 
 object MovieDataProvider {

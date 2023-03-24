@@ -8,10 +8,10 @@ package com.beti1205.movieapp.ui.movies.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.combinedmoviedetails.FetchCombinedMovieDetailsUseCase
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.MediaType
+import com.beti1205.movieapp.feature.combinedmoviedetails.domain.FetchCombinedMovieDetailsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
 import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -75,8 +75,10 @@ class MovieDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-                _state.value = _state.value.copy(favorite = !favorite)
-                _state.value = _state.value.copy(favoriteHasError = true)
+                _state.value = _state.value.copy(
+                    favorite = !favorite,
+                    favoriteHasError = true
+                )
             }
         }
     }
@@ -96,8 +98,10 @@ class MovieDetailsViewModel @Inject constructor(
             )
 
             if (result is Result.Error) {
-                _state.value = _state.value.copy(watchlist = !watchlist)
-                _state.value = _state.value.copy(watchlistError = true)
+                _state.value = _state.value.copy(
+                    watchlist = !watchlist,
+                    watchlistError = true
+                )
             }
         }
     }

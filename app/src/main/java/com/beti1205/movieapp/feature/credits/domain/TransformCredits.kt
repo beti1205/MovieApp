@@ -6,10 +6,10 @@
 package com.beti1205.movieapp.feature.credits.domain
 
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.credits.data.Cast
 import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.feature.credits.data.Crew
+import com.beti1205.movieapp.utils.transformImageUrl
 
 fun Result.Success<Credits>.getTransformedCastList(imageUrl: String) = this.data.cast
     .groupBy { person -> person.id }

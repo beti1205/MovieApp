@@ -5,7 +5,7 @@
 
 package com.beti1205.movieapp.feature.movies.data
 
-import com.beti1205.movieapp.common.ApiResponse
+import com.beti1205.movieapp.common.data.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

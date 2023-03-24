@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.common
+package com.beti1205.movieapp.common.auth
 
 import android.content.Context
 import android.content.SharedPreferences

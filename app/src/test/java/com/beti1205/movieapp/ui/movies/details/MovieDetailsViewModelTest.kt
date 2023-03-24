@@ -8,10 +8,10 @@ package com.beti1205.movieapp.ui.movies.details
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
-import com.beti1205.movieapp.feature.combinedmoviedetails.FetchCombinedMovieDetailsUseCase
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.MediaType
+import com.beti1205.movieapp.feature.combinedmoviedetails.domain.FetchCombinedMovieDetailsUseCase
 import com.beti1205.movieapp.feature.favorite.domain.MarkFavoriteUseCase
 import com.beti1205.movieapp.feature.watchlist.domain.AddToWatchlistUseCase
 import io.mockk.coEvery

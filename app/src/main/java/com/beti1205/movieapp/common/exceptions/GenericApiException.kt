@@ -3,6 +3,6 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.common
+package com.beti1205.movieapp.common.exceptions
 
 object GenericApiException : Exception()

@@ -8,9 +8,9 @@ package com.beti1205.movieapp.ui.tvseries.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.MediaType
 import com.beti1205.movieapp.feature.accountstates.domain.FetchTVAccountStatesUseCase
 import com.beti1205.movieapp.feature.credits.data.Credits
 import com.beti1205.movieapp.feature.credits.domain.FetchTVSeriesCreditsUseCase

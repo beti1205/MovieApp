@@ -5,7 +5,7 @@
 
 package com.beti1205.movieapp.feature.moviedetails.data
 
-import com.beti1205.movieapp.common.Genre
+import com.beti1205.movieapp.common.data.Genre
 import com.beti1205.movieapp.utils.formattedRating
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

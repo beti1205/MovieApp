@@ -8,9 +8,9 @@ package com.beti1205.movieapp.ui.account
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.beti1205.movieapp.MainDispatcherRule
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.ListOrder
 import com.beti1205.movieapp.feature.accountdetails.data.AccountDetails
 import com.beti1205.movieapp.feature.accountdetails.data.Avatar
 import com.beti1205.movieapp.feature.accountdetails.data.Tmdb

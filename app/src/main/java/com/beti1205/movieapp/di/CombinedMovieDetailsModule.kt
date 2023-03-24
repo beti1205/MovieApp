@@ -5,8 +5,8 @@
 
 package com.beti1205.movieapp.di
 
-import com.beti1205.movieapp.feature.combinedmoviedetails.FetchCombinedMovieDetailsUseCase
-import com.beti1205.movieapp.feature.combinedmoviedetails.FetchCombinedMovieDetailsUseCaseImpl
+import com.beti1205.movieapp.feature.combinedmoviedetails.domain.FetchCombinedMovieDetailsUseCase
+import com.beti1205.movieapp.feature.combinedmoviedetails.domain.FetchCombinedMovieDetailsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

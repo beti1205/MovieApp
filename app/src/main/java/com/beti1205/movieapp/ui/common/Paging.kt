@@ -8,7 +8,7 @@ package com.beti1205.movieapp.ui.common
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.beti1205.movieapp.common.ApiResponse
+import com.beti1205.movieapp.common.data.ApiResponse
 
 fun <T> ApiResponse<T>.getNextPageKey(): Int? = when {
     page == null || page == 0 -> null

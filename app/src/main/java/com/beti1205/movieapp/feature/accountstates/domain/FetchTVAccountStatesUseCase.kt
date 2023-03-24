@@ -6,9 +6,9 @@
 package com.beti1205.movieapp.feature.accountstates.domain
 
 import com.beti1205.movieapp.common.AppConfig
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.GenericApiException
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.exceptions.NotLoggedInException
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.accountstates.data.AccountStates
 import com.beti1205.movieapp.feature.accountstates.data.AccountStatesService
@@ -27,7 +27,7 @@ class FetchTVAccountStatesUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(tvId: Int): Result<AccountStates> {
         if (!authManager.isLoggedIn) {
-            return Result.Error(GenericApiException)
+            return Result.Error(NotLoggedInException)
         }
         return performRequest {
             accountStatesService.getTVAccountStates(

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.common
+package com.beti1205.movieapp.common.data
 
 enum class ListOrder(val type: String) {
     OLDEST("created_at.asc"),
@@ -15,8 +15,7 @@ enum class ListOrder(val type: String) {
                 return OLDEST
             }
 
-            return ListOrder.values().find { it.ordinal == value }
-                ?: OLDEST
+            return ListOrder.values().find { it.ordinal == value } ?: OLDEST
         }
 
         fun availableValues(): List<ListOrder> = values().toList()

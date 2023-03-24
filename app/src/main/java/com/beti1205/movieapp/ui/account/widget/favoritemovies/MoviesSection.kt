@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import com.beti1205.movieapp.common.ListOrder
+import com.beti1205.movieapp.common.data.ListOrder
 import com.beti1205.movieapp.feature.movies.data.Movie
 import com.beti1205.movieapp.ui.account.AccountScreenOrderType
 import com.beti1205.movieapp.ui.account.widget.ListOrderButton

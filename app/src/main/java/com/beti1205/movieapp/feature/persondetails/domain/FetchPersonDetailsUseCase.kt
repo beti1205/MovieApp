@@ -9,9 +9,9 @@ import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
-import com.beti1205.movieapp.common.transformImageUrl
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetails
 import com.beti1205.movieapp.feature.persondetails.data.PersonDetailsService
+import com.beti1205.movieapp.utils.transformImageUrl
 import javax.inject.Inject
 
 interface FetchPersonDetailsUseCase {

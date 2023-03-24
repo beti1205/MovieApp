@@ -17,5 +17,5 @@ interface MarkFavoriteService {
         @Query("api_key") key: String,
         @Query("session_id") sessionId: String,
         @Body body: MarkFavoriteBody
-    ): MarkFavoriteResponse
+    )
 }

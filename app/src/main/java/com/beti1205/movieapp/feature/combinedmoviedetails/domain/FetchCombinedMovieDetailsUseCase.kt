@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.beti1205.movieapp.feature.combinedmoviedetails
+package com.beti1205.movieapp.feature.combinedmoviedetails.domain
 
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatZip

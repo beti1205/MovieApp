@@ -5,12 +5,12 @@
 
 package com.beti1205.movieapp.feature.tvseries.domain
 
-import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.GenericApiException
-import com.beti1205.movieapp.common.ListOrder
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.ApiResponse
+import com.beti1205.movieapp.common.data.ListOrder
+import com.beti1205.movieapp.common.exceptions.NotLoggedInException
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.tvseries.data.FavoriteTVSeriesService
@@ -32,7 +32,7 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(order: ListOrder): Result<ApiResponse<TVSeries>> {
         if (!authManager.isLoggedIn) {
-            return Result.Error(GenericApiException)
+            return Result.Error(NotLoggedInException)
         }
         return performRequest {
             favoriteTVSeriesService.getFavoriteTVSeries(

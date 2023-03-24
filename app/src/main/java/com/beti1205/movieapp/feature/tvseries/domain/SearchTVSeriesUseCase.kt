@@ -5,9 +5,9 @@
 
 package com.beti1205.movieapp.feature.tvseries.domain
 
-import com.beti1205.movieapp.common.ApiResponse
 import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.data.ApiResponse
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.tvseries.data.TVSeries
@@ -36,7 +36,7 @@ class SearchTVSeriesUseCaseImpl @Inject constructor(
             )
         }.flatMap { result ->
             Result.Success(
-                result.transformTVSeriesPosterPath(appConfig.imageUrl)
+                data = result.transformTVSeriesPosterPath(appConfig.imageUrl)
             )
         }
     }

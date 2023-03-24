@@ -6,9 +6,9 @@
 package com.beti1205.movieapp.feature.watchlist.domain
 
 import com.beti1205.movieapp.common.AppConfig
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.MediaType
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.watchlist.data.AddToWatchlistBody
 import com.beti1205.movieapp.feature.watchlist.data.AddToWatchlistService
@@ -33,23 +33,17 @@ class AddToWatchlistUseCaseImpl @Inject constructor(
         mediaType: MediaType,
         mediaId: Int
     ): Result<Unit> {
-        val result =
-            performRequest {
-                addToWatchlistService.addToWatchlist(
-                    accountId = authManager.accountId,
-                    key = appConfig.apiKey,
-                    sessionId = authManager.sessionId!!,
-                    body = AddToWatchlistBody(
-                        watchlist = watchlist,
-                        mediaType = mediaType.mediaType,
-                        mediaId = mediaId
-                    )
+        return performRequest {
+            addToWatchlistService.addToWatchlist(
+                accountId = authManager.accountId,
+                key = appConfig.apiKey,
+                sessionId = authManager.sessionId!!,
+                body = AddToWatchlistBody(
+                    watchlist = watchlist,
+                    mediaType = mediaType.mediaType,
+                    mediaId = mediaId
                 )
-            }
-
-        return when (result) {
-            is Result.Error -> result
-            is Result.Success -> Result.Success(Unit)
+            )
         }
     }
 }

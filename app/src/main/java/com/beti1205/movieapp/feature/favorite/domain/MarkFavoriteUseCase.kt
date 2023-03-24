@@ -6,9 +6,9 @@
 package com.beti1205.movieapp.feature.favorite.domain
 
 import com.beti1205.movieapp.common.AppConfig
-import com.beti1205.movieapp.common.AuthManager
-import com.beti1205.movieapp.common.MediaType
 import com.beti1205.movieapp.common.Result
+import com.beti1205.movieapp.common.auth.AuthManager
+import com.beti1205.movieapp.common.data.MediaType
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.favorite.data.MarkFavoriteBody
 import com.beti1205.movieapp.feature.favorite.data.MarkFavoriteService
@@ -34,23 +34,17 @@ class MarkFavoriteUseCaseImpl @Inject constructor(
         mediaType: MediaType,
         mediaId: Int
     ): Result<Unit> {
-        val result =
-            performRequest {
-                markFavoriteService.markFavorite(
-                    accountId = authManager.accountId,
-                    key = appConfig.apiKey,
-                    sessionId = authManager.sessionId!!,
-                    body = MarkFavoriteBody(
-                        favorite = favorite,
-                        mediaType = mediaType.mediaType,
-                        mediaId = mediaId
-                    )
+        return performRequest {
+            markFavoriteService.markFavorite(
+                accountId = authManager.accountId,
+                key = appConfig.apiKey,
+                sessionId = authManager.sessionId!!,
+                body = MarkFavoriteBody(
+                    favorite = favorite,
+                    mediaType = mediaType.mediaType,
+                    mediaId = mediaId
                 )
-            }
-
-        return when (result) {
-            is Result.Error -> result
-            is Result.Success -> Result.Success(Unit)
+            )
         }
     }
 }

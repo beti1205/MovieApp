@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.credits.data
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +15,6 @@ data class Credits(
     val crew: List<Crew>
 )
 
-@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class Cast(
     val id: Int,

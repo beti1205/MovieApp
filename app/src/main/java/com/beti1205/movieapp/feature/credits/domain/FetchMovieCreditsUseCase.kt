@@ -26,7 +26,7 @@ class FetchMovieCreditsUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(id: Int): Result<Credits> {
         val result = performRequest {
-            creditsService.getMovieCredits(id, appConfig.apiKey)
+            creditsService.getMovieCredits(id)
         }
 
         return when (result) {

@@ -30,13 +30,10 @@ class FetchMoviesUseCaseImpl @Inject constructor(
     override suspend fun invoke(movieOrder: MovieOrder, page: Int): Result<ApiResponse<Movie>> {
         return performRequest {
             when (movieOrder) {
-                MovieOrder.POPULAR -> movieApiService.getPopularMovies(appConfig.apiKey, page)
-                MovieOrder.UPCOMING -> movieApiService.getUpcomingMovies(appConfig.apiKey, page)
-                MovieOrder.TOP_RATED -> movieApiService.getTopRatedMovies(appConfig.apiKey, page)
-                MovieOrder.NOW_PLAYING -> movieApiService.getNowPlayingMovies(
-                    appConfig.apiKey,
-                    page
-                )
+                MovieOrder.POPULAR -> movieApiService.getPopularMovies(page)
+                MovieOrder.UPCOMING -> movieApiService.getUpcomingMovies(page)
+                MovieOrder.TOP_RATED -> movieApiService.getTopRatedMovies(page)
+                MovieOrder.NOW_PLAYING -> movieApiService.getNowPlayingMovies(page)
             }
         }.flatMap { result ->
             Result.Success(

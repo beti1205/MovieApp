@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.persontvseriescredits.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.flatMap
 import com.beti1205.movieapp.common.performRequest
@@ -21,12 +20,11 @@ interface FetchPersonTVSeriesCreditsUseCase {
 }
 
 class FetchPersonTVSeriesCreditsUseCaseImpl @Inject constructor(
-    private val personTVSeriesCreditsService: PersonTVSeriesCreditsService,
-    private val appConfig: AppConfig
+    private val personTVSeriesCreditsService: PersonTVSeriesCreditsService
 ) : FetchPersonTVSeriesCreditsUseCase {
     override suspend fun invoke(personId: Int): Result<PersonTVSeriesCreditsResponse> {
         return performRequest {
-            personTVSeriesCreditsService.getPersonTVSeriesCredits(personId, appConfig.apiKey)
+            personTVSeriesCreditsService.getPersonTVSeriesCredits(personId)
         }.flatMap { result ->
             Result.Success(
                 result.copy(

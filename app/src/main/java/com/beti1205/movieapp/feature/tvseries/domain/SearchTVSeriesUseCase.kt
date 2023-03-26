@@ -30,9 +30,8 @@ class SearchTVSeriesUseCaseImpl @Inject constructor(
     override suspend fun invoke(query: String, page: Int): Result<ApiResponse<TVSeries>> {
         return performRequest {
             tvSeriesService.getSearchedTVSeries(
-                appConfig.apiKey,
-                query,
-                page
+                query = query,
+                page = page
             )
         }.flatMap { result ->
             Result.Success(

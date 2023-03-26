@@ -30,8 +30,7 @@ class FetchMovieReviewsUseCaseImpl @Inject constructor(
     override suspend fun invoke(movieId: Int): Result<ReviewsResult> {
         return performRequest {
             movieReviewsService.getMovieReviews(
-                movieId = movieId,
-                key = appConfig.apiKey
+                movieId = movieId
             )
         }.flatMap { result ->
             Result.Success(

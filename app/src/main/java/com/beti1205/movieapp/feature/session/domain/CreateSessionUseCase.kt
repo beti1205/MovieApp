@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.session.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.session.data.CreateSessionBody
@@ -19,13 +18,12 @@ interface CreateSessionUseCase {
 }
 
 class CreateSessionUseCaseImpl @Inject constructor(
-    private val sessionService: SessionService,
-    private val appConfig: AppConfig
+    private val sessionService: SessionService
 ) : CreateSessionUseCase {
 
     override suspend fun invoke(token: String): Result<SessionResponse> {
         return performRequest {
-            sessionService.createSession(appConfig.apiKey, CreateSessionBody(token))
+            sessionService.createSession(CreateSessionBody(token))
         }
     }
 }

@@ -38,7 +38,6 @@ class FetchMovieWatchlistUseCaseImpl @Inject constructor(
             movieWatchlistService.getMovieWatchlist(
                 accountId = authManager.accountId,
                 sortBy = order.type,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )
         }.flatMap { result ->

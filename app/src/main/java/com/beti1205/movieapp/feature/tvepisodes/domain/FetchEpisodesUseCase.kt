@@ -31,8 +31,7 @@ class FetchEpisodesUseCaseImpl @Inject constructor(
         return performRequest {
             episodeService.getEpisodes(
                 tvId,
-                seasonNumber,
-                appConfig.apiKey
+                seasonNumber
             )
         }.flatMap { result ->
             Result.Success(

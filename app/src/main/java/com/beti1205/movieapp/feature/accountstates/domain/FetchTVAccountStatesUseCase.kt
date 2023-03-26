@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.accountstates.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.auth.AuthManager
 import com.beti1205.movieapp.common.exceptions.NotLoggedInException
@@ -21,7 +20,6 @@ interface FetchTVAccountStatesUseCase {
 
 class FetchTVAccountStatesUseCaseImpl @Inject constructor(
     private val accountStatesService: AccountStatesService,
-    private val appConfig: AppConfig,
     private val authManager: AuthManager
 ) : FetchTVAccountStatesUseCase {
 
@@ -32,7 +30,6 @@ class FetchTVAccountStatesUseCaseImpl @Inject constructor(
         return performRequest {
             accountStatesService.getTVAccountStates(
                 tvId = tvId,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )
         }

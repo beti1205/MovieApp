@@ -29,7 +29,6 @@ class FetchAccountDetailsUseCaseImpl @Inject constructor(
     override suspend fun invoke(): Result<AccountDetails> {
         return performRequest {
             accountDetailsService.getAccountDetails(
-                key = appConfig.apiKey,
                 session = authManager.sessionId!!
             )
         }.flatMap { result ->

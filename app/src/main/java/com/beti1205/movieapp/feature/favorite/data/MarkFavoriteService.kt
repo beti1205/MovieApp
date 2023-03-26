@@ -14,7 +14,6 @@ interface MarkFavoriteService {
     @POST("account/{account_id}/favorite")
     suspend fun markFavorite(
         @Path("account_id") accountId: Int,
-        @Query("api_key") key: String,
         @Query("session_id") sessionId: String,
         @Body body: MarkFavoriteBody
     )

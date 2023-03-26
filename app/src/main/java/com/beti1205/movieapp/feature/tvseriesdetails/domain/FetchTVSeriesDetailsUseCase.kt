@@ -29,8 +29,7 @@ class FetchTVSeriesDetailsUseCaseImpl @Inject constructor(
     override suspend fun invoke(tvId: Int): Result<TVSeriesDetails> {
         return performRequest {
             tvSeriesDetailsService.getTVSeriesDetails(
-                tvId = tvId,
-                key = appConfig.apiKey
+                tvId = tvId
             )
         }.flatMap { result ->
             Result.Success(

@@ -20,6 +20,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -58,10 +59,29 @@ object CoreModule {
         }
 
     @Provides
-    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
-        OkHttpClient.Builder().addInterceptor(
-            interceptor
-        ).build()
+    fun provideApiKeyInterceptor(appConfig: AppConfig): Interceptor {
+        return Interceptor { chain: Interceptor.Chain ->
+            chain.proceed(
+                chain.request()
+                    .newBuilder()
+                    .url(
+                        chain.request().url.newBuilder()
+                            .addQueryParameter("api_key", appConfig.apiKey).build()
+                    )
+                    .build()
+            )
+        }
+    }
+
+    @Provides
+    fun provideOkHttpClient(
+        interceptor: HttpLoggingInterceptor,
+        apiKeyInterceptor: Interceptor
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .addInterceptor(apiKeyInterceptor)
+            .build()
 
     @Provides
     fun provideRetrofit(

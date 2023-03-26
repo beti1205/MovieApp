@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.session.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.auth.AuthManager
 import com.beti1205.movieapp.common.exceptions.GenericApiException
@@ -22,14 +21,12 @@ interface DeleteSessionUseCase {
 
 class DeleteSessionUseCaseImpl @Inject constructor(
     private val deleteSessionService: DeleteSessionService,
-    private val appConfig: AppConfig,
     private val authManager: AuthManager
 ) : DeleteSessionUseCase {
 
     override suspend fun invoke(): Result<Unit> {
         return performRequest {
             deleteSessionService.deleteSession(
-                appConfig.apiKey,
                 DeleteSessionBody(authManager.sessionId!!)
             )
         }.flatMap { result ->

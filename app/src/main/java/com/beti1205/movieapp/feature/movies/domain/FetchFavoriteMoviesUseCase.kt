@@ -38,7 +38,6 @@ class FetchFavoriteMoviesUseCaseImpl @Inject constructor(
             favoriteMoviesService.getFavoriteMovies(
                 accountId = authManager.accountId,
                 sortBy = order.type,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )
         }.flatMap { result ->

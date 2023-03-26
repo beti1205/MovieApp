@@ -38,7 +38,6 @@ class FetchTVSeriesWatchlistUseCaseImpl @Inject constructor(
             tvSeriesWatchlistService.getTVSeriesWatchlist(
                 accountId = authManager.accountId,
                 sortBy = order.type,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )
         }.flatMap { result ->

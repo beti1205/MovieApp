@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.accountstates.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.auth.AuthManager
 import com.beti1205.movieapp.common.performRequest
@@ -20,7 +19,6 @@ interface FetchMoviesAccountStatesUseCase {
 
 class FetchMoviesAccountStatesUseCaseImpl @Inject constructor(
     private val accountStatesService: AccountStatesService,
-    private val appConfig: AppConfig,
     private val authManager: AuthManager
 ) : FetchMoviesAccountStatesUseCase {
     override suspend fun invoke(movieId: Int): Result<AccountStates> {
@@ -36,7 +34,6 @@ class FetchMoviesAccountStatesUseCaseImpl @Inject constructor(
         return performRequest {
             accountStatesService.getMoviesAccountStates(
                 movieId = movieId,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!
             )
         }

@@ -28,7 +28,7 @@ class FetchPersonDetailsUseCaseImpl @Inject constructor(
 
     override suspend fun invoke(personId: Int): Result<PersonDetails> {
         return performRequest {
-            personDetailsService.getPersonDetails(personId, appConfig.apiKey)
+            personDetailsService.getPersonDetails(personId)
         }.flatMap { result ->
             Result.Success(
                 result.copy(

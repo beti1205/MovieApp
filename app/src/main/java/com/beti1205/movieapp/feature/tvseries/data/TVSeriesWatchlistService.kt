@@ -15,7 +15,6 @@ interface TVSeriesWatchlistService {
     suspend fun getTVSeriesWatchlist(
         @Path("account_id") accountId: Int,
         @Query("sort_by") sortBy: String,
-        @Query("api_key") key: String,
         @Query("session_id") sessionId: String
     ): ApiResponse<TVSeries>
 }

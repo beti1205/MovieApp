@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.token.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.performRequest
 import com.beti1205.movieapp.feature.token.data.RequestTokenResponse
@@ -18,13 +17,12 @@ interface RequestTokenUseCase {
 }
 
 class RequestTokenUseCaseImpl @Inject constructor(
-    private val requestTokenService: RequestTokenService,
-    private val appConfig: AppConfig
+    private val requestTokenService: RequestTokenService
 ) : RequestTokenUseCase {
 
     override suspend fun invoke(): Result<RequestTokenResponse> {
         return performRequest {
-            requestTokenService.getRequestTokenResponse(appConfig.apiKey)
+            requestTokenService.getRequestTokenResponse()
         }
     }
 }

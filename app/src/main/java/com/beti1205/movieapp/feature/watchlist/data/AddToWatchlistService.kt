@@ -14,7 +14,6 @@ interface AddToWatchlistService {
     @POST("account/{account_id}/watchlist")
     suspend fun addToWatchlist(
         @Path("account_id") accountId: Int,
-        @Query("api_key") key: String,
         @Query("session_id") sessionId: String,
         @Body body: AddToWatchlistBody
     ): AddToWatchlistResponse

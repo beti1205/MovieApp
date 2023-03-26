@@ -5,7 +5,6 @@
 
 package com.beti1205.movieapp.feature.watchlist.domain
 
-import com.beti1205.movieapp.common.AppConfig
 import com.beti1205.movieapp.common.Result
 import com.beti1205.movieapp.common.auth.AuthManager
 import com.beti1205.movieapp.common.data.MediaType
@@ -25,7 +24,6 @@ interface AddToWatchlistUseCase {
 
 class AddToWatchlistUseCaseImpl @Inject constructor(
     private val addToWatchlistService: AddToWatchlistService,
-    private val appConfig: AppConfig,
     private val authManager: AuthManager
 ) : AddToWatchlistUseCase {
     override suspend fun invoke(
@@ -36,7 +34,6 @@ class AddToWatchlistUseCaseImpl @Inject constructor(
         return performRequest {
             addToWatchlistService.addToWatchlist(
                 accountId = authManager.accountId,
-                key = appConfig.apiKey,
                 sessionId = authManager.sessionId!!,
                 body = AddToWatchlistBody(
                     watchlist = watchlist,

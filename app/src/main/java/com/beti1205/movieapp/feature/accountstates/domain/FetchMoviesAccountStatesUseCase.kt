@@ -33,8 +33,7 @@ class FetchMoviesAccountStatesUseCaseImpl @Inject constructor(
         }
         return performRequest {
             accountStatesService.getMoviesAccountStates(
-                movieId = movieId,
-                sessionId = authManager.sessionId!!
+                movieId = movieId
             )
         }
     }

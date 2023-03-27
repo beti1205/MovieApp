@@ -37,8 +37,7 @@ class FetchTVSeriesWatchlistUseCaseImpl @Inject constructor(
         return performRequest {
             tvSeriesWatchlistService.getTVSeriesWatchlist(
                 accountId = authManager.accountId,
-                sortBy = order.type,
-                sessionId = authManager.sessionId!!
+                sortBy = order.type
             )
         }.flatMap { result ->
             Result.Success(

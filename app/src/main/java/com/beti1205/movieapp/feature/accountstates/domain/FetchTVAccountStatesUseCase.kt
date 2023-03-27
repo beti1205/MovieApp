@@ -29,8 +29,7 @@ class FetchTVAccountStatesUseCaseImpl @Inject constructor(
         }
         return performRequest {
             accountStatesService.getTVAccountStates(
-                tvId = tvId,
-                sessionId = authManager.sessionId!!
+                tvId = tvId
             )
         }
     }

@@ -35,7 +35,6 @@ class MarkFavoriteUseCaseImpl @Inject constructor(
         return performRequest {
             markFavoriteService.markFavorite(
                 accountId = authManager.accountId,
-                sessionId = authManager.sessionId!!,
                 body = MarkFavoriteBody(
                     favorite = favorite,
                     mediaType = mediaType.mediaType,

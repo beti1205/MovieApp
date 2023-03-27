@@ -37,8 +37,7 @@ class FetchFavoriteTVSeriesUseCaseImpl @Inject constructor(
         return performRequest {
             favoriteTVSeriesService.getFavoriteTVSeries(
                 accountId = authManager.accountId,
-                sortBy = order.type,
-                sessionId = authManager.sessionId!!
+                sortBy = order.type
             )
         }.flatMap { result ->
             Result.Success(

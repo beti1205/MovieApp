@@ -5,12 +5,11 @@
 
 package com.beti1205.movieapp.feature.accountdetails.data
 
+import com.beti1205.movieapp.common.auth.SessionRequired
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface AccountDetailsService {
     @GET("account")
-    suspend fun getAccountDetails(
-        @Query("session_id") session: String
-    ): AccountDetails
+    @SessionRequired
+    suspend fun getAccountDetails(): AccountDetails
 }

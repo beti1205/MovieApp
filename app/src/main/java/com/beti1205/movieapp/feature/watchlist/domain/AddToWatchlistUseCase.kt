@@ -34,7 +34,6 @@ class AddToWatchlistUseCaseImpl @Inject constructor(
         return performRequest {
             addToWatchlistService.addToWatchlist(
                 accountId = authManager.accountId,
-                sessionId = authManager.sessionId!!,
                 body = AddToWatchlistBody(
                     watchlist = watchlist,
                     mediaType = mediaType.mediaType,
